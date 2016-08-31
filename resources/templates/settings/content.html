@@ -1,0 +1,1133 @@
+<div class="container2">
+    <div class="page-header">
+        <h2>SETTINGS <small>CHARACTERISTICS</small></h2>
+    </div>
+    <div class="scroller scroller-left"><i class="glyphicon glyphicon-chevron-left"></i></div>
+    <div class="scroller scroller-right"><i class="glyphicon glyphicon-chevron-right"></i></div>
+    <div class="wrapper">
+        <ul class="nav nav-tabs list" id="setingsTab">
+            <li class="active"><a href="#characteristics">CHARACTERISTICS</a></li>
+            <li><a href="#short_description">SHORT DESCRIPTION</a></li>
+            <li><a href="#catalog_status">CATALOG STATUS</a></li>
+            <li><a href="#equipment_code" id="equipment_code_tab">EQUIPMENT CODE</a></li>
+            <li><a href="#harmonized_code" id="harmonized_code_tab">HARMONIZED CODE</a></li>
+            <li><a href="#hazard_class" id="hazard_class_tab">HAZARD CLASS</a></li>
+            <li><a href="#holding_bin" id="holding_to_bin_tab">HOLDING&nbsp;&nbsp;<span class="glyphicon glyphicon-chevron-right"></span>&nbsp;&nbsp;BIN</a></li>
+            <li><a href="#item_type" id="item_type_tab">ITEM TYPE</a></li>
+            <li><a href="#source_type" id="source_type_tab">SOURCE TYPE</a></li>
+            <li><a href="#stock_type" id="stock_type_tab">STOCK TYPE</a></li>
+            <li><a href="#Unit_of_measurement" id="unit_of_measurement_tab">UNIT OF MEASUREMENT</a></li>
+            <li><a href="#user_class" id="user_class_tab">USER CLASS</a></li>
+            <li><a href="#weight_unit" id="weight_unit_tab">WEIGHT UNIT</a></li>
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active row" id="characteristics">
+            <div class="col-xs-12" style="margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-xs-6" id="select_inc">
+                        <select id="inc" class="inc with-ajax" data-live-search="true" data-width="100%"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12" style="margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <select id="holding" class="holding with-ajax" data-live-search="true" data-width="100%"></select>
+                    </div>
+                    <div class="col-xs-3" id="select_company">
+                    </div>
+                </div>
+            </div>
+            <div id="char-area">
+                <div class="col-xs-6">
+                    <div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>
+                </div>
+            </div>
+            <div id="val-area">
+                <div class="col-xs-6">
+                    <div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="short_description">
+            <div class="col-xs-12">
+
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="catalog_status">
+            <div class="col-xs-12">
+                <table id="catalog_status_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">CATALOG STATUS</th>
+                            <th width="40%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-cs" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="equipment_code">
+            <div class="col-xs-12">
+                <table id="equipment_code_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">EQUIPMENT CODE</th>
+                            <th width="50%">EQUIPMENT NAME</th>
+                            <th width="5%"><kbd id="add-eq" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="harmonized_code">
+            <div class="col-xs-12">
+                <table id="harmonized_code_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">HARMONIZED CODE</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-hrc" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="hazard_class">
+            <div class="col-xs-12">
+                <table id="hazard_class_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">HAZARD CLASS</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-hzc" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="holding_bin">
+            <div class="col-xs-12">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#holding" data-toggle="tab">HOLDING</a></li>
+                    <li role="presentation" id="company_tab"><a href="#company" data-toggle="tab">COMPANY</a></li>
+                    <li role="presentation" id="plant_tab"><a href="#plant" data-toggle="tab">PLANT</a></li>
+                    <li role="presentation" id="location_tab"><a href="#location" data-toggle="tab">LOCATION</a></li>
+                    <li role="presentation" id="shelf_tab"><a href="#shelf" data-toggle="tab">SHELF</a></li>
+                    <li role="presentation" id="bin_tab"><a href="#bin" data-toggle="tab">BIN</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="holding">
+                        <table id="holding_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">HOLDING</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-hol" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="company">
+                        <table id="company_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">COMPANY</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-cp" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="plant">
+                        <table id="plant_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">PLANT</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-pl" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="location">
+                        <table id="location_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">LOCATION</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-loc" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="shelf">
+                        <table id="shelf_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">SHELF</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-sh" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="bin">
+                        <table id="bin_table" class="table table-striped" width="100%">
+                            <thead>
+                                <tr>
+                                    <th width="5%">#</th>
+                                    <th></th>
+                                    <th width="40%">BIN</th>
+                                    <th width="50%">DESCRIPTION</th>
+                                    <th width="5%"><kbd id="add-bn" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="item_type">
+            <div class="col-xs-12">
+                <table id="item_type_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">ITEM TYPE</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-it" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="source_type">
+            <div class="col-xs-12">
+                <table id="source_type_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">SOURCE TYPE</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-sot" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div  role="tabpanel" class="tab-pane row" id="stock_type">
+            <div class="col-xs-12">
+                <table id="stock_type_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">STOCK TYPE</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-stt" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="Unit_of_measurement">
+            <div class="col-xs-12">
+                <table id="unit_of_measurement_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%"></th>
+                            <th></th>
+                            <th width="5%">#</th>
+                            <th width="20%">UNIT 4</th>
+                            <th width="20%">UNIT 3</th>
+                            <th width="20%">UNIT 2</th>
+                            <th width="25">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-uom" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+                <script id="details-template" type="text/x-handlebars-template">
+                    <div><b>ENG DEFINITION</b></div>
+                    <div>@{{eng_definition}}</div><br/>
+                    <div><b>IDN DEFINITION</b><div>
+                    <div>@{{ind_definition}}</div>
+                </script>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="user_class">
+            <div class="col-xs-12">
+                <table id="user_class_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">USER CLASS</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-uc" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div role="tabpanel" class="tab-pane row" id="weight_unit">
+            <div class="col-sx-12">
+                <table id="weight_unit_table" class="table table-striped" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="5%">#</th>
+                            <th></th>
+                            <th width="40%">WEIGHT UNIT</th>
+                            <th width="50%">DESCRIPTION</th>
+                            <th width="5%"><kbd id="add-wu" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Catalog Status Tab Modal -->
+<div class="modal" id="catalog_status_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="catalog_status_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="catalog_status_tab_modal_form">
+                    <div class="form-group" id="input_catalog_status_catalog_status_tab_modal">
+                        <label for="catalog_status_catalog_status_tab_modal" class="col-sm-3 control-label">CATALOG STATUS</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="catalog_status_catalog_status_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="input_desc_catalog_status_tab_modal">
+                        <label for="desc_catalog_status_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_catalog_status_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_catalog_status_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_catalog_status_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_catalog_status_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_catalog_status_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_catalog_status_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_catalog_status_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Catalog Status Modal -->
+<!-- Catalog Type Tab Modal -->
+<div class="modal" id="catalog_type_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="catalog_type_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="catalog_type_tab_modal_form">
+                    <div class="form-group" id="input_catalog_type_catalog_type_tab_modal">
+                        <label for="catalog_type_catalog_type_tab_modal" class="col-sm-3 control-label">CATALOG TYPE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="catalog_type_catalog_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="input_desc_catalog_type_tab_modal">
+                        <label for="desc_catalog_type_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_catalog_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_catalog_type_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_catalog_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_catalog_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_catalog_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_catalog_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_catalog_type_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Catalog Type Modal -->
+<!-- Equipment Code Tab Modal -->
+<div class="modal" id="equipment_code_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="equipment_code_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="equipment_code_tab_modal_form">
+                    <div class="form-group">
+                        <label for="select_holding_equipment_code_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_equipment_code_tab_modal">
+                            <select id="holding_equipment_code_tab_modal" class="holding-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_company_equipment_code_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-8" id="select_company_equipment_code_tab_modal">
+                            <select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_plant_equipment_code_tab_modal">
+                        <label for="select_plant_equipment_code_tab_modal" class="col-sm-2 control-label">PLANT</label>
+                        <div class="col-sm-7" id="select_plant_equipment_code_tab_modal">
+                            <select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_equipment_code_equipment_code_tab_modal">
+                        <label for="equipment_code_equipment_code_tab_modal" class="col-sm-2 control-label">EQUIPMENT CODE</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="equipment_code_equipment_code_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_equipment_name_equipment_code_tab_modal">
+                        <label for="equipment_name_equipment_code_tab_modal" class="col-sm-2 control-label">EQUIPMENT NAME</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="equipment_name_equipment_code_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_equipment_code_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_equipment_code_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_equipment_code_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_equipment_code_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_equipment_code_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_equipment_code_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Equipment Code Tab Modal -->
+<!-- Harmonized Code Tab Modal -->
+<div class="modal" id="harmonized_code_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="harmonized_code_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="harmonized_code_tab_modal_form">
+                    <div class="form-group" id="form_harmonized_code_harmonized_code_tab_modal">
+                        <label for="harmonized_code_harmonized_code_tab_modal" class="col-sm-3 control-label">HARMONIZED CODE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="harmonized_code_harmonized_code_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_harmonized_code_tab_modal">
+                        <label for="desc_harmonized_code_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_harmonized_code_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_harmonized_code_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_harmonized_code_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_harmonized_code_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_harmonized_code_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_harmonized_code_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_harmonized_code_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Harmonized Code Modal -->
+<!-- Hazard Class Tab Modal -->
+<div class="modal" id="hazard_class_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="hazard_class_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="hazard_class_tab_modal_form">
+                    <div class="form-group" id="form_hazard_class_hazard_class_tab_modal">
+                        <label for="hazard_class_hazard_class_tab_modal" class="col-sm-3 control-label">HAZARD CLASS</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="hazard_class_hazard_class_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_hazard_class_tab_modal">
+                        <label for="desc_hazard_class_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_hazard_class_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_hazard_class_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_hazard_class_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_hazard_class_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_hazard_class_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_hazard_class_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_hazard_class_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hazard Class Modal -->
+<!-- Holding Tab Modal -->
+<div class="modal" id="holding_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="holding_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="holding_tab_modal_form">
+                    <div class="form-group" id="form_holding_holding_tab_modal">
+                        <label for="holding_holding_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="holding_holding_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_holding_desc_holding_tab_modal">
+                        <label for="holding_desc_holding_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="holding_desc_holding_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_holding_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_holding_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_holding_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_holding_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_holding_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_holding_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Holding Tab Modal -->
+<!-- Company Tab Modal -->
+<div class="modal" id="company_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="company_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="company_tab_modal_form">
+                    <div class="form-group" id="form_holding_company_tab_modal">
+                        <label for="select_holding_company_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_company_tab_modal">
+                            <select id="holding_company_tab_modal" class="holding-company-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_company_company_tab_modal">
+                        <label for="company_company_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="company_company_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_company_desc_company_tab_modal">
+                        <label for="company_desc_company_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="company_desc_company_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_company_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_company_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_company_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_company_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_company_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_company_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Company Tab Modal -->
+<!-- Plant Tab Modal -->
+<div class="modal" id="plant_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="plant_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="plant_tab_modal_form">
+                    <div class="form-group">
+                        <label for="select_holding_plant_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_plant_tab_modal">
+                            <select id="holding_plant_tab_modal" class="holding-plant-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_company_plant_tab_modal">
+                        <label for="select_company_plant_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-8" id="select_company_plant_tab_modal">
+                            <select id="company_plant_tab_modal" class="company-plant-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_plant_plant_tab_modal">
+                        <label for="plant_plant_tab_modal" class="col-sm-2 control-label">PLANT</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="plant_plant_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_plant_desc_plant_tab_modal">
+                        <label for="plant_desc_plant_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="plant_desc_plant_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_plant_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_plant_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_plant_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_plant_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_plant_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_plant_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Plant Tab Modal -->
+<!-- Location Tab Modal -->
+<div class="modal" id="location_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="location_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="location_tab_modal_form">
+                    <div class="form-group">
+                        <label for="select_holding_location_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_location_tab_modal">
+                            <select id="holding_location_tab_modal" class="holding-location-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_company_location_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-8" id="select_company_location_tab_modal">
+                            <select id="company_location_tab_modal" class="company-location-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_plant_location_tab_modal">
+                        <label for="select_plant_location_tab_modal" class="col-sm-2 control-label">PLANT</label>
+                        <div class="col-sm-7" id="select_plant_location_tab_modal">
+                            <select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_location_location_tab_modal">
+                        <label for="location_location_tab_modal" class="col-sm-2 control-label">LOCATION</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="location_location_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_location_desc_location_tab_modal">
+                        <label for="location_desc_location_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="location_desc_location_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_location_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_location_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_location_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_location_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_location_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_location_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Location Tab Modal -->
+<!-- Shelf Tab Modal -->
+<div class="modal" id="shelf_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="shelf_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="shelf_tab_modal_form">
+                    <div class="form-group">
+                        <label for="select_holding_shelf_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_shelf_tab_modal">
+                            <select id="holding_shelf_tab_modal" class="holding-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_company_shelf_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-8" id="select_company_shelf_tab_modal">
+                            <select id="company_shelf_tab_modal" class="company-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_plant_shelf_tab_modal" class="col-sm-2 control-label">PLANT</label>
+                        <div class="col-sm-7" id="select_plant_shelf_tab_modal">
+                            <select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_location_shelf_tab_modal">
+                        <label for="select_location_shelf_tab_modal" class="col-sm-2 control-label">LOCATION</label>
+                        <div class="col-sm-7" id="select_location_shelf_tab_modal">
+                            <select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_shelf_shelf_tab_modal">
+                        <label for="shelf_shelf_tab_modal" class="col-sm-2 control-label">SHELF</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="shelf_shelf_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_shelf_desc_shelf_tab_modal">
+                        <label for="shelf_desc_shelf_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="shelf_desc_shelf_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_shelf_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_shelf_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_shelf_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_shelf_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_shelf_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_shelf_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Shelf Tab Modal -->
+<!-- Bin Tab Modal -->
+<div class="modal" id="bin_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width: 60%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="bin_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="bin_tab_modal_form">
+                    <div class="form-group">
+                        <label for="select_holding_bin_tab_modal" class="col-sm-2 control-label">HOLDING</label>
+                        <div class="col-sm-9" id="select_holding_bin_tab_modal">
+                            <select id="holding_bin_tab_modal" class="holding-bin-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_company_bin_tab_modal" class="col-sm-2 control-label">COMPANY</label>
+                        <div class="col-sm-8" id="select_company_bin_tab_modal">
+                            <select id="company_bin_tab_modal" class="company-bin-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_plant_bin_tab_modal" class="col-sm-2 control-label">PLANT</label>
+                        <div class="col-sm-7" id="select_plant_bin_tab_modal">
+                            <select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="select_location_bin_tab_modal" class="col-sm-2 control-label">LOCATION</label>
+                        <div class="col-sm-7" id="select_location_bin_tab_modal">
+                            <select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select> 
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_shelf_bin_tab_modal">
+                        <label for="select_shelf_bin_tab_modal" class="col-sm-2 control-label">SHELF</label>
+                        <div class="col-sm-7" id="select_shelf_bin_tab_modal">
+                            <select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%">                        
+                            </select>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_bin_bin_tab_modal">
+                        <label for="bin_bin_tab_modal" class="col-sm-2 control-label">BIN</label>
+                        <div class="col-sm-7">
+                            <input type="text" id="bin_bin_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_bin_desc_bin_tab_modal">
+                        <label for="bin_desc_bin_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-10">
+                            <input type="text" id="bin_desc_bin_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_bin_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_bin_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_bin_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_bin_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_bin_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_bin_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bin Tab Modal -->
+<!-- Item Type Tab Modal -->
+<div class="modal" id="item_type_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="item_type_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="item_type_tab_modal_form">
+                    <div class="form-group" id="form_item_type_item_type_tab_modal">
+                        <label for="item_type_item_type_tab_modal" class="col-sm-3 control-label">ITEM TYPE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="item_type_item_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_item_type_tab_modal">
+                        <label for="desc_item_type_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_item_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_item_type_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_item_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_item_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_item_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_item_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_item_type_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Item Type Modal -->
+<!-- Item Source Type Tab Modal -->
+<div class="modal" id="source_type_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="source_type_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="source_type_tab_modal_form">
+                    <div class="form-group" id="form_source_type_source_type_tab_modal">
+                        <label for="source_type_source_type_tab_modal" class="col-sm-3 control-label">SOURCE TYPE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="source_type_source_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_source_type_tab_modal">
+                        <label for="desc_source_type_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_source_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_source_type_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_source_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_source_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_source_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_source_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_source_type_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Source Type Modal -->
+<!-- Item Stock Type Tab Modal -->
+<div class="modal" id="stock_type_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="stock_type_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="stock_type_tab_modal_form">
+                    <div class="form-group" id="form_stock_type_stock_type_tab_modal">
+                        <label for="stock_type_stock_type_tab_modal" class="col-sm-3 control-label">STOCK TYPE</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="stock_type_stock_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_stock_type_tab_modal">
+                        <label for="desc_stock_type_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_stock_type_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_stock_type_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_stock_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_stock_type_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_stock_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_stock_type_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_stock_type_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Stock Type Modal -->
+<!-- Unit of Measrement Tab Modal -->
+<div class="modal" id="unit_of_measurement_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="" style="width:65%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="unit_of_measurement_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="unit_of_measurement_tab_modal_form">
+                    <div class="form-group" id="form_unit4_unit_of_measurement_tab_modal">
+                        <label for="unit4_unit_of_measurement_tab_modal" class="col-sm-2 control-label">UNIT 4</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="unit4_unit_of_measurement_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_unit3_unit_of_measurement_tab_modal">
+                        <label for="unit3_unit_of_measurement_tab_modal" class="col-sm-2 control-label">UNIT 3</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="unit3_unit_of_measurement_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_unit2_unit_of_measurement_tab_modal">
+                        <label for="unit2_unit_of_measurement_tab_modal" class="col-sm-2 control-label">UNIT 2</label>
+                        <div class="col-sm-3">
+                            <input type="text" id="unit2_unit_of_measurement_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_unit_of_measurement_tab_modal">
+                        <label for="desc_unit_of_measurement_tab_modal" class="col-sm-2 control-label">DESCRIPTION</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="desc_unit_of_measurement_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_eng_definition_unit_of_measurement_tab_modal">
+                        <label for="eng_definition_unit_of_measurement_tab_modal" class="col-sm-2 control-label">ENG DEFINITION</label>
+                        <div class="col-sm-10">
+                            <textarea id="eng_definition_unit_of_measurement_tab_modal" class="form-control vresize"></textarea>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_ind_definition_unit_of_measurement_tab_modal">
+                        <label for="ind_definition_unit_of_measurement_tab_modal" class="col-sm-2 control-label">IND DEFINITION</label>
+                        <div class="col-sm-10">
+                            <textarea id="ind_definition_unit_of_measurement_tab_modal" class="form-control vresize"></textarea>
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_unit_of_measurement_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_unit_of_measurement_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_unit_of_measurement_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_unit_of_measurement_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_unit_of_measurement_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_unit_of_measurement_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Unit of Measrement Tab Modal -->
+<!-- User Class Tab Modal -->
+<div class="modal" id="user_class_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="user_class_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="user_class_tab_modal_form">
+                    <div class="form-group" id="form_user_class_user_class_tab_modal">
+                        <label for="user_class_user_class_tab_modal" class="col-sm-3 control-label">USER CLASS</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="user_class_user_class_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_user_class_tab_modal">
+                        <label for="desc_user_class_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_user_class_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_user_class_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_user_class_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_user_class_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_user_class_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_user_class_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_user_class_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Hazard Class Modal -->
+<!-- User Weight Unit Modal -->
+<div class="modal" id="weight_unit_tab_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+    <div class="modal-dialog" role="">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="weight_unit_tab_modal_title"></h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="weight_unit_tab_modal_form">
+                    <div class="form-group" id="form_weight_unit_weight_unit_tab_modal">
+                        <label for="weight_unit_weight_unit_tab_modal" class="col-sm-3 control-label">WEIGHT UNIT</label>
+                        <div class="col-sm-6">
+                            <input type="text" id="weight_unit_weight_unit_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <div class="form-group" id="form_desc_weight_unit_tab_modal">
+                        <label for="desc_weight_unit_tab_modal" class="col-sm-3 control-label">DESCRIPTION</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="desc_weight_unit_tab_modal" class="form-control input-sm">
+                            <p class="help-block"></p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="id_weight_unit_tab_modal">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <span class="saving_weight_unit_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Saving....</span>
+                <span class="updating_weight_unit_tab_modal text-primary pull-left" style="display:none;margin-top:7px;"><i class="fa fa-refresh fa-spin"></i> Updating....</span>
+                <span class="error_saving_weight_unit_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to saving data.</span>
+                <span class="error_updating_weight_unit_tab_modal text-danger pull-left" style="display:none;margin-top:7px;"><i class="fa fa-warning"></i> Whoops, failed to updating data.</span>
+                <input type="button" class="btn btn-default btn-sm" data-dismiss="modal" value="CLOSE">
+                <input type="button" class="btn btn-primary btn-sm" id="btn_save_weight_unit_tab_modal" value="DISABLED" disabled>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Weight Unit Modal -->

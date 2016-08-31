@@ -1,0 +1,31 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><strong>CATALOG Web App</strong></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown active">
+                    <a href="/dictionary">DICTIONARY</a>
+                </li>
+                <li class="dropdown">
+                    <a href="/settings">SETTINGS</a>
+                </li>
+                <li class="dropdown">
+                    <a href="/tools">TOOLS</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <input type="hidden" value="5" id="logged_in_user">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Guest <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="#" id="logoutapp">Logout</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

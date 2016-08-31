@@ -1,0 +1,634 @@
+body {
+  padding-top: 40px;
+  color: #5a5a5a;
+  overflow-y: scroll;
+}
+@media (min-width: 1200px)
+.container2 {
+    width: 1360px;
+}
+@media (min-width: 992px)
+.container2 {
+    width: 1000px;
+}
+@media (min-width: 768px)
+.container2 {
+    width: 740px;
+}
+.container2 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.container2 {
+    margin-right: auto;
+    margin-left: auto;
+}
+.tab-pane{
+	padding: 10px 0 10px 0;
+}
+.form-tab{
+  padding-top: 9px;
+}
+#part_master tbody tr{
+  cursor: pointer;
+}
+fieldset.scheduler-border {
+  border: 1px solid #ddd !important;
+  padding: 0 1.1em 1.1em 1.1em !important;
+  margin: 0 0 1.5em 0 !important;
+}
+
+legend.scheduler-border {
+  font-size: 12px;
+  text-align: left !important;
+  width:auto;
+  border-bottom:none;
+  margin-bottom: 4px;
+}
+.form-horizontal .control-label {
+  text-align: left;
+}
+.label-edel{
+  cursor: pointer;
+}
+.table-scroll tbody {
+  overflow-y: auto;
+  width: 100%;
+}
+.table-scroll.table-source tbody{
+  height: 230px;
+}
+.table-scroll thead, .table-scroll tbody, .table-scroll tr, .table-scroll td, .table-scroll th {
+  display: block;
+}
+.table-scroll tbody > tr > td {
+  border: none;
+  white-space:pre;
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* IE/Edge */
+  user-select: none;           /* non-prefixed version, currently
+                                  not supported by any browser */
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover{
+  outline: 0;
+}
+.editable{
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: #03B3B2;
+  cursor: pointer;
+}
+
+/*
+Force table width to 100%
+*/
+table.table-char-value {
+  width: 100%;
+}
+
+/*
+Set table elements to block mode.  (Normally they are inline).
+This allows a responsive table, such as one where columns can be stacked
+if the display is narrow.
+*/
+table.table-char-value,
+table.table-char-value>thead,
+table.table-char-value>tbody,
+table.table-char-value>thead>tr,
+table.table-char-value>tbody>tr,
+table.table-char-value>thead>tr>th,
+table.table-char-value>tbody>td {
+  display: block;
+}
+
+
+table.table-char-value>thead>tr:after,
+table.table-char-value>tbody>tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+/*
+When scrolling the table, actually it is only the tbody portion of the
+table that scrolls (not the entire table: we want the thead to remain
+fixed).  We must specify an explicit height for the tbody.  We include
+100px as a default, but it can be overridden elsewhere.
+
+Also, we force the scrollbar to always be displayed so that the usable
+width for the table contents doesn't change (such as becoming narrower
+when a scrollbar is visible and wider when it is not).
+*/
+table.table-char-value>tbody {
+  overflow-y: scroll;
+  height: 192px;
+}
+
+/*
+We really don't want to scroll the thead contents, but we want to force
+a scrollbar to be displayed anyway so that the usable width of the thead
+will exactly match the tbody.
+*/
+table.table-char-value>thead {        
+  /*overflow-y: scroll;*/
+  /*margin-right: 16px;*/
+}
+
+/*
+For browsers that support it (webkit), we set the background color of
+the unneeded scrollbar in the thead to make it invisible.  (Setting
+visiblity: hidden defeats the purpose, as this alters the usable width
+of the thead.)
+*/
+table.table-char-value>thead::-webkit-scrollbar{
+  background-color: inherit;
+}
+
+/*
+We want to set <th> and <td> elements to float left.
+We also must explicitly set the width for each column (both for the <th>
+and the <td>).  We set to 20% here a default placeholder, but it can be
+overridden elsewhere.
+*/
+table.table-char-value>thead>tr>th:nth-child(1), 
+table.table-char-value>thead>tr>th:nth-child(2){
+  width: 35%;
+  float: left;
+}
+table.table-char-value>tbody>tr>td:nth-child(1), 
+table.table-char-value>tbody>tr>td:nth-child(2) {
+  width: 36%;
+  float: left;
+}
+table.table-char-value>thead>tr>th:nth-child(3){
+  width: 20%;
+  float: left;
+}
+table.table-char-value>tbody>tr>td:nth-child(3) {
+  width: 18%;
+  float: left;
+}
+table.table-char-value>thead>tr>th:nth-child(4),
+table.table-char-value>tbody>tr>td:nth-child(4) {
+  width: 10%;
+  float: left;
+}
+table.table-char-value tr:first-child td {
+  border-top: none;
+}
+
+.characteristic_value_cell {
+  border:none;
+  width:100%;
+  height:100%;
+  font-family: Verdana, Helvetica, Arial, FreeSans, sans-serif;
+  font-size:12px;
+  padding: 0;
+  background-color: transparent;
+  border-bottom: transparent;
+  -webkit-transition: border-bottom 0.8s;
+  transition: border-bottom 0.8s;
+}
+.characteristic_value_cell:focus { 
+  outline: none;
+  border-bottom: solid 1px #03b3b2;
+}
+.characteristic_value_cell.has-error{
+  border-bottom: solid 1px #d9534f;
+}
+input:not(.normalcase), textarea:not(.normalcase){
+  text-transform: uppercase;
+}
+.uppercase{
+  text-transform: uppercase;
+}
+.pre{
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.cpointer{
+  cursor: pointer;
+}
+.fa-rotate-45 {
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+kbd{
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  padding: 3px 5px 2px !important;
+}
+kbd.kbd-default {
+    background-color: #fff !important;
+    color: #b5b5b5;
+    font-weight: normal;
+    border: 1px #e5e5e5 solid;
+    padding: 2px 5px 1px !important; 
+}
+kbd.kbd-default:hover {
+    background-color: #e6e6e6 !important;
+    color: #555;
+} 
+kbd.kbd-primary {
+    background-color: rgba(3, 179, 178, 0.5) !important;    
+    color: fff; 
+}
+kbd.kbd-primary:hover {
+    background-color: rgba(3, 179, 178, 1) !important;
+} 
+kbd.kbd-danger {
+    /*background-color: rgba(217, 83, 79, 0.5) !important;*/
+    background-color: transparent !important;
+    color: transparent; 
+}
+kbd.kbd-danger:hover, tr:hover kbd.kbd-danger {
+    background-color: rgba(217, 83, 79, 1) !important;
+    color: #fff;
+}
+.nav-tabs>li>a {
+  padding: 7px 9px;
+}
+.bootstrapMenu > ul.dropdown-menu{
+  padding: 3px 0 !important;
+}
+.tabs-left > li:not(.active) > a:hover{
+  border-bottom-color: transparent !important;
+}
+.nav > li > a:focus, .nav > li > a:hover {
+  background-color:#F1F4F8;
+}
+.table{
+  border-top: 1px solid #e7ecf1;
+}
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+  color: #5a5a5a;
+}
+td.details-control{
+  position: relative;
+}
+td.details-control:before {
+  position: absolute;
+  font-family: 'FontAwesome';
+  top: 1px;
+  left: 10px;
+  font-size: 17px;
+  content: "\f055";
+  color: #03B3B2;
+  cursor: pointer;
+}
+tr.shown td.details-control:before {
+  content: "\f056";
+  color: #D9534F;
+}
+.noresize {
+  resize: none; 
+}
+
+.vresize {
+  resize: vertical; 
+}
+  
+.hresize {
+  resize: horizontal;  
+}
+
+.page-header{
+  margin: -10px 0 17px;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+  background-color: #F1F4F8;
+}
+.form-control{
+  box-shadow:none;
+}
+
+/*mark,
+.mark {
+  padding: 0;
+}
+.modal, .modal-backdrop {
+  position: absolute !important;
+}
+*/
+table:not(.normalcase){
+  text-transform: uppercase;
+}
+#waiting {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  display:none;
+  cursor: progress;
+}
+#get_values_list_table tbody tr{
+  cursor: pointer;
+}
+.part-master-button-wrap > .btn{
+  margin-right: 5px;
+}
+
+#part_master.dataTable{ 
+  table-layout:fixed; 
+  width: 100%; /* IE6 need define width */
+}
+
+#part_master.dataTable thead th,
+#part_master.dataTable tfoot th,
+#part_master.dataTable tbody td {
+  overflow:hidden;
+  white-space:nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.form-group-full{
+  width: 100%;
+}
+table {
+    margin-top: 10px;
+    width:100%;
+    max-width:100%;
+}
+table td {
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+hr.hr-bawah-part-master{
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(to right, rgba(3, 179, 178, 0.1), rgba(3, 179, 178, 1), rgba(3, 179, 178, 0.1));
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+.double-input .form-control.dua{
+  width: 100%;
+  border-left-width: 0px;
+}
+#loading {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  -webkit-transition: all .5s ease;
+  z-index: 1000;
+}
+/*ANIMASI LOADING*/
+.spinner {
+  width: 100px;
+  height: 100px;
+  margin: 180px auto;
+  background-color: #03B3B2;
+
+  border-radius: 100%;  
+  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+  animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
+@-webkit-keyframes sk-scaleout {
+  0% { -webkit-transform: scale(0) }
+  100% {
+    -webkit-transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+@keyframes sk-scaleout {
+  0% { 
+    -webkit-transform: scale(0);
+    transform: scale(0);
+  } 100% {
+    -webkit-transform: scale(1.0);
+    transform: scale(1.0);
+    opacity: 0;
+  }
+}
+
+/*LOGIN*/
+.login-container{
+    position: relative;
+    width: 300px;
+    margin: 80px auto;
+    padding: 20px 40px 40px;
+    text-align: center;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+#output{
+    position: absolute;
+    width: 300px;
+    top: -75px;
+    left: 0;
+    color: #fff;
+}
+
+#output.alert-success{
+    background: rgb(25, 204, 25);
+}
+
+#output.alert-danger{
+    background: rgb(228, 105, 105);
+}
+
+
+.login-container::before,.login-container::after{
+    content: "";
+    position: absolute;
+    width: 100%;height: 100%;
+    top: 3.5px;left: 0;
+    background: #fff;
+    z-index: -1;
+    -webkit-transform: rotateZ(4deg);
+    -moz-transform: rotateZ(4deg);
+    -ms-transform: rotateZ(4deg);
+    border: 1px solid #ccc;
+
+}
+
+.login-container::after{
+    top: 5px;
+    z-index: -2;
+    -webkit-transform: rotateZ(-2deg);
+     -moz-transform: rotateZ(-2deg);
+      -ms-transform: rotateZ(-2deg);
+
+}
+
+.avatar{
+    width: 100px;height: 100px;
+    margin: 10px auto 30px;
+    border-radius: 100%;
+    border: 2px solid #aaa;
+    background-size: cover;
+}
+
+.form-box input{
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    height:40px;
+    border: 1px solid #ccc;;
+    background: #fafafa;
+    transition:0.2s ease-in-out;
+
+}
+
+.form-box input:focus{
+    outline: 0;
+    background: #eee;
+}
+
+.form-box input[type="text"]{
+    border-radius: 5px 5px 0 0;
+    text-transform: lowercase;
+}
+
+.form-box input[type="password"]{
+    border-radius: 0 0 5px 5px;
+    border-top: 0;
+}
+
+.form-box button.login{
+    margin-top:15px;
+    padding: 10px 20px;
+}
+#char_table tr{
+  cursor: move;
+}
+
+/*tab scroll*/
+.wrapper {
+    position:relative;
+    margin:0 auto;
+    overflow:hidden;
+  padding:5px;
+    height:50px;
+}
+
+.list {
+    position:absolute;
+    left:0px;
+    top:0px;
+    min-width:3000px;
+    margin-left:12px;
+    margin-top:0px;
+}
+
+.list li{
+  display:table-cell;
+    position:relative;
+    text-align:center;
+    cursor:grab;
+    cursor:-webkit-grab;
+    color:#efefef;
+    vertical-align:middle;
+}
+
+.scroller {
+  text-align:center;
+  cursor:pointer;
+  display:none;
+  padding:7px;
+  padding-top:11px;
+  white-space:no-wrap;
+  vertical-align:middle;
+  background-color:#fff;
+}
+
+.scroller-right{
+  float:right;
+}
+
+.scroller-left {
+  float:left;
+}
+/*end tab scroll*/
+
+/*characteristics settings table*/
+table.table-char-settings {
+  width: 100%;
+}
+
+table.table-char-settings,
+table.table-char-settings>thead,
+table.table-char-settings>tbody,
+table.table-char-settings>thead>tr,
+table.table-char-settings>tbody>tr,
+table.table-char-settings>thead>tr>th,
+table.table-char-settings>tbody>td {
+  display: block;
+}
+
+table.table-char-settings>thead>tr:after,
+table.table-char-settings>tbody>tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+table.table-char-settings>tbody {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+table.table-char-settings>thead {        
+  /*overflow-y: scroll;*/
+  /*margin-right: 16px;*/
+}
+
+table.table-char-settings>thead::-webkit-scrollbar{
+  background-color: inherit;
+}
+
+table.table-char-settings>thead>tr>th:nth-child(1){
+  width: 100%;
+  float: left;
+}
+table.table-char-settings>tbody>tr>td:nth-child(1) {
+  width: 5%;
+  float: left;
+}
+table.table-char-settings>tbody>tr>td:nth-child(2){
+  width: 95%;
+  float: left;
+}
+table.table-char-settings tr:first-child td {
+  border-top: none;
+}
+/* end characteristics settings table*/
+
+/*animate.css*/
+.saved {
+  -moz-animation-duration: 5s;
+  -webkit-animation-duration: 5s;
+  -o-animation-duration: 5s;
+  animation-duration: 5s;
+
+  -moz-animation-delay: 1s;
+  -webkit-animation-delay: 1s;
+  -o-animation-delay: 1s;
+  animation-delay: 1s;
+
+  font-weight: normal !important;
+  text-transform: initial;
+}
