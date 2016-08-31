@@ -161,10 +161,38 @@ jQuery(function($) {
     selectCompany += '</div>';
     $("#select_company").html(selectCompany);
 
+    // Revert characteristic box to placeholder
+    function getCharPlaceholder(){
+        charPlaceholder  = '<div class="col-xs-6">';
+        charPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        charPlaceholder += '</div>';
+        $("#char-area").empty().append(charPlaceholder);
+    }        
+    // End revert characteristic box to placeholder
+
+    // Revert characteristic box to placeholder
+    function getValPlaceholder(){
+        valPlaceholder  = '<div class="col-xs-6">';
+        valPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        valPlaceholder += '</div>';
+        $("#val-area").empty().append(valPlaceholder);
+    }        
+    // End revert characteristic box to placeholder
+
     $(document).ajaxComplete(function() {
+
+        // Changed INC
+        $('#inc').off('changed.bs.select');
+        $('#inc').on('changed.bs.select', function() {
+            getCharacteristicsList();
+        });
+        // End Changed INC
+
         // Changed Holding
         $('#holding').on('changed.bs.select', function(e) {
             $('#select_company').html('<select id="company" class="company with-ajax" data-live-search="true" data-width="100%"></select>');
+            getCharPlaceholder();
+            getValPlaceholder();
 
             var holdingId = $(this).val();
             var optionsCompany = {
@@ -195,14 +223,7 @@ jQuery(function($) {
             $('button[data-id="company"]').addClass("btn-sm");
             $('.bs-searchbox > input.form-control').addClass("input-sm");
         });
-        // End Changed Holding   
-
-        // Changed INC
-        $('#inc').off('changed.bs.select');
-        $('#inc').on('changed.bs.select', function() {
-            getCharacteristicsList();
-        });
-        // End Changed INC
+        // End Changed Holding  
 
         // Changed Company
         $('#company').off('changed.bs.select');
@@ -225,38 +246,43 @@ jQuery(function($) {
         var incId = $("#inc").val();
         var companyId = $("#company").val();
 
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "characteristics-settings/get-characteristics/" + incId + "/" + companyId,
-            success: function(data) {
-                charsTable  = '<div class="col-xs-6">';
-                charsTable += '<table class="table table-striped table-char-settings">';
-                charsTable += '<thead><th colspan="2">CHARACTERISICS';
-                charsTable += '<span id="chars-button" class="pull-right"></span>';
-                charsTable += '</th></thead><tbody id="char_table">';
+        if (incId && companyId ){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "characteristics-settings/get-characteristics/" + incId + "/" + companyId,
+                success: function(data) {
+                    charsTable  = '<div class="col-xs-6">';
+                    charsTable += '<table class="table table-striped table-char-settings">';
+                    charsTable += '<thead><th colspan="2">CHARACTERISICS';
+                    charsTable += '<span id="chars-button" class="pull-right"></span>';
+                    charsTable += '</th></thead><tbody id="char_table">';
 
-                oldOrder = [];
-                $.each(data, function(i, item) {
-                    charsTable += '<tr id="'+item.link_inc_characteristic_id+'"><td>';
-                    charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
-                    charsTable += i + 1;
-                    charsTable += '</td><td>' + item.characteristic + '</td></tr>';
+                    oldOrder = [];
+                    $.each(data, function(i, item) {
+                        charsTable += '<tr id="'+item.link_inc_characteristic_id+'"><td>';
+                        charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
+                        charsTable += i + 1;
+                        charsTable += '</td><td>' + item.characteristic + '</td></tr>';
 
-                    // save oldOrder temporary
-                    oldOrder.push(i + 1);
-                });
-                charsTable += '</tbody></table></div>';
-                $("#char-area").empty().append(charsTable);
-                // for reset order
-                cache = $("#char_table").html();
+                        // save oldOrder temporary
+                        oldOrder.push(i + 1);
+                    });
+                    charsTable += '</tbody></table></div>';
+                    $("#char-area").empty().append(charsTable);
+                    // for reset order
+                    cache = $("#char_table").html();
 
-                if(bool == 1){
-                    sequenceSavedMessage = '<span class="text-primary animated fadeOut saved">Sequence saved</span>';
-                    $("#chars-button").empty().append(sequenceSavedMessage);
-                }                
-            }
-        });
+                    if(bool == 1){
+                        sequenceSavedMessage = '<span class="text-primary animated fadeOut saved">Sequence saved</span>';
+                        $("#chars-button").empty().append(sequenceSavedMessage);
+                    }                
+                }
+            });
+        }else{
+            getCharPlaceholder();
+            getValPlaceholder();
+        }
     }
 
     function getValues(linkIncCharacteristicId) {
@@ -353,11 +379,7 @@ jQuery(function($) {
     $(document).on('click', '#reset-order', function() {
         $("#char_table").html(cache);
         $('#chars-button').empty();
-
-        valPlaceholder  = '<div class="col-xs-6">';
-        valPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
-        valPlaceholder += '</div>';
-        $("#val-area").empty().append(valPlaceholder);
+        getValPlaceholder();
     });    
     // end reset order
 
@@ -373,11 +395,7 @@ jQuery(function($) {
             url: 'settings/update-characteristics-order',
             data: {'company': $('select#company').val(), 'lic': lic_id},
             success: function() {
-                valPlaceholder  = '<div class="col-xs-6">';
-                valPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
-                valPlaceholder += '</div>';
-                $("#val-area").empty().append(valPlaceholder);
-        
+                getValPlaceholder();
                 getCharacteristicsList(1);                
             },
             error: function(){
