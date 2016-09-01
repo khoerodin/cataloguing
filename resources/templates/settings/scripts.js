@@ -90,7 +90,7 @@ jQuery(function($) {
     });
     // END SCROLL TAB
 
-    // START CHARACTERISICS TAB
+    // START COMPANY CHARACTERISICS VALUE TAB
     // ============================================================
     // ============================================================
 
@@ -98,7 +98,7 @@ jQuery(function($) {
     // Filter INC
     var optionsInc = {
         ajax: {
-            url: 'characteristics-settings/select-inc',
+            url: 'settings/select-inc',
             type: 'POST',
             dataType: 'json',
         },
@@ -128,7 +128,7 @@ jQuery(function($) {
     // Filter Holding
     var optionsHolding = {
         ajax: {
-            url: 'characteristics-settings/select-holding',
+            url: 'settings/select-holding',
             type: 'POST',
             dataType: 'json',
         },
@@ -166,25 +166,25 @@ jQuery(function($) {
         charPlaceholder  = '<div class="col-xs-6">';
         charPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
         charPlaceholder += '</div>';
-        $("#char-area").empty().append(charPlaceholder);
+        $("#company-char-area").empty().append(charPlaceholder);
     }        
     // End revert characteristic box to placeholder
 
-    // Revert characteristic box to placeholder
+    // Revert value box to placeholder
     function getValPlaceholder(){
         valPlaceholder  = '<div class="col-xs-6">';
         valPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
         valPlaceholder += '</div>';
-        $("#val-area").empty().append(valPlaceholder);
+        $("#company-val-area").empty().append(valPlaceholder);
     }        
-    // End revert characteristic box to placeholder
+    // End revert value box to placeholder
 
     $(document).ajaxComplete(function() {
 
         // Changed INC
         $('#inc').off('changed.bs.select');
         $('#inc').on('changed.bs.select', function() {
-            getCharacteristicsList();
+            getCompanyCharacteristicsList();
         });
         // End Changed INC
 
@@ -197,7 +197,7 @@ jQuery(function($) {
             var holdingId = $(this).val();
             var optionsCompany = {
                 ajax: {
-                    url: 'characteristics-settings/select-company/' + holdingId,
+                    url: 'settings/select-company/' + holdingId,
                     type: 'POST',
                     dataType: 'json',
                 },
@@ -228,21 +228,21 @@ jQuery(function($) {
         // Changed Company
         $('#company').off('changed.bs.select');
         $('#company').on('changed.bs.select', function() {
-            getCharacteristicsList();
+            getCompanyCharacteristicsList();
         });
         // End Changed Company
 
-        $(document).off('click', 'tbody#char_table tr');
-        $(document).on('click', 'tbody#char_table tr', function() {
-            $("tbody#char_table tr:first-child").removeClass('active');
-            $("tbody#char_table tr").removeClass('active');
+        $(document).off('click', 'tbody#company_char_table tr');
+        $(document).on('click', 'tbody#company_char_table tr', function() {
+            $("tbody#company_char_table tr:first-child").removeClass('active');
+            $("tbody#company_char_table tr").removeClass('active');
             $(this).addClass('active');
             id = $(this).attr('id');
             getValues(id);
         });
     });
 
-    function getCharacteristicsList(bool) {
+    function getCompanyCharacteristicsList(bool) {
         var incId = $("#inc").val();
         var companyId = $("#company").val();
 
@@ -250,13 +250,13 @@ jQuery(function($) {
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "characteristics-settings/get-characteristics/" + incId + "/" + companyId,
+                url: "settings/get-company-characteristics/" + incId + "/" + companyId,
                 success: function(data) {
                     charsTable  = '<div class="col-xs-6">';
                     charsTable += '<table class="table table-striped table-char-settings">';
                     charsTable += '<thead><th colspan="2">CHARACTERISICS';
-                    charsTable += '<span id="chars-button" class="pull-right"></span>';
-                    charsTable += '</th></thead><tbody id="char_table">';
+                    charsTable += '<span id="company-char-button" class="pull-right"></span>';
+                    charsTable += '</th></thead><tbody id="company_char_table">';
 
                     oldOrder = [];
                     $.each(data, function(i, item) {
@@ -269,13 +269,13 @@ jQuery(function($) {
                         oldOrder.push(i + 1);
                     });
                     charsTable += '</tbody></table></div>';
-                    $("#char-area").empty().append(charsTable);
+                    $("#company-char-area").empty().append(charsTable);
                     // for reset order
-                    cache = $("#char_table").html();
+                    cache = $("#company_char_table").html();
 
                     if(bool == 1){
-                        sequenceSavedMessage = '<span class="text-primary animated fadeOut saved">Sequence saved</span>';
-                        $("#chars-button").empty().append(sequenceSavedMessage);
+                        sequenceSavedMessage = '<span class="text-primary animated fadeOut saved">Sequence updated</span>';
+                        $("#company-char-button").empty().append(sequenceSavedMessage);
                     }                
                 }
             });
@@ -289,7 +289,7 @@ jQuery(function($) {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "characteristics-settings/get-values/" + linkIncCharacteristicId,
+            url: "settings/get-company-characteristics-values/" + linkIncCharacteristicId,
             success: function(data) {
                 echo  = '<div class="col-xs-6">';
                 echo += '<table class="table table-striped">';
@@ -307,7 +307,7 @@ jQuery(function($) {
                 });
                 echo += '</tbody></table></div>';
 
-                $("#val-area").empty().append(echo);
+                $("#company-val-area").empty().append(echo);
             }
         });
     }
@@ -346,18 +346,18 @@ jQuery(function($) {
 
     // sortabe
     $(document).ajaxComplete(function(){
-        $("#char_table").sortable({
+        $("#company_char_table").sortable({
             items: "tr",
             cursor: 'move',
             opacity: 0.6,
             update: function() {
-                newOrder = $("#char_table").sortable("toArray");
+                newOrder = $("#company_char_table").sortable("toArray");
                 if(oldOrder.equals(newOrder) == false){
-                    button  = '<kbd id="reset-order" class="kbd-default cpointer">RESET</kbd>';
-                    button += '&nbsp;<kbd id="save-order" class="kbd-primary cpointer">SAVE</kbd>';
-                    $('#chars-button').html(button);
+                    button  = '<kbd id="reset-company-char-order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update-company-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#company-char-button').html(button);
                 }else{
-                    $('#chars-button').empty();
+                    $('#company-char-button').empty();
                 }
             }
         });
@@ -370,21 +370,21 @@ jQuery(function($) {
         return ui;
     }
 
-    $("#char_table").sortable({
+    $("#company_char_table").sortable({
         helper: fixHelper,
     });
     // end sortable
 
-    // reset order
-    $(document).on('click', '#reset-order', function() {
-        $("#char_table").html(cache);
-        $('#chars-button').empty();
+    // reset company char order
+    $(document).on('click', '#reset-company-char-order', function() {
+        $("#company_char_table").html(cache);
+        $('#company-char-button').empty();
         getValPlaceholder();
     });    
-    // end reset order
+    // end reset company char order
 
-    // save order
-    $(document).on('click', '#save-order', function() {
+    // update company char order
+    $(document).on('click', '#update-company-char-order', function() {
         var lic_id = []
         $("input.lic_id").each(function (){
             lic_id.push(parseInt($(this).val()));
@@ -392,20 +392,20 @@ jQuery(function($) {
 
         $.ajax({ 
             type: "PUT",
-            url: 'settings/update-characteristics-order',
+            url: 'settings/update-ccharacteristics-order',
             data: {'company': $('select#company').val(), 'lic': lic_id},
             success: function() {
                 getValPlaceholder();
-                getCharacteristicsList(1);                
+                getCompanyCharacteristicsList(1);                
             },
             error: function(){
                 console.log(false);
             }
         });
     });    
-    // end save order
+    // end update company char order
 
-    // END CHARACTERISICS TAB
+    // END COMPANY CHARACTERISICS VALUE TAB
     // ============================================================
     // ============================================================
 

@@ -9,6 +9,7 @@ use DB;
 use Datatables;
 use Response;
 use App\Models\CompanyCharacteristicSequence;
+use App\Models\LinkIncCharacteristicValue;
 use App\Models\TblBin;
 use App\Models\TblShelf;
 use App\Models\TblLocation;
@@ -86,6 +87,26 @@ class SettingsController extends Controller
             ->get();
     }
 
+    // COMPANY CHARACTERISTICS
+    public function getCompanyCharacteristics($incId,$companyId)
+    {
+        return CompanyCharacteristicSequence::select('characteristic', 'link_inc_characteristic_id')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->where('tbl_company_id', $companyId)
+            ->orderBy('company_characteristic_sequence.sequence')
+            ->get();
+    }
+
+    public function getCompanyCharacteristicsValues($linkIncCharacteristicId)
+    {
+        return LinkIncCharacteristicValue::select('value','abbrev','approved')
+        ->where('link_inc_characteristic_id', $linkIncCharacteristicId)
+        ->get();
+    }
+    // END COMPANY CHARACTERISTICS
+
     // CATALOG STATUS DataTables
     public function datatablesCatalogStatus()
     {   
@@ -100,7 +121,7 @@ class SettingsController extends Controller
             ->make(true);
     }
 
-    public function updateCharOrder(Request $request)
+    public function updateCCharOrder(Request $request)
     {
         $no = 1;
         foreach ($request->lic as $id) {
@@ -111,15 +132,6 @@ class SettingsController extends Controller
             $ccs->sequence = $no++;
             $ccs->save();
         }
-
-        /*$tblCatalogStatus = TblCatalogStatus::where('id',$id)->firstOrFail();
-
-        $tblCatalogStatus->status          = strtoupper($request->status);
-        $tblCatalogStatus->description     = strtoupper($request->description);
-        $tblCatalogStatus->last_updated_by = $request->last_updated_by;
-
-        $tblCatalogStatus->save();
-        return Response::json($tblCatalogStatus);*/
     }
 
     public function addCatalogStatus(Request $request)

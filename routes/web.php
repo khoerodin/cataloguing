@@ -157,18 +157,11 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	// SETTINGS
 	// CHARACTERISTICS SETTINGS
 	Route::get('characteristics-settings', 'CharacteristicsSettingsController@index');
-	Route::post('characteristics-settings/select-holding', 'SettingsController@selectHolding');
-	Route::post('characteristics-settings/select-company/{holdingId}', 'SettingsController@selectCompany');
-	Route::post('characteristics-settings/select-inc', 'HomeController@selectInc');
-	Route::get('characteristics-settings/get-characteristics/{incId}/{companyId}', 'CharacteristicsSettingsController@getCharacteristics');
-	Route::get('characteristics-settings/get-values/{linkIncCharacteristicId}', 'CharacteristicsSettingsController@getValues');
 
-	// BASE SETTINGS
+
+	// SETTINGS
 	Route::get('settings', 'SettingsController@index');
-
-	// UPDATE ORDER
-	Route::put('settings/update-characteristics-order', 'SettingsController@updateCharOrder');
-
+	
 	// HOLDING - BIN SELECT
 	Route::post('settings/select-holding', 'SettingsController@selectHolding');
 	Route::post('settings/select-company/{holdingId}', 'SettingsController@selectCompany');
@@ -176,6 +169,14 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/select-location/{plantId}', 'SettingsController@selectLocation');
 	Route::post('settings/select-shelf/{locationId}', 'SettingsController@selectShelf');	
 
+	// COMPANY CHARACTERISTICS TAB
+	Route::post('settings/select-inc', 'HomeController@selectInc');
+	Route::post('settings/select-holding', 'SettingsController@selectHolding');
+	Route::post('settings/select-company/{holdingId}', 'SettingsController@selectCompany');
+	Route::get('settings/get-company-characteristics/{incId}/{companyId}', 'SettingsController@getCompanyCharacteristics');
+	Route::get('settings/get-company-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getCompanyCharacteristicsValues');
+	Route::put('settings/update-ccharacteristics-order', 'SettingsController@updateCCharOrder');
+	
 	// CATALOG STATUS Tab
 	Route::get('settings/datatables-catalog-status', 'SettingsController@datatablesCatalogStatus');
 	Route::post('settings/add-catalog-status', 'SettingsController@addCatalogStatus');
