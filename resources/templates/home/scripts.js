@@ -972,7 +972,16 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 5
+            pageLength: 5,
+            drawCallback: function() {
+                $('#part_manufacturer_code th:last-child')
+                    .removeClass('sorting')
+                    .removeClass('sorting_desc')
+                    .removeClass('sorting_asc')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('TYPE <kbd id="add-pmc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            }
         });
     }
     // END DATATABLES	
@@ -1238,14 +1247,6 @@ jQuery(function($) {
                         $('#manufacturer_ref_pmc').val(data.manufacturer_ref);
                         $('#part_manufacturer_code_id_pmc').val(data.id);
 
-                        /*$('#source_type_pmc').selectpicker('val', sourceType);
-                        $('#man_ref_pmc').val(manRef);
-                        $('#type_pmc').selectpicker('val', type);
-
-                        $('#source_type_pmc').selectpicker('refresh');
-                        $('#type_pmc').selectpicker('refresh');
-                        $('#part_man_code_id').val(partManCodeId);*/
-
                         $('#btn_save_pmc').val("UPDATE");
                         $('#part_manufacturer_code_modal_title').text("EDIT MANUFACTURER CODE");
                         $('#part_manufacturer_code_modal').modal('show');
@@ -1347,7 +1348,16 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 8
+            pageLength: 8,
+            drawCallback: function() {
+                $('#part_colloquial th:last-child')
+                    .removeClass('sorting')
+                    .removeClass('sorting_desc')
+                    .removeClass('sorting_asc')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('COLLOQUIAL NAME <kbd id="add-pc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            }
         });
     }
     // END DATATABLES
@@ -1522,7 +1532,16 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 8
+            pageLength: 8,
+            drawCallback: function() {
+                $('#part_equipment_code th:last-child')
+                    .removeClass('sorting')
+                    .removeClass('sorting_desc')
+                    .removeClass('sorting_asc')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('DRAWING REF <kbd id="add-pec" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            }
         });
     }
     // END DATATABLES

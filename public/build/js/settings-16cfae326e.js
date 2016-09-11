@@ -16837,851 +16837,22 @@ a.fn.ajaxSelectPicker.locale["en-US"]={currentlySelected:"Currently Selected",em
  * http://bootboxjs.com/license.txt
  */
 !function(a,b){"use strict";"function"==typeof define&&define.amd?define(["jquery"],b):"object"==typeof exports?module.exports=b(require("jquery")):a.bootbox=b(a.jQuery)}(this,function a(b,c){"use strict";function d(a){var b=q[o.locale];return b?b[a]:q.en[a]}function e(a,c,d){a.stopPropagation(),a.preventDefault();var e=b.isFunction(d)&&d.call(c,a)===!1;e||c.modal("hide")}function f(a){var b,c=0;for(b in a)c++;return c}function g(a,c){var d=0;b.each(a,function(a,b){c(a,b,d++)})}function h(a){var c,d;if("object"!=typeof a)throw new Error("Please supply an object of options");if(!a.message)throw new Error("Please specify a message");return a=b.extend({},o,a),a.buttons||(a.buttons={}),c=a.buttons,d=f(c),g(c,function(a,e,f){if(b.isFunction(e)&&(e=c[a]={callback:e}),"object"!==b.type(e))throw new Error("button with key "+a+" must be an object");e.label||(e.label=a),e.className||(e.className=2>=d&&f===d-1?"btn-primary":"btn-default")}),a}function i(a,b){var c=a.length,d={};if(1>c||c>2)throw new Error("Invalid argument length");return 2===c||"string"==typeof a[0]?(d[b[0]]=a[0],d[b[1]]=a[1]):d=a[0],d}function j(a,c,d){return b.extend(!0,{},a,i(c,d))}function k(a,b,c,d){var e={className:"bootbox-"+a,buttons:l.apply(null,b)};return m(j(e,d,c),b)}function l(){for(var a={},b=0,c=arguments.length;c>b;b++){var e=arguments[b],f=e.toLowerCase(),g=e.toUpperCase();a[f]={label:d(g)}}return a}function m(a,b){var d={};return g(b,function(a,b){d[b]=!0}),g(a.buttons,function(a){if(d[a]===c)throw new Error("button key "+a+" is not allowed (options are "+b.join("\n")+")")}),a}var n={dialog:"<div class='bootbox modal' tabindex='-1' role='dialog'><div class='modal-dialog'><div class='modal-content'><div class='modal-body'><div class='bootbox-body'></div></div></div></div></div>",header:"<div class='modal-header'><h4 class='modal-title'></h4></div>",footer:"<div class='modal-footer'></div>",closeButton:"<button type='button' class='bootbox-close-button close' data-dismiss='modal' aria-hidden='true'>&times;</button>",form:"<form class='bootbox-form'></form>",inputs:{text:"<input class='bootbox-input bootbox-input-text form-control' autocomplete=off type=text />",textarea:"<textarea class='bootbox-input bootbox-input-textarea form-control'></textarea>",email:"<input class='bootbox-input bootbox-input-email form-control' autocomplete='off' type='email' />",select:"<select class='bootbox-input bootbox-input-select form-control'></select>",checkbox:"<div class='checkbox'><label><input class='bootbox-input bootbox-input-checkbox' type='checkbox' /></label></div>",date:"<input class='bootbox-input bootbox-input-date form-control' autocomplete=off type='date' />",time:"<input class='bootbox-input bootbox-input-time form-control' autocomplete=off type='time' />",number:"<input class='bootbox-input bootbox-input-number form-control' autocomplete=off type='number' />",password:"<input class='bootbox-input bootbox-input-password form-control' autocomplete='off' type='password' />"}},o={locale:"en",backdrop:"static",animate:!0,className:null,closeButton:!0,show:!0,container:"body"},p={};p.alert=function(){var a;if(a=k("alert",["ok"],["message","callback"],arguments),a.callback&&!b.isFunction(a.callback))throw new Error("alert requires callback property to be a function when provided");return a.buttons.ok.callback=a.onEscape=function(){return b.isFunction(a.callback)?a.callback.call(this):!0},p.dialog(a)},p.confirm=function(){var a;if(a=k("confirm",["cancel","confirm"],["message","callback"],arguments),a.buttons.cancel.callback=a.onEscape=function(){return a.callback.call(this,!1)},a.buttons.confirm.callback=function(){return a.callback.call(this,!0)},!b.isFunction(a.callback))throw new Error("confirm requires a callback");return p.dialog(a)},p.prompt=function(){var a,d,e,f,h,i,k;if(f=b(n.form),d={className:"bootbox-prompt",buttons:l("cancel","confirm"),value:"",inputType:"text"},a=m(j(d,arguments,["title","callback"]),["cancel","confirm"]),i=a.show===c?!0:a.show,a.message=f,a.buttons.cancel.callback=a.onEscape=function(){return a.callback.call(this,null)},a.buttons.confirm.callback=function(){var c;switch(a.inputType){case"text":case"textarea":case"email":case"select":case"date":case"time":case"number":case"password":c=h.val();break;case"checkbox":var d=h.find("input:checked");c=[],g(d,function(a,d){c.push(b(d).val())})}return a.callback.call(this,c)},a.show=!1,!a.title)throw new Error("prompt requires a title");if(!b.isFunction(a.callback))throw new Error("prompt requires a callback");if(!n.inputs[a.inputType])throw new Error("invalid prompt type");switch(h=b(n.inputs[a.inputType]),a.inputType){case"text":case"textarea":case"email":case"date":case"time":case"number":case"password":h.val(a.value);break;case"select":var o={};if(k=a.inputOptions||[],!b.isArray(k))throw new Error("Please pass an array of input options");if(!k.length)throw new Error("prompt with select requires options");g(k,function(a,d){var e=h;if(d.value===c||d.text===c)throw new Error("given options in wrong format");d.group&&(o[d.group]||(o[d.group]=b("<optgroup/>").attr("label",d.group)),e=o[d.group]),e.append("<option value='"+d.value+"'>"+d.text+"</option>")}),g(o,function(a,b){h.append(b)}),h.val(a.value);break;case"checkbox":var q=b.isArray(a.value)?a.value:[a.value];if(k=a.inputOptions||[],!k.length)throw new Error("prompt with checkbox requires options");if(!k[0].value||!k[0].text)throw new Error("given options in wrong format");h=b("<div/>"),g(k,function(c,d){var e=b(n.inputs[a.inputType]);e.find("input").attr("value",d.value),e.find("label").append(d.text),g(q,function(a,b){b===d.value&&e.find("input").prop("checked",!0)}),h.append(e)})}return a.placeholder&&h.attr("placeholder",a.placeholder),a.pattern&&h.attr("pattern",a.pattern),a.maxlength&&h.attr("maxlength",a.maxlength),f.append(h),f.on("submit",function(a){a.preventDefault(),a.stopPropagation(),e.find(".btn-primary").click()}),e=p.dialog(a),e.off("shown.bs.modal"),e.on("shown.bs.modal",function(){h.focus()}),i===!0&&e.modal("show"),e},p.dialog=function(a){a=h(a);var d=b(n.dialog),f=d.find(".modal-dialog"),i=d.find(".modal-body"),j=a.buttons,k="",l={onEscape:a.onEscape};if(b.fn.modal===c)throw new Error("$.fn.modal is not defined; please double check you have included the Bootstrap JavaScript library. See http://getbootstrap.com/javascript/ for more details.");if(g(j,function(a,b){k+="<button data-bb-handler='"+a+"' type='button' class='btn "+b.className+"'>"+b.label+"</button>",l[a]=b.callback}),i.find(".bootbox-body").html(a.message),a.animate===!0&&d.addClass("fade"),a.className&&d.addClass(a.className),"large"===a.size?f.addClass("modal-lg"):"small"===a.size&&f.addClass("modal-sm"),a.title&&i.before(n.header),a.closeButton){var m=b(n.closeButton);a.title?d.find(".modal-header").prepend(m):m.css("margin-top","-10px").prependTo(i)}return a.title&&d.find(".modal-title").html(a.title),k.length&&(i.after(n.footer),d.find(".modal-footer").html(k)),d.on("hidden.bs.modal",function(a){a.target===this&&d.remove()}),d.on("shown.bs.modal",function(){d.find(".btn-primary:first").focus()}),"static"!==a.backdrop&&d.on("click.dismiss.bs.modal",function(a){d.children(".modal-backdrop").length&&(a.currentTarget=d.children(".modal-backdrop").get(0)),a.target===a.currentTarget&&d.trigger("escape.close.bb")}),d.on("escape.close.bb",function(a){l.onEscape&&e(a,d,l.onEscape)}),d.on("click",".modal-footer button",function(a){var c=b(this).data("bb-handler");e(a,d,l[c])}),d.on("click",".bootbox-close-button",function(a){e(a,d,l.onEscape)}),d.on("keyup",function(a){27===a.which&&d.trigger("escape.close.bb")}),b(a.container).append(d),d.modal({backdrop:a.backdrop?"static":!1,keyboard:!1,show:!1}),a.show&&d.modal("show"),d},p.setDefaults=function(){var a={};2===arguments.length?a[arguments[0]]=arguments[1]:a=arguments[0],b.extend(o,a)},p.hideAll=function(){return b(".bootbox").modal("hide"),p};var q={bg_BG:{OK:"Ок",CANCEL:"Отказ",CONFIRM:"Потвърждавам"},br:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Sim"},cs:{OK:"OK",CANCEL:"Zrušit",CONFIRM:"Potvrdit"},da:{OK:"OK",CANCEL:"Annuller",CONFIRM:"Accepter"},de:{OK:"OK",CANCEL:"Abbrechen",CONFIRM:"Akzeptieren"},el:{OK:"Εντάξει",CANCEL:"Ακύρωση",CONFIRM:"Επιβεβαίωση"},en:{OK:"OK",CANCEL:"Cancel",CONFIRM:"OK"},es:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Aceptar"},et:{OK:"OK",CANCEL:"Katkesta",CONFIRM:"OK"},fa:{OK:"قبول",CANCEL:"لغو",CONFIRM:"تایید"},fi:{OK:"OK",CANCEL:"Peruuta",CONFIRM:"OK"},fr:{OK:"OK",CANCEL:"Annuler",CONFIRM:"D'accord"},he:{OK:"אישור",CANCEL:"ביטול",CONFIRM:"אישור"},hu:{OK:"OK",CANCEL:"Mégsem",CONFIRM:"Megerősít"},hr:{OK:"OK",CANCEL:"Odustani",CONFIRM:"Potvrdi"},id:{OK:"OK",CANCEL:"Batal",CONFIRM:"OK"},it:{OK:"OK",CANCEL:"Annulla",CONFIRM:"Conferma"},ja:{OK:"OK",CANCEL:"キャンセル",CONFIRM:"確認"},lt:{OK:"Gerai",CANCEL:"Atšaukti",CONFIRM:"Patvirtinti"},lv:{OK:"Labi",CANCEL:"Atcelt",CONFIRM:"Apstiprināt"},nl:{OK:"OK",CANCEL:"Annuleren",CONFIRM:"Accepteren"},no:{OK:"OK",CANCEL:"Avbryt",CONFIRM:"OK"},pl:{OK:"OK",CANCEL:"Anuluj",CONFIRM:"Potwierdź"},pt:{OK:"OK",CANCEL:"Cancelar",CONFIRM:"Confirmar"},ru:{OK:"OK",CANCEL:"Отмена",CONFIRM:"Применить"},sq:{OK:"OK",CANCEL:"Anulo",CONFIRM:"Prano"},sv:{OK:"OK",CANCEL:"Avbryt",CONFIRM:"OK"},th:{OK:"ตกลง",CANCEL:"ยกเลิก",CONFIRM:"ยืนยัน"},tr:{OK:"Tamam",CANCEL:"İptal",CONFIRM:"Onayla"},zh_CN:{OK:"OK",CANCEL:"取消",CONFIRM:"确认"},zh_TW:{OK:"OK",CANCEL:"取消",CONFIRM:"確認"}};return p.addLocale=function(a,c){return b.each(["OK","CANCEL","CONFIRM"],function(a,b){if(!c[b])throw new Error("Please supply a translation for '"+b+"'")}),q[a]={OK:c.OK,CANCEL:c.CANCEL,CONFIRM:c.CONFIRM},p},p.removeLocale=function(a){return delete q[a],p},p.setLocale=function(a){return p.setDefaults("locale",a)},p.init=function(c){return a(c||b)},p});
-/*! ColResize 0.0.11
- */
-
-/**
- * @summary     ColResize
- * @description Provide the ability to resize columns in a DataTable
- * @version     0.0.11
- * @file        dataTables.colResize.js
- * @author      Silvacom Ltd.
- *
- * For details please refer to: http://www.datatables.net
- *
- * Special thank to everyone who has contributed to this plug in
- * - dykstrad
- * - tdillan (for 0.0.3 and 0.0.5 bug fixes)
- * - kylealonius (for 0.0.8 bug fix)
- * - the86freak (for 0.0.9 bug fix)
- */
-
-(function (window, document, undefined) {
-
-    /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-     * DataTables plug-in API functions test
-     *
-     * This are required by ColResize in order to perform the tasks required, and also keep this
-     * code portable, to be used for other column resize projects with DataTables, if needed.
-     * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-    var factory = function ($, DataTable) {
-        "use strict";
-
-        /**
-         * Plug-in for DataTables which will resize the columns depending on the handle clicked
-         *  @method  $.fn.dataTableExt.oApi.fnColResize
-         *  @param   object oSettings DataTables settings object - automatically added by DataTables!
-         *  @param   int iCol Take the column to be resized
-         *  @returns void
-         */
-        $.fn.dataTableExt.oApi.fnColResize = function (oSettings, iCol) {
-            var v110 = $.fn.dataTable.Api ? true : false;
-
-            /*
-             * Update DataTables' event handlers
-             */
-
-            /* Fire an event so other plug-ins can update */
-            $(oSettings.oInstance).trigger('column-resize', [oSettings, {
-                "iCol": iCol
-            }]);
-        };
-
-        /**
-         * ColResize provides column resize control for DataTables
-         * @class ColResize
-         * @constructor
-         * @param {object} dt DataTables settings object
-         * @param {object} opts ColResize options
-         */
-        var ColResize = function (dt, opts) {
-            var oDTSettings;
-
-            if ($.fn.dataTable.Api) {
-                oDTSettings = new $.fn.dataTable.Api(dt).settings()[0];
-            }
-                // 1.9 compatibility
-            else if (dt.fnSettings) {
-                // DataTables object, convert to the settings object
-                oDTSettings = dt.fnSettings();
-            }
-            else if (typeof dt === 'string') {
-                // jQuery selector
-                if ($.fn.dataTable.fnIsDataTable($(dt)[0])) {
-                    oDTSettings = $(dt).eq(0).dataTable().fnSettings();
-                }
-            }
-            else if (dt.nodeName && dt.nodeName.toLowerCase() === 'table') {
-                // Table node
-                if ($.fn.dataTable.fnIsDataTable(dt.nodeName)) {
-                    oDTSettings = $(dt.nodeName).dataTable().fnSettings();
-                }
-            }
-            else if (dt instanceof jQuery) {
-                // jQuery object
-                if ($.fn.dataTable.fnIsDataTable(dt[0])) {
-                    oDTSettings = dt.eq(0).dataTable().fnSettings();
-                }
-            }
-            else {
-                // DataTables settings object
-                oDTSettings = dt;
-            }
-
-            // Convert from camelCase to Hungarian, just as DataTables does
-            if ($.fn.dataTable.camelToHungarian) {
-                $.fn.dataTable.camelToHungarian(ColResize.defaults, opts || {});
-            }
-
-
-            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-             * Public class variables
-             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-            /**
-             * @namespace Settings object which contains customizable information for ColResize instance
-             */
-            this.s = {
-                /**
-                 * DataTables settings object
-                 *  @property dt
-                 *  @type     Object
-                 *  @default  null
-                 */
-                "dt": null,
-
-                /**
-                 * Initialisation object used for this instance
-                 *  @property init
-                 *  @type     object
-                 *  @default  {}
-                 */
-                "init": $.extend(true, {}, ColResize.defaults, opts),
-
-                /**
-                 * @namespace Information used for the mouse drag
-                 */
-                "mouse": {
-                    "startX": -1,
-                    "startY": -1,
-                    "targetIndex": -1,
-                    "targetColumn": -1,
-                    "neighbourIndex": -1,
-                    "neighbourColumn": -1
-                },
-
-                /**
-                 * Status variable keeping track of mouse down status
-                 *  @property isMousedown
-                 *  @type     boolean
-                 *  @default  false
-                 */
-                "isMousedown": false
-            };
-
-
-            /**
-             * @namespace Common and useful DOM elements for the class instance
-             */
-            this.dom = {
-                /**
-                 * Resizing element (the one the mouse is resizing)
-                 *  @property resize
-                 *  @type     element
-                 *  @default  null
-                 */
-                "resizeCol": null,
-
-                /**
-                 * Resizing element neighbour (the column next to the one the mouse is resizing)
-                 * This is for fixed table resizing.
-                 *  @property resize
-                 *  @type     element
-                 *  @default  null
-                 */
-                "resizeColNeighbour": null,
-
-                /**
-                 *  Array of events to be restored, used for overriding existing events from other plugins for a time.
-                 *  @property restoreEvents
-                 *  @type     array
-                 *  @default  []
-                 */
-                "restoreEvents": []
-            };
-
-
-            /* Constructor logic */
-            this.s.dt = oDTSettings.oInstance.fnSettings();
-            this.s.dt._colResize = this;
-            this._fnConstruct();
-
-            /* Add destroy callback */
-            oDTSettings.oApi._fnCallbackReg(oDTSettings, 'aoDestroyCallback', $.proxy(this._fnDestroy, this), 'ColResize');
-
-            return this;
-        };
-
-
-        ColResize.prototype = {
-            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-             * Public methods
-             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-            /**
-             * Reset the column widths to the original widths that was detected on
-             * start up.
-             *  @return {this} Returns `this` for chaining.
-             *
-             *  @example
-             *    // DataTables initialisation with ColResize
-             *    var table = $('#example').dataTable( {
-             *        "sDom": 'Zlfrtip'
-             *    } );
-             *
-             *    // Add click event to a button to reset the ordering
-             *    $('#resetOrdering').click( function (e) {
-             *        e.preventDefault();
-             *        $.fn.dataTable.ColResize( table ).fnReset();
-             *    } );
-             */
-            "fnReset": function () {
-                var a = [];
-                for (var i = 0, iLen = this.s.dt.aoColumns.length; i < iLen; i++) {
-                    this.s.dt.aoColumns[i].width = this.s.dt.aoColumns[i]._ColResize_iOrigWidth;
-                }
-
-                this.s.dt.adjust().draw();
-
-                return this;
-            },
-
-
-            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-             * Private methods (they are of course public in JS, but recommended as private)
-             * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-            /**
-             * Constructor logic
-             *  @method  _fnConstruct
-             *  @returns void
-             *  @private
-             */
-            "_fnConstruct": function () {
-                var that = this;
-                var iLen = that.s.dt.aoColumns.length;
-                var i;
-
-                that._fnSetupMouseListeners();
-
-                /* Add event handlers for the resize handles */
-                for (i = 0; i < iLen; i++) {
-                    /* Mark the original column width for later reference */
-                    this.s.dt.aoColumns[i]._ColResize_iOrigWidth = this.s.dt.aoColumns[i].width;
-                }
-
-                this._fnSetColumnIndexes();
-
-                /* State saving */
-                this.s.dt.oApi._fnCallbackReg(this.s.dt, 'aoStateSaveParams', function (oS, oData) {
-                    that._fnStateSave.call(that, oData);
-                }, "ColResize_State");
-
-                // State loading
-                this._fnStateLoad();
-            },
-
-            /**
-             * @method  _fnStateSave
-             * @param   object oState DataTables state
-             * @private
-             */
-            "_fnStateSave": function (oState) {
-                this.s.dt.aoColumns.forEach(function (col, index) {
-                    oState.columns[index].width = col.sWidthOrig;
-                });
-            },
-
-            /**
-             * If state has been loaded, apply the saved widths to the columns
-             * @method  _fnStateLoad
-             * @private
-             */
-            "_fnStateLoad": function () {
-                var that = this,
-                    loadedState = this.s.dt.oLoadedState;
-                if (loadedState && loadedState.columns) {
-                    var colStates = loadedState.columns,
-                        currCols = this.s.dt.aoColumns;
-                    // Only apply the saved widths if the number of columns is the same.
-                    // Otherwise, we don't know if we're applying the width to the correct column.
-                    if (colStates.length > 0 && colStates.length === currCols.length) {
-                        colStates.forEach(function (state, index) {
-                            var col = that.s.dt.aoColumns[index];
-                            if (state.width) {
-                                col.sWidthOrig = col.sWidth = state.width;
-                            }
-                        });
-                    }
-                }
-            },
-
-            /**
-             * Remove events of type from obj add it to restoreEvents array to be restored at a later time
-             * @param until string flag when to restore the event
-             * @param obj Object to remove events from
-             * @param type type of event to remove
-             * @param namespace namespace of the event being removed
-             */
-            "_fnDelayEvents": function (until, obj, type, namespace) {
-                var that = this;
-                //Get the events for the object
-                var events = $._data($(obj).get(0), 'events');
-                $.each(events, function (i, o) {
-                    //If the event type matches
-                    if (i == type) {
-                        //Loop through the possible many events with that type
-                        $.each(o, function (k, v) {
-                            //Somehow it is possible for the event to be undefined make sure it is defined first
-                            if (v) {
-                                if (namespace) {
-                                    //Add the event to the array of events to be restored later
-                                    that.dom.restoreEvents.push({ "until": until, "obj": obj, "type": v.type, "namespace": v.namespace, "handler": v.handler });
-                                    //If the namespace matches
-                                    if (v.namespace == namespace) {
-                                        //Turn off/unbind the event
-                                        $(obj).off(type + "." + namespace);
-                                    }
-                                } else {
-                                    //Add the event to the array of events to be restored later
-                                    that.dom.restoreEvents.push({ "until": until, "obj": obj, "type": v.type, "namespace": null, "handler": v.handler });
-                                    //Turn off/unbind the event
-                                    $(obj).off(type);
-                                }
-                            }
-                        });
-                    }
-                });
-            },
-
-            /**
-             * Loop through restoreEvents array and restore the events on the elements provided
-             */
-            "_fnRestoreEvents": function (until) {
-                var that = this;
-                //Loop through the events to be restored
-                var i;
-                for (i = that.dom.restoreEvents.length; i--;) {
-                    if (that.dom.restoreEvents[i].until == undefined || that.dom.restoreEvents[i].until == null || that.dom.restoreEvents[i].until == until) {
-                        if (that.dom.restoreEvents[i].namespace) {
-                            //Turn on the event for the object provided
-                            $(that.dom.restoreEvents[i].obj).off(that.dom.restoreEvents[i].type + "." + that.dom.restoreEvents[i].namespace).on(that.dom.restoreEvents[i].type + "." + that.dom.restoreEvents[i].namespace, that.dom.restoreEvents[i].handler);
-                            that.dom.restoreEvents.splice(i, 1);
-                        } else {
-                            //Turn on the event for the object provided
-                            $(that.dom.restoreEvents[i].obj).off(that.dom.restoreEvents[i].type).on(that.dom.restoreEvents[i].type, that.dom.restoreEvents[i].handler);
-                            that.dom.restoreEvents.splice(i, 1);
-                        }
-                    }
-                }
-            },
-
-            /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-             * Mouse drop and drag
-             */
-
-            "_fnSetupMouseListeners": function () {
-                var that = this;
-                $(that.s.dt.nTableWrapper).off("mouseenter.ColResize").on("mouseenter.ColResize", "th", function (e) {
-                    e.preventDefault();
-                    that._fnMouseEnter.call(that, e, this);
-                });
-                $(that.s.dt.nTableWrapper).off("mouseleave.ColResize").on("mouseleave.ColResize", "th", function (e) {
-                    e.preventDefault();
-                    that._fnMouseLeave.call(that, e, this);
-                });
-            },
-
-            /**
-             * Add mouse listeners to the resize handle on TH element
-             *  @method  _fnMouseListener
-             *  @param   i Column index
-             *  @param   nTh TH resize handle element clicked on
-             *  @returns void
-             *  @private
-             */
-            "_fnMouseListener": function (i, nTh) {
-                var that = this;
-                $(nTh).off('mouseenter.ColResize').on('mouseenter.ColResize', function (e) {
-                    e.preventDefault();
-                    that._fnMouseEnter.call(that, e, nTh);
-                });
-                $(nTh).off('mouseleave.ColResize').on('mouseleave.ColResize', function (e) {
-                    e.preventDefault();
-                    that._fnMouseLeave.call(that, e, nTh);
-                });
-            },
-
-            /**
-             *
-             * @param e Mouse event
-             * @param nTh TH element that the mouse is over
-             */
-            "_fnMouseEnter": function (e, nTh) {
-                var that = this;
-                if (!that.s.isMousedown) {
-                    //Once the mouse has entered the cell add mouse move event to see if the mouse is over resize handle
-                    $(nTh).off('mousemove.ColResizeHandle').on('mousemove.ColResizeHandle', function (e) {
-                        e.preventDefault();
-                        that._fnResizeHandleCheck.call(that, e, nTh);
-                    });
-                }
-            },
-
-            /**
-             * Clear mouse events when the mouse has left the th
-             * @param e Mouse event
-             * @param nTh TH element that the mouse has just left
-             */
-            "_fnMouseLeave": function (e, nTh) {
-                //Once the mouse has left the TH make suure to remove the mouse move listener
-                $(nTh).off('mousemove.ColResizeHandle');
-            },
-
-            /**
-             * Mouse down on a TH element in the table header
-             *  @method  _fnMouseDown
-             *  @param   event e Mouse event
-             *  @param   element nTh TH element to be resized
-             *  @returns void
-             *  @private
-             */
-            "_fnMouseDown": function (e, nTh) {
-                var that = this;
-
-                that.s.isMousedown = true;
-
-                /* Store information about the mouse position */
-                var target = $(e.target).closest('th, td');
-                var offset = target.offset();
-
-                /* Store information about the mouse position for resize calculations in mouse move function */
-                this.s.mouse.startX = e.pageX;
-                this.s.mouse.startY = e.pageY;
-
-                //Store the indexes of the columns the mouse is down on
-                var idx = parseInt(that.dom.resizeCol.attr("data-column-index"));
-                
-                // the last column has no 'right-side' neighbour
-                // with fixed this can make the table smaller
-                if (that.dom.resizeColNeighbour[0] === undefined) {
-                    var idxNeighbour = 0;
-                } else {
-                    var idxNeighbour = parseInt(that.dom.resizeColNeighbour.attr("data-column-index"));
-                }
-
-                if (idx === undefined) {
-                    return;
-                }
-
-                this.s.mouse.targetIndex = idx;
-                this.s.mouse.targetColumn = this.s.dt.aoColumns[idx];
-
-                this.s.mouse.neighbourIndex = idxNeighbour;
-                this.s.mouse.neighbourColumn = this.s.dt.aoColumns[idxNeighbour];
-
-                /* Add event handlers to the document */
-                $(document)
-                    .off('mousemove.ColResize').on('mousemove.ColResize', function (e) {
-                        that._fnMouseMove.call(that, e);
-                    })
-                    .off('mouseup.ColResize').on('mouseup.ColResize', function (e) {
-                        that._fnMouseUp.call(that, e);
-                    });
-            },
-
-            /**
-             * Deal with a mouse move event while dragging to resize a column
-             *  @method  _fnMouseMove
-             *  @param   e Mouse event
-             *  @returns void
-             *  @private
-             */
-            "_fnMouseMove": function (e) {
-                var that = this;
-
-                var offset = $(that.s.mouse.targetColumn.nTh).offset();
-                var relativeX = (e.pageX - offset.left);
-                var distFromLeft = relativeX;
-                var distFromRight = $(that.s.mouse.targetColumn.nTh).outerWidth() - relativeX - 1;
-
-                //Change in mouse x position
-                var dx = e.pageX - that.s.mouse.startX;
-                //Get the minimum width of the column (default minimum 10px)
-                var minColumnWidth = Math.max(parseInt($(that.s.mouse.targetColumn.nTh).css('min-width')), 10);
-                //Store the previous width of the column
-                var prevWidth = $(that.s.mouse.targetColumn.nTh).width();
-                //As long as the cursor is past the handle, resize the columns
-                if ((dx > 0 && distFromRight <= 0) || (dx < 0 && distFromRight >= 0)) {
-                    if (!that.s.init.tableWidthFixed) {
-                        //As long as the width is larger than the minimum
-                        var newColWidth = Math.max(minColumnWidth, prevWidth + dx);
-                        //Get the width difference (take into account the columns minimum width)
-                        var widthDiff = newColWidth - prevWidth;
-                        var colResizeIdx = parseInt(that.dom.resizeCol.attr("data-column-index"));
-                        //Set datatable column widths
-                        that.s.mouse.targetColumn.sWidthOrig = that.s.mouse.targetColumn.sWidth = that.s.mouse.targetColumn.width = newColWidth + "px";
-                        var domCols = $(that.s.dt.nTableWrapper).find("th[data-column-index='" + colResizeIdx + "']");
-                        //For each table expand the width by the same amount as the column
-                        //This accounts for other datatable plugins like FixedColumns
-                        domCols.parents("table").each(function () {
-                            if (!$(this).parent().hasClass("DTFC_LeftBodyLiner")) {
-                                var newWidth = $(this).width() + widthDiff;
-                                $(this).width(newWidth);
-                            } else {
-                                var newWidth = $(that.s.dt.nTableWrapper).find(".DTFC_LeftHeadWrapper").children("table").width();
-                                $(this).parents(".DTFC_LeftWrapper").width(newWidth);
-                                $(this).parent().width(newWidth + 15);
-                                $(this).width(newWidth);
-                            }
-                        });
-                        //Apply the new width to the columns after the table has been resized
-                        domCols.width(that.s.mouse.targetColumn.width);
-                    } else {
-                        //A neighbour column must exist in order to resize a column in a table with a fixed width
-                        if (that.s.mouse.neighbourColumn) {
-                            //Get the minimum width of the neighbor column (default minimum 10px)
-                            var minColumnNeighbourWidth = Math.max(parseInt($(that.s.mouse.neighbourColumn.nTh).css('min-width')), 10);
-                            //Store the previous width of the neighbour column
-                            var prevNeighbourWidth = $(that.s.mouse.neighbourColumn.nTh).width();
-                            //As long as the width is larger than the minimum
-                            var newColWidth = Math.max(minColumnWidth, prevWidth + dx);
-                            var newColNeighbourWidth = Math.max(minColumnNeighbourWidth, prevNeighbourWidth - dx);
-                            //Get the width difference (take into account the columns minimum width)
-                            var widthDiff = newColWidth - prevWidth;
-                            var widthDiffNeighbour = newColNeighbourWidth - prevNeighbourWidth;
-                            //Get the column index for the column being changed
-                            var colResizeIdx = parseInt(that.dom.resizeCol.attr("data-column-index"));
-                            var neighbourColResizeIdx = parseInt(that.dom.resizeColNeighbour.attr("data-column-index"));
-                            //Set datatable column widths
-                            that.s.mouse.neighbourColumn.sWidthOrig = that.s.mouse.neighbourColumn.sWidth = that.s.mouse.neighbourColumn.width = newColNeighbourWidth + "px";
-                            that.s.mouse.targetColumn.sWidthOrig = that.s.mouse.targetColumn.sWidth = that.s.mouse.targetColumn.width = newColWidth + "px";
-                            //Get list of columns based on column index in all affected tables tables. This accounts for other plugins like FixedColumns
-                            var domNeighbourCols = $(that.s.dt.nTableWrapper).find("th[data-column-index='" + neighbourColResizeIdx + "']");
-                            var domCols = $(that.s.dt.nTableWrapper).find("th[data-column-index='" + colResizeIdx + "']");
-                            //If dx if positive (the width is getting larger) shrink the neighbour columns first
-                            if (dx > 0) {
-                                domNeighbourCols.width(that.s.mouse.neighbourColumn.width);
-                                domCols.width(that.s.mouse.targetColumn.width);
-                            } else {
-                                //Apply the new width to the columns then to the neighbour columns
-                                domCols.width(that.s.mouse.targetColumn.width);
-                                domNeighbourCols.width(that.s.mouse.neighbourColumn.width);
-                            }
-                        }
-                    }
-                }
-                that.s.mouse.startX = e.pageX;
-            },
-
-            /**
-             * Check to see if the mouse is over the resize handle area
-             * @param e
-             * @param nTh
-             */
-            "_fnResizeHandleCheck": function (e, nTh) {
-                var that = this;
-
-                var offset = $(nTh).offset();
-                var relativeX = (e.pageX - offset.left);
-                var relativeY = (e.pageY - offset.top);
-                var distFromLeft = relativeX;
-                var distFromRight = $(nTh).outerWidth() - relativeX - 1;
-
-                var handleBuffer = this.s.init.handleWidth / 2;
-                var leftHandleOn = distFromLeft < handleBuffer;
-                var rightHandleOn = distFromRight < handleBuffer;
-
-                //If this is the first table cell
-                if ($(nTh).prev("th").length == 0) {
-                    if (this.s.init.rtl)
-                        rightHandleOn = false;
-                    else
-                        leftHandleOn = false;
-                }
-                //If this is the last cell and the table is fixed width don't let them expand the last cell directly
-                if ($(nTh).next("th").length == 0 && this.s.init.tableWidthFixed) {
-                    if (this.s.init.rtl)
-                        leftHandleOn = false;
-                    else
-                        rightHandleOn = false;
-                }
-
-                var resizeAvailable = leftHandleOn || rightHandleOn;
-
-                //If table is in right to left mode flip which TH is being resized
-                if (that.s.init.rtl) {
-                    //Handle is to the left
-                    if (leftHandleOn) {
-                        that.dom.resizeCol = $(nTh);
-                        that.dom.resizeColNeighbour = $(nTh).next();
-                    } else if (rightHandleOn) {
-                        that.dom.resizeCol = $(nTh).prev();
-                        that.dom.resizeColNeighbour = $(nTh);
-                    }
-                } else {
-                    //Handle is to the right
-                    if (rightHandleOn) {
-                        that.dom.resizeCol = $(nTh);
-                        that.dom.resizeColNeighbour = $(nTh).next();
-                    } else if (leftHandleOn) {
-                        that.dom.resizeCol = $(nTh).prev();
-                        that.dom.resizeColNeighbour = $(nTh);
-                    }
-                }
-
-                //If table width is fixed make sure both columns are resizable else just check the one.
-                if (this.s.init.tableWidthFixed)
-                    resizeAvailable &= this.s.init.exclude.indexOf(parseInt($(that.dom.resizeCol).attr("data-column-index"))) == -1 && this.s.init.exclude.indexOf(parseInt($(that.dom.resizeColNeighbour).attr("data-column-index"))) == -1;
-                else
-                    resizeAvailable &= this.s.init.exclude.indexOf(parseInt($(that.dom.resizeCol).attr("data-column-index"))) == -1;
-
-                $(nTh).off('mousedown.ColResize');
-                if (resizeAvailable) {
-                    $(nTh).css("cursor", "ew-resize");
-
-                    //Delay other mousedown events from the Reorder plugin
-                    that._fnDelayEvents(null, nTh, "mousedown", "ColReorder");
-                    that._fnDelayEvents("click", nTh, "click", "DT");
-
-                    $(nTh).off('mousedown.ColResize').on('mousedown.ColResize', function (e) {
-                        e.preventDefault();
-                        that._fnMouseDown.call(that, e, nTh);
-                    })
-                        .off('click.ColResize').on('click.ColResize', function (e) {
-                            that._fnClick.call(that, e);
-                        });
-                } else {
-                    $(nTh).css("cursor", "pointer");
-                    $(nTh).off('mousedown.ColResize click.ColResize');
-                    //Restore any events that were removed
-                    that._fnRestoreEvents();
-                    //This is to restore column sorting on click functionality
-                    if (!that.s.isMousedown)
-                        //Restore click event if mouse is not down
-                        this._fnRestoreEvents("click");
-                }
-            },
-
-            "_fnClick": function (e) {
-                var that = this;
-                that.s.isMousedown = false;
-                e.stopImmediatePropagation();
-            },
-
-            /**
-             * Finish off the mouse drag
-             *  @method  _fnMouseUp
-             *  @param   e Mouse event
-             *  @returns void
-             *  @private
-             */
-            "_fnMouseUp": function (e) {
-                var that = this;
-                that.s.isMousedown = false;
-
-                //Fix width of column to be the size the dom is limited to (for when user sets min-width on a column)
-                that.s.mouse.targetColumn.width = that.dom.resizeCol.width();
-
-                $(document).off('mousemove.ColResize mouseup.ColResize');
-                // this.s.dt.oInstance.fnAdjustColumnSizing();
-                //Table width fix, prevents extra gaps between tables
-                var LeftWrapper = $(that.s.dt.nTableWrapper).find(".DTFC_LeftWrapper");
-                var DTFC_LeftWidth = LeftWrapper.width();
-                LeftWrapper.children(".DTFC_LeftHeadWrapper").children("table").width(DTFC_LeftWidth);
-
-                if (that.s.init.resizeCallback) {
-                    that.s.init.resizeCallback.call(that, that.s.mouse.targetColumn);
-                }
-            },
-
-            /**
-             * Clean up ColResize memory references and event handlers
-             *  @method  _fnDestroy
-             *  @returns void
-             *  @private
-             */
-            "_fnDestroy": function () {
-                var i, iLen;
-
-                for (i = 0, iLen = this.s.dt.aoDrawCallback.length; i < iLen; i++) {
-                    if (this.s.dt.aoDrawCallback[i].sName === 'ColResize_Pre') {
-                        this.s.dt.aoDrawCallback.splice(i, 1);
-                        break;
-                    }
-                }
-
-                $(this.s.dt.nTHead).find('*').off('.ColResize');
-
-                $.each(this.s.dt.aoColumns, function (i, column) {
-                    $(column.nTh).removeAttr('data-column-index');
-                });
-
-                this.s.dt._colResize = null;
-                this.s = null;
-            },
-
-
-            /**
-             * Add a data attribute to the column headers, so we know the index of
-             * the row to be reordered. This allows fast detection of the index, and
-             * for this plug-in to work with FixedHeader which clones the nodes.
-             *  @private
-             */
-            "_fnSetColumnIndexes": function () {
-                $.each(this.s.dt.aoColumns, function (i, column) {
-                    $(column.nTh).attr('data-column-index', i);
-                });
-            }
-        };
-
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * Static parameters
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-
-        /**
-         * ColResize default settings for initialisation
-         *  @namespace
-         *  @static
-         */
-        ColResize.defaults = {
-            /**
-             * Callback function that is fired when columns are resized
-             *  @type function():void
-             *  @default null
-             *  @static
-             */
-            "resizeCallback": null,
-
-            /**
-             * Exclude array for columns that are not resizable
-             *  @property exclude
-             *  @type     array of indexes that are excluded from resizing
-             *  @default  []
-             */
-            "exclude": [],
-
-            /**
-             * Check to see if user is using a fixed table width or dynamic
-             * if true:
-             *      -Columns will resize themselves and their neighbour
-             *      -If neighbour is excluded resize will not occur
-             * if false:
-             *      -Columns will resize themselves and increase or decrease the width of the table accordingly
-             */
-            "tableWidthFixed": true,
-
-            /**
-             * Width of the resize handle in pixels
-             *  @property handleWidth
-             *  @type     int (pixels)
-             *  @default  10
-             */
-            "handleWidth": 10,
-
-            /**
-             * Right to left support, when true flips which column they are resizing on mouse down
-             *  @property rtl
-             *  @type     bool
-             *  @default  false
-             */
-            "rtl": false
-        };
-
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * Constants
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-        /**
-         * ColResize version
-         *  @constant  version
-         *  @type      String
-         *  @default   As code
-         */
-        ColResize.version = "0.0.11";
-
-
-        /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-         * DataTables interfaces
-         * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-        // Expose
-        $.fn.dataTable.ColResize = ColResize;
-        $.fn.DataTable.ColResize = ColResize;
-
-
-        // Register a new feature with DataTables
-        if (typeof $.fn.dataTable == "function" &&
-            typeof $.fn.dataTableExt.fnVersionCheck == "function" &&
-            $.fn.dataTableExt.fnVersionCheck('1.9.3')) {
-            $.fn.dataTableExt.aoFeatures.push({
-                "fnInit": function (settings) {
-                    var table = settings.oInstance;
-
-                    if (!settings._colResize) {
-                        var dtInit = settings.oInit;
-                        var opts = dtInit.colResize || dtInit.oColResize || {};
-
-                        new ColResize(settings, opts);
-                    }
-                    else {
-                        table.oApi._fnLog(settings, 1, "ColResize attempted to initialise twice. Ignoring second");
-                    }
-
-                    return null;
-                    /* No node for DataTables to insert */
-                },
-                "cFeature": "Z",
-                "sFeature": "ColResize"
-            });
-        } else {
-            alert("Warning: ColResize requires DataTables 1.9.3 or greater - www.datatables.net/download");
-        }
-
-
-        // API augmentation
-        if ($.fn.dataTable.Api) {
-            $.fn.dataTable.Api.register('colResize.reset()', function () {
-                return this.iterator('table', function (ctx) {
-                    ctx._colResize.fnReset();
-                });
-            });
-        }
-
-        return ColResize;
-    }; // /factory
-
-
-    // Define as an AMD module if possible
-    if (typeof define === 'function' && define.amd) {
-        define(['jquery', 'datatables'], factory);
-    }
-    else if (typeof exports === 'object') {
-        // Node/CommonJS
-        factory(require('jquery'), require('datatables'));
-    }
-    else if (jQuery && !jQuery.fn.dataTable.ColResize) {
-        // Otherwise simply initialise as normal, stopping multiple evaluation
-        factory(jQuery, jQuery.fn.dataTable);
-    }
-
-
-})(window, document);
-
+!function(t){function n(e){if(o[e])return o[e].exports;var i=o[e]={exports:{},id:e,loaded:!1};return t[e].call(i.exports,i,i.exports,n),i.loaded=!0,i.exports}var o={};return n.m=t,n.c=o,n.p="",n(0)}([function(t,n,o){window.BootstrapMenu=o(1)},function(t,n,o){"use strict";function e(t){var n=f('<div class="dropdown bootstrapMenu" style="z-index:1000;position:absolute;" />'),o=f('<ul class="dropdown-menu" style="position:static;display:block;font-size:0.9em;" />'),e=[];e[0]=[],p.each(t.options.actionsGroups,function(t,n){e[n+1]=[]});var i=!1;p.each(t.options.actions,function(n,o){var r=!1;p.each(t.options.actionsGroups,function(t,n){p.contains(t,o)&&(e[n+1].push(o),r=!0)}),r===!1&&e[0].push(o),"undefined"!=typeof n.iconClass&&(i=!0)});var r=!0;return p.each(e,function(n){0!=n.length&&(r===!1&&o.append('<li class="divider"></li>'),r=!1,p.each(n,function(n){var e=t.options.actions[n];i===!0?o.append('<li role="presentation" data-action="'+n+'"><a href="#" role="menuitem"><i class="fa fa-fw fa-lg '+(e.iconClass||"")+'"></i> <span class="actionName"></span></a></li>'):o.append('<li role="presentation" data-action="'+n+'"><a href="#" role="menuitem"><span class="actionName"></span></a></li>')}))}),n.append(o)}function i(t){var n=null;switch(t.options.menuEvent){case"click":n="click";break;case"right-click":n="contextmenu";break;case"hover":n="mouseenter";break;default:throw new Error("Unknown BootstrapMenu 'menuEvent' option")}t.$container.on(n+t.namespace,t.selector,function(n){var o=f(this);return t.open(o,n),!1})}function r(t){t.$container.off(t.namespace)}function s(t){var n=t.options._actionSelectEvent+t.namespace;t.$menu.on(n,function(n){n.preventDefault(),n.stopPropagation();var o=f(n.target),e=o.is("[data-action]")?o:o.closest("[data-action]"),i=e.data("action");if(!e.is(".disabled")){var r=t.options.fetchElementData(t.$openTarget);t.options.actions[i].onClick(r),t.close()}})}function c(t){t.$menu.off(t.namespace)}function a(t){switch(t.options.menuEvent){case"click":break;case"right-click":break;case"hover":var n=t.$openTarget.add(t.$menu);n.on("mouseleave"+t.closeNamespace,function(o){var e=o.toElement||o.relatedTarget;t.$openTarget.is(e)||t.$menu.is(e)||(n.off(t.closeNamespace),t.close())});break;default:throw new Error("Unknown BootstrapMenu 'menuEvent' option")}t.$container.on("click"+t.closeNamespace,function(){t.close()})}function l(t){t.$container.off(t.closeNamespace)}var u=o(2),f=o(3);o(4);var p=function(){throw new Error("Custom lodash build for BootstrapMenu. lodash chaining is not included")};p.noop=o(5),p.each=o(6),p.contains=o(33),p.extend=o(41),p.uniqueId=o(48),p.isFunction=o(18);var h={container:"body",fetchElementData:p.noop,menuSource:"mouse",menuPosition:"belowLeft",menuEvent:"right-click",actionsGroups:[],_actionSelectEvent:"click"},d=function(t,n){this.selector=t,this.options=p.extend({},h,n),this.namespace=p.uniqueId(".BootstrapMenu_"),this.closeNamespace=p.uniqueId(".BootstrapMenuClose_"),this.init()},v=[];d.prototype.init=function(){this.$container=f(this.options.container),this.$menu=e(this),this.$menuList=this.$menu.children(),this.$menu.hide().appendTo(this.$container),this.$openTarget=null,this.openEvent=null,i(this),s(this),v.push(this)},d.prototype.updatePosition=function(){var t=null,n=null,o=null;switch(this.options.menuSource){case"element":n=this.$openTarget;break;case"mouse":n=this.openEvent;break;default:throw new Error("Unknown BootstrapMenu 'menuSource' option")}switch(this.options.menuPosition){case"belowRight":t="right top",o="right bottom";break;case"belowLeft":t="left top",o="left bottom";break;case"aboveRight":t="right bottom",o="right top";break;case"aboveLeft":t="left bottom",o="left top";break;default:throw new Error("Unknown BootstrapMenu 'menuPosition' option")}this.$menu.css({display:"block"}),this.$menu.css({height:this.$menuList.height(),width:this.$menuList.width()}),this.$menu.position({my:t,at:o,of:n})},d.prototype.open=function(t,n){var o=this;d.closeAll(),this.$openTarget=t,this.openEvent=n;var e=o.options.fetchElementData(o.$openTarget),i=this.$menu.find("[data-action]");i.show(),i.each(function(){var t=f(this),n=t.data("action"),i=o.options.actions[n],r=i.classNames||null;return r&&p.isFunction(r)&&(r=r(e)),t.attr("class",u(r||"")),i.isShown&&i.isShown(e)===!1?void t.hide():(t.find(".actionName").html(p.isFunction(i.name)&&i.name(e)||i.name),void(i.isEnabled&&i.isEnabled(e)===!1&&t.addClass("disabled")))}),this.updatePosition(),this.$menu.show(),a(this)},d.prototype.close=function(){this.$menu.hide(),l(this)},d.prototype.destroy=function(){this.close(),r(this),c(this)},d.closeAll=function(){p.each(v,function(t){t.close()})},t.exports=d},function(t,n,o){var e,i;/*!
+	  Copyright (c) 2015 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+!function(){"use strict";function o(){for(var t="",n=0;n<arguments.length;n++){var e=arguments[n];if(e){var i=typeof e;if("string"===i||"number"===i)t+=" "+e;else if(Array.isArray(e))t+=" "+o.apply(null,e);else if("object"===i)for(var s in e)r.call(e,s)&&e[s]&&(t+=" "+s)}}return t.substr(1)}var r={}.hasOwnProperty;"undefined"!=typeof t&&t.exports?t.exports=o:(e=[],i=function(){return o}.apply(n,e),!(void 0!==i&&(t.exports=i)))}()},function(t,n){t.exports=jQuery},function(t,n,o){var e=o(3);/*!
+	 * jQuery UI Position 1.10.4
+	 * http://jqueryui.com
+	 *
+	 * Copyright 2014 jQuery Foundation and other contributors
+	 * Released under the MIT license.
+	 * http://jquery.org/license
+	 *
+	 * http://api.jqueryui.com/position/
+	 */
+!function(t,n){function o(t,n,o){return[parseFloat(t[0])*(h.test(t[0])?n/100:1),parseFloat(t[1])*(h.test(t[1])?o/100:1)]}function e(n,o){return parseInt(t.css(n,o),10)||0}function i(n){var o=n[0];return 9===o.nodeType?{width:n.width(),height:n.height(),offset:{top:0,left:0}}:t.isWindow(o)?{width:n.width(),height:n.height(),offset:{top:n.scrollTop(),left:n.scrollLeft()}}:o.preventDefault?{width:0,height:0,offset:{top:o.pageY,left:o.pageX}}:{width:n.outerWidth(),height:n.outerHeight(),offset:n.offset()}}t.ui=t.ui||{};var r,s=Math.max,c=Math.abs,a=Math.round,l=/left|center|right/,u=/top|center|bottom/,f=/[\+\-]\d+(\.[\d]+)?%?/,p=/^\w+/,h=/%$/,d=t.fn.position;t.position={scrollbarWidth:function(){if(r!==n)return r;var o,e,i=t("<div style='display:block;position:absolute;width:50px;height:50px;overflow:hidden;'><div style='height:100px;width:auto;'></div></div>"),s=i.children()[0];return t("body").append(i),o=s.offsetWidth,i.css("overflow","scroll"),e=s.offsetWidth,o===e&&(e=i[0].clientWidth),i.remove(),r=o-e},getScrollInfo:function(n){var o=n.isWindow||n.isDocument?"":n.element.css("overflow-x"),e=n.isWindow||n.isDocument?"":n.element.css("overflow-y"),i="scroll"===o||"auto"===o&&n.width<n.element[0].scrollWidth,r="scroll"===e||"auto"===e&&n.height<n.element[0].scrollHeight;return{width:r?t.position.scrollbarWidth():0,height:i?t.position.scrollbarWidth():0}},getWithinInfo:function(n){var o=t(n||window),e=t.isWindow(o[0]),i=!!o[0]&&9===o[0].nodeType;return{element:o,isWindow:e,isDocument:i,offset:o.offset()||{left:0,top:0},scrollLeft:o.scrollLeft(),scrollTop:o.scrollTop(),width:e?o.width():o.outerWidth(),height:e?o.height():o.outerHeight()}}},t.fn.position=function(n){if(!n||!n.of)return d.apply(this,arguments);n=t.extend({},n);var r,h,v,m,g,y,w=t(n.of),x=t.position.getWithinInfo(n.within),b=t.position.getScrollInfo(x),$=(n.collision||"flip").split(" "),W={};return y=i(w),w[0].preventDefault&&(n.at="left top"),h=y.width,v=y.height,m=y.offset,g=t.extend({},m),t.each(["my","at"],function(){var t,o,e=(n[this]||"").split(" ");1===e.length&&(e=l.test(e[0])?e.concat(["center"]):u.test(e[0])?["center"].concat(e):["center","center"]),e[0]=l.test(e[0])?e[0]:"center",e[1]=u.test(e[1])?e[1]:"center",t=f.exec(e[0]),o=f.exec(e[1]),W[this]=[t?t[0]:0,o?o[0]:0],n[this]=[p.exec(e[0])[0],p.exec(e[1])[0]]}),1===$.length&&($[1]=$[0]),"right"===n.at[0]?g.left+=h:"center"===n.at[0]&&(g.left+=h/2),"bottom"===n.at[1]?g.top+=v:"center"===n.at[1]&&(g.top+=v/2),r=o(W.at,h,v),g.left+=r[0],g.top+=r[1],this.each(function(){var i,l,u=t(this),f=u.outerWidth(),p=u.outerHeight(),d=e(this,"marginLeft"),y=e(this,"marginTop"),k=f+d+e(this,"marginRight")+b.width,E=p+y+e(this,"marginBottom")+b.height,T=t.extend({},g),H=o(W.my,u.outerWidth(),u.outerHeight());"right"===n.my[0]?T.left-=f:"center"===n.my[0]&&(T.left-=f/2),"bottom"===n.my[1]?T.top-=p:"center"===n.my[1]&&(T.top-=p/2),T.left+=H[0],T.top+=H[1],t.support.offsetFractions||(T.left=a(T.left),T.top=a(T.top)),i={marginLeft:d,marginTop:y},t.each(["left","top"],function(o,e){t.ui.position[$[o]]&&t.ui.position[$[o]][e](T,{targetWidth:h,targetHeight:v,elemWidth:f,elemHeight:p,collisionPosition:i,collisionWidth:k,collisionHeight:E,offset:[r[0]+H[0],r[1]+H[1]],my:n.my,at:n.at,within:x,elem:u})}),n.using&&(l=function(t){var o=m.left-T.left,e=o+h-f,i=m.top-T.top,r=i+v-p,a={target:{element:w,left:m.left,top:m.top,width:h,height:v},element:{element:u,left:T.left,top:T.top,width:f,height:p},horizontal:0>e?"left":o>0?"right":"center",vertical:0>r?"top":i>0?"bottom":"middle"};f>h&&c(o+e)<h&&(a.horizontal="center"),p>v&&c(i+r)<v&&(a.vertical="middle"),s(c(o),c(e))>s(c(i),c(r))?a.important="horizontal":a.important="vertical",n.using.call(this,t,a)}),u.offset(t.extend(T,{using:l}))})},t.ui.position={fit:{left:function(t,n){var o,e=n.within,i=e.isWindow?e.scrollLeft:e.offset.left,r=e.width,c=t.left-n.collisionPosition.marginLeft,a=i-c,l=c+n.collisionWidth-r-i;n.collisionWidth>r?a>0&&0>=l?(o=t.left+a+n.collisionWidth-r-i,t.left+=a-o):l>0&&0>=a?t.left=i:a>l?t.left=i+r-n.collisionWidth:t.left=i:a>0?t.left+=a:l>0?t.left-=l:t.left=s(t.left-c,t.left)},top:function(t,n){var o,e=n.within,i=e.isWindow?e.scrollTop:e.offset.top,r=n.within.height,c=t.top-n.collisionPosition.marginTop,a=i-c,l=c+n.collisionHeight-r-i;n.collisionHeight>r?a>0&&0>=l?(o=t.top+a+n.collisionHeight-r-i,t.top+=a-o):l>0&&0>=a?t.top=i:a>l?t.top=i+r-n.collisionHeight:t.top=i:a>0?t.top+=a:l>0?t.top-=l:t.top=s(t.top-c,t.top)}},flip:{left:function(t,n){var o,e,i=n.within,r=i.offset.left+i.scrollLeft,s=i.width,a=i.isWindow?i.scrollLeft:i.offset.left,l=t.left-n.collisionPosition.marginLeft,u=l-a,f=l+n.collisionWidth-s-a,p="left"===n.my[0]?-n.elemWidth:"right"===n.my[0]?n.elemWidth:0,h="left"===n.at[0]?n.targetWidth:"right"===n.at[0]?-n.targetWidth:0,d=-2*n.offset[0];0>u?(o=t.left+p+h+d+n.collisionWidth-s-r,(0>o||o<c(u))&&(t.left+=p+h+d)):f>0&&(e=t.left-n.collisionPosition.marginLeft+p+h+d-a,(e>0||c(e)<f)&&(t.left+=p+h+d))},top:function(t,n){var o,e,i=n.within,r=i.offset.top+i.scrollTop,s=i.height,a=i.isWindow?i.scrollTop:i.offset.top,l=t.top-n.collisionPosition.marginTop,u=l-a,f=l+n.collisionHeight-s-a,p="top"===n.my[1],h=p?-n.elemHeight:"bottom"===n.my[1]?n.elemHeight:0,d="top"===n.at[1]?n.targetHeight:"bottom"===n.at[1]?-n.targetHeight:0,v=-2*n.offset[1];0>u?(e=t.top+h+d+v+n.collisionHeight-s-r,t.top+h+d+v>u&&(0>e||e<c(u))&&(t.top+=h+d+v)):f>0&&(o=t.top-n.collisionPosition.marginTop+h+d+v-a,t.top+h+d+v>f&&(o>0||c(o)<f)&&(t.top+=h+d+v))}},flipfit:{left:function(){t.ui.position.flip.left.apply(this,arguments),t.ui.position.fit.left.apply(this,arguments)},top:function(){t.ui.position.flip.top.apply(this,arguments),t.ui.position.fit.top.apply(this,arguments)}}},function(){var n,o,e,i,r,s=document.getElementsByTagName("body")[0],c=document.createElement("div");n=document.createElement(s?"div":"body"),e={visibility:"hidden",width:0,height:0,border:0,margin:0,background:"none"},s&&t.extend(e,{position:"absolute",left:"-1000px",top:"-1000px"});for(r in e)n.style[r]=e[r];n.appendChild(c),o=s||document.documentElement,o.insertBefore(n,o.firstChild),c.style.cssText="position: absolute; left: 10.7432222px;",i=t(c).offset().left,t.support.offsetFractions=i>10&&11>i,n.innerHTML="",o.removeChild(n)}()}(e)},function(t,n){function o(){}t.exports=o},function(t,n,o){t.exports=o(7)},function(t,n,o){var e=o(8),i=o(9),r=o(30),s=r(e,i);t.exports=s},function(t,n){function o(t,n){for(var o=-1,e=t.length;++o<e&&n(t[o],o,t)!==!1;);return t}t.exports=o},function(t,n,o){var e=o(10),i=o(29),r=i(e);t.exports=r},function(t,n,o){function e(t,n){return i(t,n,r)}var i=o(11),r=o(15);t.exports=e},function(t,n,o){var e=o(12),i=e();t.exports=i},function(t,n,o){function e(t){return function(n,o,e){for(var r=i(n),s=e(n),c=s.length,a=t?c:-1;t?a--:++a<c;){var l=s[a];if(o(r[l],l,r)===!1)break}return n}}var i=o(13);t.exports=e},function(t,n,o){function e(t){return i(t)?t:Object(t)}var i=o(14);t.exports=e},function(t,n){function o(t){var n=typeof t;return!!t&&("object"==n||"function"==n)}t.exports=o},function(t,n,o){var e=o(16),i=o(20),r=o(14),s=o(24),c=e(Object,"keys"),a=c?function(t){var n=null==t?void 0:t.constructor;return"function"==typeof n&&n.prototype===t||"function"!=typeof t&&i(t)?s(t):r(t)?c(t):[]}:s;t.exports=a},function(t,n,o){function e(t,n){var o=null==t?void 0:t[n];return i(o)?o:void 0}var i=o(17);t.exports=e},function(t,n,o){function e(t){return null==t?!1:i(t)?u.test(a.call(t)):r(t)&&s.test(t)}var i=o(18),r=o(19),s=/^\[object .+?Constructor\]$/,c=Object.prototype,a=Function.prototype.toString,l=c.hasOwnProperty,u=RegExp("^"+a.call(l).replace(/[\\^$.*+?()[\]{}|]/g,"\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$");t.exports=e},function(t,n,o){function e(t){return i(t)&&c.call(t)==r}var i=o(14),r="[object Function]",s=Object.prototype,c=s.toString;t.exports=e},function(t,n){function o(t){return!!t&&"object"==typeof t}t.exports=o},function(t,n,o){function e(t){return null!=t&&r(i(t))}var i=o(21),r=o(23);t.exports=e},function(t,n,o){var e=o(22),i=e("length");t.exports=i},function(t,n){function o(t){return function(n){return null==n?void 0:n[t]}}t.exports=o},function(t,n){function o(t){return"number"==typeof t&&t>-1&&t%1==0&&e>=t}var e=9007199254740991;t.exports=o},function(t,n,o){function e(t){for(var n=a(t),o=n.length,e=o&&t.length,l=!!e&&c(e)&&(r(t)||i(t)),f=-1,p=[];++f<o;){var h=n[f];(l&&s(h,e)||u.call(t,h))&&p.push(h)}return p}var i=o(25),r=o(26),s=o(27),c=o(23),a=o(28),l=Object.prototype,u=l.hasOwnProperty;t.exports=e},function(t,n,o){function e(t){return r(t)&&i(t)&&c.call(t,"callee")&&!a.call(t,"callee")}var i=o(20),r=o(19),s=Object.prototype,c=s.hasOwnProperty,a=s.propertyIsEnumerable;t.exports=e},function(t,n,o){var e=o(16),i=o(23),r=o(19),s="[object Array]",c=Object.prototype,a=c.toString,l=e(Array,"isArray"),u=l||function(t){return r(t)&&i(t.length)&&a.call(t)==s};t.exports=u},function(t,n){function o(t,n){return t="number"==typeof t||e.test(t)?+t:-1,n=null==n?i:n,t>-1&&t%1==0&&n>t}var e=/^\d+$/,i=9007199254740991;t.exports=o},function(t,n,o){function e(t){if(null==t)return[];a(t)||(t=Object(t));var n=t.length;n=n&&c(n)&&(r(t)||i(t))&&n||0;for(var o=t.constructor,e=-1,l="function"==typeof o&&o.prototype===t,f=Array(n),p=n>0;++e<n;)f[e]=e+"";for(var h in t)p&&s(h,n)||"constructor"==h&&(l||!u.call(t,h))||f.push(h);return f}var i=o(25),r=o(26),s=o(27),c=o(23),a=o(14),l=Object.prototype,u=l.hasOwnProperty;t.exports=e},function(t,n,o){function e(t,n){return function(o,e){var c=o?i(o):0;if(!r(c))return t(o,e);for(var a=n?c:-1,l=s(o);(n?a--:++a<c)&&e(l[a],a,l)!==!1;);return o}}var i=o(21),r=o(23),s=o(13);t.exports=e},function(t,n,o){function e(t,n){return function(o,e,s){return"function"==typeof e&&void 0===s&&r(o)?t(o,e):n(o,i(e,s,3))}}var i=o(31),r=o(26);t.exports=e},function(t,n,o){function e(t,n,o){if("function"!=typeof t)return i;if(void 0===n)return t;switch(o){case 1:return function(o){return t.call(n,o)};case 3:return function(o,e,i){return t.call(n,o,e,i)};case 4:return function(o,e,i,r){return t.call(n,o,e,i,r)};case 5:return function(o,e,i,r,s){return t.call(n,o,e,i,r,s)}}return function(){return t.apply(n,arguments)}}var i=o(32);t.exports=e},function(t,n){function o(t){return t}t.exports=o},function(t,n,o){t.exports=o(34)},function(t,n,o){function e(t,n,o,e){var p=t?r(t):0;return a(p)||(t=u(t),p=t.length),o="number"!=typeof o||e&&c(n,o,e)?0:0>o?f(p+o,0):o||0,"string"==typeof t||!s(t)&&l(t)?p>=o&&t.indexOf(n,o)>-1:!!p&&i(t,n,o)>-1}var i=o(35),r=o(21),s=o(26),c=o(37),a=o(23),l=o(38),u=o(39),f=Math.max;t.exports=e},function(t,n,o){function e(t,n,o){if(n!==n)return i(t,o);for(var e=o-1,r=t.length;++e<r;)if(t[e]===n)return e;return-1}var i=o(36);t.exports=e},function(t,n){function o(t,n,o){for(var e=t.length,i=n+(o?0:-1);o?i--:++i<e;){var r=t[i];if(r!==r)return i}return-1}t.exports=o},function(t,n,o){function e(t,n,o){if(!s(o))return!1;var e=typeof n;if("number"==e?i(o)&&r(n,o.length):"string"==e&&n in o){var c=o[n];return t===t?t===c:c!==c}return!1}var i=o(20),r=o(27),s=o(14);t.exports=e},function(t,n,o){function e(t){return"string"==typeof t||i(t)&&c.call(t)==r}var i=o(19),r="[object String]",s=Object.prototype,c=s.toString;t.exports=e},function(t,n,o){function e(t){return i(t,r(t))}var i=o(40),r=o(15);t.exports=e},function(t,n){function o(t,n){for(var o=-1,e=n.length,i=Array(e);++o<e;)i[o]=t[n[o]];return i}t.exports=o},function(t,n,o){t.exports=o(42)},function(t,n,o){var e=o(43),i=o(44),r=o(46),s=r(function(t,n,o){return o?e(t,n,o):i(t,n)});t.exports=s},function(t,n,o){function e(t,n,o){for(var e=-1,r=i(n),s=r.length;++e<s;){var c=r[e],a=t[c],l=o(a,n[c],c,t,n);(l===l?l===a:a!==a)&&(void 0!==a||c in t)||(t[c]=l)}return t}var i=o(15);t.exports=e},function(t,n,o){function e(t,n){return null==n?t:i(n,r(n),t)}var i=o(45),r=o(15);t.exports=e},function(t,n){function o(t,n,o){o||(o={});for(var e=-1,i=n.length;++e<i;){var r=n[e];o[r]=t[r]}return o}t.exports=o},function(t,n,o){function e(t){return s(function(n,o){var e=-1,s=null==n?0:o.length,c=s>2?o[s-2]:void 0,a=s>2?o[2]:void 0,l=s>1?o[s-1]:void 0;for("function"==typeof c?(c=i(c,l,5),s-=2):(c="function"==typeof l?l:void 0,s-=c?1:0),a&&r(o[0],o[1],a)&&(c=3>s?void 0:c,s=1);++e<s;){var u=o[e];u&&t(n,u,c)}return n})}var i=o(31),r=o(37),s=o(47);t.exports=e},function(t,n){function o(t,n){if("function"!=typeof t)throw new TypeError(e);return n=i(void 0===n?t.length-1:+n||0,0),function(){for(var o=arguments,e=-1,r=i(o.length-n,0),s=Array(r);++e<r;)s[e]=o[n+e];switch(n){case 0:return t.call(this,s);case 1:return t.call(this,o[0],s);case 2:return t.call(this,o[0],o[1],s)}var c=Array(n+1);for(e=-1;++e<n;)c[e]=o[e];return c[n]=s,t.apply(this,c)}}var e="Expected a function",i=Math.max;t.exports=o},function(t,n,o){function e(t){var n=++r;return i(t)+n}var i=o(49),r=0;t.exports=e},function(t,n){function o(t){return null==t?"":t+""}t.exports=o}]);
 /*!
 
  handlebars v3.0.3
@@ -17784,19 +16955,72 @@ $(document).ajaxStart(function () {
 $(document).ajaxStop(function () {
     $('#waiting').hide();
 });
+
+// FUNCTION FOR COMPARE TWO ARRAY
+// Warn if overriding existing method
+if(Array.prototype.equals)
+    console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
+// attach the .equals method to Array's prototype to call it on any array
+Array.prototype.equals = function (array) {
+    // if the other array is a falsy value, return
+    if (!array)
+        return false;
+
+    // compare lengths - can save a lot of time 
+    if (this.length != array.length)
+        return false;
+
+    for (var i = 0, l=this.length; i < l; i++) {
+        // Check if we have nested arrays
+        if (this[i] instanceof Array && array[i] instanceof Array) {
+            // recurse into the nested arrays
+            if (!this[i].equals(array[i]))
+                return false;       
+        }           
+        else if (this[i] != array[i]) { 
+            // Warning - two different object instances will never be equal: {x:20} != {x:20}
+            return false;   
+        }           
+    }       
+    return true;
+}
+// Hide method from for-in loops
+Object.defineProperty(Array.prototype, "equals", {enumerable: false});
+// END FUNCTION FOR COMPARE TWO ARRAY
+
+// fix helper for jQuery UI sortable
+var fixHelper = function(e, ui) {
+    ui.children().each(function() {
+        $(this).width($(this).width());
+    });
+    return ui;
+}
+// end fix helper for jQuery UI sortable
 Handlebars.registerPartial("ontent", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div class=\"container2\">\n    <span id=\"search_form\" style=\"display:none;\">\n        <div class=\"page-header\">\n            <h2>SEARCH <small>SEARCH ITEMS</small></h2>\n        </div>\n        <form class=\"form-horizontal\">\n            <div class=\"form-group\">\n                <label for=\"search_catalog_no\" class=\"col-sm-1 control-label\">CATALOG NO</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_no\" data-width=\"100%\" class=\"search_catalog_no with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_holding_no\" class=\"col-sm-1 control-label\">HOLDING NO</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_holding_no\" data-width=\"100%\" class=\"search_holding_no with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_holding\" class=\"col-sm-1 control-label\">HOLDING</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_holding\" data-width=\"100%\" class=\"search_holding with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_inc_item_name\" class=\"col-sm-1 control-label\">ITEM NAME</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_inc_item_name\" data-width=\"100%\" class=\"search_inc_item_name with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_company\" class=\"col-sm-1 control-label\">COMPANY</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_company\" data-width=\"100%\" class=\"search_company with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_colloquial\" class=\"col-sm-1 control-label\">COLLOQUIAL</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_colloquial\" data-width=\"100%\" class=\"search_colloquial with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_plant\" class=\"col-sm-1 control-label\">PLANT</label>\n                <div class=\"col-sm-4\">\n                    <select id=\"search_plant\" data-width=\"100%\" class=\"search_plant with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_group_class\" class=\"col-sm-1 control-label\">GROUP CLASS</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_group_class\" data-width=\"100%\" class=\"search_group_class with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_location\" class=\"col-sm-1 control-label\">LOCATION</label>\n                <div class=\"col-sm-4\">\n                    <select id=\"search_location\" data-width=\"100%\" class=\"search_location with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_catalog_status\" class=\"col-sm-1 control-label\">CAT STATUS</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_status\" data-width=\"100%\" class=\"search_catalog_status with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_catalog_type\" class=\"col-sm-1 control-label\">CATALOG TYPE</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_type\" data-width=\"100%\" standard title=\"SELECT CATALOG TYPE\" class=\"search_catalog_type\">\n                        <option>OEM</option>\n                        <option>GEN</option>\n                    </select>\n                </div>\n                <label for=\"search_shelf\" class=\"col-sm-1 control-label\">SHELF</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_shelf\" data-width=\"100%\" class=\"search_shelf with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_item_type\" class=\"col-sm-1 control-label\">ITEM TYPE</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_item_type\" data-width=\"100%\" class=\"search_item_type with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_catalog_type\" class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_bin\" class=\"col-sm-1 control-label\">BIN</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_bin\" data-width=\"100%\" class=\"search_bin with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\" style=\"visibility:hidden;\">\n                <label for=\"batas\" class=\"col-sm-1 control-label\"></label>\n                <div class=\"col-sm-2\">\n                    <input type=\"text\" class=\"form-control input-sm\" id=\"batas\" placeholder=\"#\">\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_manufacturer\" class=\"col-sm-1 control-label\">MANUFACTURER</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_manufacturer\" data-width=\"100%\" class=\"search_manufacturer with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_manufacturer\" class=\"col-sm-1 control-label\">SOURCE</label>\n                <div class=\"col-sm-5\">\n                    <input type=\"text\" class=\"form-control input-sm\" id=\"search_manufacturer\" placeholder=\"SOURCE\">\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_part_number\" class=\"col-sm-1 control-label\">PART NUMBER</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_part_number\" data-width=\"100%\" class=\"search_part_number with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_user\" class=\"col-sm-1 control-label\">USER</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_user\" data-width=\"100%\" class=\"search_user with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_equipment\" class=\"col-sm-1 control-label\">EQUIPMENT</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_equipment\" data-width=\"100%\" class=\"search_equipment with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n        </form>\n    </span>\n    <span id=\"search_result\" style=\"display:block;\">\n        <div>\n            <table id=\"part_master\" class=\"table table-striped table-hover table-bordered\" cellspacing=\"0\">\n                <thead>\n                    <tr>\n                        <th width=\"8%\">CATALOG NO</th>\n                        <th width=\"20%\">HOLDING</th>\n                        <th width=\"16%\">HOLDING NO</th>\n                        <th width=\"25%\">ITEM NAME</th>\n                        <th width=\"5%\">INC</th>\n                        <th width=\"9%\">GROUP CLASS</th>\n                        <th width=\"5%\">UOM</th>\n                        <th width=\"5%\">TYPE</th>\n                        <th width=\"7%\">STATUS</th>\n                    </tr>\n                </thead>\n            </table>\n        </div>\n        <hr class=\"hr-bawah-part-master\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <!-- SHOW SOURCE DESCRIPTION MODAL -->\n                <div class=\"modal draggable\" id=\"source_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                    <div class=\"modal-dialog\" role=\"\" style=\"width: 30%;\">\n                        <div class=\"modal-content\">\n                            <div class=\"modal-header\">\n                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                <h4 class=\"modal-title\" id=\"source_modal_title\">Woops, Error</h4>\n                            </div>\n                            <div class=\"modal-body\">\n                                <span id=\"source_meta\"></span>\n                                <span id=\"hr\"></span>\n                                <span id=\"source_desc\" class=\"uppercase pre\"></span>\n                                <span id=\"part_source\"></span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <!-- END SHOW SOURCE DESCRIPTION MODAL -->\n                <div class=\"input-group double-input\">\n                    <span class=\"input-group-btn\">\n                    <button id=\"show-source\" class=\"btn btn-sm btn-primary\">SOURCE</button>\n                    <button id=\"#\" class=\"btn btn-sm btn-primary\">REFERENCE</button>\n                    <button id=\"#\" class=\"btn btn-sm btn-primary\">PRINT</button>\n                    </span>\n                    <select id=\"company\" data-live-search-placeholder=\"SELECT COMPANY\" data-width=\"20%\" class=\"company\"></select>\n                    <input type=\"text\" class=\"form-control dua input-sm\" id=\"#\" readonly placeholder=\"SELECTED INFORMATION\" style=\"font-size:12px;\">\n                </div>\n            </div>\n        </div>\n        <ul class=\"nav nav-tabs\" id=\"mainTab\">\n            <li role=\"\" class=\"active\"><a href=\"#char_tab\">DESCRIPTION AND PART NUMBER</a></li>\n            <li role=\"\"><a href=\"#class_tab\">CLASSIFICATION AND FLAG</a></li>\n            <li role=\"\"><a href=\"#eq_tab\">EQUIPMENT</a></li>\n        </ul>\n        <div class=\"tab-content\">\n            <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"char_tab\">\n                <div class=\"col-xs-6\">\n                    <div class=\"col-xs-12\" style=\"margin-bottom:5px;\">\n                        <div class=\"input-group\">\n                            <input type=\"text\" id=\"short_desc\" class=\"form-control input-sm\" readonly placeholder=\"SHORT DESCRIPTION\">\n                            <span class=\"input-group-btn\" style=\"padding-left:10px;\">\n                            <button disabled id=\"submit_values\" class=\"btn btn-sm btn-primary\">&nbsp;&nbsp;&nbsp;SAVE CHARACTERISTIC&nbsp;&nbsp;&nbsp;</button>\n                            </span>                              \n                        </div>\n                    </div>\n                    <div class=\"col-xs-6\">\n                        <div id=\"select_inc\">\n                            <select id=\"inc\" data-width=\"100%\" class=\"inc with-ajax\" data-live-search=\"true\"></select>\n                        </div>\n                    </div>\n                    <div class=\"col-xs-6\" id=\"select_group_class_box\">\n                        <div id=\"select_group_class\">\n                            <select id=\"group_class\" data-live-search-placeholder=\"SELECT GROUP CLASS - NAME\" data-width=\"100%\" class=\"group-class\"></select>\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12\" style=\"margin-top: 5px;\">\n                        <table style=\"margin-top: 0 !important;\" class=\"table table-char-value table-striped\" id=\"characteristisc_value_table\">\n                            <thead>\n                                <tr>\n                                    <th>CHARACTERISTIC</th>\n                                    <th>VALUE</th>\n                                    <th>ABBREV</th>\n                                    <th>SHORT</th>\n                                </tr>\n                            </thead>\n                            <tbody id=\"characteristic_value_box\">\n                            </tbody>\n                        </table>\n                        <!-- GET VALUES LIST MODAL -->\n                        <div class=\"modal draggable\" id=\"get_values_list_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                            <div class=\"modal-dialog\" role=\"\" style=\"width: 35%;\">\n                                <div class=\"modal-content\">\n                                    <div class=\"modal-header\">\n                                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                        <h4 class=\"modal-title\" id=\"get_values_list_modal_title\">Woops, Error</h4>\n                                    </div>\n                                    <div class=\"modal-body \">\n                                        <table class=\"table table-striped table-hover\" id=\"get_values_list_table\">\n                                            <thead>\n                                                <th width=\"70%\">VALUE</th>\n                                                <th width=\"30%\">ABBREV</th>\n                                            </thead>\n                                            <tbody id=\"value-body\"></tbody>\n                                        </table>\n                                        <input type=\"hidden\" id=\"index_get_values_list_modal\" class=\"normalcase\">\n                                    </div>\n                                    <div class=\"modal-footer\">\n                                        <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <!-- END GET VALUES LIST MODAL -->\n                    </div>\n                </div>\n                <div class=\"col-xs-6\">\n                    <input type=\"text\" class=\"form-control input-sm\" readonly>\n                    <input type=\"text\" class=\"form-control input-sm\" style=\"margin-top:5px;\" readonly>\n                    <table id=\"part_manufacturer_code\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                        <thead>\n                            <tr>\n                                <th colspan=\"4\">\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">MANUFACTURER</span>\n                                    <button id=\"add-pmc\" class=\"btn btn-xs btn-primary pull-right\" style=\"\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>MAN CODE</th>\n                                <th>SOURCE</th>\n                                <th>MAN REF</th>\n                                <th>TYPE</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART MANUFACTURER CODE MODAL -->\n                    <div class=\"modal\" id=\"part_manufacturer_code_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_manufacturer_code_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_manufacturer_code_modal_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_code_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_manufacturer_code_pmc\">\n                                                <select id=\"manufacturer_code_pmc\" class=\"manufacturer-code-pmc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_name_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"manufacturer_name_pmc\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"select_source_type_pmc\" class=\"col-sm-3 control-label\">SOURCE</label>\n                                            <div class=\"col-sm-2\">\n                                                <select id=\"select_source_type_pmc\" class=\"\"></select>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_ref_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER REF</label>\n                                            <div class=\"col-sm-9\">\n                                                <input id=\"manufacturer_ref_pmc\" type=\"text\" class=\"form-control input-sm\">\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"select_manufacturer_code_type_pmc\" class=\"col-sm-3 control-label\">TYPE</label>\n                                            <div class=\"col-sm-1\">\n                                                <select id=\"select_manufacturer_code_type_pmc\" class=\"\"></select>       \n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_manufacturer_code_id_pmc\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_pmc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_pmc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_pmc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_pmc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save_pmc\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART MANUFACTURER CODE MODAL -->\n                </div>\n            </div>\n            <div role=\"tabpanel\" class=\"tab-pane row\" id=\"class_tab\">\n                <div class=\"col-xs-6\">\n                    Test\n                </div>\n                <div class=\"col-xs-6\">\n                    <table id=\"part_colloquial\" class=\"table table-striped table-hover\" width=\"100%\" cellpadding=\"0\">\n                        <thead>\n                            <tr>\n                                <th>\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">COLLOQUIAL</span>\n                                    <button id=\"add-pc\" class=\"btn btn-xs btn-primary pull-right\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>COLLOQUIAL NAME</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART COLLOQUIAL MODAL -->\n                    <div class=\"modal\" id=\"part_colloquial_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_colloquial_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_colloquial_modal_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"colloquial_pc\" class=\"col-sm-3 control-label\">COLLOQUAIL NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input id=\"colloquial_pc\" type=\"text\" class=\"form-control input-sm\">\n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_colloquial_id_pc\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_pc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_pc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_pc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_pc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save_pc\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART COLLOQUIAL MODAL -->\n                </div>\n            </div>\n            <div role=\"tabpanel\" class=\"tab-pane row\" id=\"eq_tab\">\n                <div class=\"col-xs-12\">\n                    <table id=\"part_equipment_code\" class=\"table table-striped table-hover\" width=\"100%\" cellpadding=\"0\">\n                        <thead>\n                            <tr>\n                                <td colspan=\"6\">\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">EQUIPMENT</span>\n                                    <button id=\"add-pec\" class=\"btn btn-xs btn-primary pull-right\" style=\"\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </td>\n                            </tr>\n                            <tr>\n                                <th width=\"\">EQUIPMENT CODE</th>\n                                <th width=\"\">EQUIPMENT NAME</th>\n                                <th width=\"\">QTY</th>\n                                <th width=\"\">MANUFACTURER CODE</th>\n                                <th width=\"\">DOCUMENT REF</th>\n                                <th width=\"\">DRAWING REF</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART EQUIPMENT CODE MODAL -->\n                    <div class=\"modal\" id=\"part_equipment_code_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 70%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_equipment_code_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_equipment_code_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"equipment_code_peq\" class=\"col-sm-3 control-label\">EQUIPMENT CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_equipment_code_peq\">\n                                                <select id=\"equipment_code_peq\" class=\"equipment-code-peq with-ajax\" data-live-search=\"true\">                        \n                                                </select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"equipment_name_peq\" class=\"col-sm-3 control-label\">EQUIPMENT NAME</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"equipment_name_peq\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"qty_install_peq\" class=\"col-sm-3 control-label\">QTY INSTALL</label>\n                                            <div class=\"col-sm-2\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"qty_install_peq\">\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_code_peq\" class=\"col-sm-3 control-label\">MANUFACTURER CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_manufacturer_code_peq\">\n                                                <select id=\"manufacturer_code_peq\" class=\"manufacturer-code-peq with-ajax\" data-live-search=\"true\">                        \n                                                </select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_name_peq\" class=\"col-sm-3 control-label\">MANUFACTURER NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"manufacturer_name_peq\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"doc_ref_peq\" class=\"col-sm-3 control-label\">DOCUMENT REF</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"doc_ref_peq\" >\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"dwg_ref_peq\" class=\"col-sm-3 control-label\">DRAWING REF</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"dwg_ref_peq\">\n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_equipment_code_id\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_peq text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_peq text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_peq text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_peq text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_peq\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART EQUIPMENT CODE MODAL -->\n                </div>\n            </div>\n        </div>\n    </span>\n</div>";
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#global_characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#company_characteristic_value\">COMPANY CHARACTERISTIC SEQUENCE</a></li>\n            <li><a href=\"#company_short_description\">COMPANY SHORT DESCRIPTION</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"global_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\" id=\"select_inc\">\n                        <select id=\"global_inc\" class=\"global_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_modal_title\">\n                                ADD CHARACTERISTIC <small id=\"item_name\"></small>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add-char-table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n\n            <div id=\"global-char-area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global-val-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\" id=\"select_inc\">\n                        <select id=\"inc\" class=\"inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"holding\" class=\"holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company-char-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company-val-area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_short_description\">\n            <div class=\"col-xs-12\">\n\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
+    + alias3(((helper = (helper = helpers.eng_definition || (depth0 != null ? depth0.eng_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"eng_definition","hash":{},"data":data}) : helper)))
+    + "</div><br/>\n                    <div><b>IDN DEFINITION</b><div>\n                    <div>@"
+    + alias3(((helper = (helper = helpers.ind_definition || (depth0 != null ? depth0.ind_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ind_definition","hash":{},"data":data}) : helper)))
+    + "</div>\n                </script>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"user_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"user_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">USER CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"weight_unit\">\n            <div class=\"col-sx-12\">\n                <table id=\"weight_unit_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">WEIGHT UNIT</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-wu\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- Catalog Status Tab Modal -->\n<div class=\"modal\" id=\"catalog_status_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"catalog_status_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"catalog_status_tab_modal_form\">\n                    <div class=\"form-group\" id=\"input_catalog_status_catalog_status_tab_modal\">\n                        <label for=\"catalog_status_catalog_status_tab_modal\" class=\"col-sm-3 control-label\">CATALOG STATUS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"catalog_status_catalog_status_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"input_desc_catalog_status_tab_modal\">\n                        <label for=\"desc_catalog_status_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_catalog_status_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_catalog_status_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_catalog_status_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_catalog_status_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_catalog_status_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_catalog_status_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_catalog_status_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Catalog Status Modal -->\n<!-- Catalog Type Tab Modal -->\n<div class=\"modal\" id=\"catalog_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"catalog_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"catalog_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"input_catalog_type_catalog_type_tab_modal\">\n                        <label for=\"catalog_type_catalog_type_tab_modal\" class=\"col-sm-3 control-label\">CATALOG TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"catalog_type_catalog_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"input_desc_catalog_type_tab_modal\">\n                        <label for=\"desc_catalog_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_catalog_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_catalog_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_catalog_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_catalog_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_catalog_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_catalog_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_catalog_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Catalog Type Modal -->\n<!-- Equipment Code Tab Modal -->\n<div class=\"modal\" id=\"equipment_code_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"equipment_code_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"equipment_code_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_equipment_code_tab_modal\">\n                            <select id=\"holding_equipment_code_tab_modal\" class=\"holding-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_equipment_code_tab_modal\">\n                            <select id=\"company_equipment_code_tab_modal\" class=\"company-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_equipment_code_tab_modal\">\n                        <label for=\"select_plant_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_equipment_code_tab_modal\">\n                            <select id=\"plant_equipment_code_tab_modal\" class=\"plant-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_equipment_code_equipment_code_tab_modal\">\n                        <label for=\"equipment_code_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">EQUIPMENT CODE</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"equipment_code_equipment_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_equipment_name_equipment_code_tab_modal\">\n                        <label for=\"equipment_name_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">EQUIPMENT NAME</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"equipment_name_equipment_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_equipment_code_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_equipment_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_equipment_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_equipment_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_equipment_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_equipment_code_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Equipment Code Tab Modal -->\n<!-- Harmonized Code Tab Modal -->\n<div class=\"modal\" id=\"harmonized_code_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"harmonized_code_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"harmonized_code_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_harmonized_code_harmonized_code_tab_modal\">\n                        <label for=\"harmonized_code_harmonized_code_tab_modal\" class=\"col-sm-3 control-label\">HARMONIZED CODE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"harmonized_code_harmonized_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_harmonized_code_tab_modal\">\n                        <label for=\"desc_harmonized_code_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_harmonized_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_harmonized_code_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_harmonized_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_harmonized_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_harmonized_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_harmonized_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_harmonized_code_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Harmonized Code Modal -->\n<!-- Hazard Class Tab Modal -->\n<div class=\"modal\" id=\"hazard_class_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"hazard_class_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"hazard_class_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_hazard_class_hazard_class_tab_modal\">\n                        <label for=\"hazard_class_hazard_class_tab_modal\" class=\"col-sm-3 control-label\">HAZARD CLASS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"hazard_class_hazard_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_hazard_class_tab_modal\">\n                        <label for=\"desc_hazard_class_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_hazard_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_hazard_class_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_hazard_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_hazard_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_hazard_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_hazard_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_hazard_class_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Hazard Class Modal -->\n<!-- Holding Tab Modal -->\n<div class=\"modal\" id=\"holding_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"holding_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"holding_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_holding_holding_tab_modal\">\n                        <label for=\"holding_holding_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"holding_holding_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_holding_desc_holding_tab_modal\">\n                        <label for=\"holding_desc_holding_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"holding_desc_holding_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_holding_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_holding_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_holding_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_holding_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_holding_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_holding_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Holding Tab Modal -->\n<!-- Company Tab Modal -->\n<div class=\"modal\" id=\"company_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"company_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"company_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_holding_company_tab_modal\">\n                        <label for=\"select_holding_company_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_company_tab_modal\">\n                            <select id=\"holding_company_tab_modal\" class=\"holding-company-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_company_tab_modal\">\n                        <label for=\"company_company_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"company_company_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_desc_company_tab_modal\">\n                        <label for=\"company_desc_company_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"company_desc_company_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_company_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_company_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_company_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_company_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_company_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_company_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Company Tab Modal -->\n<!-- Plant Tab Modal -->\n<div class=\"modal\" id=\"plant_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"plant_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"plant_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_plant_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_plant_tab_modal\">\n                            <select id=\"holding_plant_tab_modal\" class=\"holding-plant-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_plant_tab_modal\">\n                        <label for=\"select_company_plant_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_plant_tab_modal\">\n                            <select id=\"company_plant_tab_modal\" class=\"company-plant-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_plant_tab_modal\">\n                        <label for=\"plant_plant_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"plant_plant_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_desc_plant_tab_modal\">\n                        <label for=\"plant_desc_plant_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"plant_desc_plant_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_plant_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_plant_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_plant_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_plant_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_plant_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_plant_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Plant Tab Modal -->\n<!-- Location Tab Modal -->\n<div class=\"modal\" id=\"location_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"location_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"location_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_location_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_location_tab_modal\">\n                            <select id=\"holding_location_tab_modal\" class=\"holding-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_location_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_location_tab_modal\">\n                            <select id=\"company_location_tab_modal\" class=\"company-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_location_tab_modal\">\n                        <label for=\"select_plant_location_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_location_tab_modal\">\n                            <select id=\"plant_location_tab_modal\" class=\"plant-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_location_tab_modal\">\n                        <label for=\"location_location_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"location_location_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_desc_location_tab_modal\">\n                        <label for=\"location_desc_location_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"location_desc_location_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_location_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_location_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_location_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_location_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_location_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_location_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Location Tab Modal -->\n<!-- Shelf Tab Modal -->\n<div class=\"modal\" id=\"shelf_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"shelf_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"shelf_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_shelf_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_shelf_tab_modal\">\n                            <select id=\"holding_shelf_tab_modal\" class=\"holding-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_shelf_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_shelf_tab_modal\">\n                            <select id=\"company_shelf_tab_modal\" class=\"company-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_plant_shelf_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_shelf_tab_modal\">\n                            <select id=\"plant_shelf_tab_modal\" class=\"plant-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_shelf_tab_modal\">\n                        <label for=\"select_location_shelf_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\" id=\"select_location_shelf_tab_modal\">\n                            <select id=\"location_shelf_tab_modal\" class=\"location-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_shelf_tab_modal\">\n                        <label for=\"shelf_shelf_tab_modal\" class=\"col-sm-2 control-label\">SHELF</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"shelf_shelf_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_desc_shelf_tab_modal\">\n                        <label for=\"shelf_desc_shelf_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"shelf_desc_shelf_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_shelf_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_shelf_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_shelf_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_shelf_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_shelf_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_shelf_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Shelf Tab Modal -->\n<!-- Bin Tab Modal -->\n<div class=\"modal\" id=\"bin_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"bin_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"bin_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_bin_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_bin_tab_modal\">\n                            <select id=\"holding_bin_tab_modal\" class=\"holding-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_bin_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_bin_tab_modal\">\n                            <select id=\"company_bin_tab_modal\" class=\"company-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_plant_bin_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_bin_tab_modal\">\n                            <select id=\"plant_bin_tab_modal\" class=\"plant-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_location_bin_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\" id=\"select_location_bin_tab_modal\">\n                            <select id=\"location_bin_tab_modal\" class=\"location-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_bin_tab_modal\">\n                        <label for=\"select_shelf_bin_tab_modal\" class=\"col-sm-2 control-label\">SHELF</label>\n                        <div class=\"col-sm-7\" id=\"select_shelf_bin_tab_modal\">\n                            <select id=\"shelf_bin_tab_modal\" class=\"shelf-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_bin_bin_tab_modal\">\n                        <label for=\"bin_bin_tab_modal\" class=\"col-sm-2 control-label\">BIN</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"bin_bin_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_bin_desc_bin_tab_modal\">\n                        <label for=\"bin_desc_bin_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"bin_desc_bin_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_bin_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_bin_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_bin_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_bin_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_bin_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_bin_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Bin Tab Modal -->\n<!-- Item Type Tab Modal -->\n<div class=\"modal\" id=\"item_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"item_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"item_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_item_type_item_type_tab_modal\">\n                        <label for=\"item_type_item_type_tab_modal\" class=\"col-sm-3 control-label\">ITEM TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"item_type_item_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_item_type_tab_modal\">\n                        <label for=\"desc_item_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_item_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_item_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_item_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_item_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_item_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_item_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_item_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Item Type Modal -->\n<!-- Item Source Type Tab Modal -->\n<div class=\"modal\" id=\"source_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"source_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"source_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_source_type_source_type_tab_modal\">\n                        <label for=\"source_type_source_type_tab_modal\" class=\"col-sm-3 control-label\">SOURCE TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"source_type_source_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_source_type_tab_modal\">\n                        <label for=\"desc_source_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_source_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_source_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_source_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_source_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_source_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_source_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_source_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Source Type Modal -->\n<!-- Item Stock Type Tab Modal -->\n<div class=\"modal\" id=\"stock_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"stock_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"stock_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_stock_type_stock_type_tab_modal\">\n                        <label for=\"stock_type_stock_type_tab_modal\" class=\"col-sm-3 control-label\">STOCK TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"stock_type_stock_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_stock_type_tab_modal\">\n                        <label for=\"desc_stock_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_stock_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_stock_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_stock_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_stock_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_stock_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_stock_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_stock_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Stock Type Modal -->\n<!-- Unit of Measrement Tab Modal -->\n<div class=\"modal\" id=\"unit_of_measurement_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width:65%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"unit_of_measurement_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"unit_of_measurement_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_unit4_unit_of_measurement_tab_modal\">\n                        <label for=\"unit4_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 4</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit4_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_unit3_unit_of_measurement_tab_modal\">\n                        <label for=\"unit3_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 3</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit3_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_unit2_unit_of_measurement_tab_modal\">\n                        <label for=\"unit2_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 2</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit2_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_unit_of_measurement_tab_modal\">\n                        <label for=\"desc_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"desc_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_eng_definition_unit_of_measurement_tab_modal\">\n                        <label for=\"eng_definition_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">ENG DEFINITION</label>\n                        <div class=\"col-sm-10\">\n                            <textarea id=\"eng_definition_unit_of_measurement_tab_modal\" class=\"form-control vresize\"></textarea>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_ind_definition_unit_of_measurement_tab_modal\">\n                        <label for=\"ind_definition_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">IND DEFINITION</label>\n                        <div class=\"col-sm-10\">\n                            <textarea id=\"ind_definition_unit_of_measurement_tab_modal\" class=\"form-control vresize\"></textarea>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_unit_of_measurement_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_unit_of_measurement_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_unit_of_measurement_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_unit_of_measurement_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_unit_of_measurement_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_unit_of_measurement_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Unit of Measrement Tab Modal -->\n<!-- User Class Tab Modal -->\n<div class=\"modal\" id=\"user_class_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"user_class_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"user_class_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_user_class_user_class_tab_modal\">\n                        <label for=\"user_class_user_class_tab_modal\" class=\"col-sm-3 control-label\">USER CLASS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"user_class_user_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_user_class_tab_modal\">\n                        <label for=\"desc_user_class_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_user_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_user_class_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_user_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_user_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_user_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_user_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_user_class_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Hazard Class Modal -->\n<!-- User Weight Unit Modal -->\n<div class=\"modal\" id=\"weight_unit_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"weight_unit_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"weight_unit_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_weight_unit_weight_unit_tab_modal\">\n                        <label for=\"weight_unit_weight_unit_tab_modal\" class=\"col-sm-3 control-label\">WEIGHT UNIT</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"weight_unit_weight_unit_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_weight_unit_tab_modal\">\n                        <label for=\"desc_weight_unit_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_weight_unit_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_weight_unit_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_weight_unit_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_weight_unit_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_weight_unit_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_weight_unit_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_weight_unit_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Weight Unit Modal -->";
 },"useData":true}));
-this["Home"] = this["Home"] || {};
-this["Home"]["templates"] = this["Home"]["templates"] || {};
-this["Home"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div class=\"container2\">\n    <span id=\"search_form\" style=\"display:none;\">\n        <div class=\"page-header\">\n            <h2>SEARCH <small>SEARCH ITEMS</small></h2>\n        </div>\n        <form class=\"form-horizontal\">\n            <div class=\"form-group\">\n                <label for=\"search_catalog_no\" class=\"col-sm-1 control-label\">CATALOG NO</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_no\" data-width=\"100%\" class=\"search_catalog_no with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_holding_no\" class=\"col-sm-1 control-label\">HOLDING NO</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_holding_no\" data-width=\"100%\" class=\"search_holding_no with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_holding\" class=\"col-sm-1 control-label\">HOLDING</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_holding\" data-width=\"100%\" class=\"search_holding with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_inc_item_name\" class=\"col-sm-1 control-label\">ITEM NAME</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_inc_item_name\" data-width=\"100%\" class=\"search_inc_item_name with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_company\" class=\"col-sm-1 control-label\">COMPANY</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_company\" data-width=\"100%\" class=\"search_company with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_colloquial\" class=\"col-sm-1 control-label\">COLLOQUIAL</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_colloquial\" data-width=\"100%\" class=\"search_colloquial with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_plant\" class=\"col-sm-1 control-label\">PLANT</label>\n                <div class=\"col-sm-4\">\n                    <select id=\"search_plant\" data-width=\"100%\" class=\"search_plant with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_group_class\" class=\"col-sm-1 control-label\">GROUP CLASS</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_group_class\" data-width=\"100%\" class=\"search_group_class with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_location\" class=\"col-sm-1 control-label\">LOCATION</label>\n                <div class=\"col-sm-4\">\n                    <select id=\"search_location\" data-width=\"100%\" class=\"search_location with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_catalog_status\" class=\"col-sm-1 control-label\">CAT STATUS</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_status\" data-width=\"100%\" class=\"search_catalog_status with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_catalog_type\" class=\"col-sm-1 control-label\">CATALOG TYPE</label>\n                <div class=\"col-sm-2\">\n                    <select id=\"search_catalog_type\" data-width=\"100%\" standard title=\"SELECT CATALOG TYPE\" class=\"search_catalog_type\">\n                        <option>OEM</option>\n                        <option>GEN</option>\n                    </select>\n                </div>\n                <label for=\"search_shelf\" class=\"col-sm-1 control-label\">SHELF</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_shelf\" data-width=\"100%\" class=\"search_shelf with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_item_type\" class=\"col-sm-1 control-label\">ITEM TYPE</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_item_type\" data-width=\"100%\" class=\"search_item_type with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_catalog_type\" class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_bin\" class=\"col-sm-1 control-label\">BIN</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_bin\" data-width=\"100%\" class=\"search_bin with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\" style=\"visibility:hidden;\">\n                <label for=\"batas\" class=\"col-sm-1 control-label\"></label>\n                <div class=\"col-sm-2\">\n                    <input type=\"text\" class=\"form-control input-sm\" id=\"batas\" placeholder=\"#\">\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_manufacturer\" class=\"col-sm-1 control-label\">MANUFACTURER</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_manufacturer\" data-width=\"100%\" class=\"search_manufacturer with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label for=\"search_manufacturer\" class=\"col-sm-1 control-label\">SOURCE</label>\n                <div class=\"col-sm-5\">\n                    <input type=\"text\" class=\"form-control input-sm\" id=\"search_manufacturer\" placeholder=\"SOURCE\">\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_part_number\" class=\"col-sm-1 control-label\">PART NUMBER</label>\n                <div class=\"col-sm-3\">\n                    <select id=\"search_part_number\" data-width=\"100%\" class=\"search_part_number with-ajax\" data-live-search=\"true\"></select>\n                </div>\n                <label class=\"col-sm-2 control-label\"></label>\n                <label for=\"search_user\" class=\"col-sm-1 control-label\">USER</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_user\" data-width=\"100%\" class=\"search_user with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n            <div class=\"form-group\">\n                <label for=\"search_equipment\" class=\"col-sm-1 control-label\">EQUIPMENT</label>\n                <div class=\"col-sm-5\">\n                    <select id=\"search_equipment\" data-width=\"100%\" class=\"search_equipment with-ajax\" data-live-search=\"true\"></select>\n                </div>\n            </div>\n        </form>\n    </span>\n    <span id=\"search_result\" style=\"display:block;\">\n        <div>\n            <table id=\"part_master\" class=\"table table-striped table-hover table-bordered\" cellspacing=\"0\">\n                <thead>\n                    <tr>\n                        <th width=\"8%\">CATALOG NO</th>\n                        <th width=\"20%\">HOLDING</th>\n                        <th width=\"16%\">HOLDING NO</th>\n                        <th width=\"25%\">ITEM NAME</th>\n                        <th width=\"5%\">INC</th>\n                        <th width=\"9%\">GROUP CLASS</th>\n                        <th width=\"5%\">UOM</th>\n                        <th width=\"5%\">TYPE</th>\n                        <th width=\"7%\">STATUS</th>\n                    </tr>\n                </thead>\n            </table>\n        </div>\n        <hr class=\"hr-bawah-part-master\">\n        <div class=\"row\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <!-- SHOW SOURCE DESCRIPTION MODAL -->\n                <div class=\"modal draggable\" id=\"source_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                    <div class=\"modal-dialog\" role=\"\" style=\"width: 30%;\">\n                        <div class=\"modal-content\">\n                            <div class=\"modal-header\">\n                                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                <h4 class=\"modal-title\" id=\"source_modal_title\">Woops, Error</h4>\n                            </div>\n                            <div class=\"modal-body\">\n                                <span id=\"source_meta\"></span>\n                                <span id=\"hr\"></span>\n                                <span id=\"source_desc\" class=\"uppercase pre\"></span>\n                                <span id=\"part_source\"></span>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n                <!-- END SHOW SOURCE DESCRIPTION MODAL -->\n                <div class=\"input-group double-input\">\n                    <span class=\"input-group-btn\">\n                    <button id=\"show-source\" class=\"btn btn-sm btn-primary\">SOURCE</button>\n                    <button id=\"#\" class=\"btn btn-sm btn-primary\">REFERENCE</button>\n                    <button id=\"#\" class=\"btn btn-sm btn-primary\">PRINT</button>\n                    </span>\n                    <select id=\"company\" data-live-search-placeholder=\"SELECT COMPANY\" data-width=\"20%\" class=\"company\"></select>\n                    <input type=\"text\" class=\"form-control dua input-sm\" id=\"#\" readonly placeholder=\"SELECTED INFORMATION\" style=\"font-size:12px;\">\n                </div>\n            </div>\n        </div>\n        <ul class=\"nav nav-tabs\" id=\"mainTab\">\n            <li role=\"\" class=\"active\"><a href=\"#char_tab\">DESCRIPTION AND PART NUMBER</a></li>\n            <li role=\"\"><a href=\"#class_tab\">CLASSIFICATION AND FLAG</a></li>\n            <li role=\"\"><a href=\"#eq_tab\">EQUIPMENT</a></li>\n        </ul>\n        <div class=\"tab-content\">\n            <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"char_tab\">\n                <div class=\"col-xs-6\">\n                    <div class=\"col-xs-12\" style=\"margin-bottom:5px;\">\n                        <div class=\"input-group\">\n                            <input type=\"text\" id=\"short_desc\" class=\"form-control input-sm\" readonly placeholder=\"SHORT DESCRIPTION\">\n                            <span class=\"input-group-btn\" style=\"padding-left:10px;\">\n                            <button disabled id=\"submit_values\" class=\"btn btn-sm btn-primary\">&nbsp;&nbsp;&nbsp;SAVE CHARACTERISTIC&nbsp;&nbsp;&nbsp;</button>\n                            </span>                              \n                        </div>\n                    </div>\n                    <div class=\"col-xs-6\">\n                        <div id=\"select_inc\">\n                            <select id=\"inc\" data-width=\"100%\" class=\"inc with-ajax\" data-live-search=\"true\"></select>\n                        </div>\n                    </div>\n                    <div class=\"col-xs-6\" id=\"select_group_class_box\">\n                        <div id=\"select_group_class\">\n                            <select id=\"group_class\" data-live-search-placeholder=\"SELECT GROUP CLASS - NAME\" data-width=\"100%\" class=\"group-class\"></select>\n                        </div>\n                    </div>\n                    <div class=\"col-xs-12\" style=\"margin-top: 5px;\">\n                        <table style=\"margin-top: 0 !important;\" class=\"table table-char-value table-striped\" id=\"characteristisc_value_table\">\n                            <thead>\n                                <tr>\n                                    <th>CHARACTERISTIC</th>\n                                    <th>VALUE</th>\n                                    <th>ABBREV</th>\n                                    <th>SHORT</th>\n                                </tr>\n                            </thead>\n                            <tbody id=\"characteristic_value_box\">\n                            </tbody>\n                        </table>\n                        <!-- GET VALUES LIST MODAL -->\n                        <div class=\"modal draggable\" id=\"get_values_list_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                            <div class=\"modal-dialog\" role=\"\" style=\"width: 35%;\">\n                                <div class=\"modal-content\">\n                                    <div class=\"modal-header\">\n                                        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                        <h4 class=\"modal-title\" id=\"get_values_list_modal_title\">Woops, Error</h4>\n                                    </div>\n                                    <div class=\"modal-body \">\n                                        <table class=\"table table-striped table-hover\" id=\"get_values_list_table\">\n                                            <thead>\n                                                <th width=\"70%\">VALUE</th>\n                                                <th width=\"30%\">ABBREV</th>\n                                            </thead>\n                                            <tbody id=\"value-body\"></tbody>\n                                        </table>\n                                        <input type=\"hidden\" id=\"index_get_values_list_modal\" class=\"normalcase\">\n                                    </div>\n                                    <div class=\"modal-footer\">\n                                        <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    </div>\n                                </div>\n                            </div>\n                        </div>\n                        <!-- END GET VALUES LIST MODAL -->\n                    </div>\n                </div>\n                <div class=\"col-xs-6\">\n                    <input type=\"text\" class=\"form-control input-sm\" readonly>\n                    <input type=\"text\" class=\"form-control input-sm\" style=\"margin-top:5px;\" readonly>\n                    <table id=\"part_manufacturer_code\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                        <thead>\n                            <tr>\n                                <th colspan=\"4\">\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">MANUFACTURER</span>\n                                    <button id=\"add-pmc\" class=\"btn btn-xs btn-primary pull-right\" style=\"\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>MAN CODE</th>\n                                <th>SOURCE</th>\n                                <th>MAN REF</th>\n                                <th>TYPE</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART MANUFACTURER CODE MODAL -->\n                    <div class=\"modal\" id=\"part_manufacturer_code_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_manufacturer_code_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_manufacturer_code_modal_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_code_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_manufacturer_code_pmc\">\n                                                <select id=\"manufacturer_code_pmc\" class=\"manufacturer-code-pmc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_name_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"manufacturer_name_pmc\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"select_source_type_pmc\" class=\"col-sm-3 control-label\">SOURCE</label>\n                                            <div class=\"col-sm-2\">\n                                                <select id=\"select_source_type_pmc\" class=\"\"></select>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_ref_pmc\" class=\"col-sm-3 control-label\">MANUFACTURER REF</label>\n                                            <div class=\"col-sm-9\">\n                                                <input id=\"manufacturer_ref_pmc\" type=\"text\" class=\"form-control input-sm\">\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"select_manufacturer_code_type_pmc\" class=\"col-sm-3 control-label\">TYPE</label>\n                                            <div class=\"col-sm-1\">\n                                                <select id=\"select_manufacturer_code_type_pmc\" class=\"\"></select>       \n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_manufacturer_code_id_pmc\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_pmc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_pmc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_pmc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_pmc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save_pmc\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART MANUFACTURER CODE MODAL -->\n                </div>\n            </div>\n            <div role=\"tabpanel\" class=\"tab-pane row\" id=\"class_tab\">\n                <div class=\"col-xs-6\">\n                    Test\n                </div>\n                <div class=\"col-xs-6\">\n                    <table id=\"part_colloquial\" class=\"table table-striped table-hover\" width=\"100%\" cellpadding=\"0\">\n                        <thead>\n                            <tr>\n                                <th>\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">COLLOQUIAL</span>\n                                    <button id=\"add-pc\" class=\"btn btn-xs btn-primary pull-right\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </th>\n                            </tr>\n                            <tr>\n                                <th>COLLOQUIAL NAME</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART COLLOQUIAL MODAL -->\n                    <div class=\"modal\" id=\"part_colloquial_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_colloquial_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_colloquial_modal_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"colloquial_pc\" class=\"col-sm-3 control-label\">COLLOQUAIL NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input id=\"colloquial_pc\" type=\"text\" class=\"form-control input-sm\">\n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_colloquial_id_pc\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_pc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_pc text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_pc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_pc text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save_pc\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART COLLOQUIAL MODAL -->\n                </div>\n            </div>\n            <div role=\"tabpanel\" class=\"tab-pane row\" id=\"eq_tab\">\n                <div class=\"col-xs-12\">\n                    <table id=\"part_equipment_code\" class=\"table table-striped table-hover\" width=\"100%\" cellpadding=\"0\">\n                        <thead>\n                            <tr>\n                                <td colspan=\"6\">\n                                    <span class=\"pull-left\" style=\"font-weight: bold;padding-top: 3px;\">EQUIPMENT</span>\n                                    <button id=\"add-pec\" class=\"btn btn-xs btn-primary pull-right\" style=\"\"><i class=\"fa fa-plus\"></i>&nbsp;&nbsp;ADD NEW</button>\n                                </td>\n                            </tr>\n                            <tr>\n                                <th width=\"\">EQUIPMENT CODE</th>\n                                <th width=\"\">EQUIPMENT NAME</th>\n                                <th width=\"\">QTY</th>\n                                <th width=\"\">MANUFACTURER CODE</th>\n                                <th width=\"\">DOCUMENT REF</th>\n                                <th width=\"\">DRAWING REF</th>\n                            </tr>\n                        </thead>\n                    </table>\n                    <!-- PART EQUIPMENT CODE MODAL -->\n                    <div class=\"modal\" id=\"part_equipment_code_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                        <div class=\"modal-dialog\" role=\"\" style=\"width: 70%;\">\n                            <div class=\"modal-content\">\n                                <div class=\"modal-header\">\n                                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                                    <h4 class=\"modal-title\" id=\"part_equipment_code_modal_title\"></h4>\n                                </div>\n                                <div class=\"modal-body\">\n                                    <form class=\"form-horizontal\" id=\"part_equipment_code_form\">\n                                        <div class=\"form-group\">\n                                            <label for=\"equipment_code_peq\" class=\"col-sm-3 control-label\">EQUIPMENT CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_equipment_code_peq\">\n                                                <select id=\"equipment_code_peq\" class=\"equipment-code-peq with-ajax\" data-live-search=\"true\">                        \n                                                </select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"equipment_name_peq\" class=\"col-sm-3 control-label\">EQUIPMENT NAME</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"equipment_name_peq\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"qty_install_peq\" class=\"col-sm-3 control-label\">QTY INSTALL</label>\n                                            <div class=\"col-sm-2\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"qty_install_peq\">\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_code_peq\" class=\"col-sm-3 control-label\">MANUFACTURER CODE</label>\n                                            <div class=\"col-sm-5\" id=\"select_manufacturer_code_peq\">\n                                                <select id=\"manufacturer_code_peq\" class=\"manufacturer-code-peq with-ajax\" data-live-search=\"true\">                        \n                                                </select>                      \n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"manufacturer_name_peq\" class=\"col-sm-3 control-label\">MANUFACTURER NAME</label>\n                                            <div class=\"col-sm-9\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"manufacturer_name_peq\" readonly>\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"doc_ref_peq\" class=\"col-sm-3 control-label\">DOCUMENT REF</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"doc_ref_peq\" >\n                                            </div>\n                                        </div>\n                                        <div class=\"form-group\">\n                                            <label for=\"dwg_ref_peq\" class=\"col-sm-3 control-label\">DRAWING REF</label>\n                                            <div class=\"col-sm-7\">\n                                                <input type=\"text\" class=\"form-control input-sm\" id=\"dwg_ref_peq\">\n                                            </div>\n                                        </div>\n                                        <input type=\"hidden\" id=\"part_equipment_code_id\">\n                                    </form>\n                                </div>\n                                <div class=\"modal-footer\">\n                                    <span class=\"saving_peq text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                                    <span class=\"updating_peq text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                                    <span class=\"error_saving_peq text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                                    <span class=\"error_updating_peq text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                                    <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                                    <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_peq\" value=\"\">\n                                </div>\n                            </div>\n                        </div>\n                    </div>\n                    <!-- END PART EQUIPMENT CODE MODAL -->\n                </div>\n            </div>\n        </div>\n    </span>\n</div>";
+this["Settings"] = this["Settings"] || {};
+this["Settings"]["templates"] = this["Settings"]["templates"] || {};
+this["Settings"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
+
+  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#global_characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#company_characteristic_value\">COMPANY CHARACTERISTIC SEQUENCE</a></li>\n            <li><a href=\"#company_short_description\">COMPANY SHORT DESCRIPTION</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"global_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\" id=\"select_inc\">\n                        <select id=\"global_inc\" class=\"global_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_modal_title\">\n                                ADD CHARACTERISTIC <small id=\"item_name\"></small>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add-char-table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n\n            <div id=\"global-char-area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global-val-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\" id=\"select_inc\">\n                        <select id=\"inc\" class=\"inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"holding\" class=\"holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company-char-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company-val-area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_short_description\">\n            <div class=\"col-xs-12\">\n\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
+    + alias3(((helper = (helper = helpers.eng_definition || (depth0 != null ? depth0.eng_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"eng_definition","hash":{},"data":data}) : helper)))
+    + "</div><br/>\n                    <div><b>IDN DEFINITION</b><div>\n                    <div>@"
+    + alias3(((helper = (helper = helpers.ind_definition || (depth0 != null ? depth0.ind_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ind_definition","hash":{},"data":data}) : helper)))
+    + "</div>\n                </script>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"user_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"user_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">USER CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"weight_unit\">\n            <div class=\"col-sx-12\">\n                <table id=\"weight_unit_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">WEIGHT UNIT</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-wu\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- Catalog Status Tab Modal -->\n<div class=\"modal\" id=\"catalog_status_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"catalog_status_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"catalog_status_tab_modal_form\">\n                    <div class=\"form-group\" id=\"input_catalog_status_catalog_status_tab_modal\">\n                        <label for=\"catalog_status_catalog_status_tab_modal\" class=\"col-sm-3 control-label\">CATALOG STATUS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"catalog_status_catalog_status_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"input_desc_catalog_status_tab_modal\">\n                        <label for=\"desc_catalog_status_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_catalog_status_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_catalog_status_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_catalog_status_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_catalog_status_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_catalog_status_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_catalog_status_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_catalog_status_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Catalog Status Modal -->\n<!-- Catalog Type Tab Modal -->\n<div class=\"modal\" id=\"catalog_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"catalog_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"catalog_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"input_catalog_type_catalog_type_tab_modal\">\n                        <label for=\"catalog_type_catalog_type_tab_modal\" class=\"col-sm-3 control-label\">CATALOG TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"catalog_type_catalog_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"input_desc_catalog_type_tab_modal\">\n                        <label for=\"desc_catalog_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_catalog_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_catalog_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_catalog_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_catalog_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_catalog_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_catalog_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_catalog_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Catalog Type Modal -->\n<!-- Equipment Code Tab Modal -->\n<div class=\"modal\" id=\"equipment_code_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"equipment_code_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"equipment_code_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_equipment_code_tab_modal\">\n                            <select id=\"holding_equipment_code_tab_modal\" class=\"holding-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_equipment_code_tab_modal\">\n                            <select id=\"company_equipment_code_tab_modal\" class=\"company-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_equipment_code_tab_modal\">\n                        <label for=\"select_plant_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_equipment_code_tab_modal\">\n                            <select id=\"plant_equipment_code_tab_modal\" class=\"plant-equipment-code-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_equipment_code_equipment_code_tab_modal\">\n                        <label for=\"equipment_code_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">EQUIPMENT CODE</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"equipment_code_equipment_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_equipment_name_equipment_code_tab_modal\">\n                        <label for=\"equipment_name_equipment_code_tab_modal\" class=\"col-sm-2 control-label\">EQUIPMENT NAME</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"equipment_name_equipment_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_equipment_code_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_equipment_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_equipment_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_equipment_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_equipment_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_equipment_code_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Equipment Code Tab Modal -->\n<!-- Harmonized Code Tab Modal -->\n<div class=\"modal\" id=\"harmonized_code_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"harmonized_code_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"harmonized_code_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_harmonized_code_harmonized_code_tab_modal\">\n                        <label for=\"harmonized_code_harmonized_code_tab_modal\" class=\"col-sm-3 control-label\">HARMONIZED CODE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"harmonized_code_harmonized_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_harmonized_code_tab_modal\">\n                        <label for=\"desc_harmonized_code_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_harmonized_code_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_harmonized_code_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_harmonized_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_harmonized_code_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_harmonized_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_harmonized_code_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_harmonized_code_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Harmonized Code Modal -->\n<!-- Hazard Class Tab Modal -->\n<div class=\"modal\" id=\"hazard_class_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"hazard_class_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"hazard_class_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_hazard_class_hazard_class_tab_modal\">\n                        <label for=\"hazard_class_hazard_class_tab_modal\" class=\"col-sm-3 control-label\">HAZARD CLASS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"hazard_class_hazard_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_hazard_class_tab_modal\">\n                        <label for=\"desc_hazard_class_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_hazard_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_hazard_class_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_hazard_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_hazard_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_hazard_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_hazard_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_hazard_class_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Hazard Class Modal -->\n<!-- Holding Tab Modal -->\n<div class=\"modal\" id=\"holding_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"holding_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"holding_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_holding_holding_tab_modal\">\n                        <label for=\"holding_holding_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"holding_holding_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_holding_desc_holding_tab_modal\">\n                        <label for=\"holding_desc_holding_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"holding_desc_holding_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_holding_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_holding_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_holding_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_holding_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_holding_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_holding_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Holding Tab Modal -->\n<!-- Company Tab Modal -->\n<div class=\"modal\" id=\"company_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"company_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"company_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_holding_company_tab_modal\">\n                        <label for=\"select_holding_company_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_company_tab_modal\">\n                            <select id=\"holding_company_tab_modal\" class=\"holding-company-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_company_tab_modal\">\n                        <label for=\"company_company_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"company_company_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_desc_company_tab_modal\">\n                        <label for=\"company_desc_company_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"company_desc_company_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_company_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_company_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_company_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_company_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_company_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_company_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Company Tab Modal -->\n<!-- Plant Tab Modal -->\n<div class=\"modal\" id=\"plant_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"plant_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"plant_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_plant_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_plant_tab_modal\">\n                            <select id=\"holding_plant_tab_modal\" class=\"holding-plant-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_company_plant_tab_modal\">\n                        <label for=\"select_company_plant_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_plant_tab_modal\">\n                            <select id=\"company_plant_tab_modal\" class=\"company-plant-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_plant_tab_modal\">\n                        <label for=\"plant_plant_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"plant_plant_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_desc_plant_tab_modal\">\n                        <label for=\"plant_desc_plant_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"plant_desc_plant_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_plant_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_plant_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_plant_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_plant_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_plant_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_plant_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Plant Tab Modal -->\n<!-- Location Tab Modal -->\n<div class=\"modal\" id=\"location_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"location_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"location_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_location_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_location_tab_modal\">\n                            <select id=\"holding_location_tab_modal\" class=\"holding-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_location_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_location_tab_modal\">\n                            <select id=\"company_location_tab_modal\" class=\"company-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_plant_location_tab_modal\">\n                        <label for=\"select_plant_location_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_location_tab_modal\">\n                            <select id=\"plant_location_tab_modal\" class=\"plant-location-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_location_tab_modal\">\n                        <label for=\"location_location_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"location_location_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_desc_location_tab_modal\">\n                        <label for=\"location_desc_location_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"location_desc_location_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_location_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_location_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_location_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_location_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_location_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_location_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Location Tab Modal -->\n<!-- Shelf Tab Modal -->\n<div class=\"modal\" id=\"shelf_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"shelf_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"shelf_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_shelf_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_shelf_tab_modal\">\n                            <select id=\"holding_shelf_tab_modal\" class=\"holding-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_shelf_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_shelf_tab_modal\">\n                            <select id=\"company_shelf_tab_modal\" class=\"company-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_plant_shelf_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_shelf_tab_modal\">\n                            <select id=\"plant_shelf_tab_modal\" class=\"plant-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_location_shelf_tab_modal\">\n                        <label for=\"select_location_shelf_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\" id=\"select_location_shelf_tab_modal\">\n                            <select id=\"location_shelf_tab_modal\" class=\"location-shelf-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_shelf_tab_modal\">\n                        <label for=\"shelf_shelf_tab_modal\" class=\"col-sm-2 control-label\">SHELF</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"shelf_shelf_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_desc_shelf_tab_modal\">\n                        <label for=\"shelf_desc_shelf_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"shelf_desc_shelf_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_shelf_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_shelf_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_shelf_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_shelf_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_shelf_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_shelf_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Shelf Tab Modal -->\n<!-- Bin Tab Modal -->\n<div class=\"modal\" id=\"bin_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width: 60%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"bin_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"bin_tab_modal_form\">\n                    <div class=\"form-group\">\n                        <label for=\"select_holding_bin_tab_modal\" class=\"col-sm-2 control-label\">HOLDING</label>\n                        <div class=\"col-sm-9\" id=\"select_holding_bin_tab_modal\">\n                            <select id=\"holding_bin_tab_modal\" class=\"holding-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_company_bin_tab_modal\" class=\"col-sm-2 control-label\">COMPANY</label>\n                        <div class=\"col-sm-8\" id=\"select_company_bin_tab_modal\">\n                            <select id=\"company_bin_tab_modal\" class=\"company-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_plant_bin_tab_modal\" class=\"col-sm-2 control-label\">PLANT</label>\n                        <div class=\"col-sm-7\" id=\"select_plant_bin_tab_modal\">\n                            <select id=\"plant_bin_tab_modal\" class=\"plant-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\">\n                        <label for=\"select_location_bin_tab_modal\" class=\"col-sm-2 control-label\">LOCATION</label>\n                        <div class=\"col-sm-7\" id=\"select_location_bin_tab_modal\">\n                            <select id=\"location_bin_tab_modal\" class=\"location-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select> \n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_shelf_bin_tab_modal\">\n                        <label for=\"select_shelf_bin_tab_modal\" class=\"col-sm-2 control-label\">SHELF</label>\n                        <div class=\"col-sm-7\" id=\"select_shelf_bin_tab_modal\">\n                            <select id=\"shelf_bin_tab_modal\" class=\"shelf-bin-tab-modal with-ajax\" data-live-search=\"true\" data-width=\"100%\">                        \n                            </select>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_bin_bin_tab_modal\">\n                        <label for=\"bin_bin_tab_modal\" class=\"col-sm-2 control-label\">BIN</label>\n                        <div class=\"col-sm-7\">\n                            <input type=\"text\" id=\"bin_bin_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_bin_desc_bin_tab_modal\">\n                        <label for=\"bin_desc_bin_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-10\">\n                            <input type=\"text\" id=\"bin_desc_bin_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_bin_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_bin_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_bin_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_bin_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_bin_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_bin_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Bin Tab Modal -->\n<!-- Item Type Tab Modal -->\n<div class=\"modal\" id=\"item_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"item_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"item_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_item_type_item_type_tab_modal\">\n                        <label for=\"item_type_item_type_tab_modal\" class=\"col-sm-3 control-label\">ITEM TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"item_type_item_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_item_type_tab_modal\">\n                        <label for=\"desc_item_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_item_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_item_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_item_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_item_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_item_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_item_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_item_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Item Type Modal -->\n<!-- Item Source Type Tab Modal -->\n<div class=\"modal\" id=\"source_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"source_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"source_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_source_type_source_type_tab_modal\">\n                        <label for=\"source_type_source_type_tab_modal\" class=\"col-sm-3 control-label\">SOURCE TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"source_type_source_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_source_type_tab_modal\">\n                        <label for=\"desc_source_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_source_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_source_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_source_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_source_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_source_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_source_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_source_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Source Type Modal -->\n<!-- Item Stock Type Tab Modal -->\n<div class=\"modal\" id=\"stock_type_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"stock_type_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"stock_type_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_stock_type_stock_type_tab_modal\">\n                        <label for=\"stock_type_stock_type_tab_modal\" class=\"col-sm-3 control-label\">STOCK TYPE</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"stock_type_stock_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_stock_type_tab_modal\">\n                        <label for=\"desc_stock_type_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_stock_type_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_stock_type_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_stock_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_stock_type_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_stock_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_stock_type_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_stock_type_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Stock Type Modal -->\n<!-- Unit of Measrement Tab Modal -->\n<div class=\"modal\" id=\"unit_of_measurement_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\" style=\"width:65%;\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"unit_of_measurement_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"unit_of_measurement_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_unit4_unit_of_measurement_tab_modal\">\n                        <label for=\"unit4_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 4</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit4_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_unit3_unit_of_measurement_tab_modal\">\n                        <label for=\"unit3_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 3</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit3_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_unit2_unit_of_measurement_tab_modal\">\n                        <label for=\"unit2_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">UNIT 2</label>\n                        <div class=\"col-sm-3\">\n                            <input type=\"text\" id=\"unit2_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_unit_of_measurement_tab_modal\">\n                        <label for=\"desc_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"desc_unit_of_measurement_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_eng_definition_unit_of_measurement_tab_modal\">\n                        <label for=\"eng_definition_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">ENG DEFINITION</label>\n                        <div class=\"col-sm-10\">\n                            <textarea id=\"eng_definition_unit_of_measurement_tab_modal\" class=\"form-control vresize\"></textarea>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_ind_definition_unit_of_measurement_tab_modal\">\n                        <label for=\"ind_definition_unit_of_measurement_tab_modal\" class=\"col-sm-2 control-label\">IND DEFINITION</label>\n                        <div class=\"col-sm-10\">\n                            <textarea id=\"ind_definition_unit_of_measurement_tab_modal\" class=\"form-control vresize\"></textarea>\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_unit_of_measurement_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_unit_of_measurement_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_unit_of_measurement_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_unit_of_measurement_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_unit_of_measurement_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_unit_of_measurement_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Unit of Measrement Tab Modal -->\n<!-- User Class Tab Modal -->\n<div class=\"modal\" id=\"user_class_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"user_class_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"user_class_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_user_class_user_class_tab_modal\">\n                        <label for=\"user_class_user_class_tab_modal\" class=\"col-sm-3 control-label\">USER CLASS</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"user_class_user_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_user_class_tab_modal\">\n                        <label for=\"desc_user_class_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_user_class_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_user_class_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_user_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_user_class_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_user_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_user_class_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_user_class_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Hazard Class Modal -->\n<!-- User Weight Unit Modal -->\n<div class=\"modal\" id=\"weight_unit_tab_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n    <div class=\"modal-dialog\" role=\"\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                <h4 class=\"modal-title\" id=\"weight_unit_tab_modal_title\"></h4>\n            </div>\n            <div class=\"modal-body\">\n                <form class=\"form-horizontal\" id=\"weight_unit_tab_modal_form\">\n                    <div class=\"form-group\" id=\"form_weight_unit_weight_unit_tab_modal\">\n                        <label for=\"weight_unit_weight_unit_tab_modal\" class=\"col-sm-3 control-label\">WEIGHT UNIT</label>\n                        <div class=\"col-sm-6\">\n                            <input type=\"text\" id=\"weight_unit_weight_unit_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <div class=\"form-group\" id=\"form_desc_weight_unit_tab_modal\">\n                        <label for=\"desc_weight_unit_tab_modal\" class=\"col-sm-3 control-label\">DESCRIPTION</label>\n                        <div class=\"col-sm-9\">\n                            <input type=\"text\" id=\"desc_weight_unit_tab_modal\" class=\"form-control input-sm\">\n                            <p class=\"help-block\"></p>\n                        </div>\n                    </div>\n                    <input type=\"hidden\" id=\"id_weight_unit_tab_modal\">\n                </form>\n            </div>\n            <div class=\"modal-footer\">\n                <span class=\"saving_weight_unit_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Saving....</span>\n                <span class=\"updating_weight_unit_tab_modal text-primary pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-refresh fa-spin\"></i> Updating....</span>\n                <span class=\"error_saving_weight_unit_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to saving data.</span>\n                <span class=\"error_updating_weight_unit_tab_modal text-danger pull-left\" style=\"display:none;margin-top:7px;\"><i class=\"fa fa-warning\"></i> Whoops, failed to updating data.</span>\n                <input type=\"button\" class=\"btn btn-default btn-sm\" data-dismiss=\"modal\" value=\"CLOSE\">\n                <input type=\"button\" class=\"btn btn-primary btn-sm\" id=\"btn_save_weight_unit_tab_modal\" value=\"DISABLED\" disabled>\n            </div>\n        </div>\n    </div>\n</div>\n<!-- End Weight Unit Modal -->";
 },"useData":true});
 Handlebars.registerPartial("avbar", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\" target=\"_blank\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\" target=\"_blank\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\" target=\"_blank\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\" target=\"_blank\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Guest <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a href=\"#\" id=\"logoutapp\">Logout</a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
+    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown active\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Guest <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a href=\"#\" id=\"logoutapp\">Logout</a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
 },"useData":true}));
-this["Home"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\" target=\"_blank\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\" target=\"_blank\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\" target=\"_blank\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\" target=\"_blank\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Guest <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a href=\"#\" id=\"logoutapp\">Logout</a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
+this["Settings"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown active\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\">Guest <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li>\n                            <a href=\"#\" id=\"logoutapp\">Logout</a>\n                        </li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
 },"useData":true});
 jQuery(function($) {
     // INSERT ELEMENT FOR HANDLEBARS
@@ -17804,8 +17028,8 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Home.templates.navbar());
-    $('#content').html(Home.templates.content());
+    $('#navbar').html(Settings.templates.navbar());
+    $('#content').html(Settings.templates.content());
     // END HANDLEBARS TEMPLATE
 
     // LOADING
@@ -17814,1896 +17038,87 @@ jQuery(function($) {
     });
     // END LOADING
 
-    // PART MASTER
-    $('#part_master').DataTable({
-        processing: false,
-        serverSide: true,
-        ajax: 'home/part-master',
-        columns: [{
-            data: 'catalog_no',
-            name: 'catalog_no'
-        }, {
-            data: 'holding',
-            name: 'holding'
-        }, {
-            data: 'holding_no',
-            name: 'holding_no'
-        }, {
-            data: 'item_name',
-            name: 'tbl_inc.item_name'
-        }, {
-            data: 'inc',
-            name: 'tbl_inc.inc'
-        }, {
-            data: 'group_class',
-            name: 'tbl_group_class.group_class'
-        }, {
-            data: 'unit4',
-            name: 'unit_issue.unit4'
-        }, {
-            data: 'catalog_type',
-            name: 'catalog_type'
-        }, {
-            data: 'status',
-            name: 'tbl_catalog_status.status'
-        }, ],
-        oLanguage: {
-            sLengthMenu: "_MENU_",
-            sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
-            oPaginate: {
-                sFirst: "FIRST",
-                sLast: "LAST",
-                sNext: "NEXT",
-                sPrevious: "PREVIOUS"
-            },
-            sSearch: "",
-            sSearchPlaceholder: "SEARCH...",
-        },
-        pageLength: 5,
-        /*dom:  "<'row'<'col-sm-12'tr>>" +
-              "<'row'<'col-sm-5'i><'col-sm-7'p>>",*/
-        dom: "Z<'row'<'col-sm-12'tr>>" +
-            "<'row'i<'col-sm-3'p>>",
-
-        // Callback function for INC - Group Class result
-        drawCallback: function() {
-            var api = this.api();
-            var firstRow = api.rows().data()[0];
-            if (typeof firstRow != "undefined") {
-                var catalog_no = firstRow['catalog_no'];
-                var holding = firstRow['holding'];
-                var holding_no = firstRow['holding_no'];
-                var item_name = firstRow['item_name'];
-                var inc = firstRow['inc'];
-                var group_class = firstRow['group_class'];
-                var unit_issue = firstRow['unit4'];
-                var catalog_type = firstRow['catalog_type'];
-                var status = firstRow['status'];
-                var item_type = firstRow['item_type'];
-                var stock_type = firstRow['stock_type'];
-                var user_class = firstRow['user_class'];
-                var conversion = firstRow['conversion'];
-                var weight_value = firstRow['weight_value'];
-                var weight_unit = firstRow['weight_unit'];
-                var average_unit_price = firstRow['average_unit_price'];
-                var inc_group_class_id = firstRow['inc_group_class_id'];
-            }
-
-            $("#part_master tbody tr:first-child").addClass('active');
-            $("#part_master tbody tr").on('click', function(event) {
-                $("#part_master tbody tr:first-child").removeClass('active');
-                $("#part_master tbody tr").removeClass('active');
-                $(this).addClass('active');
-            });
-
-            var part_master_id = $("#part_master tbody tr.active").attr("id");
-
-            get_compnay(part_master_id)
-            get_part_manufacturer_code(part_master_id);
-            get_part_colloquial(part_master_id);
-            get_part_equipment_code(part_master_id);
-            get_part_characteristic_value(inc_group_class_id);
-
-            $('<span class="text-primary uppercase" id="selected_catalog_info">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type + '</span>').appendTo('#part_master_info');
-        },
-    });
-    $('#part_master_info').addClass('col-sm-9');
-
-    // WHEN CLICK PART MASTER ROW
-    $("#part_master tbody").delegate("tr", "click", function() {
-        part_master_id = $(this).attr('id');
-        get_compnay(part_master_id)
-        get_part_manufacturer_code(part_master_id);
-        get_part_colloquial(part_master_id);
-        get_part_equipment_code(part_master_id);
-
-        $.ajax({
-            url: 'home/click-row-part-master/' + part_master_id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
-
-                get_part_characteristic_value(data.link_inc_group_class_id);
-
-            },
-            error: function() {}
-        });
-
-        catalog_no = $("table#part_master tr.active td:eq(0)").text();
-        inc = $("table#part_master tr.active td:eq(4)").text();
-        item_name = $("table#part_master tr.active td:eq(3)").text();
-        unit_issue = $("table#part_master tr.active td:eq(6)").text();
-        catalog_type = $("table#part_master tr.active td:eq(7)").text();
-
-        // $("span#selected_catalog_info").html('bismillah');
-        $("span#selected_catalog_info").html('&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type);
-    });
-
-    // SELECT COMPANY FOR EVERY CATALOG
-    function get_compnay(part_master_id) {
-        $.ajax({
-            url: 'home/select-company/' + part_master_id,
-            type: 'GET',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-                opt = '';
-                $.each(data, function(i, item) {
-                    opt += '<option value="' + item.id + '">' + item.company + '</option>';
-                });
-                $("#company").empty().append(opt);
-
-                $('#company').selectpicker('refresh');
-                $('button[data-id="company"]').addClass("btn-sm");
-                $('button[data-id="company"]').css("border-left-width", "0px");
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-            },
-            error: function() {
-                $("#company").empty();
-                $('.company').selectpicker('refresh');
-                $('button[data-id="company"]').addClass("btn-sm");
-                $('button[data-id="company"] > span.filter-option').html("<font color='red'>ERROR WHILE GETTING COMPANY DATA</font>");
-            }
-        });
-    }
-    // END SELECT COMPANY FOR EVERY CATALOG
-
-    // WHEN COMPANY CHANGED
-    $('#company').on('changed.bs.select', function(e) {
-        part_characteristic_value_box();
-    });
-    // END WHEN COMPANY CHANGED
-
-    // SHOW SOURCE DESC
-    $(document).on('click', '#show-source', function() {
-        var requestCallback = new MyRequestsCompleted({
-            numRequest: 2,
-            singleCallback: function() {
-                $('#source_modal').modal('show');
-                $('.modal-backdrop').remove();
-            }
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: 'home/part-source-description/' + $("#part_master tbody tr.active").attr("id"),
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + data.catalog_no);
-                source_meta = '<table>';
-
-                if (data.inc.length > 0) {
-                    source_meta += '<tr><td width="25%">INC</td><td>: ' + data.inc + '</td></tr>';
-                }
-
-                if (data.item_name.length > 0) {
-                    source_meta += '<tr><td width="25%">ITEM NAME</td><td>: ' + data.item_name + '</td></tr>';
-                }
-
-                if (data.group_class.length > 0) {
-                    source_meta += '<tr><td width="25%">GROUP CLASS</td><td>: ' + data.group_class + '</td></tr>';
-                }
-
-                if (data.uom.length > 0) {
-                    source_meta += '<tr><td width="25%">UOM</td><td>: ' + data.uom + '</td></tr>';
-                }
-                source_meta += '</table>';
-
-                if (data.inc.length > 0 || data.item_name.length > 0 || data.group_class.length > 0 || data.uom.length > 0) {
-                    $('#source_modal .modal-body #hr').html("<hr>");
-                } else {
-                    $('#source_modal .modal-body #hr').html("");
-                }
-
-                $('#source_modal .modal-body #source_meta').html(source_meta);
-                $('#source_modal .modal-body #source_desc').text(data.source);
-
-                requestCallback.requestComplete(true);
-            },
-            error: function() {}
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: 'home/part-source-part-no/' + $("#part_master tbody tr.active").attr("id"),
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                if (data.length > 0) {
-                    part_source = '<table class="table table-striped">';
-                    part_source += '<tr><th>MANCODE</th><th>MANUFACTURER</th><th>MANREF</th></tr>';
-                    $.each(data, function(i, item) {
-                        part_source += '<tr><td>' + item.manufacturer_code + '</td><td>' + item.manufacturer + '</td><td>' + item.manufacturer_ref + '</td></tr>';
-                    });
-                    part_source += '<table class="table table-striped">';
-
-                    $('#source_modal .modal-body #part_source').empty().append(part_source);
-                } else {
-                    $('#source_modal .modal-body #part_source').empty();
-                }
-
-                requestCallback.requestComplete(true);
-            },
-            error: function() {}
-        });
-    });
-    // END SHOW SOURCE DESC
-
-    // MODAL DRAGGABLE - for source description
-    $('.modal.draggable>.modal-dialog').draggable({
-        cursor: 'move',
-        handle: '.modal-header'
-    });
-    $('.modal.draggable>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
-    // END MODAL DRAGGABLE
-
-    // GET PART CHARACTERISTIC VALUE
-    function get_part_characteristic_value(inc_group_class_id) {
-
-        $.ajax({
-            url: 'home/inc-group-class/' + inc_group_class_id,
-            type: 'GET',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-
-                // INC ON CHARACTERISTIC VALUE
-                var optInc = '<option value="' + data.inc_id + '" selected="selected">' + data.inc + ' : ' + data.item_name + '</option>';
-                $("#inc").empty().append(optInc);
-
-                $("#text_inc").val(data.item_name);
-                $("#text_inc").attr("title", data.item_name);
-
-                var optionsINC = {
-                    ajax: {
-                        url: 'home/select-inc',
-                        type: 'POST',
-                        dataType: 'json',
-                    },
-                    locale: {
-                        emptyTitle: 'SELECT INC - ITEM NAME',
-                        searchPlaceholder: 'SEARCH INC OR ITEM NAME'
-                    },
-                    preprocessData: function(data) {
-                        var i, l = data.length,
-                            array = [];
-                        if (l) {
-                            for (i = 0; i < l; i++) {
-                                array.push($.extend(true, data[i], {
-                                    text: data[i].inc + ' : ' + data[i].item_name,
-                                    value: data[i].id,
-                                }));
-                            }
-                        }
-                        return array;
-                    }
-                };
-
-                $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsINC);
-                $('.inc').trigger('change');
-                $('button[data-id="inc"]').addClass("btn-sm");
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-                console.log("Belum di cek, jangan liat kesini ah, malu :P");
-
-                // GROUP CLASS ON CHARACTERISTIC VALUE
-                $.ajax({
-                    url: 'home/group-class/' + data.inc_id,
-                    type: 'GET',
-                    beforeSend: function() {
-
-                    },
-                    success: function(groupClassData) {
-                        opt = '';
-                        $.each(groupClassData, function(i, item) {
-                            if (item.id != data.group_class_id) {
-                                opt += '<option value="' + item.id + '">' + item.group_class + ' : ' + item.name + '</option>';
-                            } else {
-                                opt += '<option value="' + item.id + '" selected="selected">' + item.group_class + ' : ' + item.name + '</option>';
-
-                                $("#text_group_class").val(item.name);
-                                $("#text_group_class").attr("title", item.name);
-                            }
-                        });
-                        $("#group_class").empty().append(opt);
-
-                        $('.group-class').selectpicker('refresh');
-                        $('button[data-id="group_class"]').addClass("btn-sm");
-                        $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-                    },
-                    error: function() {
-                        $("#group_class").empty();
-                        $('.group-class').selectpicker('refresh');
-                        $('button[data-id="group_class"]').addClass("btn-sm");
-                        $('.bs-searchbox > input.form-control').addClass("input-sm");
-                        alert("Error while getting Group Class.");
-                    }
-                });
-
-                // CHARACTERISTIC VALUE AND PART CHARACTERISTIC VALUE
-                part_characteristic_value_box();
-
-            },
-            error: function() {
-                $("#inc").empty()
-                $('.inc').selectpicker('refresh');
-                $('button[data-id="inc"]').addClass("btn-sm");
-
-                $("#group_class").empty();
-                $('.group-class').selectpicker('refresh');
-                $('button[data-id="group_class"]').addClass("btn-sm");
-
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-                $("#characteristic_value_box").empty()
-                alert("Error while getting INC - Group Class");
-            }
-        });
-
-    }
-    // END GET PART CHARACTERISTIC VALUE
-
     // TAB
-    $("#mainTab a").click(function(e) {
+    $("#setingsTab a").click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
     // END TAB
 
-    // SHORT DESCRIPTION RESULT
-    function get_short_description_result() {
-        part_master_id = $("#part_master tbody tr.active").attr("id");
-        company_id = $("#company").val();
+    // SCROLL TAB
+    var hidWidth;
+    var scrollBarWidths = 40;
 
-        $.ajax({
-            url: 'home/short-description/' + part_master_id + '/' + company_id,
-            type: 'GET',
-            success: function(data) {
-                $('#short_desc').val(data);
-            },
-            error: function() {
-                console.log('astaghfirullah');
-            }
+    var widthOfList = function() {
+        var itemsWidth = 0;
+        $('.list li').each(function() {
+            var itemWidth = $(this).outerWidth();
+            itemsWidth += itemWidth;
         });
-    }
-    // END SHORT DESCRIPTION RESULT
-
-    // PART CHARACTERISTIC VALUE BOX
-    function part_characteristic_value_box() {
-        inc_id = $("#inc").val();
-        part_master_id = $("#part_master tbody tr.active").attr("id");
-        company_id = $("#company").val();
-
-        $.ajax({
-            url: 'home/characteristic-value/' + inc_id + '/' + part_master_id + '/' + company_id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
-                if (data == 0) {
-
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no company available for this INC</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
-
-                    var optionsSelectAddCompany = {
-                        ajax: {
-                            url: 'home/select-add-company/' + part_master_id,
-                            type: 'POST',
-                            dataType: 'json',
-                        },
-                        locale: {
-                            emptyTitle: 'SELECT COMPANY',
-                        },
-                        preprocessData: function(data) {
-                            var i, l = data.length,
-                                array = [];
-                            if (l) {
-                                for (i = 0; i < l; i++) {
-                                    array.push($.extend(true, data[i], {
-                                        text: data[i].company,
-                                        value: data[i].id,
-                                    }));
-                                }
-                            }
-                            return array;
-                        }
-                    };
-
-                    $('.select_add_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSelectAddCompany);
-
-                    $('.select_add_company').trigger('change');
-                    $('button[data-id="select_add_company"]').addClass("btn-sm");
-
-                    catalog_no = $("table#part_master tr.active td:eq(0)").text();
-                    holding = $("table#part_master tr.active td:eq(1)").text();
-                    item_name = $("table#part_master tr.active td:eq(3)").text();
-
-                    $('#item_info').text(catalog_no + ' / ' + holding + ' / ' + item_name);
-                    $('#add_company_modal').modal('show');
-
-                } else if (data == 1) {
-
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-exclamation-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no characteristic available for this INC</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
-
-                } else {
-
-                    charval = '';
-                    index = 0;
-                    $.each(data, function(i, item) {
-
-                        if (item.value != '') {
-                            charval += '<tr>';
-
-                            charval += '<td>' + item.characteristic;
-
-                            charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
-
-                            charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="update_inc_char_id" name="update_inc_char_id[' + index + ']">';
-
-                            charval += '<input type="hidden" value="' + item.char_id + '" class="update_char_id" name="update_char_id[' + index + ']"></td>';
-
-                            charval += '<td>';
-
-                            charval += '<input class="characteristic_value_cell update_value get-values-list state change-char-value" type="text" id="update_value' + index + '" data-change="update_value' + index + '" name="update_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="update" value="' + item.value + '">';
-
-                            charval += '<input type="hidden" value="' + item.id + '" class="update_part_char_value_id" name="update_part_char_value_id[' + index + ']"></td>';
-
-                            charval += '</td>';
-
-                            charval += '<td><input type="text" title="' + item.abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + item.abbrev + '" disabled></td>';
-
-                            if (item.short != 1) {
-                                charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '"></td>';
-                            } else {
-                                charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '" checked></td>';
-                            }
-
-                        } else {
-                            charval += '<tr>';
-                            charval += '<td>' + item.characteristic;
-
-                            charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
-
-                            charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="insert_inc_char_id" name="insert_inc_char_id[' + index + ']">';
-
-                            charval += '<input type="hidden" value="' + item.char_id + '" class="insert_char_id" name="insert_char_id[' + index + ']"></td>';
-
-                            charval += '<td>';
-
-                            charval += '<input class="characteristic_value_cell insert_value state get-values-list state change-char-value" type="text" id="insert_value' + index + '" data-change="insert_value' + index + '" name="insert_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="insert" value="">';
-
-                            charval += '</td>';
-
-                            charval += '<td><input type="text" class="characteristic_value_cell" id="insert_abbrev' + index + '" disabled></td>';
-
-                            if (item.short != 1) {
-                                charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '"></td>';
-                            } else {
-                                charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '" checked></td>';
-                            }
-                        }
-
-                        charval += '</tr>';
-                        index++;
-                    });
-                    $("#characteristic_value_box").empty().append(charval);
-
-                    get_short_description_result();
-                }
-
-            },
-            error: function() {
-                $("#characteristic_value_box").empty()
-                alert("Error while getting Characteristic Value");
-            }
-        });
-    }
-    // END PART CHARACTERISTIC VALUE BOX
-
-    // INC ON CHANGED
-    $('#inc').on('changed.bs.select', function(e) {
-        var bismillah = $("#inc optgroup option").attr("data-subtext");
-        $("#text_inc").val(bismillah);
-        $("#text_inc").attr("title", bismillah);
-
-        inc_id = $(this).val();
-        part_characteristic_value_box();
-
-        $.ajax({
-            url: 'home/group-class/' + inc_id,
-            type: 'GET',
-            beforeSend: function() {
-
-                $("#group_class").empty();
-                $('#group_class').selectpicker('render');
-                $('#group_class').selectpicker('refresh');
-                $('#group_class').val('');
-                $('button[data-id="group_class"]').prop("disabled", true);
-                $('button[data-id="group_class"]').attr("title", "PLEASE WAIT...");
-                $('button[data-id="group_class"] > span.filter-option').text("PLEASE WAIT...");
-                $("#text_group_class").val('PLEASE WAIT...');
-                $("#text_group_class").attr("title", 'PLEASE WAIT...');
-                $('#select_group_class_box').removeClass("has-error");
-                $('#select_group_class_box > p').removeClass("text-danger");
-
-            },
-            success: function(data) {
-
-                opt = '';
-                $.each(data, function(i, item) {
-                    opt += '<option value="' + item.id + '">' + item.group_class + ' : ' + item.name + '</option>';
-                    $("#text_group_class").val(item.name);
-                    $("#text_group_class").attr("title", item.name);
-                });
-
-                $("#group_class").empty().append(opt);
-                $('#group_class').selectpicker('render');
-                $('#group_class').selectpicker('refresh');
-
-                $('#group_class').val('');
-                $("#text_group_class").val('');
-                $("#text_group_class").attr("title", '');
-
-                $('button[data-id="group_class"]').addClass("btn-sm");
-                $('button[data-id="group_class"]').attr("title", "SELECT GROUP CLASS - NAME");
-                $('button[data-id="group_class"] > span.filter-option').text("SELECT GROUP CLASS - NAME");
-                $('button[data-id="group_class"]').prop("disabled", false);
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-                $('#select_group_class_box').addClass("has-error");
-                $('#select_group_class_box > p').addClass("text-danger");
-                $('li[data-original-index="0"]').removeClass("selected");
-                $('li[data-original-index="0"]').removeClass("active");
-
-            },
-            error: function() {
-
-                $("#group_class").empty();
-                $('#group_class').selectpicker('render');
-                $('#group_class').selectpicker('refresh');
-                $('#group_class').val('');
-                $('button[data-id="group_class"]').prop("disabled", true);
-                $('button[data-id="group_class"]').attr("title", "PLEASE WAIT...");
-                $('button[data-id="group_class"] > span.filter-option').text("PLEASE WAIT...");
-                $("#text_group_class").val('PLEASE WAIT...');
-                $("#text_group_class").attr("title", 'PLEASE WAIT...');
-                $('#select_group_class_box').removeClass("has-error");
-                $('#select_group_class_box > p').removeClass("text-danger");
-
-                alert("Whoops, something went wrong while getting Group Class... I am so sorry");
-            }
-        });
-    });
-    // END INC ON CHANGED
-
-    // GROUP CLASS ON CHANGED
-    $('#group_class').on('changed.bs.select', function(e) {
-        var bismillah = $("#select_group_class li.selected small").text();
-        $("#text_group_class").val(bismillah);
-        $("#text_group_class").attr("title", bismillah);
-        $('#select_group_class_box').removeClass("has-error");
-        $('#select_group_class_box > p').removeClass("text-danger");
-    });
-    // END GROUP CLASS ON CHANGED
-
-    // GET VALUES LIST WHEN VALUE COLUMN DOUBLE CLICKED
-    $(document).on('dblclick', '.get-values-list', function() {
-        incCharId = $(this).attr('data-inc-char-id');
-        charId = $(this).attr('data-char-id');
-        index = $(this).attr('data-index');
-        action = $(this).attr('data-action');
-
-        incId = $('select#inc').val();
-        charName = $('input[name="char_name' + incCharId + '"]').val();
-
-        $.ajax({
-            type: 'GET',
-            url: 'home/inc-char-values/' + incCharId + '/' + incId + '/' + charId,
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                valueData = '';
-                $.each(data, function(i, item) {
-                    valueData += '<tr class="pick-value" data-link-inc-char-id="' + item.link_inc_characteristic_value_id + '" data-value="' + item.value + '" data-abbrev="' + item.abbrev + '" data-action="' + action + '">';
-                    valueData += '<td><input type="hidden" id="inc_char_val_id_get_values_list_modal" value="' + item.link_inc_characteristic_value_id + '">' + item.value + '</td>';
-                    valueData += '<td>' + item.abbrev + '</td>';
-                    valueData += '</tr>';
-                });
-                $("#value-body").empty().append(valueData);
-
-                $('#get_values_list_modal_title').html(charName + ' <small>VALUE</small>');
-                $('#index_get_values_list_modal').val(index);
-                $('#get_values_list_modal').modal('show');
-            },
-            error: function() {}
-        });
-    });
-    // END GET VALUES LIST WHEN VALUE COLUMN DOUBLE CLICKED
-
-    // PICK VALUE FROM VALUES LIST / POP UP
-    $(document).on('dblclick', '.pick-value', function() {
-        lickIncCharId = $(this).attr('data-link-inc-char-id');
-        value = $(this).attr('data-value');
-        abbrev = $(this).attr('data-abbrev');
-        action = $(this).attr('data-action');
-
-        index = $('#index_get_values_list_modal').val();
-
-        if (action != 'update') {
-            $('#insert_inc_char_val_id' + index).val(lickIncCharId);
-            $('#insert_value' + index).val(value);
-            $('#insert_value' + index).attr('title', value);
-            $('#insert_abbrev' + index).val(abbrev);
-            $('#insert_abbrev' + index).attr('title', abbrev);
-
-            change('insert_value' + index);
-        } else {
-            $('#update_inc_char_val_id' + index).val(lickIncCharId);
-            $('#update_value' + index).val(value);
-            $('#update_value' + index).attr('title', value);
-            $('#update_abbrev' + index).val(abbrev);
-            $('#update_abbrev' + index).attr('title', abbrev);
-
-            change('update_value' + index);
-        }
-
-        $('#get_values_list_modal').modal('hide');
-    });
-    // END PICK VALUE FROM VALUES LIST / POP UP
-
-    // DETECT CHANGED VALUE
-    // https://www.sitepoint.com/detect-html-form-changes/
-
-    // FOR INPUT VALUE FROM VALUES LIST / POP UP 
-    function change(id) {
-        var name = document.getElementById(id);
-        if (name.value != name.defaultValue) {
-            $("#" + id).attr("state", "1");
-        } else {
-            $("#" + id).attr("state", "0");
-        }
-
-        state = []; // value state
-        $('.state').each(function(index, value) {
-            state.push($(this).attr('state'));
-        });
-
-        cstate = []; // checkbox state
-        $('.cstate').each(function(index, value) {
-            cstate.push($(this).attr('cstate'));
-        });
-
-        newArray = state.concat(cstate);
-
-        if (jQuery.inArray('1', newArray) == '-1') {
-            $("button#submit_values").prop("disabled", true);
-        } else {
-            $("button#submit_values").prop("disabled", false);
-        }
-        console.log("state: " + newArray);
-    }
-    // END FOR INPUT VALUE FROM VALUES LIST / POP UP 
-
-    // FOR INPUT VALUE
-    $(document).on('keyup', '.change-char-value', function() {
-        id = $(this).attr('data-change');
-
-        var name = document.getElementById(id);
-        if (name.value != name.defaultValue) {
-            $("#" + id).attr("state", "1");
-        } else {
-            $("#" + id).attr("state", "0");
-        }
-
-        state = []; // value state
-        $('.state').each(function(index, value) {
-            state.push($(this).attr('state'));
-        });
-
-        cstate = []; // checkbox state
-        $('.cstate').each(function(index, value) {
-            cstate.push($(this).attr('cstate'));
-        });
-
-        newArray = state.concat(cstate);
-
-        if (jQuery.inArray('1', newArray) == '-1') {
-            $("button#submit_values").prop("disabled", true);
-        } else {
-            $("button#submit_values").prop("disabled", false);
-        }
-        console.log("state: " + newArray);
-    });
-    // END FOR INPUT VALUE
-
-    // FOR CHECKBOX
-    $(document).on('click', '.change-char-value', function() {
-        id = $(this).attr('data-change');
-
-        var checkbox = document.getElementById(id);
-        if (checkbox.checked != checkbox.defaultChecked) {
-            $("#" + id).attr("cstate", "1");
-        } else {
-            $("#" + id).attr("cstate", "0");
-        }
-
-        state = []; // value state
-        $('.state').each(function(index, value) {
-            state.push($(this).attr('state'));
-        });
-
-        cstate = []; // checkbox state
-        $('.cstate').each(function(index, value) {
-            cstate.push($(this).attr('cstate'));
-        });
-
-        newArray = state.concat(cstate);
-
-        if (jQuery.inArray('1', newArray) == '-1') {
-            $("button#submit_values").prop("disabled", true);
-        } else {
-            $("button#submit_values").prop("disabled", false);
-        }
-        console.log("cstate: " + newArray);
-    });
-    // END FOR CHECKBOX	
-
-    // END DETECT CHANGED VALUE
-
-    // INSERT-UPDATE PART CHARACTERISTIC VALUE
-    $(document).on('click', '#submit_values', function() {
-
-        // INSERTING...
-        var insert_inc_char_id = $('.insert_inc_char_id').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val()
-            };
-        });
-
-        var insert_char_ids = $('.insert_char_id').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val()
-            };
-        });
-
-        var insert_values = $('.insert_value').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val().trim()
-            };
-        });
-
-        var insert_shorts = $('.insert_short').map(function() {
-            return {
-                name: this.name,
-                value: this.checked ? this.value : "0"
-            };
-        });
-
-        // UPDATING...
-        var update_inc_char_id = $('.update_inc_char_id').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val()
-            };
-        });
-
-        var update_char_id = $('.update_char_id').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val()
-            };
-        });
-
-        var update_value = $('.update_value').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val().trim()
-            };
-        });
-
-        var part_char_value_id = $('.update_part_char_value_id').map(function() {
-            return {
-                name: this.name,
-                value: $(this).val().trim()
-            };
-        });
-
-        var update_short = $('.update_short').map(function() {
-            return {
-                name: this.name,
-                value: this.checked ? this.value : "0"
-            };
-        });
-
-        inserting1 = $.merge(insert_inc_char_id, insert_char_ids);
-        inserting2 = $.merge(insert_values, insert_shorts);
-        inserting = $.merge(inserting1, inserting2);
-
-        updating1 = $.merge(update_inc_char_id, update_char_id);
-        updating2 = $.merge(update_value, part_char_value_id);
-        updating3 = $.merge(updating1, updating2);
-        updating = $.merge(updating3, update_short);
-
-        combine = $.merge(inserting, updating);
-
-        $.ajax({
-            type: 'POST',
-            url: 'home/submit-values',
-            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&created_by=' + $('#logged_in_user').val() + '&last_updated_by=' + $('#logged_in_user').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $('#company').val(),
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                if (data == 0) {
-
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no company available for this INC</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
-
-                    var optionsSelectAddCompany = {
-                        ajax: {
-                            url: 'home/select-add-company/' + part_master_id,
-                            type: 'POST',
-                            dataType: 'json',
-                        },
-                        locale: {
-                            emptyTitle: 'SELECT COMPANY',
-                        },
-                        preprocessData: function(data) {
-                            var i, l = data.length,
-                                array = [];
-                            if (l) {
-                                for (i = 0; i < l; i++) {
-                                    array.push($.extend(true, data[i], {
-                                        text: data[i].company,
-                                        value: data[i].id,
-                                    }));
-                                }
-                            }
-                            return array;
-                        }
-                    };
-
-                    $('.select_add_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSelectAddCompany);
-
-                    $('.select_add_company').trigger('change');
-                    $('button[data-id="select_add_company"]').addClass("btn-sm");
-
-                    catalog_no = $("table#part_master tr.active td:eq(0)").text();
-                    holding = $("table#part_master tr.active td:eq(1)").text();
-                    item_name = $("table#part_master tr.active td:eq(3)").text();
-
-                    $('#item_info').text(catalog_no + ' / ' + holding + ' / ' + item_name);
-                    $('#add_company_modal').modal('show');
-
-                } else if (data == 1) {
-
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-exclamation-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no characteristic available for this INC</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
-
-                } else {
-
-                    $("table#part_master tr.active td:eq(3)").text(data.item_name);
-                    $("table#part_master tr.active td:eq(4)").text(data.inc);
-                    $("table#part_master tr.active td:eq(5)").text(data.group_class);
-
-                    part_characteristic_value_box();
-                    $("button#submit_values").prop("disabled", true);
-                }
-            },
-            error: function(data) {
-                $("#submit_values").blur();
-                var errors = data.responseJSON;
-                if (errors) {
-                    $.each(errors, function(k, v) {
-                        var i = k.substr(k.indexOf('.') + 1); //get after dot
-                        var n = k.substr(0, k.indexOf('.')); //get before dot
-                        if (n == 'update_value') {
-                            $('tbody#characteristic_value_box input[name="update_value[' + i + ']"]').addClass('has-error');
-                        } else if (n == 'insert_value') {
-                            $('tbody#characteristic_value_box input[name="insert_value[' + i + ']"]').addClass('has-error');
-                        }
-                    });
-                }
-            }
-        });
-
-    });
-    // INSERT-UPDATE PART CHARACTERISTIC VALUE
-
-    // PART MANUFACTURER CODE
-    // DATATABLES
-    var datatable_part_manufacturer_code;
-
-    function get_part_manufacturer_code(part_master_id) {
-        datatable_part_manufacturer_code = $('#part_manufacturer_code').DataTable({
-            destroy: true,
-            processing: false,
-            serverSide: true,
-            ajax: 'home/part-manufacturer-code/' + part_master_id,
-            columns: [{
-                data: 'manufacturer_code',
-                name: 'manufacturer_code'
-            }, {
-                data: 'source_type',
-                name: 'source_type'
-            }, {
-                data: 'manufacturer_ref',
-                name: 'manufacturer_ref'
-            }, {
-                data: 'type',
-                name: 'type'
-            }],
-            oLanguage: {
-                sLengthMenu: "_MENU_",
-                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
-                oPaginate: {
-                    sFirst: "FIRST",
-                    sLast: "LAST",
-                    sNext: "NEXT",
-                    sPrevious: "PREVIOUS"
-                },
-                sSearch: "",
-                sSearchPlaceholder: "SEARCH...",
-            },
-            dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 5
-        });
-    }
-    // END DATATABLES	
-
-    var optionsManufacturerCode = {
-        ajax: {
-            url: 'home/select-manufacturer-code',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT MANUFACTURER CODE'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].manufacturer_code,
-                        value: data[i].id,
-                        data: {
-                            subtext: data[i].manufacturer_name
-                        }
-                    }));
-                }
-            }
-            return array;
-        }
+        return itemsWidth;
     };
 
-    $('.manufacturer-code-pmc').trigger('change');
+    var widthOfHidden = function() {
+        return (($('.wrapper').outerWidth()) - widthOfList() - getLeftPosi()) - scrollBarWidths;
+    };
 
-    // SHOW ADD PART MANUFACTURER CODE MODAL
-    $(document).on('click', '#add-pmc', function() {
-        // initialize here
-        var requestCallback = new MyRequestsCompleted({
-            numRequest: 2,
-            singleCallback: function() {
+    var getLeftPosi = function() {
+        return $('.list').position().left;
+    };
 
-                $(".error_saving_pmc").hide();
-                $(".error_updating_pmc").hide();
-
-                $('.manufacturer-code-pmc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsManufacturerCode);
-                $('button[data-id="manufacturer_code_pmc"]').addClass("btn-sm");
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-                $('#manufacturer_code_pmc').val([]);
-                $('#manufacturer_code_pmc').trigger('change.abs.preserveSelected');
-                $('#manufacturer_code_pmc').selectpicker('refresh');
-
-                $('#manufacturer_name_pmc').val("");
-                $('#manufacturer_ref_pmc').val("");
-                $('#part_manufacturer_code_modal_title').text("ADD MANUFACTURER CODE");
-                $('#btn_save_pmc').val("SAVE");
-                $('#part_manufacturer_code_modal').modal('show');
-
-            }
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: 'home/source-type',
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                var option = '';
-                $.each(data, function(i, item) {
-                    option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
-                    option += item.type;
-                    option += '</option>';
-                });
-                $("#select_source_type_pmc").empty().append(option);
-                $("#select_source_type_pmc").selectpicker('refresh');
-                $('button[data-id="select_source_type_pmc"]').addClass("btn-sm");
-
-                requestCallback.requestComplete(true);
-            },
-            error: function() {}
-        });
-
-        $.ajax({
-            type: 'GET',
-            url: 'home/manufacturer-code-type',
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                var option = '';
-                $.each(data, function(i, item) {
-                    option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
-                    option += item.type;
-                    option += '</option>';
-                });
-                $("#select_manufacturer_code_type_pmc").empty().append(option);
-                $("#select_manufacturer_code_type_pmc").selectpicker('refresh');
-                $('button[data-id="select_manufacturer_code_type_pmc"]').addClass("btn-sm");
-
-                requestCallback.requestComplete(true);
-            },
-            error: function() {}
-        });
-    });
-    // END SHOW ADD PART MANUFACTURER CODE MODAL	
-
-    // SAVE PART MANUFACTURER CODE
-    $("#btn_save_pmc").click(function() {
-        var formData = {
-            part_master_id: $("#part_master tbody tr.active").attr("id"),
-            tbl_manufacturer_code_id: $('#manufacturer_code_pmc').val(),
-            tbl_source_type_id: $('#select_source_type_pmc').val(),
-            manufacturer_ref: $('#manufacturer_ref_pmc').val(),
-            tbl_part_manufacturer_code_type_id: $('#select_manufacturer_code_type_pmc').val(),
-            created_by: $('#logged_in_user').val(),
-            last_updated_by: $('#logged_in_user').val(),
-            id: $('#part_manufacturer_code_id_pmc').val(),
+    var reAdjust = function() {
+        if (($('.wrapper').outerWidth()) < widthOfList()) {
+            $('.scroller-right').show();
+        } else {
+            $('.scroller-right').hide();
         }
 
-        var state = $('#btn_save_pmc').val();
-        var type = "POST";
-        var url = 'home/add-part-manufacturer-code';
-
-
-        if (state == "UPDATE") {
-            type = "PUT";
-            url = 'home/update-part-manufacturer-code';
+        if (getLeftPosi() < 0) {
+            $('.scroller-left').show();
+        } else {
+            $('.item').animate({
+                left: "-=" + getLeftPosi() + "px"
+            }, 'slow');
+            $('.scroller-left').hide();
         }
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: formData,
-            dataType: 'json',
-            beforeSend: function(data) {
-                $(".error_saving_pmc").hide();
-                $(".error_updating_pmc").hide();
-
-                if (state == "SAVE") {
-                    $(".saving_pmc").show();
-                } else {
-                    $(".updating_pmc").show();
-                }
-            },
-            success: function(data) {
-                $('#part_manufacturer_code_modal_form').trigger("reset");
-                $(".saving_pmc").hide();
-                $(".updating_pmc").hide();
-
-                datatable_part_manufacturer_code.ajax.reload(null, false);
-                $('#part_manufacturer_code_modal').modal('hide');
-            },
-            error: function(data) {
-                $(".saving_pmc").hide();
-                $(".updating_pmc").hide();
-
-                if (state == "SAVE") {
-                    $(".error_saving_pmc").show();
-                } else {
-                    $(".error_updating_pmc").show();
-                }
-            }
-        });
-    });
-    // END SAVE PART MANUFACTURER CODE
-
-    // EDIT PART MANUFACTURER CODE
-    $(document).on('click', '.edit-pmc', function() {
-        id = $(this).attr('data-id');
-        $.ajax({
-            url: 'home/edit-part-manufacturer-code/' + id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
-
-                $("#select_manufacturer_code_pmc > button[title='SELECT MANUFACTURER CODE']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="manufacturer_code_pmc" title="' + data.manufacturer_code + '"><span class="filter-option pull-left">' + data.manufacturer_code + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
-                $('#select_manufacturer_code_pmc > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.manufacturer_code + '<small class="text-muted">' + data.manufacturer_name + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
-                $('#select_manufacturer_code_pmc > #manufacturer_code_pmc').replaceWith('<select id="manufacturer_code_pmc" class="manufacturer-code-pmc with-ajax" data-live-search="true" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.tbl_manufacturer_code_id + '" selected="selected" data-subtext="' + data.manufacturer_name + '">' + data.manufacturer_code + '</option></optgroup></select>');
-
-                var optionsManufacturerCodeEdit = {
-                    ajax: {
-                        url: 'home/select-manufacturer-code',
-                        type: 'POST',
-                        dataType: 'json',
-                    },
-                    locale: {
-                        emptyTitle: 'SELECT MANUFACTURER CODE'
-                    },
-                    preprocessData: function(data) {
-                        var i, l = data.length,
-                            array = [];
-                        if (l) {
-                            for (i = 0; i < l; i++) {
-                                array.push($.extend(true, data[i], {
-                                    text: data[i].manufacturer_code,
-                                    value: data[i].id,
-                                    data: {
-                                        subtext: data[i].manufacturer_name
-                                    }
-                                }));
-                            }
-                        }
-                        return array;
-                    }
-                };
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'home/source-type',
-                    dataType: 'json',
-                    beforeSend: function() {},
-                    success: function(source_type_data) {
-                        var option = '';
-                        $.each(source_type_data, function(i, item) {
-                            if (data.tbl_source_type_id == item.id) {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '" selected>';
-                            } else {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
-                            }
-                            option += item.type;
-                            option += '</option>';
-                        });
-                        $("#select_source_type_pmc").empty().append(option);
-                        $("#select_source_type_pmc").selectpicker('refresh');
-                        $('button[data-id="select_source_type_pmc"]').addClass("btn-sm");
-                        requestCallback.requestComplete(true);
-                    },
-                    error: function() {}
-                });
-
-                $.ajax({
-                    type: 'GET',
-                    url: 'home/manufacturer-code-type',
-                    dataType: 'json',
-                    beforeSend: function() {},
-                    success: function(manufacturer_code_type_data) {
-                        var option = '';
-                        $.each(manufacturer_code_type_data, function(i, item) {
-                            if (data.tbl_part_manufacturer_code_type_id == item.id) {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '" selected>';
-                            } else {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
-                            }
-                            option += item.type;
-                            option += '</option>';
-                        });
-                        $("#select_manufacturer_code_type_pmc").empty().append(option);
-                        $("#select_manufacturer_code_type_pmc").selectpicker('refresh');
-                        $('button[data-id="select_manufacturer_code_type_pmc"]').addClass("btn-sm");
-                        requestCallback.requestComplete(true);
-                    },
-                    error: function() {}
-                });
-
-                var requestCallback = new MyRequestsCompleted({
-                    numRequest: 2,
-                    singleCallback: function() {
-
-                        $('.manufacturer-code-pmc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsManufacturerCodeEdit);
-                        $('.manufacturer-code-pmc').trigger('change');
-                        $('button[data-id="manufacturer_code_pmc"]').addClass("btn-sm");
-                        $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-                        $('#manufacturer_name_pmc').val(data.manufacturer_name);
-                        $('#manufacturer_ref_pmc').val(data.manufacturer_ref);
-                        $('#part_manufacturer_code_id_pmc').val(data.id);
-
-                        /*$('#source_type_pmc').selectpicker('val', sourceType);
-                        $('#man_ref_pmc').val(manRef);
-                        $('#type_pmc').selectpicker('val', type);
-
-                        $('#source_type_pmc').selectpicker('refresh');
-                        $('#type_pmc').selectpicker('refresh');
-                        $('#part_man_code_id').val(partManCodeId);*/
-
-                        $('#btn_save_pmc').val("UPDATE");
-                        $('#part_manufacturer_code_modal_title').text("EDIT MANUFACTURER CODE");
-                        $('#part_manufacturer_code_modal').modal('show');
-
-                    }
-                });
-            },
-            error: function() {}
-        });
-    });
-    // END EDIT PART MANUFACTURER CODE
-
-    // DELETE PART MANUFACTURER CODE
-    $(document).on('click', '.delete-pmc', function() {
-        id = $(this).attr('data-id');
-
-        var manufacturerCode = $("table#part_manufacturer_code tr#" + id + " td:eq(0)").html();
-        var source = $("table#part_manufacturer_code tr#" + id + " td:eq(1)").html();
-        var manufacturerRef = $("table#part_manufacturer_code tr#" + id + " td:eq(2)").html();
-        var type = $("table#part_manufacturer_code tr#" + id + " td:eq(3)").html();
-
-        var msg = "<table class=\"table table-striped\">";
-        msg += "<thead><tr><th>CODE</th><th>SOURCE</th><th>MANUFACTURER REF</th><th>TYPE</th></thead>";
-        msg += "<tbody><tr><td>" + manufacturerCode + "</td><td>" + source + "</td><td>" + manufacturerRef + "</td><td>" + type + "</td></tr></tbody>";
-        msg += "</table>";
-
-        bootbox.dialog({
-            message: msg,
-            title: "Are you sure you want to delete this Manufacturer Code?",
-            buttons: {
-                success: {
-                    label: "YES DELETE",
-                    className: "btn-danger btn-sm",
-                    callback: function() {
-                        $.ajax({
-                            type: "DELETE",
-                            url: 'home/delete-part-manufacturer-code/' + id,
-                            beforeSend: function() {},
-                            success: function() {
-                                datatable_part_manufacturer_code.ajax.reload(null, false);
-                            },
-                            error: function() {
-                                alert('Cannot delete this Manufacturer Code.');
-                            }
-                        });
-                    }
-                },
-                danger: {
-                    label: "CANCEL",
-                    className: "btn-default btn-sm",
-                },
-            },
-            animate: false,
-        });
-    });
-
-    $(document).ajaxComplete(function() {
-        $('#manufacturer_code_pmc').on('changed.bs.select', function(e) {
-            var bismillah = $("#select_manufacturer_code_pmc li.selected small").text();
-            $("#manufacturer_name_pmc").val(bismillah);
-            $("#manufacturer_name_pmc").attr("title", bismillah);
-        });
-
-        $('#part_manufacturer_code_modal').on('hide.bs.modal', function(e) {
-            $('#select_manufacturer_code_pmc').html('<select id="manufacturer_code_pmc" class="manufacturer-code-pmc with-ajax" data-live-search="true" data-width="100%"></select> ');
-
-            $(".error_saving_pmc").hide();
-            $(".error_updating_pmc").hide();
-        });
-    });
-
-    // END PART MANUFACTURER CODE
-
-    // PART COLLOQUIAL
-    // DATATABLES
-    var datatable_part_colloquial;
-
-    function get_part_colloquial(part_master_id) {
-        datatable_part_colloquial = $('#part_colloquial').DataTable({
-            destroy: true,
-            processing: false,
-            serverSide: true,
-            ajax: 'home/part-colloquial/' + part_master_id,
-            columns: [{
-                data: 'colloquial',
-                name: 'colloquial'
-            }, ],
-            oLanguage: {
-                sLengthMenu: "_MENU_",
-                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
-                oPaginate: {
-                    sFirst: "FIRST",
-                    sLast: "LAST",
-                    sNext: "NEXT",
-                    sPrevious: "PREVIOUS"
-                },
-                sSearch: "",
-                sSearchPlaceholder: "SEARCH...",
-            },
-            dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 8
-        });
     }
-    // END DATATABLES
 
-    // ADD PART COLLOQUIAL
-    $(document).on('click', '#add-pc', function() {
-        $(".error_saving_pc").hide();
-        $(".error_updating_pc").hide();
+    reAdjust();
 
-        $('#colloquial_pc').val("");
-        $('#part_colloquial_modal_title').text("ADD COLLOQUIAL");
-        $('#btn_save_pc').val("SAVE");
-        $('#part_colloquial_modal').modal('show');
+    $(window).on('resize', function(e) {
+        reAdjust();
     });
-    // END ADD PART COLLOQUIAL
 
-    // EDIT PART COLLOQUIAL
-    $(document).on('click', '.edit-pc', function() {
-        id = $(this).attr('data-id');
-        colloquial = $("table#part_colloquial tr#" + id + " span.colloquial").text();
+    $('.scroller-right').click(function() {
 
-        $(".error_saving_pc").hide();
-        $(".error_updating_pc").hide();
+        $('.scroller-left').fadeIn('slow');
+        $('.scroller-right').fadeOut('slow');
 
-        $('#colloquial_pc').val(colloquial);
-        $('#part_colloquial_id_pc').val(id);
-        $('#part_colloquial_modal_title').text("EDIT COLLOQUIAL");
-        $('#btn_save_pc').val("UPDATE");
-        $('#part_colloquial_modal').modal('show');
-    });
-    // END EDIT PART COLLOQUIAL
+        $('.list').animate({
+            left: "+=" + widthOfHidden() + "px"
+        }, 'slow', function() {
 
-    // DELETE PART COLLOQUIAL
-    $(document).on('click', '.delete-pc', function() {
-        id = $(this).attr('data-id');
-        colloquial = $("table#part_colloquial tr#" + id + " span.colloquial").text();
-
-        var msg = "<table class=\"table table-striped\">";
-        msg += "<thead><tr><th>COLLOQUIAL</th></thead>";
-        msg += "<tbody><tr><td>" + colloquial + "</td></tr></tbody>";
-        msg += "</table>";
-
-        bootbox.dialog({
-            message: msg,
-            title: "Are you sure you want to delete this Colloquial Name?",
-            buttons: {
-                success: {
-                    label: "YES DELETE",
-                    className: "btn-danger btn-sm",
-                    callback: function() {
-                        $.ajax({
-                            type: "DELETE",
-                            url: "home/delete-part-colloquial/" + id,
-                            beforeSend: function() {},
-                            success: function() {
-                                datatable_part_colloquial.ajax.reload(null, false);
-                            },
-                            error: function() {
-                                alert('Cannot delete this Colloquial Name.');
-                            }
-                        });
-                    }
-                },
-                danger: {
-                    label: "CANCEL",
-                    className: "btn-default btn-sm",
-                },
-            },
-            animate: false,
         });
     });
-    // END DELETE PART COLLOQUIAL
 
-    // SAVE PART COLLOQUIAL
-    $("#btn_save_pc").click(function() {
-        var formData = {
-            part_master_id: $("#part_master tbody tr.active").attr("id"),
-            colloquial: $("#colloquial_pc").val().trim(),
-            created_by: $('#logged_in_user').val(),
-            last_updated_by: $('#logged_in_user').val(),
-            id: $('#part_colloquial_id_pc').val(),
-        }
+    $('.scroller-left').click(function() {
 
-        var state = $('#btn_save_pc').val();
-        var type = "POST";
-        var url = "home/add-part-colloquial";
+        $('.scroller-right').fadeIn('slow');
+        $('.scroller-left').fadeOut('slow');
 
+        $('.list').animate({
+            left: "-=" + getLeftPosi() + "px"
+        }, 'slow', function() {
 
-        if (state == "UPDATE") {
-            type = "PUT";
-            url = "home/update-part-colloquial";
-        }
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: formData,
-            dataType: 'json',
-            beforeSend: function(data) {
-                $(".error_saving_pc").hide();
-                $(".error_updating_pc").hide();
-
-                if (state == "SAVE") {
-                    $(".saving_pc").show();
-                } else {
-                    $(".updating_pc").show();
-                }
-            },
-            success: function(data) {
-                $('#part_colloquial_modal_form').trigger("reset");
-                $(".saving_pc").hide();
-                $(".updating_pc").hide();
-
-                datatable_part_colloquial.ajax.reload(null, false);
-                $('#part_colloquial_modal').modal('hide');
-            },
-            error: function(data) {
-                $(".saving_pc").hide();
-                $(".updating_pc").hide();
-
-                if (state == "SAVE") {
-                    $(".error_saving_pc").show();
-                } else {
-                    $(".error_updating_pc").show();
-                }
-            }
         });
     });
-    // END SAVE PART COLLOQUIAL
-    // END PART COLLOQUIAL
+    // END SCROLL TAB
 
-    // PART EQUIPMENT CODE
-    // DATATABLES
-    var datatable_part_equipment_code;
-
-    function get_part_equipment_code(part_master_id) {
-        datatable_part_equipment_code = $('#part_equipment_code').DataTable({
-            destroy: true,
-            processing: false,
-            serverSide: true,
-            ajax: 'home/part-equipment-code/' + part_master_id,
-            columns: [{
-                data: 'equipment_code',
-                name: 'equipment_code'
-            }, {
-                data: 'equipment_name',
-                name: 'equipment_name'
-            }, {
-                data: 'qty_install',
-                name: 'qty_install'
-            }, {
-                data: 'manufacturer_code',
-                name: 'manufacturer_code'
-            }, {
-                data: 'doc_ref',
-                name: 'doc_ref'
-            }, {
-                data: 'dwg_ref',
-                name: 'dwg_ref'
-            }, ],
-            oLanguage: {
-                sLengthMenu: "_MENU_",
-                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
-                oPaginate: {
-                    sFirst: "FIRST",
-                    sLast: "LAST",
-                    sNext: "NEXT",
-                    sPrevious: "PREVIOUS"
-                },
-                sSearch: "",
-                sSearchPlaceholder: "SEARCH...",
-            },
-            dom: "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 8
-        });
-    }
-    // END DATATABLES
-
-    // SELECT EQUIPMENT CODE
-    var optionsEquipmentCode = {
+    // FILTER TOP
+    // Filter INC
+    var optionsInc = {
         ajax: {
-            url: 'home/select-equipment-code',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT EQUIPMENT CODE'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].equipment_code,
-                        value: data[i].id,
-                        data: {
-                            subtext: data[i].equipment_name
-                        }
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.equipment-code-peq').trigger('change');
-    $('.manufacturer-code-peq').trigger('change');
-    // END SELECT EQUIPMENT CODE
-
-    // ADD PART EQUIPMENT CODE
-    $(document).on('click', '#add-pec', function() {
-        $(".error_saving_pmc").hide();
-        $(".error_updating_pmc").hide();
-
-        $('.equipment-code-peq').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsEquipmentCode);
-        $('button[data-id="equipment_code_peq"]').addClass("btn-sm");
-        $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-        $('#equipment_code_peq').val([]);
-        $('#equipment_code_peq').trigger('change.abs.preserveSelected');
-        $('#equipment_code_peq').selectpicker('refresh');
-
-        $('.manufacturer-code-peq').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsManufacturerCode);
-        $('button[data-id="manufacturer_code_peq"]').addClass("btn-sm");
-        $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-        $('#manufacturer_code_peq').val([]);
-        $('#manufacturer_code_peq').trigger('change.abs.preserveSelected');
-        $('#manufacturer_code_peq').selectpicker('refresh');
-
-        $('#equipment_name_peq').val("");
-        $('#qty_install_peq').val("");
-        $('#manufacturer_name_peq').val("");
-        $('#doc_ref_peq').val("");
-        $('#dwg_ref_peq').val("");
-
-        $('#part_equipment_code_modal_title').text("ADD EQUIPMENT CODE");
-        $('#part_equipment_code_form').trigger("reset");
-        $('#btn_save_peq').val("SAVE");
-        $('#part_equipment_code_modal').modal('show');
-    });
-    // END ADD PART EQUIPMENT CODE
-
-    $(document).ajaxComplete(function() {
-        // CHANGE EQUIPMENT CODE
-        $('#equipment_code_peq').on('changed.bs.select', function(e) {
-            var bismillah = $("#select_equipment_code_peq li.selected small").text();
-            $("#equipment_name_peq").val(bismillah);
-            $("#equipment_name_peq").attr("title", bismillah);
-        });
-
-        // CHANGE MANUFACTURER CODE
-        $('#manufacturer_code_peq').on('changed.bs.select', function(e) {
-            var bismillah = $("#select_manufacturer_code_peq li.selected small").text();
-            $("#manufacturer_name_peq").val(bismillah);
-            $("#manufacturer_name_peq").attr("title", bismillah);
-        });
-
-        // WHEN EQUIPMENT CODE MODAL HIDE
-        $('#part_equipment_code_modal').on('hide.bs.modal', function(e) {
-
-            $('#select_manufacturer_code_peq').html('<select id="manufacturer_code_peq" class="manufacturer-code-peq with-ajax" data-live-search="true" data-width="100%"></select> ');
-
-            $('#select_equipment_code_peq').html('<select id="equipment_code_peq" class="equipment-code-peq with-ajax" data-live-search="true" data-width="100%"></select> ');
-
-            $(".error_saving_peq").hide();
-            $(".error_updating_peq").hide();
-
-        });
-    });
-
-    // EDIT PART EQUIPMENT CODE
-    $(document).on('click', '.edit-pec', function() {
-        id = $(this).attr('data-id');
-
-        $.ajax({
-            url: 'home/edit-part-equipment-code/' + id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
-
-
-                $("#select_equipment_code_peq > button[title='SELECT EQUIPMENT CODE']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="equipment_code_peq" title="' + data.equipment_code + '"><span class="filter-option pull-left">' + data.equipment_code + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
-                $('#select_equipment_code_peq > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.equipment_code + '<small class="text-muted">' + data.equipment_name + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
-                $('#select_equipment_code_peq > #equipment_code_peq').replaceWith('<select id="equipment_code_peq" class="equipment-code-peq with-ajax" data-live-search="true" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.tbl_equipment_code_id + '" selected="selected" data-subtext="' + data.equipment_name + '">' + data.equipment_code + '</option></optgroup></select>');
-
-                $("#select_manufacturer_code_peq > button[title='SELECT MANUFACTURER CODE']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="manufacturer_code_peq" title="' + data.manufacturer_code + '"><span class="filter-option pull-left">' + data.manufacturer_code + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
-                $('#select_manufacturer_code_peq > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.manufacturer_code + '<small class="text-muted">' + data.manufacturer_name + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
-                $('#select_manufacturer_code_peq > #manufacturer_code_peq').replaceWith('<select id="manufacturer_code_peq" class="manufacturer-code-peq with-ajax" data-live-search="true" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.tbl_manufacturer_code_id + '" selected="selected" data-subtext="' + data.manufacturer_name + '">' + data.manufacturer_code + '</option></optgroup></select>');
-
-                var optionsEquipmentCodeEdit = {
-                    ajax: {
-                        url: "home/select-equipment-code",
-                        type: 'POST',
-                        dataType: 'json',
-                    },
-                    locale: {
-                        emptyTitle: 'SELECT EQUIPMENT CODE'
-                    },
-                    preprocessData: function(data) {
-                        var i, l = data.length,
-                            array = [];
-                        if (l) {
-                            for (i = 0; i < l; i++) {
-                                array.push($.extend(true, data[i], {
-                                    text: data[i].equipment_code,
-                                    value: data[i].id,
-                                    data: {
-                                        subtext: data[i].equipment_name
-                                    }
-                                }));
-                            }
-                        }
-                        return array;
-                    }
-                };
-
-                $('.equipment-code-peq').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsEquipmentCodeEdit);
-                $('.equipment-code-peq').trigger('change');
-                $('button[data-id="equipment_code_peq"]').addClass("btn-sm");
-
-                $('#equipment_name_peq').val(data.equipment_name);
-                $('#qty_install_peq').val(data.qty_install);
-
-                var optionsManufacturerCodePeq = {
-                    ajax: {
-                        url: 'home/select-manufacturer-code',
-                        type: 'POST',
-                        dataType: 'json',
-                    },
-                    locale: {
-                        emptyTitle: 'SELECT MANUFACTURER CODE'
-                    },
-                    preprocessData: function(data) {
-                        var i, l = data.length,
-                            array = [];
-                        if (l) {
-                            for (i = 0; i < l; i++) {
-                                array.push($.extend(true, data[i], {
-                                    text: data[i].manufacturer_code,
-                                    value: data[i].id,
-                                    data: {
-                                        subtext: data[i].manufacturer_name
-                                    }
-                                }));
-                            }
-                        }
-                        return array;
-                    }
-                };
-
-                $('.manufacturer-code-peq').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsManufacturerCodePeq);
-                $('.manufacturer-code-peq').trigger('change');
-                $('button[data-id="manufacturer_code_peq"]').addClass("btn-sm");
-
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-                $('#manufacturer_name_peq').val(data.manufacturer_name);
-                $('#doc_ref_peq').val(data.doc_ref);
-                $('#dwg_ref_peq').val(data.dwg_ref);
-
-                $('#part_equipment_code_id').val(id);
-
-                $('#btn_save_peq').val("UPDATE");
-                $('#part_equipment_code_modal_title').text("EDIT EQUIPMENT CODE");
-                $('#part_equipment_code_modal').modal('show');
-            },
-            error: function() {}
-        });
-    });
-    // END EDIT PART EQUIPMENT CODE
-
-    // SAVE PART EQUIPMENT CODE
-    $("#btn_save_peq").click(function() {
-        var formData = {
-            part_master_id: $("#part_master tbody tr.active").attr("id"),
-            tbl_equipment_code_id: $("#equipment_code_peq").val(),
-            qty_install: $("#qty_install_peq").val().trim(),
-            tbl_manufacturer_code_id: $("#manufacturer_code_peq").val(),
-            doc_ref: $("#doc_ref_peq").val().trim(),
-            dwg_ref: $("#dwg_ref_peq").val().trim(),
-            created_by: $('#logged_in_user').val(),
-            last_updated_by: $('#logged_in_user').val(),
-            id: $('#part_equipment_code_id').val(),
-        }
-
-        var state = $('#btn_save_peq').val();
-        var type = "POST";
-        var url = "home/add-part-equipment-code";
-
-
-        if (state == "UPDATE") {
-            type = "PUT";
-            url = "home/update-part-equipment-code";
-        }
-
-        $.ajax({
-            type: type,
-            url: url,
-            data: formData,
-            dataType: 'json',
-            beforeSend: function(data) {
-                $(".error_saving_peq").hide();
-                $(".error_updating_peq").hide();
-
-                if (state == "SAVE") {
-                    $(".saving_peq").show();
-                } else {
-                    $(".updating_peq").show();
-                }
-            },
-            success: function(data) {
-                $('#part_equipment_code_form').trigger("reset");
-                $(".saving_peq").hide();
-                $(".updating_peq").hide();
-
-                datatable_part_equipment_code.ajax.reload(null, false);
-                $('#part_equipment_code_modal').modal('hide');
-            },
-            error: function(data) {
-                $(".saving_peq").hide();
-                $(".updating_peq").hide();
-
-                if (state == "SAVE") {
-                    $(".error_saving_peq").show();
-                } else {
-                    $(".error_updating_peq").show();
-                }
-            }
-        });
-    });
-    // END SAVE PART EQUIPMENT CODE
-
-    // DELETE PART EQUIPMENT CODE
-    $(document).on('click', '.delete-pec', function() {
-        id = $(this).attr('data-id');
-
-        var equipmentCode = $("#part_equipment_code tbody tr#" + id + " td:eq(0)").text();
-        var equipmentName = $("#part_equipment_code tbody tr#" + id + " td:eq(1)").text();
-        var qtyInstall = $("#part_equipment_code tbody tr#" + id + " td:eq(2)").text();
-        var manufacturerCode = $("#part_equipment_code tbody tr#" + id + " td:eq(3)").text();
-        var documentRef = $("#part_equipment_code tbody tr#" + id + " td:eq(4)").text();
-        var drawingRef = $("#part_equipment_code tbody tr#" + id + " span.dwg_ref").text();
-
-        var msg = "<table class=\"table table-striped table-hover\">";
-        msg += "<thead><tr><th>EQUIPMENT CODE</th><th>EQUIPMENT NAME</th><th>QTY</th><th>MANUFACTURER CODE</th><th>DOCUMENT REF</th><th>DRAWING REF</th></thead>";
-        msg += "<tbody><tr><td>" + equipmentCode + "</td><td>" + equipmentName + "</td><td>" + qtyInstall + "</td><td>" + manufacturerCode + "</td><td>" + documentRef + "</td><td>" + drawingRef + "</td></tr></tbody>";
-        msg += "</table>";
-
-        bootbox.dialog({
-            message: msg,
-            title: "Are you sure you want to delete this Equipment Code?",
-            buttons: {
-                success: {
-                    label: "YES DELETE",
-                    className: "btn-danger btn-sm",
-                    callback: function() {
-                        $.ajax({
-                            type: "DELETE",
-                            url: 'home/delete-part-equipment-code/' + id,
-                            beforeSend: function() {},
-                            success: function(data) {
-                                datatable_part_equipment_code.ajax.reload(null, false);
-                            },
-                            error: function(data) {
-                                alert('Error deleting Equipment Code.');
-                            }
-                        });
-                    }
-                },
-                danger: {
-                    label: "CANCEL",
-                    className: "btn-default btn-sm",
-                },
-            },
-            animate: false,
-            size: 'large',
-        });
-    });
-    // END DELETE PART EQUIPMENT CODE
-
-    $(document).ajaxComplete(function() {
-        $('#part_equipment_code_modal').on('hide.bs.modal', function(e) {
-            $('#select_equipment_code_peq').html('<select id="equipment_code_peq" class="equipment-code-peq with-ajax" data-live-search="true"></select>');
-            $('#select_manufacturer_code_peq').html('<select id="manufacturer_code_peq" class="manufacturer-code-peq with-ajax" data-live-search="true"></select>');
-
-            $(".error_saving_peq").hide();
-            $(".error_updating_peq").hide();
-        });
-    });
-    // END PART EQUIPMENT CODE
-
-    // GLOBAL SEARCH
-    // CATALOG NO
-    var optionsSearchCatalogNo = {
-        ajax: {
-            url: 'search-items/select-search-catalog-no',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT CATALOG NO',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].catalog_no,
-                        value: data[i].catalog_no,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_catalog_no').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCatalogNo);
-    $('.search_catalog_no').trigger('change');
-    $('button[data-id="search_catalog_no"]').addClass("btn-sm");
-
-    // HOLDING NO
-    var optionsSearchHoldingNo = {
-        ajax: {
-            url: 'search-items/select-search-holding-no',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT HOLDING NO',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].holding_no,
-                        value: data[i].holding_no,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_holding_no').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchHoldingNo);
-    $('.search_holding_no').trigger('change');
-    $('button[data-id="search_holding_no"]').addClass("btn-sm");
-
-    // INC - ITEM NAME
-    var optionsSearchIncItemName = {
-        ajax: {
-            url: 'search-items/select-search-inc-item-name',
+            url: 'settings/select-inc',
             type: 'POST',
             dataType: 'json',
         },
@@ -19726,231 +17141,27 @@ jQuery(function($) {
         }
     };
 
-    $('.search_inc_item_name').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchIncItemName);
-    $('.search_inc_item_name').trigger('change');
-    $('button[data-id="search_inc_item_name"]').addClass("btn-sm");
+    // for global characteristic value
+    $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.global_inc').trigger('change');
+    $('button[data-id="global_inc"]').addClass("btn-sm");
+    // end for global characteristic value
 
-    // COLLOQUIAL
-    var optionsSearchColloquial = {
+    $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.inc').trigger('change');
+    $('button[data-id="inc"]').addClass("btn-sm");
+
+    $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+    // Filter Holding
+    var optionsHolding = {
         ajax: {
-            url: 'search-items/select-search-colloquial',
+            url: 'settings/select-holding',
             type: 'POST',
             dataType: 'json',
         },
         locale: {
-            emptyTitle: 'SELECT COLLOQUIAL',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].colloquial,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_colloquial').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchColloquial);
-    $('.search_colloquial').trigger('change');
-    $('button[data-id="search_colloquial"]').addClass("btn-sm");
-
-    // GROUP CLASS
-    var optionsSearchGroupClass = {
-        ajax: {
-            url: 'search-items/select-search-group-class',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT GROUP CLASS : CLASS NAME',
-            searchPlaceholder: 'SEARCH GROUP CLASS OR CLASS NAME'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].group_class + ' : ' + data[i].name,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_group_class').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchGroupClass);
-    $('.search_group_class').trigger('change');
-    $('button[data-id="search_group_class"]').addClass("btn-sm");
-
-    // CATALOG STATUS
-    var optionsSearchCatalogStatus = {
-        ajax: {
-            url: 'search-items/select-search-catalog-status',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT CATALOG STATUS',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].status,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_catalog_status').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCatalogStatus);
-    $('.search_catalog_status').trigger('change');
-    $('button[data-id="search_catalog_status"]').addClass("btn-sm");
-
-    // CATALOG TYPE
-    $('.search_catalog_type').selectpicker();
-    $('button[data-id="search_catalog_type"]').addClass("btn-sm");
-
-    // ITEM TYPE
-    var optionsSearchItemType = {
-        ajax: {
-            url: 'search-items/select-search-item-type',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT ITEM TYPE',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].type,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_item_type').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchItemType);
-    $('.search_item_type').trigger('change');
-    $('button[data-id="search_item_type"]').addClass("btn-sm");
-
-    // MANUFACTURER
-    var optionsSearchManufacturer = {
-        ajax: {
-            url: 'search-items/select-search-manufacturer',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT MANUFACTURER CODE : MANUFACTURER NAME',
-            searchPlaceholder: 'SEARCH MANUFACTURER CODE OR MANUFACTURER NAME'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].manufacturer_code + ' : ' + data[i].manufacturer_name,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_manufacturer').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchManufacturer);
-    $('.search_manufacturer').trigger('change');
-    $('button[data-id="search_manufacturer"]').addClass("btn-sm");
-
-    // PART NUMBER
-    var optionsSearchPartNumber = {
-        ajax: {
-            url: 'search-items/select-search-part-number',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT PART NUMBER',
-            searchPlaceholder: 'SEARCH PART NUMBER'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].part_number,
-                        value: data[i].part_number,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_part_number').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchPartNumber);
-    $('.search_part_number').trigger('change');
-    $('button[data-id="search_part_number"]').addClass("btn-sm");
-
-    // EQUIPMENT
-    var optionsSearchEquipment = {
-        ajax: {
-            url: 'search-items/select-search-equipment',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT EQUIPMENT CODE : EQUIPMENT NAME',
-            searchPlaceholder: 'SEARCH EQUIPMENT CODE OR EQUIPMENT NAME'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].equipment_code + ' : ' + data[i].equipment_name,
-                        value: data[i].id,
-                    }));
-                }
-            }
-            return array;
-        }
-    };
-
-    $('.search_equipment').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchEquipment);
-    $('.search_equipment').trigger('change');
-    $('button[data-id="search_equipment"]').addClass("btn-sm");
-
-    // HOLDING
-    var optionsSearchHolding = {
-        ajax: {
-            url: 'search-items/select-search-holding',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT HOLDING NAME',
-            searchPlaceholder: 'SEARCH HOLDING NAME'
+            emptyTitle: 'SELECT HOLDING',
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -19966,185 +17177,7716 @@ jQuery(function($) {
             return array;
         }
     };
+    $('.holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHolding);
+    $('.holding').trigger('change');
+    $('button[data-id="holding"]').addClass("btn-sm");
+    $('.bs-searchbox > input.form-control').addClass("input-sm");
 
-    $('.search_holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchHolding);
-    $('.search_holding').trigger('change');
-    $('button[data-id="search_holding"]').addClass("btn-sm");
+    var selectCompany = '<div class="btn-group bootstrap-select disabled company with-ajax" style="width: 100%;">';
+    selectCompany += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+    selectCompany += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+    selectCompany += '<select id="company" class="company with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+    selectCompany += '</div>';
+    $("#select_company").html(selectCompany);
 
-    // COMPANY
-    var optionsSearchCompany = {
-        ajax: {
-            url: 'search-items/select-search-company',
-            type: 'POST',
-            dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT COMPANY',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].company,
-                        value: data[i].id,
-                    }));
+    // Revert characteristic box to placeholder
+    function getGlobalCharPlaceholder(){
+        charPlaceholder  = '<div class="col-xs-6">';
+        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        charPlaceholder += '</div>';
+        $("#global-char-area").empty().append(charPlaceholder);
+    } 
+    function getCompanyCharPlaceholder(){
+        charPlaceholder  = '<div class="col-xs-6">';
+        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        charPlaceholder += '</div>';
+        $("#company-char-area").empty().append(charPlaceholder);
+    }    
+    // End revert characteristic box to placeholder
+
+    // Revert value box to placeholder
+    function getGlobalValPlaceholder(){
+        valPlaceholder  = '<div class="col-xs-6">';
+        valPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        valPlaceholder += '</div>';
+        $("#global-val-area").empty().append(valPlaceholder);
+    }
+    // End revert value box to placeholder
+
+    // START GLOBAL CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+    $(document).ajaxComplete(function() {
+        // Changed INC
+        $('#global_inc').off('changed.bs.select');
+        $('#global_inc').on('changed.bs.select', function() {
+            getGlobalValPlaceholder();
+            getGlobalCharacteristicsList();
+        });
+        // End Changed INC
+
+        // characteristic row click 
+        $(document).off('click', 'tbody#global_char_table tr');
+        $(document).on('click', 'tbody#global_char_table tr', function() {
+            $("tbody#global_char_table tr:first-child").removeClass('active');
+            $("tbody#global_char_table tr").removeClass('active');
+            $(this).addClass('active');
+            id = $(this).attr('id');
+            getGlobalCharValues(id);
+        });
+        // end characteristic row click
+    });
+
+    function getGlobalCharacteristicsList(bool) {
+        var globalIncId = $("#global_inc").val();
+
+        if (globalIncId){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "settings/get-global-characteristics/" + globalIncId,
+                success: function(data) {
+                    globalCharsTable  = '<div class="col-xs-6">';
+                    globalCharsTable += '<table class="table table-striped table-char-settings">';
+                    globalCharsTable += '<thead><th>#</th><th>CHARACTERISICS';
+                    globalCharsTable += '<span id="global-char-button" class="pull-right">';
+                    globalCharsTable += '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+                    globalCharsTable += '</span>';
+                    globalCharsTable += '</th></thead><tbody id="global_char_table">';
+
+                    globalOldOrder = [];
+                    $.each(data, function(i, item) {
+                        globalCharsTable += '<tr id="'+item.id+'"><td>';
+                        globalCharsTable += '<input class="global_lic_id" name="global_lic_id[]" type="hidden" value="' + item.id + '">';
+                        globalCharsTable += i + 1;
+                        globalCharsTable += '</td><td>' + item.characteristic + '</td></tr>';
+
+                        // save oldOrder temporary
+                        globalOldOrder.push(i + 1);
+                    });
+                    globalCharsTable += '</tbody></table></div>';
+                    $("#global-char-area").empty().append(globalCharsTable);
+                    // for reset order
+                    globalCache = $("#global_char_table").html();
+
+                    if(bool == 1){
+                        sequenceSavedMessage  = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+                        sequenceSavedMessage += '&nbsp;<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+                        $("#global-char-button").empty().append(sequenceSavedMessage);
+                    }                
+                }
+            });
+        }else{
+            getGlobalCharPlaceholder();
+            getGlobalValPlaceholder();
+        }
+    }
+
+    function getGlobalCharValues(linkIncCharacteristicId) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "settings/get-global-characteristics-values/" + linkIncCharacteristicId,
+            success: function(data) {
+                echo  = '<div class="col-xs-6">';
+                echo += '<table class="table table-striped">';
+                echo += '<thead><tr><th style="width:5%;">#</th>';
+                echo += '<th style="width:45%;">VALUES</th>';
+                echo += '<th style="width:35%;">ABBREV</th>';
+                echo += '<th style="width:15%;">APPROVED</th></tr></thead>';
+                echo += '<tbody id="global_val_table">';
+                $.each(data, function(i, item) {
+                    echo += '<tr><td>';
+                    echo += i + 1;
+                    echo += '</td><td>' + item.value + '</td>';
+                    echo += '</td><td>' + item.abbrev + '</td>';
+                    echo += '</td><td>' + item.approved + '</td></tr>';
+                });
+                echo += '</tbody></table></div>';
+
+                $("#global-val-area").empty().append(echo);
+            }
+        });
+    }
+
+    // sortabe
+    $(document).ajaxComplete(function(){
+        $("#global_char_table").sortable({
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            update: function() {
+                globalNewOrder = $("#global_char_table").sortable("toArray");
+                if(globalOldOrder.equals(globalNewOrder) == false){
+                    button  = '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#global-char-button').html(button);
+                }else{
+                    $('#global-char-button').empty();
                 }
             }
-            return array;
-        }
-    };
+        });
+    });
 
-    $('.search_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCompany);
-    $('.search_company').trigger('change');
-    $('button[data-id="search_company"]').addClass("btn-sm");
+    $("#global_char_table").sortable({
+        helper: fixHelper,
+    });
+    // end sortable
 
-    // PLANT
-    var optionsSearchPlant = {
-        ajax: {
-            url: 'search-items/select-search-plant',
-            type: 'POST',
+    // reset global char order
+    $(document).on('click', '#reset-global-char-order', function() {
+        $("#global_char_table").html(globalCache);
+        $('#global-char-button').html('<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>');
+        getGlobalValPlaceholder();
+    });    
+    // end reset global char order
+
+    // update global char order
+    $(document).on('click', '#update-global-char-order', function() {
+        var global_lic_id = []
+        $("input.global_lic_id").each(function (){
+            global_lic_id.push(parseInt($(this).val()));
+        });
+
+        $.ajax({ 
+            type: "PUT",
+            url: 'settings/update-gcharacteristics-order',
+            data: {'lic': global_lic_id},
+            success: function() {
+                getGlobalValPlaceholder();
+                getGlobalCharacteristicsList(1);                
+            },
+            error: function(){
+                button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
+                button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+                button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                $('#global-char-button').html(button);
+            }
+        });
+    });    
+    // end update global char order
+
+    // ADD CHARACTERISIC MODAL
+    $(document).on('click', '#add-char', function() {
+        var globalIncId = $("#global_inc").val();
+        $.ajax({ 
+            type: "GET",
+            url: 'settings/characteristic-to-be-added/' + globalIncId,
             dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT PLANT',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].plant,
-                        value: data[i].id,
-                    }));
+            success: function(data) {
+                tr = '';
+                $.each(data, function(i, item) {
+                    tr += '<tr><td>';
+                    tr += i + 1;
+                    tr += '</td><td>'+item.characteristic;
+                    tr += '<kbd id="#" class="kbd-primary pull-right cpointer">ADD</kbd>';
+                    tr += '</td></tr>';
+                });
+                $("#add-char-table").empty().append(tr);
+
+                inc = $('div.global_inc.with-ajax button').attr('title');
+                $('#item_name').text(inc);
+                $('#add_characteristic_modal').modal('show');           
+            },
+            error: function(){
+                
+            }
+        });
+    });
+    // END ADD CHARACTERISIC MODAL
+
+    // END GLOBAL CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+    
+
+
+    // START COMPANY CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+
+    $(document).ajaxComplete(function() {
+
+        // Changed INC
+        $('#inc').off('changed.bs.select');
+        $('#inc').on('changed.bs.select', function() {
+            getCompanyCharacteristicsList();
+        });
+        // End Changed INC
+
+        // Changed Holding
+        $('#holding').on('changed.bs.select', function(e) {
+            $('#select_company').html('<select id="company" class="company with-ajax" data-live-search="true" data-width="100%"></select>');
+            getCompanyCharPlaceholder();
+
+            var holdingId = $(this).val();
+            var optionsCompany = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+            $('.company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompany);
+            $('.company').trigger('change');
+            $('button[data-id="company"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+        // End Changed Holding  
+
+        // Changed Company
+        $('#company').off('changed.bs.select');
+        $('#company').on('changed.bs.select', function() {
+            getCompanyCharacteristicsList();
+        });
+        // End Changed Company
+    });
+
+    function getCompanyCharacteristicsList(bool) {
+        var incId = $("#inc").val();
+        var companyId = $("#company").val();
+
+        if (incId && companyId){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "settings/get-company-characteristics/" + incId + "/" + companyId,
+                success: function(data) {
+                    charsTable  = '<div class="col-xs-6">';
+                    charsTable += '<table class="table table-striped table-char-settings">';
+                    charsTable += '<thead><th>#</th><th>CHARACTERISICS';
+                    charsTable += '<span id="company-char-button" class="pull-right"></span>';
+                    charsTable += '</th></thead><tbody id="company_char_table">';
+
+                    oldOrder = [];
+                    $.each(data, function(i, item) {
+                        charsTable += '<tr id="'+item.link_inc_characteristic_id+'"><td>';
+                        charsTable += '<input class="company_lic_id" name="company_lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
+                        charsTable += i + 1;
+                        charsTable += '</td><td>' + item.characteristic + '</td></tr>';
+
+                        // save oldOrder temporary
+                        oldOrder.push(i + 1);
+                    });
+                    charsTable += '</tbody></table></div>';
+                    $("#company-char-area").empty().append(charsTable);
+                    // for reset order
+                    cache = $("#company_char_table").html();
+
+                    if(bool == 1){
+                        sequenceSavedMessage = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+                        $("#company-char-button").empty().append(sequenceSavedMessage);
+                    }                
+                }
+            });
+        }else{
+            getCompanyCharPlaceholder();
+        }
+    }
+
+    // sortabe
+    $(document).ajaxComplete(function(){
+        $("#company_char_table").sortable({
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            update: function() {
+                newOrder = $("#company_char_table").sortable("toArray");
+                if(oldOrder.equals(newOrder) == false){
+                    button  = '<kbd id="reset-company-char-order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update-company-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#company-char-button').html(button);
+                }else{
+                    $('#company-char-button').empty();
                 }
             }
-            return array;
+        });
+    });
+
+    $("#company_char_table").sortable({
+        helper: fixHelper,
+    });
+    // end sortable
+
+    // reset company char order
+    $(document).on('click', '#reset-company-char-order', function() {
+        $("#company_char_table").html(cache);
+        $('#company-char-button').empty();
+    });    
+    // end reset company char order
+
+    // update company char order
+    $(document).on('click', '#update-company-char-order', function() {
+        var company_lic_id = []
+        $("input.company_lic_id").each(function (){
+            company_lic_id.push(parseInt($(this).val()));
+        });
+
+        $.ajax({ 
+            type: "PUT",
+            url: 'settings/update-ccharacteristics-order',
+            data: {'company': $('select#company').val(), 'lic': company_lic_id},
+            success: function() {
+                getCompanyCharacteristicsList(1);                
+            },
+            error: function(){
+                console.log(false);
+            }
+        });
+    });    
+    // end update company char order
+
+    // END COMPANY CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+
+    // START CATALOG STATUS TAB
+    // ============================================================
+    // ============================================================
+    var datatable_catalog_status_tab;
+    $(document).ready(function() {
+
+        datatable_catalog_status_tab = $('#catalog_status_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-catalog-status',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'status',
+                name: 'status'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Catalog Status Tab
+        new BootstrapMenu('table#catalog_status_table', {
+            actions: [{
+                name: 'REFRESH CATALOG STATUS DATA',
+                onClick: function() {
+                    datatable_catalog_status_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Catalog Status Tab
+    });
+
+    // Reload Catalog Status DataTables
+    function reload_catalog_status_table() {
+        datatable_catalog_status_tab.ajax.reload(null, false);
+    }
+    // End Reload Catalog Status DataTables
+
+    // Add Catalog Status
+    $(document).on('click', '#add-cs', function() {
+        $('#btn_save_catalog_status_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#catalog_status_tab_modal_title').text("ADD CATALOG STATUS");
+        $('#catalog_status_tab_modal').modal('show');
+    });
+    // End Add Catalog Status
+
+    // Edit Catalog Status
+    $(document).on('click', '.edit-cs', function() {
+        id = $(this).attr('data-id');
+
+        var status = $("table#catalog_status_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#catalog_status_table tr#" + id + " td:eq(2)").html();
+
+        $('#catalog_status_catalog_status_tab_modal').val(status);
+        $('#desc_catalog_status_tab_modal').val(description);
+        $('#id_catalog_status_tab_modal').val(id);
+
+        $('#btn_save_catalog_status_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#catalog_status_tab_modal_title').text("EDIT CATALOG STATUS");
+        $('#ajax_process_modal').modal('hide');
+        $('#catalog_status_tab_modal').modal('show');
+    });
+    // End Edit Catalog Status
+
+    // Press Enter catalog_status_tab_modal
+    $("#catalog_status_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_catalog_status_tab_modal").trigger("click");
+                break;
         }
-    };
+    });
+    // End Press Enter catalog_status_tab_modal
 
-    $('.search_plant').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchPlant);
-    $('.search_plant').trigger('change');
-    $('button[data-id="search_plant"]').addClass("btn-sm");
+    // Save Catalog Status
+    $("#btn_save_catalog_status_tab_modal").click(function() {
+        var formData = {
+            status: $('#catalog_status_catalog_status_tab_modal').val().trim(),
+            description: $('#desc_catalog_status_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
 
-    // PLANT
-    var optionsSearchLocation = {
-        ajax: {
-            url: 'search-items/select-search-location',
-            type: 'POST',
+        var state = $('#btn_save_catalog_status_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-catalog-status';
+        var id = $('#id_catalog_status_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-catalog-status/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
             dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT LOCATION',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].location,
-                        value: data[i].id,
-                    }));
+            beforeSend: function(data) {
+                $("#catalog_status_tab_modal :input").prop('disabled', true);
+                $(".error_saving_catalog_status_tab_modal").hide();
+                $(".error_updating_catalog_status_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_catalog_status_tab_modal").show();
+                } else {
+                    $(".updating_catalog_status_tab_modal").show();
+                }
+
+                $("#input_catalog_status_catalog_status_tab_modal").removeClass("has-error");
+                $("#catalog_status_catalog_status_tab_modal + p.help-block").text("");
+
+                $("#input_desc_catalog_status_tab_modal").removeClass("has-error");
+                $("#desc_catalog_status_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#catalog_status_tab_modal_form').trigger("reset");
+                $(".saving_catalog_status_tab_modal").hide();
+                $(".updating_catalog_status_tab_modal").hide();
+
+                $('#catalog_status_tab_modal').modal('hide');
+                reload_catalog_status_table();
+                $("#catalog_status_tab_modal :input").prop('disabled', false);
+
+                $("#input_catalog_status_catalog_status_tab_modal").removeClass("has-error");
+                $("#catalog_status_catalog_status_tab_modal + p.help-block").text("");
+
+                $("#input_desc_catalog_status_tab_modal").removeClass("has-error");
+                $("#desc_catalog_status_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_catalog_status_tab_modal").hide();
+                $(".updating_catalog_status_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_catalog_status_tab_modal").show();
+                } else {
+                    $(".error_updating_catalog_status_tab_modal").show();
+                }
+                $("#catalog_status_tab_modal :input").prop('disabled', false);
+                var errors = data.responseJSON;
+
+                if (errors.status) {
+                    $("#input_catalog_status_catalog_status_tab_modal").addClass("has-error");
+                    $("#catalog_status_catalog_status_tab_modal + p.help-block").text(errors.status);
+                } else {
+                    $("#input_catalog_status_catalog_status_tab_modal").removeClass("has-error");
+                    $("#catalog_status_catalog_status_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#input_desc_catalog_status_tab_modal").addClass("has-error");
+                    $("#desc_catalog_status_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#input_desc_catalog_status_tab_modal").removeClass("has-error");
+                    $("#desc_catalog_status_tab_modal + p.help-block").text("");
                 }
             }
-            return array;
+        });
+    });
+    // End Save Catalog Status
+
+    // Delete Catalog Status
+    $(document).on('click', '.delete-cs', function() {
+        id = $(this).attr('data-id');
+
+        var status = $("table#catalog_status_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#catalog_status_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>STATUS</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + status + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Catalog Status?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-catalog-status/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_catalog_status_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Catalog Status.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Catalog Status
+
+    // Catalog Status Modal hide
+    $('#catalog_status_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_catalog_status_tab_modal").hide();
+        $(".error_updating_catalog_status_tab_modal").hide();
+
+        $("#input_catalog_status_catalog_status_tab_modal").removeClass("has-error");
+        $("#catalog_status_catalog_status_tab_modal + p.help-block").text("");
+
+        $("#input_desc_catalog_status_tab_modal").removeClass("has-error");
+        $("#desc_catalog_status_tab_modal + p.help-block").text("");
+
+        $('#catalog_status_tab_modal_form').trigger("reset");
+    });
+    // End Catalog Status Modal Hide
+
+    // END CATALOG STATUS TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START EQUIPMENT CODE TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_equipment_code_tab;
+    $("#equipment_code_tab").one("click", function() {
+
+        datatable_equipment_code_tab = $('#equipment_code_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-equipment-code',
+                data: function(d) {
+                    d.holdingId = $('#holding_equipment_code_tab').val();
+                    d.companyId = $('#company_equipment_code_tab').val();
+                    d.plantId = $('#plant_equipment_code_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'equipment_code',
+                name: 'tbl_equipment_code.equipment_code'
+            }, {
+                data: 'equipment_name',
+                name: 'tbl_equipment_code.equipment_name'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'<'col-sm-4'l>f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterEquipmentCode = '<div class="col-sm-2" id="select_holding_equipment_code_tab">';
+        filterEquipmentCode += '<select id="holding_equipment_code_tab" class="holding-equipment-code-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterEquipmentCode += '</div>';
+
+        filterEquipmentCode += '<div class="col-sm-2" id="select_company_equipment_code_tab">';
+        filterEquipmentCode += '<select id="company_equipment_code_tab" class="company-equipment-code-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterEquipmentCode += '</div>';
+
+        filterEquipmentCode += '<div class="col-sm-2" id="select_plant_equipment_code_tab">';
+        filterEquipmentCode += '<select id="plant_equipment_code_tab" class="plant-equipment-code-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterEquipmentCode += '</div>';
+
+
+        $(filterEquipmentCode).insertBefore("#equipment_code_table_filter");
+        $('#equipment_code_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP Equipment Code Tab
+        // Filter Holding Top Location Tab
+        var optionsHoldingEquipmentCodeTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-equipment-code-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingEquipmentCodeTab);
+        $('.holding-equipment-code-tab').trigger('change');
+
+        $('button[data-id="holding_equipment_code_tab"]').addClass("btn-sm");
+
+        var companySelect = '<div class="btn-group bootstrap-select disabled company-equipment-code-tab with-ajax" style="width: 100%;">';
+        companySelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_equipment_code_tab" tabindex="-1" title="ALL COMPANY"><span class="filter-option pull-left">ALL COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelect += '<select id="company_equipment_code_tab" class="company-equipment-code-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL COMPANY"><option class="bs-title-option" value="">ALL COMPANY</option></select>';
+        companySelect += '</div>';
+        $("#select_company_equipment_code_tab").html(companySelect);
+
+        var plantSelect = '<div class="btn-group bootstrap-select disabled plant-equipment-code-tab with-ajax" style="width: 100%;">';
+        plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_equipment_code_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelect += '<select id="plant_equipment_code_tab" class="plant-equipment-code-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+        plantSelect += '</div>';
+        $("#select_plant_equipment_code_tab").html(plantSelect);
+        // End Filter Holding Top Equipment Code Tab
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top Equipment Code Tab
+            $('#holding_equipment_code_tab').on('changed.bs.select', function(e) {
+                $('#select_company_equipment_code_tab').html('<select id="company_equipment_code_tab" class="company-equipment-code-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var plantSelect = '<div class="btn-group bootstrap-select disabled plant-equipment-code-tab with-ajax" style="width: 100%;">';
+                plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_equipment_code_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                plantSelect += '<select id="plant_equipment_code_tab" class="plant-equipment-code-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+                plantSelect += '</div>';
+                $("#select_plant_equipment_code_tab").html(plantSelect);
+
+                var holdingId = $(this).val();
+                var optionsCompanyEquipmentCodeTab = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL COMPANY',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.company-equipment-code-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyEquipmentCodeTab);
+                $('.company-equipment-code-tab').trigger('change');
+                $('button[data-id="company_equipment_code_tab"]').addClass("btn-sm");
+                datatable_equipment_code_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top Equipment Code Tab
+
+            // Changed Company Top Equipment Code Tab
+            $('#company_equipment_code_tab').on('changed.bs.select', function(e) {
+                $('#select_plant_equipment_code_tab').html('<select id="plant_equipment_code_tab" class="plant-equipment-code-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var companyId = $(this).val();
+                var optionsPlantEquipmentCodeTab = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL PLANT',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.plant-equipment-code-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantEquipmentCodeTab);
+                $('.plant-equipment-code-tab').trigger('change');
+                $('button[data-id="plant_equipment_code_tab"]').addClass("btn-sm");
+                datatable_equipment_code_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top Equipment Code Tab
+
+            // Changed Plant Top Equipment Code Tab
+            $('#plant_equipment_code_tab').on('changed.bs.select', function(e) {
+                datatable_equipment_code_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Plant Top Equipment Code Tab
+
+        });
+
+        // Right Click Holding Filter Top Equipment Code Tab
+        new BootstrapMenu('button[data-id="holding_equipment_code_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_equipment_code_tab').prop('disabled') == false) {
+                        $('#holding_equipment_code_tab').val([]);
+                        $('#holding_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_equipment_code_tab').selectpicker('refresh');
+                        $('#holding_equipment_code_tab').trigger("click");
+                    }
+
+                    if ($('#company_equipment_code_tab').prop('disabled') == false) {
+                        $('#company_equipment_code_tab').val([]);
+                        $('#company_equipment_code_tab').prop('disabled', true);
+                        $('#company_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#company_equipment_code_tab').selectpicker('refresh');
+                        $('#company_equipment_code_tab').trigger("click");
+                    }
+
+                    if ($('#plant_equipment_code_tab').prop('disabled') == false) {
+                        $('#plant_equipment_code_tab').val([]);
+                        $('#plant_equipment_code_tab').prop('disabled', true);
+                        $('#plant_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_equipment_code_tab').selectpicker('refresh');
+                        $('#plant_equipment_code_tab').trigger("click");
+                    }
+                    datatable_equipment_code_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Equipment Code Tab
+
+        // Right Click Company Filter Top Equipment Code Tab
+        new BootstrapMenu('button[data-id="company_equipment_code_tab"]', {
+            actions: [{
+                name: 'SELECT ALL COMPANY',
+                onClick: function() {
+
+                    if ($('#company_equipment_code_tab').prop('disabled') == false) {
+                        $('#company_equipment_code_tab').val([]);
+                        $('#company_equipment_code_tab').prop('disabled', true);
+                        $('#company_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#company_equipment_code_tab').selectpicker('refresh');
+                        $('#company_equipment_code_tab').trigger("click");
+                    }
+
+                    if ($('#plant_equipment_code_tab').prop('disabled') == false) {
+                        $('#plant_equipment_code_tab').val([]);
+                        $('#plant_equipment_code_tab').prop('disabled', true);
+                        $('#plant_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_equipment_code_tab').selectpicker('refresh');
+                        $('#plant_equipment_code_tab').trigger("click");
+                    }
+                    datatable_equipment_code_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Company Filter Top Equipment Code Tab
+
+        // Right Click Plant Filter Top Equipment Code Tab
+        new BootstrapMenu('button[data-id="plant_equipment_code_tab"]', {
+            actions: [{
+                name: 'SELECT ALL PLANT',
+                onClick: function() {
+
+                    if ($('#plant_equipment_code_tab').prop('disabled') == false) {
+                        $('#plant_equipment_code_tab').val([]);
+                        $('#plant_equipment_code_tab').prop('disabled', true);
+                        $('#plant_equipment_code_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_equipment_code_tab').selectpicker('refresh');
+                        $('#plant_equipment_code_tab').trigger("click");
+                    }
+                    datatable_equipment_code_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Plant Filter Top Equipment Code Tab
+
+        // Right Click Datatables Equipment Code Tab
+        new BootstrapMenu('table#equipment_code_table', {
+            actions: [{
+                name: 'REFRESH EQUIPMENT CODE DATA',
+                onClick: function() {
+                    datatable_equipment_code_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Equipment Code Tab
+    });
+
+    // Reload Equipment Code DataTables
+    function reload_equipment_code_table() {
+        datatable_equipment_code_tab.ajax.reload(null, false);
+    }
+    // End Reload Location Equipment Code
+
+    // Add Equipment Code
+    $(document).on('click', '#add-eq', function() {
+        var optionsHoldingEquipmentCodeTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingEquipmentCodeTabModal);
+        $('.holding-equipment-code-tab-modal').trigger('change');
+        $('button[data-id="holding_equipment_code_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        var companySelectModal = '<div class="btn-group bootstrap-select disabled company-equipment-code-tab-modal with-ajax" style="width: 100%;">';
+        companySelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_equipment_code_tab_modal" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelectModal += '<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+        companySelectModal += '</div>';
+        $("#select_company_equipment_code_tab_modal").html(companySelectModal);
+
+        var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-equipment-code-tab-modal with-ajax" style="width: 100%;">';
+        plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_equipment_code_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelectModal += '<select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+        plantSelectModal += '</div>';
+        $("#select_plant_equipment_code_tab_modal").html(plantSelectModal);
+
+        $('#btn_save_equipment_code_tab_modal').val("SAVE").prop("disabled", false);
+        $('#equipment_code_tab_modal_title').text("ADD EQUIPMENT CODE");
+        $('#equipment_code_tab_modal').modal('show');
+    });
+    // End Add Equipment Code
+
+    // Edit Equipment Code
+    $(document).on('click', '.edit-eq', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-equipment-code/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingEquipmentCodeTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_equipment_code_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_equipment_code_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_equipment_code_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_equipment_code_tab_modal > #holding_equipment_code_tab_modal').replaceWith('<select id="holding_equipment_code_tab_modal" class="holding-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingEquipmentCodeTabModal);
+                $('.holding-equipment-code-tab-modal').trigger('change');
+                $('button[data-id="holding_equipment_code_tab_modal"]').addClass("btn-sm");
+
+                var holdingId = data.tbl_holding_id;
+                var optionsCompanyEquipmentCodeTabModal = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT COMPANY',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_company_equipment_code_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_equipment_code_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_company_equipment_code_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '<small class="text-muted">' + data.company_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_company_equipment_code_tab_modal > #company_equipment_code_tab_modal').replaceWith('<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+
+                $('.company-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyEquipmentCodeTabModal);
+                $('.company-equipment-code-tab-modal').trigger('change');
+                $('button[data-id="company_equipment_code_tab_modal"]').addClass("btn-sm");
+
+                var companyId = data.companyId;
+                var optionsPlantEquipmentCodeTabModal = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT PLANT',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_plant_equipment_code_tab_modal > button[title='SELECT PLANT']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="plant_equipment_code_tab_modal" title="' + data.plant + '"><span class="filter-option pull-left">' + data.plant + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_plant_equipment_code_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.plant + '<small class="text-muted">' + data.plant_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_plant_equipment_code_tab_modal > #plant_equipment_code_tab_modal').replaceWith('<select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.plantId + '" selected="selected">' + data.plant + '</option></optgroup></select>');
+
+                $('.plant-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantEquipmentCodeTabModal);
+                $('.plant-equipment-code-tab-modal').trigger('change');
+                $('button[data-id="plant_equipment_code_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#equipment_code_equipment_code_tab_modal').val(data.equipment_code);
+                $('#equipment_name_equipment_code_tab_modal').val(data.equipment_name);
+                $('#id_equipment_code_tab_modal').val(id);
+
+                $("#equipment_code_equipment_code_tab_modal").prop("disabled", false);
+                $("#equipment_name_equipment_code_tab_modal").prop("disabled", false);
+
+                $('#btn_save_equipment_code_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#equipment_code_tab_modal_title').text("EDIT EQUIPMENT CODE");
+                $('#ajax_process_modal').modal('hide');
+                $('#equipment_code_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Equipment Code
+
+    // Press Enter equipment_code_tab_modal
+    $("#equipment_code_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_equipment_code_tab_modal").trigger("click");
+                break;
         }
-    };
+    });
+    // End Press Enter equipment_code_tab_modal
 
-    $('.search_location').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchLocation);
-    $('.search_location').trigger('change');
-    $('button[data-id="search_location"]').addClass("btn-sm");
+    // Save Equipment Code
+    $("#btn_save_equipment_code_tab_modal").click(function() {
+        var formData = {
+            equipment_code: $('#equipment_code_equipment_code_tab_modal').val().trim(),
+            equipment_name: $('#equipment_name_equipment_code_tab_modal').val().trim(),
+            tbl_plant_id: $('#plant_equipment_code_tab_modal').val(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
 
-    // SHELF
-    var optionsSearchShelf = {
-        ajax: {
-            url: 'search-items/select-search-shelf',
-            type: 'POST',
+        var state = $('#btn_save_equipment_code_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-equipment-code';
+        var id = $('#id_equipment_code_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-equipment-code/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
             dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT SHELF',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].shelf,
-                        value: data[i].id,
-                    }));
+            beforeSend: function(data) {
+                $("#equipment_code_tab_modal :input").prop('disabled', true);
+                $(".error_saving_equipment_code_tab_modal").hide();
+                $(".error_updating_equipment_code_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_equipment_code_tab_modal").show();
+                } else {
+                    $(".updating_equipment_code_tab_modal").show();
+                }
+
+                $("#form_plant_equipment_code_tab_modal").removeClass("has-error");
+                $("#plant_equipment_code_tab_modal + p.help-block").text("");
+
+                $("#form_equipment_code_equipment_code_tab_modal").removeClass("has-error");
+                $("#equipment_code_equipment_code_tab_modal + p.help-block").text("");
+
+                $("#form_equipment_name_equipment_code_tab_modal").removeClass("has-error");
+                $("#equipment_name_equipment_code_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#equipment_code_tab_modal_form').trigger("reset");
+                $(".saving_equipment_code_tab_modal").hide();
+                $(".updating_equipment_code_tab_modal").hide();
+
+                $('#equipment_code_tab_modal').modal('hide');
+                reload_equipment_code_table();
+                $("#equipment_code_tab_modal :input").prop('disabled', false);
+
+                $("#form_plant_equipment_code_tab_modal").removeClass("has-error");
+                $("#plant_equipment_code_tab_modal + p.help-block").text("");
+
+                $("#form_equipment_code_equipment_code_tab_modal").removeClass("has-error");
+                $("#equipment_code_equipment_code_tab_modal + p.help-block").text("");
+
+                $("#form_equipment_name_equipment_code_tab_modal").removeClass("has-error");
+                $("#equipment_name_equipment_code_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_equipment_code_tab_modal").hide();
+                $(".updating_equipment_code_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_equipment_code_tab_modal").show();
+                } else {
+                    $(".error_updating_equipment_code_tab_modal").show();
+                }
+                $("#equipment_code_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.tbl_plant_id) {
+                    $("#form_plant_equipment_code_tab_modal").addClass("has-error");
+                    $("#plant_equipment_code_tab_modal + p.help-block").text(errors.tbl_plant_id);
+                } else {
+                    $("#form_plant_equipment_code_tab_modal").removeClass("has-error");
+                    $("#plant_equipment_code_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.equipment_code) {
+                    $("#form_equipment_code_equipment_code_tab_modal").addClass("has-error");
+                    $("#equipment_code_equipment_code_tab_modal + p.help-block").text(errors.equipment_code);
+                } else {
+                    $("#form_equipment_code_equipment_code_tab_modal").removeClass("has-error");
+                    $("#equipment_code_equipment_code_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.equipment_name) {
+                    $("#form_equipment_name_equipment_code_tab_modal").addClass("has-error");
+                    $("#equipment_name_equipment_code_tab_modal + p.help-block").text(errors.equipment_name);
+                } else {
+                    $("#form_equipment_name_equipment_code_tab_modal").removeClass("has-error");
+                    $("#equipment_name_equipment_code_tab_modal + p.help-block").text("");
                 }
             }
-            return array;
+        });
+    });
+    // End Save Equipment Code
+
+    // Delete Equipment Code
+    $(document).on('click', '.delete-eq', function() {
+        id = $(this).attr('data-id');
+
+        var equipmentCode = $("table#equipment_code_table tr#" + id + " td:eq(1)").html();
+        var equipmentName = $("table#equipment_code_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>EQUIPMENT CODE</th><th>EQUIPMENT NAME</th></thead>";
+        msg += "<tbody><tr><td>" + equipmentCode + "</td><td>" + equipmentName + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Equipment Code?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-equipment-code/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_equipment_code_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Equipment Code.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Equipment Code
+
+    // Changed Select inside Equipment Code Modal
+    $(document).ajaxComplete(function() {
+
+        $('#holding_equipment_code_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_company_equipment_code_tab_modal').html('<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-equipment-code-tab-modal with-ajax" style="width: 100%;">';
+            plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_equipment_code_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            plantSelectModal += '<select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+            plantSelectModal += '</div>';
+            $("#select_plant_equipment_code_tab_modal").html(plantSelectModal);
+
+            var holdingId = $(this).val();
+            var optionsCompanyEquipmentCodeTabModal = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.company-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyEquipmentCodeTabModal);
+            $('.company-equipment-code-tab-modal').trigger('change');
+            $('button[data-id="company_equipment_code_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#company_equipment_code_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_plant_equipment_code_tab_modal').html('<select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var companyId = $(this).val();
+            var optionsPlantEquipmentCodeTabModal = {
+                ajax: {
+                    url: 'settings/select-plant/' + companyId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT PLANT',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].plant,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.plant-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantEquipmentCodeTabModal);
+            $('.plant-equipment-code-tab-modal').trigger('change');
+            $('button[data-id="plant_equipment_code_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+    });
+    // End Changed Select inside Equipment Code Modal
+
+    // Equipment Code Modal hide
+    $('#equipment_code_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_equipment_code_tab_modal').html('<select id="holding_equipment_code_tab_modal" class="holding-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_company_equipment_code_tab_modal').html('<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_plant_equipment_code_tab_modal').html('<select id="plant_equipment_code_tab_modal" class="plant-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $('#equipment_code_tab_modal_form').trigger("reset");
+
+        $(".error_saving_equipment_code_tab_modal").hide();
+        $(".error_updating_equipment_code_tab_modal").hide();
+
+        $("#equipment_code_equipment_code_tab_modal").prop("disabled", true).val("");
+        $("#equipment_name_equipment_code_tab_modal").prop("disabled", true).val("");
+
+        $("#form_plant_equipment_code_tab_modal").removeClass("has-error");
+        $("#plant_equipment_code_tab_modal + p.help-block").text("");
+
+        $("#form_equipment_code_equipment_code_tab_modal").removeClass("has-error");
+        $("#equipment_code_equipment_code_tab_modal + p.help-block").text("");
+
+        $("#form_equipment_name_equipment_code_tab_modal").removeClass("has-error");
+        $("#equipment_name_equipment_code_tab_modal + p.help-block").text("");
+
+    });
+    // End Equipment Code Modal Hide
+
+    // END EQUIPMENT CODE TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HARMONIZED CODE TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_harmonized_code_tab;
+    $("#harmonized_code_tab").one("click", function() {
+
+        datatable_harmonized_code_tab = $('#harmonized_code_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-harmonized-code',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'code',
+                name: 'code'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Harmonized Code Tab
+        new BootstrapMenu('table#harmonized_code_table', {
+            actions: [{
+                name: 'REFRESH HARMONIZED CODE DATA',
+                onClick: function() {
+                    datatable_harmonized_code_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Harmonized Code Tab
+    });
+
+    // Reload Harmonized Code DataTables
+    function reload_harmonized_code_table() {
+        datatable_harmonized_code_tab.ajax.reload(null, false);
+    }
+    // End Reload Harmonized Code DataTables
+
+    // Add Harmonized Code
+    $(document).on('click', '#add-hrc', function() {
+        $('#btn_save_harmonized_code_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#harmonized_code_tab_modal_title').text("ADD HARMONIZED CODE");
+        $('#harmonized_code_tab_modal_form').trigger("reset");
+        $('#harmonized_code_tab_modal').modal('show');
+    });
+    // End Harmonized Code
+
+    // Edit Harmonized Code
+    $(document).on('click', '.edit-hrc', function() {
+        id = $(this).attr('data-id');
+
+        var code = $("table#harmonized_code_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#harmonized_code_table tr#" + id + " td:eq(2)").html();
+
+        $('#harmonized_code_harmonized_code_tab_modal').val(code);
+        $('#desc_harmonized_code_tab_modal').val(description);
+        $('#id_harmonized_code_tab_modal').val(id);
+
+        $('#btn_save_harmonized_code_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#harmonized_code_tab_modal_title').text("EDIT HARMONIZED CODE");
+        $('#ajax_process_modal').modal('hide');
+        $('#harmonized_code_tab_modal').modal('show');
+    });
+    // End Edit Harmonized Code
+
+    // Press Enter harmonized_code_tab_modal
+    $("#harmonized_code_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_harmonized_code_tab_modal").trigger("click");
+                break;
         }
-    };
+    });
+    // End Press Enter harmonized_code_tab_modal
 
-    $('.search_shelf').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchShelf);
-    $('.search_shelf').trigger('change');
-    $('button[data-id="search_shelf"]').addClass("btn-sm");
+    // Save Harmonized Code
+    $("#btn_save_harmonized_code_tab_modal").click(function() {
+        var formData = {
+            code: $('#harmonized_code_harmonized_code_tab_modal').val().trim(),
+            description: $('#desc_harmonized_code_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
 
-    // BIN
-    var optionsSearchBin = {
-        ajax: {
-            url: 'search-items/select-search-bin',
-            type: 'POST',
+        var state = $('#btn_save_harmonized_code_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-harmonized-code';
+        var id = $('#id_harmonized_code_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-harmonized-code/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
             dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT BIN',
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].bin,
-                        value: data[i].id,
-                    }));
+            beforeSend: function(data) {
+                $("#harmonized_code_tab_modal :input").prop('disabled', true);
+                $(".error_saving_harmonized_code_tab_modal").hide();
+                $(".error_updating_harmonized_code_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_harmonized_code_tab_modal").show();
+                } else {
+                    $(".updating_harmonized_code_tab_modal").show();
+                }
+
+                $("#form_harmonized_code_harmonized_code_tab_modal").removeClass("has-error");
+                $("#harmonized_code_harmonized_code_tab_modal + p.help-block").text("");
+                $("#form_desc_harmonized_code_tab_modal").removeClass("has-error");
+                $("#desc_harmonized_code_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#harmonized_code_tab_modal_form').trigger("reset");
+                $(".saving_harmonized_code_tab_modal").hide();
+                $(".updating_harmonized_code_tab_modal").hide();
+
+                $('#harmonized_code_tab_modal').modal('hide');
+                reload_harmonized_code_table();
+                $("#harmonized_code_tab_modal :input").prop('disabled', false);
+
+                $("#form_harmonized_code_harmonized_code_tab_modal").removeClass("has-error");
+                $("#harmonized_code_harmonized_code_tab_modal + p.help-block").text("");
+                $("#form_desc_harmonized_code_tab_modal").removeClass("has-error");
+                $("#desc_harmonized_code_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_harmonized_code_tab_modal").hide();
+                $(".updating_harmonized_code_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_harmonized_code_tab_modal").show();
+                } else {
+                    $(".error_updating_harmonized_code_tab_modal").show();
+                }
+                $("#harmonized_code_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.code) {
+                    $("#form_harmonized_code_harmonized_code_tab_modal").addClass("has-error");
+                    $("#harmonized_code_harmonized_code_tab_modal + p.help-block").text(errors.code);
+                } else {
+                    $("#form_harmonized_code_harmonized_code_tab_modal").removeClass("has-error");
+                    $("#harmonized_code_harmonized_code_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_harmonized_code_tab_modal").addClass("has-error");
+                    $("#desc_harmonized_code_tab_modal + p.help-block").text(errors.code);
+                } else {
+                    $("#form_desc_harmonized_code_tab_modal").removeClass("has-error");
+                    $("#desc_harmonized_code_tab_modal + p.help-block").text("");
                 }
             }
-            return array;
+        });
+    });
+    // End Save Harmonized Code
+
+    // Delete Harmonized Code
+    $(document).on('click', '.delete-hrc', function() {
+        id = $(this).attr('data-id');
+
+        var code = $("table#harmonized_code_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#harmonized_code_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>HARMONIZED CODE</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + code + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Harmonized Code?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-harmonized-code/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_harmonized_code_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Harmonized Code.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Harmonized Code
+
+    // Harmonized Code Modal hide
+    $('#harmonized_code_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_harmonized_code_tab_modal").hide();
+        $(".error_updating_harmonized_code_tab_modal").hide();
+
+        $("#form_harmonized_code_harmonized_code_tab_modal").removeClass("has-error");
+        $("#harmonized_code_harmonized_code_tab_modal + p.help-block").text("");
+        $("#form_desc_harmonized_code_tab_modal").removeClass("has-error");
+        $("#desc_harmonized_code_tab_modal + p.help-block").text("");
+    });
+    // End Harmonized Code Modal Hide
+
+    // END HARMONIZED CODE TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HAZARD CLASS TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_hazard_class_tab;
+    $("#hazard_class_tab").one("click", function() {
+
+        datatable_hazard_class_tab = $('#hazard_class_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-hazard-class',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'class',
+                name: 'class'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Hazard Class Tab
+        new BootstrapMenu('table#hazard_class_table', {
+            actions: [{
+                name: 'REFRESH HAZARD CLASS DATA',
+                onClick: function() {
+                    datatable_hazard_class_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Hazard Class Tab
+    });
+
+    // Reload Hazard Class DataTables
+    function reload_hazard_class_table() {
+        datatable_hazard_class_tab.ajax.reload(null, false);
+    }
+    // End Reload Hazard Class DataTables
+
+    // Add Hazard Class
+    $(document).on('click', '#add-hzc', function() {
+        $('#btn_save_hazard_class_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#hazard_class_tab_modal_title').text("ADD HAZARD CLASS");
+        $('#hazard_class_tab_modal').modal('show');
+    });
+    // End Add Hazard Class
+
+    // Edit Hazard Class
+    $(document).on('click', '.edit-hzc', function() {
+        id = $(this).attr('data-id');
+
+        var hzclass = $("table#hazard_class_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#hazard_class_table tr#" + id + " td:eq(2)").html();
+
+        $('#hazard_class_hazard_class_tab_modal').val(hzclass);
+        $('#desc_hazard_class_tab_modal').val(description);
+        $('#id_hazard_class_tab_modal').val(id);
+
+        $('#btn_save_hazard_class_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#hazard_class_tab_modal_title').text("EDIT HAZARD CLASS");
+        $('#ajax_process_modal').modal('hide');
+        $('#hazard_class_tab_modal').modal('show');
+    });
+    // End Edit Hazard Class
+
+
+    // Press Enter hazard_class_tab_modal
+    $("#hazard_class_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_hazard_class_tab_modal").trigger("click");
+                break;
         }
-    };
+    });
+    // End Press Enter hazard_class_tab_modal
 
-    $('.search_bin').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchBin);
-    $('.search_bin').trigger('change');
-    $('button[data-id="search_bin"]').addClass("btn-sm");
 
-    // USER
-    var optionsSearchUser = {
-        ajax: {
-            url: 'search-items/select-search-user',
-            type: 'POST',
+    // Save Hazard Class
+    $("#btn_save_hazard_class_tab_modal").click(function() {
+        var formData = {
+            class: $('#hazard_class_hazard_class_tab_modal').val().trim(),
+            description: $('#desc_hazard_class_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_hazard_class_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-hazard-class';
+        var id = $('#id_hazard_class_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-hazard-class/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
             dataType: 'json',
-        },
-        locale: {
-            emptyTitle: 'SELECT USER',
-            searchPlaceholder: 'SEARCH USER OR USERNAME'
-        },
-        preprocessData: function(data) {
-            var i, l = data.length,
-                array = [];
-            if (l) {
-                for (i = 0; i < l; i++) {
-                    array.push($.extend(true, data[i], {
-                        text: data[i].name + ' ( ' + data[i].username + ' )',
-                        value: data[i].id,
-                    }));
+            beforeSend: function(data) {
+                $("#hazard_class_tab_modal :input").prop('disabled', true);
+                $(".error_saving_hazard_class_tab_modal").hide();
+                $(".error_updating_hazard_class_tab_modal").hide();
+
+                $("#form_hazard_class_hazard_class_tab_modal").removeClass("has-error");
+                $("#hazard_class_hazard_class_tab_modal + p.help-block").text("");
+                $("#form_desc_hazard_class_tab_modal").removeClass("has-error");
+                $("#desc_hazard_class_tab_modal + p.help-block").text("");
+
+                if (state == "SAVE") {
+                    $(".saving_hazard_class_tab_modal").show();
+                } else {
+                    $(".updating_hazard_class_tab_modal").show();
+                }
+            },
+            success: function(data) {
+                $('#hazard_class_tab_modal_form').trigger("reset");
+                $(".saving_hazard_class_tab_modal").hide();
+                $(".updating_hazard_class_tab_modal").hide();
+
+                $('#hazard_class_tab_modal').modal('hide');
+                reload_hazard_class_table();
+                $("#hazard_class_tab_modal :input").prop('disabled', false);
+
+                $("#form_hazard_class_hazard_class_tab_modal").removeClass("has-error");
+                $("#hazard_class_hazard_class_tab_modal + p.help-block").text("");
+                $("#form_desc_hazard_class_tab_modal").removeClass("has-error");
+                $("#desc_hazard_class_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_hazard_class_tab_modal").hide();
+                $(".updating_hazard_class_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_hazard_class_tab_modal").show();
+                } else {
+                    $(".error_updating_hazard_class_tab_modal").show();
+                }
+
+                $("#hazard_class_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.class) {
+                    $("#form_hazard_class_hazard_class_tab_modal").addClass("has-error");
+                    $("#hazard_class_hazard_class_tab_modal + p.help-block").text(errors.class);
+                } else {
+                    $("#form_hazard_class_hazard_class_tab_modal").removeClass("has-error");
+                    $("#hazard_class_hazard_class_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_hazard_class_tab_modal").addClass("has-error");
+                    $("#desc_hazard_class_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_hazard_class_tab_modal").removeClass("has-error");
+                    $("#desc_hazard_class_tab_modal + p.help-block").text("");
                 }
             }
-            return array;
+        });
+    });
+    // End Save Hazard Class
+
+    // Delete Hazard Class
+    $(document).on('click', '.delete-hzc', function() {
+        id = $(this).attr('data-id');
+
+        var hzclass = $("table#hazard_class_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#hazard_class_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>HAZARD CLASS</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + hzclass + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Hazard Class?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-hazard-class/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_hazard_class_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Hazard Class.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Hazard Class
+
+    // Hazard Class Modal hide
+    $('#hazard_class_tab_modal').on('hide.bs.modal', function(e) {
+        $('#hazard_class_tab_modal_form').trigger("reset");
+        $(".error_saving_hazard_class_tab_modal").hide();
+        $(".error_updating_hazard_class_tab_modal").hide();
+
+        $("#form_hazard_class_hazard_class_tab_modal").removeClass("has-error");
+        $("#hazard_class_hazard_class_tab_modal + p.help-block").text("");
+        $("#form_desc_hazard_class_tab_modal").removeClass("has-error");
+        $("#desc_hazard_class_tab_modal + p.help-block").text("");
+    });
+    // End Hazard Class Modal Hide
+
+    // END HAZARD CLASS TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN HOLDING TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_holding_tab;
+    $("#holding_to_bin_tab").one("click", function() {
+
+        datatable_holding_tab = $('#holding_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-holding',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'holding',
+                name: 'tbl_holding.holding'
+            }, {
+                data: 'description',
+                name: 'tbl_holding.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Holding Tab
+        new BootstrapMenu('table#holding_table', {
+            actions: [{
+                name: 'REFRESH HOLDING DATA',
+                onClick: function() {
+                    datatable_holding_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Holding Tab
+    });
+
+    // Reload Holding DataTables
+    function reload_holding_table() {
+        datatable_holding_tab.ajax.reload(null, false);
+    }
+    // End Reload Holding DataTables
+
+    // Add Holding
+    $(document).on('click', '#add-hol', function() {
+        $('#btn_save_holding_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#holding_tab_modal_title').text("ADD HOLDING");
+        $('#holding_tab_modal').modal('show');
+    });
+    // End Add Holding
+
+    // Edit Holding
+    $(document).on('click', '.edit-hol', function() {
+            id = $(this).attr('data-id');
+
+            var holding = $("table#holding_table tr#" + id + " td:eq(1)").html();
+            var description = $("table#holding_table tr#" + id + " td:eq(2)").html();
+
+            $('#holding_holding_tab_modal').val(holding);
+            $('#holding_desc_holding_tab_modal').val(description);
+            $('#id_holding_tab_modal').val(id);
+
+            $('#btn_save_holding_tab_modal').val("UPDATE").removeAttr("disabled");
+            $('#holding_tab_modal_title').text("EDIT HOLDING");
+            $('#ajax_process_modal').modal('hide');
+            $('#holding_tab_modal').modal('show');
+        })
+        // End Edit Holding
+
+    // Press Enter holding_tab_modal
+    $("#holding_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_holding_tab_modal").trigger("click");
+                break;
         }
-    };
+    });
+    // End Press Enter holding_tab_modal
 
-    $('.search_user').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchUser);
-    $('.search_user').trigger('change');
-    $('button[data-id="search_user"]').addClass("btn-sm");
+    // Save Holding
+    $("#btn_save_holding_tab_modal").click(function() {
+        var formData = {
+            holding: $('#holding_holding_tab_modal').val().trim(),
+            description: $('#holding_desc_holding_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
 
-    // END OF GLOBAL SEARCH
+        var state = $('#btn_save_holding_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-holding';
+        var holdingId = $('#id_holding_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-holding/' + holdingId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#holding_tab_modal :input").prop('disabled', true);
+                $(".error_saving_holding_tab_modal").hide();
+                $(".error_updating_holding_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_holding_tab_modal").show();
+                } else {
+                    $(".updating_holding_tab_modal").show();
+                }
+
+                $("#form_holding_holding_tab_modal").removeClass("has-error");
+                $("#holding_holding_tab_modal + p.help-block").text("");
+
+                $("#form_holding_desc_holding_tab_modal").removeClass("has-error");
+                $("#holding_desc_holding_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#holding_tab_modal_form').trigger("reset");
+                $(".saving_holding_tab_modal").hide();
+                $(".updating_holding_tab_modal").hide();
+
+                $('#holding_tab_modal').modal('hide');
+                reload_holding_table();
+                $("#holding_tab_modal :input").prop('disabled', false);
+
+                $("#form_holding_holding_tab_modal").removeClass("has-error");
+                $("#holding_holding_tab_modal + p.help-block").text("");
+
+                $("#form_holding_desc_holding_tab_modal").removeClass("has-error");
+                $("#holding_desc_holding_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_holding_tab_modal").hide();
+                $(".updating_holding_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_holding_tab_modal").show();
+                } else {
+                    $(".error_updating_holding_tab_modal").show();
+                }
+                $("#holding_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.holding) {
+                    $("#form_holding_holding_tab_modal").addClass("has-error");
+                    $("#holding_holding_tab_modal + p.help-block").text(errors.holding);
+                } else {
+                    $("#form_holding_holding_tab_modal").removeClass("has-error");
+                    $("#holding_holding_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_holding_desc_holding_tab_modal").addClass("has-error");
+                    $("#holding_desc_holding_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_holding_desc_holding_tab_modal").removeClass("has-error");
+                    $("#holding_desc_holding_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Holding
+
+    // Delete Holding
+    $(document).on('click', '.delete-hol', function() {
+        id = $(this).attr('data-id');
+
+        var holding = $("table#holding_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#holding_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>HOLDING</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + holding + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Holding?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-holding/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_holding_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Holding.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Holding
+
+    // Holding Modal hide
+    $('#holding_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_holding_tab_modal").hide();
+        $(".error_updating_holding_tab_modal").hide();
+
+        $('#holding_tab_modal_form').trigger("reset");
+
+        $("#form_holding_holding_tab_modal").removeClass("has-error");
+        $("#holding_holding_tab_modal + p.help-block").text("");
+
+        $("#form_holding_desc_holding_tab_modal").removeClass("has-error");
+        $("#holding_desc_holding_tab_modal + p.help-block").text("");
+    });
+    // End Holding Modal Hide
+
+    // END HOLDING-BIN HOLDING TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN COMPANY TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_company_tab;
+    $("#company_tab").one("click", function() {
+
+        datatable_company_tab = $('#company_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-company',
+                data: function(d) {
+                    d.holdingId = $('#holding_company_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'company',
+                name: 'tbl_company.company'
+            }, {
+                data: 'description',
+                name: 'tbl_company.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'<'col-sm-8'l>f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterCompany = '<div class="col-sm-2" id="select_holding_company_tab">';
+        filterCompany += '<select id="holding_company_tab" class="holding-company-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterCompany += '</div>';
+
+        $(filterCompany).insertBefore("#company_table_filter");
+        $('#company_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP Company Tab
+        // Filter Holding Top Company Tab
+        var optionsHoldingCompanyTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-company-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingCompanyTab);
+        $('.holding-company-tab').trigger('change');
+
+        $('button[data-id="holding_company_tab"]').addClass("btn-sm");
+        // End Filter Holding Top Company Tab
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top Company Tab
+            $('#holding_company_tab').on('changed.bs.select', function(e) {
+                datatable_company_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top Company Tab
+        });
+
+        // Right Click Holding Filter Top Company Tab
+        new BootstrapMenu('button[data-id="holding_company_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_company_tab').prop('disabled') == false) {
+                        $('#holding_company_tab').val([]);
+                        $('#holding_company_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_company_tab').selectpicker('refresh');
+                        $('#holding_company_tab').trigger("click");
+                    }
+                    datatable_company_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Company Tab
+
+        // Right Click Datatables Company Tab
+        new BootstrapMenu('table#company_table', {
+            actions: [{
+                name: 'REFRESH COMPANY DATA',
+                onClick: function() {
+                    datatable_company_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Company Tab
+    });
+
+    // Reload Company DataTables
+    function reload_company_table() {
+        datatable_company_tab.ajax.reload(null, false);
+    }
+    // End Reload Company DataTables
+
+    // Add Company
+    $(document).on('click', '#add-cp', function() {
+        var optionsHoldingCompanyTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-company-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingCompanyTabModal);
+        $('.holding-company-tab-modal').trigger('change');
+        $('button[data-id="holding_company_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        $('#btn_save_company_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#company_tab_modal_title').text("ADD COMPANY");
+        $('#company_tab_modal').modal('show');
+    });
+    // End Add Company
+
+    // Edit Plant
+    $(document).on('click', '.edit-cp', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-company/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingCompanyTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_company_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_company_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_company_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_company_tab_modal > #holding_company_tab_modal').replaceWith('<select id="holding_company_tab_modal" class="holding-company-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-company-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingCompanyTabModal);
+                $('.holding-company-tab-modal').trigger('change');
+                $('button[data-id="holding_company_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#company_company_tab_modal').val(data.company);
+                $('#company_desc_company_tab_modal').val(data.description);
+                $('#id_company_tab_modal').val(id);
+
+                $('#btn_save_company_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#company_tab_modal_title').text("EDIT COMPANY");
+                $('#ajax_process_modal').modal('hide');
+                $('#company_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Comapany
+
+    // Press Enter company_tab_modal
+    $("#company_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_company_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter company_tab_modal
+
+    // Save Company
+    $("#btn_save_company_tab_modal").click(function() {
+        var formData = {
+            tbl_holding_id: $('#holding_company_tab_modal').val().trim(),
+            company: $('#company_company_tab_modal').val().trim(),
+            description: $('#company_desc_company_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_company_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-company';
+        var companyId = $('#id_company_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-company/' + companyId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#company_tab_modal :input").prop('disabled', true);
+                $(".error_saving_company_tab_modal").hide();
+                $(".error_updating_company_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_company_tab_modal").show();
+                } else {
+                    $(".updating_company_tab_modal").show();
+                }
+
+                $("#form_company_company_tab_modal").removeClass("has-error");
+                $("#company_company_tab_modal + p.help-block").text("");
+                $("#form_holding_company_tab_modal").removeClass("has-error");
+                $("#holding_company_tab_modal + p.help-block").text("");
+                $("#form_company_desc_company_tab_modal").removeClass("has-error");
+                $("#company_desc_company_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#company_tab_modal_form').trigger("reset");
+                $(".saving_company_tab_modal").hide();
+                $(".updating_company_tab_modal").hide();
+
+                $('#company_tab_modal').modal('hide');
+                reload_company_table();
+                $("#company_tab_modal :input").prop('disabled', false);
+
+                $("#form_company_company_tab_modal").removeClass("has-error");
+                $("#company_company_tab_modal + p.help-block").text("");
+                $("#form_holding_company_tab_modal").removeClass("has-error");
+                $("#holding_company_tab_modal + p.help-block").text("");
+                $("#form_company_desc_company_tab_modal").removeClass("has-error");
+                $("#company_desc_company_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_company_tab_modal").hide();
+                $(".updating_company_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_company_tab_modal").show();
+                } else {
+                    $(".error_updating_company_tab_modal").show();
+                }
+                $("#company_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.company) {
+                    $("#form_company_company_tab_modal").addClass("has-error");
+                    $("#company_company_tab_modal + p.help-block").text(errors.company);
+                } else {
+                    $("#form_company_company_tab_modal").removeClass("has-error");
+                    $("#company_company_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.holding) {
+                    $("#form_holding_company_tab_modal").addClass("has-error");
+                    $("#holding_company_tab_modal + p.help-block").text(errors.holding);
+                } else {
+                    $("#form_holding_company_tab_modal").removeClass("has-error");
+                    $("#holding_company_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_company_desc_company_tab_modal").addClass("has-error");
+                    $("#company_desc_company_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_company_desc_company_tab_modal").removeClass("has-error");
+                    $("#company_desc_company_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Company
+
+    // Delete Company
+    $(document).on('click', '.delete-cp', function() {
+        id = $(this).attr('data-id');
+
+        var company = $("table#company_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#company_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>COMPANY</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + company + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Company?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-company/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_company_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Company.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Company
+
+    // Company Modal hide
+    $('#company_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_company_tab_modal').html('<select id="holding_company_tab_modal" class="holding-company-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $(".error_saving_company_tab_modal").hide();
+        $(".error_updating_company_tab_modal").hide();
+
+        $('#company_tab_modal_form').trigger("reset");
+
+        $("#form_company_company_tab_modal").removeClass("has-error");
+        $("#company_company_tab_modal + p.help-block").text("");
+        $("#form_holding_company_tab_modal").removeClass("has-error");
+        $("#holding_company_tab_modal + p.help-block").text("");
+        $("#form_company_desc_company_tab_modal").removeClass("has-error");
+        $("#company_desc_company_tab_modal + p.help-block").text("");
+    });
+    // End Company Modal Hide
+
+    // END HOLDING-BIN COMPANY TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN PLANT TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_plant_tab;
+    $("#plant_tab").one("click", function() {
+
+        datatable_plant_tab = $('#plant_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-plant',
+                data: function(d) {
+                    d.holdingId = $('#holding_plant_tab').val();
+                    d.companyId = $('#company_plant_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'plant',
+                name: 'tbl_plant.plant'
+            }, {
+                data: 'description',
+                name: 'tbl_plant.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'<'col-sm-6'l>f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterPlant = '<div class="col-sm-2" id="select_holding_plant_tab">';
+        filterPlant += '<select id="holding_plant_tab" class="holding-plant-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterPlant += '</div>';
+
+        filterPlant += '<div class="col-sm-2" id="select_company_plant_tab">';
+        filterPlant += '<select id="company_plant_tab" class="company-plant-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterPlant += '</div>';
+
+        $(filterPlant).insertBefore("#plant_table_filter");
+        $('#plant_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP Plant Tab
+        // Filter Holding Top Plant Tab
+        var optionsHoldingPlantTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-plant-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingPlantTab);
+        $('.holding-plant-tab').trigger('change');
+
+        $('button[data-id="holding_plant_tab"]').addClass("btn-sm");
+
+        var companySelect = '<div class="btn-group bootstrap-select disabled company-plant-tab with-ajax" style="width: 100%;">';
+        companySelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_plant_tab" tabindex="-1" title="ALL COMPANY"><span class="filter-option pull-left">ALL COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelect += '<select id="company_plant_tab" class="company-plant-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL COMPANY"><option class="bs-title-option" value="">ALL COMPANY</option></select>';
+        companySelect += '</div>';
+        $("#select_company_plant_tab").html(companySelect);
+        // End Filter Holding Top Plant Tab
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top Plant Tab
+            $('#holding_plant_tab').on('changed.bs.select', function(e) {
+                $('#select_company_plant_tab').html('<select id="company_plant_tab" class="company-plant-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var holdingId = $(this).val();
+                var optionsCompanyPlantTab = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL COMPANY',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.company-plant-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyPlantTab);
+                $('.company-plant-tab').trigger('change');
+                $('button[data-id="company_plant_tab"]').addClass("btn-sm");
+                datatable_plant_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top Plant Tab
+
+            // Changed Company Top Plant Tab
+            $('#company_plant_tab').on('changed.bs.select', function(e) {
+                datatable_plant_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top Plant Tab
+        });
+
+        // Right Click Holding Filter Top Plant Tab
+        new BootstrapMenu('button[data-id="holding_plant_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_plant_tab').prop('disabled') == false) {
+                        $('#holding_plant_tab').val([]);
+                        $('#holding_plant_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_plant_tab').selectpicker('refresh');
+                        $('#holding_plant_tab').trigger("click");
+                    }
+
+                    if ($('#company_plant_tab').prop('disabled') == false) {
+                        $('#company_plant_tab').val([]);
+                        $('#company_plant_tab').prop('disabled', true);
+                        $('#company_plant_tab').trigger('change.abs.preserveSelected');
+                        $('#company_plant_tab').selectpicker('refresh');
+                        $('#company_plant_tab').trigger("click");
+                    }
+                    datatable_plant_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Plant Tab
+
+        // Right Click Company Filter Top Plant Tab
+        new BootstrapMenu('button[data-id="company_plant_tab"]', {
+            actions: [{
+                name: 'SELECT ALL COMPANY',
+                onClick: function() {
+
+                    if ($('#company_plant_tab').prop('disabled') == false) {
+                        $('#company_plant_tab').val([]);
+                        $('#company_plant_tab').prop('disabled', true);
+                        $('#company_plant_tab').trigger('change.abs.preserveSelected');
+                        $('#company_plant_tab').selectpicker('refresh');
+                        $('#company_plant_tab').trigger("click");
+                    }
+                    datatable_plant_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Company Filter Top Plant Tab
+
+        // Right Click Datatables Plant Tab
+        new BootstrapMenu('table#plant_table', {
+            actions: [{
+                name: 'REFRESH PLANT DATA',
+                onClick: function() {
+                    datatable_plant_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Plant Tab
+    });
+
+    // Reload Plant DataTables
+    function reload_plant_table() {
+        datatable_plant_tab.ajax.reload(null, false);
+    }
+    // End Reload Plant DataTables
+
+    // Add Plant
+    $(document).on('click', '#add-pl', function() {
+        var optionsHoldingPlantTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-plant-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingPlantTabModal);
+        $('.holding-plant-tab-modal').trigger('change');
+        $('button[data-id="holding_plant_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        var companySelectModal = '<div class="btn-group bootstrap-select disabled company-plant-tab-modal with-ajax" style="width: 100%;">';
+        companySelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_plant_tab_modal" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelectModal += '<select id="company_plant_tab_modal" class="company-plant-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+        companySelectModal += '</div>';
+        $("#select_company_plant_tab_modal").html(companySelectModal);
+
+        $('#btn_save_plant_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#plant_tab_modal_title').text("ADD PLANT");
+        $('#plant_tab_modal').modal('show');
+    });
+    // End Add Plant
+
+    // Edit Plant
+    $(document).on('click', '.edit-pl', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-plant/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingPlantTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_plant_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_plant_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_plant_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_plant_tab_modal > #holding_plant_tab_modal').replaceWith('<select id="holding_plant_tab_modal" class="holding-plant-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-plant-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingPlantTabModal);
+                $('.holding-plant-tab-modal').trigger('change');
+                $('button[data-id="holding_plant_tab_modal"]').addClass("btn-sm");
+
+                var holdingId = data.holding;
+                var optionsCompanyPlantTabModal = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT COMPANY',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_company_palnt_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_plant_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_company_plant_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '<small class="text-muted">' + data.company_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_company_plant_tab_modal > #company_plant_tab_modal').replaceWith('<select id="company_plant_tab_modal" class="company-plant-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+
+                $('.company-plant-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyPlantTabModal);
+                $('.company-plant-tab-modal').trigger('change');
+                $('button[data-id="company_plant_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#plant_plant_tab_modal').val(data.plant);
+                $('#plant_desc_plant_tab_modal').val(data.description);
+                $('#id_plant_tab_modal').val(id);
+
+                $('#btn_save_plant_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#plant_tab_modal_title').text("EDIT PLANT");
+                $('#ajax_process_modal').modal('hide');
+                $('#plant_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Plant
+
+    // Press Enter plant_tab_modal
+    $("#plant_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_plant_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter plant_tab_modal
+
+    // Save Plant
+    $("#btn_save_plant_tab_modal").click(function() {
+        var formData = {
+            plant: $('#plant_plant_tab_modal').val().trim(),
+            description: $('#plant_desc_plant_tab_modal').val().trim(),
+            tbl_company_id: $('#company_plant_tab_modal').val(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_plant_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-plant';
+        var plantId = $('#id_plant_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-plant/' + plantId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#plant_tab_modal :input").prop('disabled', true);
+                $(".error_saving_plant_tab_modal").hide();
+                $(".error_updating_plant_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_plant_tab_modal").show();
+                } else {
+                    $(".updating_plant_tab_modal").show();
+                }
+
+                $("#form_plant_plant_tab_modal").removeClass("has-error");
+                $("#plant_plant_tab_modal + p.help-block").text("");
+                $("#form_company_plant_tab_modal").removeClass("has-error");
+                $("#company_plant_tab_modal + p.help-block").text("");
+                $("#form_plant_desc_plant_tab_modal").removeClass("has-error");
+                $("#plant_desc_plant_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#plant_tab_modal_form').trigger("reset");
+                $(".saving_plant_tab_modal").hide();
+                $(".updating_plant_tab_modal").hide();
+
+                $('#plant_tab_modal').modal('hide');
+                reload_plant_table();
+                $("#plant_tab_modal :input").prop('disabled', false);
+
+                $("#form_plant_plant_tab_modal").removeClass("has-error");
+                $("#plant_plant_tab_modal + p.help-block").text("");
+                $("#form_company_plant_tab_modal").removeClass("has-error");
+                $("#company_plant_tab_modal + p.help-block").text("");
+                $("#form_plant_desc_plant_tab_modal").removeClass("has-error");
+                $("#plant_desc_plant_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_plant_tab_modal").hide();
+                $(".updating_plant_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_plant_tab_modal").show();
+                } else {
+                    $(".error_updating_plant_tab_modal").show();
+                }
+                $("#plant_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.plant) {
+                    $("#form_plant_plant_tab_modal").addClass("has-error");
+                    $("#plant_plant_tab_modal + p.help-block").text(errors.plant);
+                } else {
+                    $("#form_plant_plant_tab_modal").removeClass("has-error");
+                    $("#plant_plant_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.company) {
+                    $("#form_company_plant_tab_modal").addClass("has-error");
+                    $("#company_plant_tab_modal + p.help-block").text(errors.company);
+                } else {
+                    $("#form_company_plant_tab_modal").removeClass("has-error");
+                    $("#company_plant_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_plant_desc_plant_tab_modal").addClass("has-error");
+                    $("#plant_desc_plant_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_plant_desc_plant_tab_modal").removeClass("has-error");
+                    $("#plant_desc_plant_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Plant
+
+    // Delete Plant
+    $(document).on('click', '.delete-pl', function() {
+        id = $(this).attr('data-id');
+
+        var plant = $("table#plant_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#plant_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>PLANT</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + plant + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Plant?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-plant/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_plant_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Plant.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Plant
+
+    // Changed Select inside Plant Modal
+    $(document).ajaxComplete(function() {
+
+        $('#holding_plant_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_company_plant_tab_modal').html('<select id="company_plant_tab_modal" class="company-plant-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var holdingId = $(this).val();
+            var optionsCompanyPlantTabModal = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.company-plant-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyPlantTabModal);
+            $('.company-plant-tab-modal').trigger('change');
+            $('button[data-id="company_plant_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+    });
+    // End Changed Select inside Plant Modal
+
+    // Plant Modal hide
+    $('#plant_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_plant_tab_modal').html('<select id="holding_plant_tab_modal" class="holding-plant-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_company_plant_tab_modal').html('<select id="company_plant_tab_modal" class="company-plant-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $(".error_saving_plant_tab_modal").hide();
+        $(".error_updating_plant_tab_modal").hide();
+
+        $('#plant_tab_modal_form').trigger("reset");
+
+        $("#form_plant_plant_tab_modal").removeClass("has-error");
+        $("#plant_plant_tab_modal + p.help-block").text("");
+        $("#form_company_plant_tab_modal").removeClass("has-error");
+        $("#company_plant_tab_modal + p.help-block").text("");
+        $("#form_plant_desc_plant_tab_modal").removeClass("has-error");
+        $("#plant_desc_plant_tab_modal + p.help-block").text("");
+    });
+    // End Plant Modal Hide
+
+    // END HOLDING-BIN PLANT TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN LOCATION TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_location_tab;
+    $("#location_tab").one("click", function() {
+
+        datatable_location_tab = $('#location_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-location',
+                data: function(d) {
+                    d.holdingId = $('#holding_location_tab').val();
+                    d.companyId = $('#company_location_tab').val();
+                    d.plantId = $('#plant_location_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'location',
+                name: 'tbl_location.location'
+            }, {
+                data: 'description',
+                name: 'tbl_location.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'<'col-sm-4'l>f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterLocation = '<div class="col-sm-2" id="select_holding_location_tab">';
+        filterLocation += '<select id="holding_location_tab" class="holding-location-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterLocation += '</div>';
+
+        filterLocation += '<div class="col-sm-2" id="select_company_location_tab">';
+        filterLocation += '<select id="company_location_tab" class="company-location-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterLocation += '</div>';
+
+        filterLocation += '<div class="col-sm-2" id="select_plant_location_tab">';
+        filterLocation += '<select id="plant_location_tab" class="plant-location-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterLocation += '</div>';
+
+
+        $(filterLocation).insertBefore("#location_table_filter");
+        $('#location_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP Location Tab
+        // Filter Holding Top Location Tab
+        var optionsHoldingLocationTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-location-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingLocationTab);
+        $('.holding-location-tab').trigger('change');
+
+        $('button[data-id="holding_location_tab"]').addClass("btn-sm");
+
+        var companySelect = '<div class="btn-group bootstrap-select disabled company-location-tab with-ajax" style="width: 100%;">';
+        companySelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_location_tab" tabindex="-1" title="ALL COMPANY"><span class="filter-option pull-left">ALL COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelect += '<select id="company_location_tab" class="company-location-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL COMPANY"><option class="bs-title-option" value="">ALL COMPANY</option></select>';
+        companySelect += '</div>';
+        $("#select_company_location_tab").html(companySelect);
+
+        var plantSelect = '<div class="btn-group bootstrap-select disabled plant-location-tab with-ajax" style="width: 100%;">';
+        plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_location_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelect += '<select id="plant_location_tab" class="plant-location-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+        plantSelect += '</div>';
+        $("#select_plant_location_tab").html(plantSelect);
+        // End Filter Holding Top Location Tab
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top Location Tab
+            $('#holding_location_tab').on('changed.bs.select', function(e) {
+                $('#select_company_location_tab').html('<select id="company_location_tab" class="company-location-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var plantSelect = '<div class="btn-group bootstrap-select disabled plant-location-tab with-ajax" style="width: 100%;">';
+                plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_location_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                plantSelect += '<select id="plant_location_tab" class="plant-location-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+                plantSelect += '</div>';
+                $("#select_plant_location_tab").html(plantSelect);
+
+                var holdingId = $(this).val();
+                var optionsCompanyLocationTab = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL COMPANY',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.company-location-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyLocationTab);
+                $('.company-location-tab').trigger('change');
+                $('button[data-id="company_location_tab"]').addClass("btn-sm");
+                datatable_location_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top Location Tab
+
+            // Changed Company Top Location Tab
+            $('#company_location_tab').on('changed.bs.select', function(e) {
+                $('#select_plant_location_tab').html('<select id="plant_location_tab" class="plant-location-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var companyId = $(this).val();
+                var optionsPlantLocationTab = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL PLANT',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.plant-location-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantLocationTab);
+                $('.plant-location-tab').trigger('change');
+                $('button[data-id="plant_location_tab"]').addClass("btn-sm");
+                datatable_location_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top Location Tab
+
+            // Changed Plant Top Location Tab
+            $('#plant_location_tab').on('changed.bs.select', function(e) {
+                datatable_location_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Plant Top Location Tab
+
+        });
+
+        // Right Click Holding Filter Top Location Tab
+        new BootstrapMenu('button[data-id="holding_location_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_location_tab').prop('disabled') == false) {
+                        $('#holding_location_tab').val([]);
+                        $('#holding_location_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_location_tab').selectpicker('refresh');
+                        $('#holding_location_tab').trigger("click");
+                    }
+
+                    if ($('#company_location_tab').prop('disabled') == false) {
+                        $('#company_location_tab').val([]);
+                        $('#company_location_tab').prop('disabled', true);
+                        $('#company_location_tab').trigger('change.abs.preserveSelected');
+                        $('#company_location_tab').selectpicker('refresh');
+                        $('#company_location_tab').trigger("click");
+                    }
+
+                    if ($('#plant_location_tab').prop('disabled') == false) {
+                        $('#plant_location_tab').val([]);
+                        $('#plant_location_tab').prop('disabled', true);
+                        $('#plant_location_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_location_tab').selectpicker('refresh');
+                        $('#plant_location_tab').trigger("click");
+                    }
+                    datatable_location_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Location Tab
+
+        // Right Click Company Filter Top Location Tab
+        new BootstrapMenu('button[data-id="company_location_tab"]', {
+            actions: [{
+                name: 'SELECT ALL COMPANY',
+                onClick: function() {
+
+                    if ($('#company_location_tab').prop('disabled') == false) {
+                        $('#company_location_tab').val([]);
+                        $('#company_location_tab').prop('disabled', true);
+                        $('#company_location_tab').trigger('change.abs.preserveSelected');
+                        $('#company_location_tab').selectpicker('refresh');
+                        $('#company_location_tab').trigger("click");
+                    }
+
+                    if ($('#plant_location_tab').prop('disabled') == false) {
+                        $('#plant_location_tab').val([]);
+                        $('#plant_location_tab').prop('disabled', true);
+                        $('#plant_location_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_location_tab').selectpicker('refresh');
+                        $('#plant_location_tab').trigger("click");
+                    }
+                    datatable_location_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Company Filter Top Location Tab
+
+        // Right Click Plant Filter Top Location Tab
+        new BootstrapMenu('button[data-id="plant_location_tab"]', {
+            actions: [{
+                name: 'SELECT ALL PLANT',
+                onClick: function() {
+
+                    if ($('#plant_location_tab').prop('disabled') == false) {
+                        $('#plant_location_tab').val([]);
+                        $('#plant_location_tab').prop('disabled', true);
+                        $('#plant_location_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_location_tab').selectpicker('refresh');
+                        $('#plant_location_tab').trigger("click");
+                    }
+                    datatable_location_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Plant Filter Top Location Tab
+
+        // Right Click Datatables Location Tab
+        new BootstrapMenu('table#location_table', {
+            actions: [{
+                name: 'REFRESH LOCATION DATA',
+                onClick: function() {
+                    datatable_location_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Location Tab
+    });
+
+    // Reload Location DataTables
+    function reload_location_table() {
+        datatable_location_tab.ajax.reload(null, false);
+    }
+    // End Reload Location DataTables
+
+    // Add Location
+    $(document).on('click', '#add-loc', function() {
+        var optionsHoldingLocationTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingLocationTabModal);
+        $('.holding-location-tab-modal').trigger('change');
+        $('button[data-id="holding_location_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        var companySelectModal = '<div class="btn-group bootstrap-select disabled company-location-tab-modal with-ajax" style="width: 100%;">';
+        companySelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_location_tab_modal" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelectModal += '<select id="company_location_tab_modal" class="company-location-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+        companySelectModal += '</div>';
+        $("#select_company_location_tab_modal").html(companySelectModal);
+
+        var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-location-tab-modal with-ajax" style="width: 100%;">';
+        plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_location_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelectModal += '<select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+        plantSelectModal += '</div>';
+        $("#select_plant_location_tab_modal").html(plantSelectModal);
+
+        $('#btn_save_location_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#location_tab_modal_title').text("ADD LOCATION");
+        $('#location_tab_modal').modal('show');
+    });
+    // End Add Location
+
+    // Edit Location
+    $(document).on('click', '.edit-loc', function() {
+        id = $(this).attr('data-id');
+        $.ajax({
+            url: 'settings/edit-location/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingLocationTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_location_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_location_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_location_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_location_tab_modal > #holding_location_tab_modal').replaceWith('<select id="holding_location_tab_modal" class="holding-location-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingLocationTabModal);
+                $('.holding-location-tab-modal').trigger('change');
+                $('button[data-id="holding_location_tab_modal"]').addClass("btn-sm");
+
+                var optionsCompanyLocationTabModal = {
+                    ajax: {
+                        url: 'settings/select-company/' + data.holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT COMPANY',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_company_location_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_location_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_company_location_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_company_location_tab_modal > #company_location_tab_modal').replaceWith('<select id="company_location_tab_modal" class="company-location-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+
+                $('.company-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyLocationTabModal);
+                $('.company-location-tab-modal').trigger('change');
+                $('button[data-id="company_location_tab_modal"]').addClass("btn-sm");
+
+                var companyId = data.company;
+                var optionsPlantLocationTabModal = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT PLANT',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_plant_location_tab_modal > button[title='SELECT PLANT']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="plant_location_tab_modal" title="' + data.plant + '"><span class="filter-option pull-left">' + data.plant + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_plant_location_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.plant + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_plant_location_tab_modal > #plant_location_tab_modal').replaceWith('<select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.plantId + '" selected="selected">' + data.plant + '</option></optgroup></select>');
+
+                $('.plant-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantLocationTabModal);
+                $('.plant-location-tab-modal').trigger('change');
+                $('button[data-id="plant_location_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#location_location_tab_modal').val(data.location);
+                $('#location_desc_location_tab_modal').val(data.description);
+                $('#id_location_tab_modal').val(id);
+
+                $('#btn_save_location_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#location_tab_modal_title').text("EDIT LOCATION");
+                $('#ajax_process_modal').modal('hide');
+                $('#location_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Location
+
+    // Press Enter location_tab_modal
+    $("#location_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_location_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter location_tab_modal
+
+    // Save Location
+    $("#btn_save_location_tab_modal").click(function() {
+        var formData = {
+            location: $('#location_location_tab_modal').val().trim(),
+            description: $('#location_desc_location_tab_modal').val().trim(),
+            tbl_plant_id: $('#plant_location_tab_modal').val(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_location_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-location';
+        var locationId = $('#id_location_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-location/' + locationId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#location_tab_modal :input").prop('disabled', true);
+                $(".error_saving_location_tab_modal").hide();
+                $(".error_updating_location_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_location_tab_modal").show();
+                } else {
+                    $(".updating_location_tab_modal").show();
+                }
+
+                $("#form_location_location_tab_modal").removeClass("has-error");
+                $("#location_location_tab_modal + p.help-block").text("");
+                $("#form_plant_location_tab_modal").removeClass("has-error");
+                $("#plant_location_tab_modal + p.help-block").text("");
+                $("#form_location_desc_location_tab_modal").removeClass("has-error");
+                $("#location_desc_location_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#location_tab_modal_form').trigger("reset");
+                $(".saving_location_tab_modal").hide();
+                $(".updating_location_tab_modal").hide();
+
+                $('#location_tab_modal').modal('hide');
+                reload_location_table();
+                $("#location_tab_modal :input").prop('disabled', false);
+
+                $("#form_location_location_tab_modal").removeClass("has-error");
+                $("#location_location_tab_modal + p.help-block").text("");
+                $("#form_plant_location_tab_modal").removeClass("has-error");
+                $("#plant_location_tab_modal + p.help-block").text("");
+                $("#form_location_desc_location_tab_modal").removeClass("has-error");
+                $("#location_desc_location_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_location_tab_modal").hide();
+                $(".updating_location_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_location_tab_modal").show();
+                } else {
+                    $(".error_updating_location_tab_modal").show();
+                }
+                $("#location_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.location) {
+                    $("#form_location_location_tab_modal").addClass("has-error");
+                    $("#location_location_tab_modal + p.help-block").text(errors.location);
+                } else {
+                    $("#form_location_location_tab_modal").removeClass("has-error");
+                    $("#location_location_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.plant) {
+                    $("#form_plant_location_tab_modal").addClass("has-error");
+                    $("#plant_location_tab_modal + p.help-block").text(errors.plant);
+                } else {
+                    $("#form_plant_location_tab_modal").removeClass("has-error");
+                    $("#plant_location_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_location_desc_location_tab_modal").addClass("has-error");
+                    $("#location_desc_location_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_location_desc_location_tab_modal").removeClass("has-error");
+                    $("#location_desc_location_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Location
+
+    // Delete location
+    $(document).on('click', '.delete-loc', function() {
+        id = $(this).attr('data-id');
+
+        var location = $("table#location_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#location_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>LOCATION</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + location + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Location?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-location/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_location_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Location.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Location
+
+    // Changed Select inside Location Modal
+    $(document).ajaxComplete(function() {
+
+        $('#holding_location_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_company_location_tab_modal').html('<select id="company_location_tab_modal" class="company-location-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-location-tab-modal with-ajax" style="width: 100%;">';
+            plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_location_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            plantSelectModal += '<select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+            plantSelectModal += '</div>';
+            $("#select_plant_location_tab_modal").html(plantSelectModal);
+
+            var holdingId = $(this).val();
+            var optionsCompanyLocationTabModal = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.company-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyLocationTabModal);
+            $('.company-location-tab-modal').trigger('change');
+            $('button[data-id="company_location_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#company_location_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_plant_location_tab_modal').html('<select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var companyId = $(this).val();
+            var optionsPlantLocationTabModal = {
+                ajax: {
+                    url: 'settings/select-plant/' + companyId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT PLANT',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].plant,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.plant-location-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantLocationTabModal);
+            $('.plant-location-tab-modal').trigger('change');
+            $('button[data-id="plant_location_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+    });
+    // End Changed Select inside Location Modal
+
+    // Location Modal hide
+    $('#location_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_location_tab_modal').html('<select id="holding_location_tab_modal" class="holding-location-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_company_location_tab_modal').html('<select id="company_location_tab_modal" class="company-location-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_plant_location_tab_modal').html('<select id="plant_location_tab_modal" class="plant-location-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $(".error_saving_location_tab_modal").hide();
+        $(".error_updating_location_tab_modal").hide();
+
+        $('#location_tab_modal_form').trigger("reset");
+
+        $("#form_location_location_tab_modal").removeClass("has-error");
+        $("#location_location_tab_modal + p.help-block").text("");
+        $("#form_plant_location_tab_modal").removeClass("has-error");
+        $("#plant_location_tab_modal + p.help-block").text("");
+        $("#form_location_desc_location_tab_modal").removeClass("has-error");
+        $("#location_desc_location_tab_modal + p.help-block").text("");
+    });
+    // End Location Modal Hide
+
+    // END HOLDING-BIN LOCATION TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN SHELF TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_shelf_tab;
+    $("#shelf_tab").one("click", function() {
+
+        datatable_shelf_tab = $('#shelf_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-shelf',
+                data: function(d) {
+                    d.holdingId = $('#holding_shelf_tab').val();
+                    d.companyId = $('#company_shelf_tab').val();
+                    d.plantId = $('#plant_shelf_tab').val();
+                    d.locationId = $('#location_shelf_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'shelf',
+                name: 'tbl_shelf.shelf'
+            }, {
+                data: 'description',
+                name: 'tbl_shelf.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'<'col-sm-2'l>f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterShelf = '<div class="col-sm-2" id="select_holding_shelf_tab">';
+        filterShelf += '<select id="holding_shelf_tab" class="holding-shelf-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterShelf += '</div>';
+
+        filterShelf += '<div class="col-sm-2" id="select_company_shelf_tab">';
+        filterShelf += '<select id="company_shelf_tab" class="company-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterShelf += '</div>';
+
+        filterShelf += '<div class="col-sm-2" id="select_plant_shelf_tab">';
+        filterShelf += '<select id="plant_shelf_tab" class="plant-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterShelf += '</div>';
+
+        filterShelf += '<div class="col-sm-2" id="select_location_shelf_tab">';
+        filterShelf += '<select id="location_shelf_tab" class="location-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterShelf += '</div>';
+
+
+        $(filterShelf).insertBefore("#shelf_table_filter");
+        $('#shelf_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP Shelf Tab
+        // Filter Holding Top Shelf Tab
+        var optionsHoldingShelfTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-shelf-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingShelfTab);
+        $('.holding-shelf-tab').trigger('change');
+
+        $('button[data-id="holding_shelf_tab"]').addClass("btn-sm");
+
+        var companySelect = '<div class="btn-group bootstrap-select disabled company-shelf-tab with-ajax" style="width: 100%;">';
+        companySelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_shelf_tab" tabindex="-1" title="ALL COMPANY"><span class="filter-option pull-left">ALL COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelect += '<select id="company_shelf_tab" class="company-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL COMPANY"><option class="bs-title-option" value="">ALL COMPANY</option></select>';
+        companySelect += '</div>';
+        $("#select_company_shelf_tab").html(companySelect);
+
+        var plantSelect = '<div class="btn-group bootstrap-select disabled plant-shelf-tab with-ajax" style="width: 100%;">';
+        plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_shelf_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelect += '<select id="plant_shelf_tab" class="plant-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+        plantSelect += '</div>';
+        $("#select_plant_shelf_tab").html(plantSelect);
+
+        var locationSelect = '<div class="btn-group bootstrap-select disabled location-shelf-tab with-ajax" style="width: 100%;">';
+        locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        locationSelect += '<select id="location_shelf_tab" class="location-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+        locationSelect += '</div>';
+        $("#select_location_shelf_tab").html(locationSelect);
+
+        // End Filter Holding Top Shelf Tab
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top Shelf Tab
+            $('#holding_shelf_tab').on('changed.bs.select', function(e) {
+                $('#select_company_shelf_tab').html('<select id="company_shelf_tab" class="company-shelf-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var plantSelect = '<div class="btn-group bootstrap-select disabled plant-shelf-tab with-ajax" style="width: 100%;">';
+                plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_shelf_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                plantSelect += '<select id="plant_shelf_tab" class="plant-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+                plantSelect += '</div>';
+                $("#select_plant_shelf_tab").html(plantSelect);
+
+                var locationSelect = '<div class="btn-group bootstrap-select disabled location-shelf-tab with-ajax" style="width: 100%;">';
+                locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                locationSelect += '<select id="location_shelf_tab" class="location-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+                locationSelect += '</div>';
+                $("#select_location_shelf_tab").html(locationSelect);
+
+                var holdingId = $(this).val();
+                var optionsCompanyShelfTab = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL COMPANY',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.company-shelf-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyShelfTab);
+                $('.company-shelf-tab').trigger('change');
+                $('button[data-id="company_shelf_tab"]').addClass("btn-sm");
+                datatable_shelf_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top Shelf Tab
+
+            // Changed Company Top Shelf Tab
+            $('#company_shelf_tab').on('changed.bs.select', function(e) {
+                $('#select_plant_shelf_tab').html('<select id="plant_shelf_tab" class="plant-shelf-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var locationSelect = '<div class="btn-group bootstrap-select disabled location-shelf-tab with-ajax" style="width: 100%;">';
+                locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                locationSelect += '<select id="location_shelf_tab" class="location-shelf-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+                locationSelect += '</div>';
+                $("#select_location_shelf_tab").html(locationSelect);
+
+                var companyId = $(this).val();
+                var optionsPlantShelfTab = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL PLANT',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.plant-shelf-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantShelfTab);
+                $('.plant-shelf-tab').trigger('change');
+                $('button[data-id="plant_shelf_tab"]').addClass("btn-sm");
+                datatable_shelf_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top Shelf Tab
+
+            // Changed Plant Top Shelf Tab
+            $('#plant_shelf_tab').on('changed.bs.select', function(e) {
+                $('#select_location_shelf_tab').html('<select id="location_shelf_tab" class="location-shelf-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var plantId = $(this).val();
+                var optionsLocationShelfTab = {
+                    ajax: {
+                        url: 'settings/select-location/' + plantId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL LOCATION',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].location,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.location-shelf-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationShelfTab);
+                $('.location-shelf-tab').trigger('change');
+                $('button[data-id="location_shelf_tab"]').addClass("btn-sm");
+                datatable_shelf_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Plant Top Shelf Tab
+
+            // Changed Location Top Shelf Tab
+            $('#location_shelf_tab').on('changed.bs.select', function(e) {
+                datatable_shelf_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Location Top Shelf Tab
+
+        });
+
+        // Right Click Holding Filter Top Shelf Tab
+        new BootstrapMenu('button[data-id="holding_shelf_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_shelf_tab').prop('disabled') == false) {
+                        $('#holding_shelf_tab').val([]);
+                        $('#holding_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_shelf_tab').selectpicker('refresh');
+                        $('#company_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#company_shelf_tab').prop('disabled') == false) {
+                        $('#company_shelf_tab').val([]);
+                        $('#company_shelf_tab').prop('disabled', true);
+                        $('#company_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#company_shelf_tab').selectpicker('refresh');
+                        $('#company_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#plant_shelf_tab').prop('disabled') == false) {
+                        $('#plant_shelf_tab').val([]);
+                        $('#plant_shelf_tab').prop('disabled', true);
+                        $('#plant_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_shelf_tab').selectpicker('refresh');
+                        $('#plant_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#location_shelf_tab').prop('disabled') == false) {
+                        $('#location_shelf_tab').val([]);
+                        $('#location_shelf_tab').prop('disabled', true);
+                        $('#location_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#location_shelf_tab').selectpicker('refresh');
+                        $('#location_shelf_tab').trigger("click");
+                    }
+                    datatable_shelf_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Shelf Tab
+
+        // Right Click Company Filter Top Shelf Tab
+        new BootstrapMenu('button[data-id="company_shelf_tab"]', {
+            actions: [{
+                name: 'SELECT ALL COMPANY',
+                onClick: function() {
+
+                    if ($('#company_shelf_tab').prop('disabled') == false) {
+                        $('#company_shelf_tab').val([]);
+                        $('#company_shelf_tab').prop('disabled', true);
+                        $('#company_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#company_shelf_tab').selectpicker('refresh');
+                        $('#company_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#plant_shelf_tab').prop('disabled') == false) {
+                        $('#plant_shelf_tab').val([]);
+                        $('#plant_shelf_tab').prop('disabled', true);
+                        $('#plant_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_shelf_tab').selectpicker('refresh');
+                        $('#plant_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#location_shelf_tab').prop('disabled') == false) {
+                        $('#location_shelf_tab').val([]);
+                        $('#location_shelf_tab').prop('disabled', true);
+                        $('#location_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#location_shelf_tab').selectpicker('refresh');
+                        $('#location_shelf_tab').trigger("click");
+                    }
+                    datatable_shelf_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Company Filter Top Shelf Tab
+
+        // Right Click Plant Filter Top Shelf Tab
+        new BootstrapMenu('button[data-id="plant_shelf_tab"]', {
+            actions: [{
+                name: 'SELECT ALL PLANT',
+                onClick: function() {
+
+                    if ($('#plant_shelf_tab').prop('disabled') == false) {
+                        $('#plant_shelf_tab').val([]);
+                        $('#plant_shelf_tab').prop('disabled', true);
+                        $('#plant_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_shelf_tab').selectpicker('refresh');
+                        $('#plant_shelf_tab').trigger("click");
+                    }
+
+                    if ($('#location_shelf_tab').prop('disabled') == false) {
+                        $('#location_shelf_tab').val([]);
+                        $('#location_shelf_tab').prop('disabled', true);
+                        $('#location_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#location_shelf_tab').selectpicker('refresh');
+                        $('#location_shelf_tab').trigger("click");
+                    }
+                    datatable_shelf_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Plant Filter Top Shelf Tab
+
+        // Right Click Location Filter Top Shelf Tab
+        new BootstrapMenu('button[data-id="location_shelf_tab"]', {
+            actions: [{
+                name: 'SELECT ALL LOCATION',
+                onClick: function() {
+
+                    if ($('#location_shelf_tab').prop('disabled') == false) {
+                        $('#location_shelf_tab').val([]);
+                        $('#location_shelf_tab').prop('disabled', true);
+                        $('#location_shelf_tab').trigger('change.abs.preserveSelected');
+                        $('#location_shelf_tab').selectpicker('refresh');
+                        $('#location_shelf_tab').trigger("click");
+                    }
+                    datatable_shelf_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Location Filter Top Shelf Tab
+
+        // Right Click Datatables Shelf Tab
+        new BootstrapMenu('table#shelf_table', {
+            actions: [{
+                name: 'REFRESH SHELF DATA',
+                onClick: function() {
+                    datatable_shelf_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Shelf Tab
+    });
+
+    // Reload Shelf DataTable 
+    function reload_shelf_table() {
+        datatable_shelf_tab.ajax.reload(null, false);
+    }
+    // End Reload Shelf DataTable
+
+    // Add Shelf
+    $(document).on('click', '#add-sh', function() {
+        var optionsHoldingShelfTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingShelfTabModal);
+        $('.holding-shelf-tab-modal').trigger('change');
+        $('button[data-id="holding_shelf_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        var companySelectModal = '<div class="btn-group bootstrap-select disabled company-shelf-tab-modal with-ajax" style="width: 100%;">';
+        companySelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_shelf_tab_modal" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelectModal += '<select id="company_shelf_tab_modal" class="company-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+        companySelectModal += '</div>';
+        $("#select_company_shelf_tab_modal").html(companySelectModal);
+
+        var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-shelf-tab-modal with-ajax" style="width: 100%;">';
+        plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_shelf_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelectModal += '<select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+        plantSelectModal += '</div>';
+        $("#select_plant_shelf_tab_modal").html(plantSelectModal);
+
+        var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-shelf-tab-modal with-ajax" style="width: 100%;">';
+        locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        locationSelectModal += '<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+        locationSelectModal += '</div>';
+        $("#select_location_shelf_tab_modal").html(locationSelectModal);
+
+        $('#btn_save_shelf_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#shelf_tab_modal_title').text("ADD SHELF");
+        $('#shelf_tab_modal').modal('show');
+    });
+    // End Add Shelf
+
+    // Edit Shelf
+    $(document).on('click', '.edit-sh', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-shelf/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingShelfTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_shelf_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_shelf_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_shelf_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_shelf_tab_modal > #holding_shelf_tab_modal').replaceWith('<select id="holding_shelf_tab_modal" class="holding-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingShelfTabModal);
+                $('.holding-shelf-tab-modal').trigger('change');
+                $('button[data-id="holding_shelf_tab_modal"]').addClass("btn-sm");
+
+                var optionsCompanyShelfTabModal = {
+                    ajax: {
+                        url: 'settings/select-company/' + data.holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT COMPANY',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_company_shelf_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_shelf_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_company_shelf_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '<small class="text-muted">' + data.company_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_company_shelf_tab_modal > #company_shelf_tab_modal').replaceWith('<select id="company_shelf_tab_modal" class="company-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+
+                $('.company-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyShelfTabModal);
+                $('.company-shelf-tab-modal').trigger('change');
+                $('button[data-id="company_shelf_tab_modal"]').addClass("btn-sm");
+
+                var optionsPlantShelfTabModal = {
+                    ajax: {
+                        url: 'settings/select-plant/' + data.companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT PLANT',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_plant_shelf_tab_modal > button[title='SELECT PLANT']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="plant_shelf_tab_modal" title="' + data.plant + '"><span class="filter-option pull-left">' + data.plant + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_plant_shelf_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.plant + '<small class="text-muted">' + data.plant_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_plant_shelf_tab_modal > #plant_shelf_tab_modal').replaceWith('<select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.plantId + '" selected="selected">' + data.plant + '</option></optgroup></select>');
+
+                $('.plant-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantShelfTabModal);
+                $('.plant-shelf-tab-modal').trigger('change');
+                $('button[data-id="plant_shelf_tab_modal"]').addClass("btn-sm");
+
+                var optionsLocationShelfTabModal = {
+                    ajax: {
+                        url: 'settings/select-location/' + data.plantId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT LOCATION',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].location,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_location_shelf_tab_modal > button[title='SELECT LOCATION']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="location_shelf_tab_modal" title="' + data.location + '"><span class="filter-option pull-left">' + data.location + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_location_shelf_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.location + '<small class="text-muted">' + data.location_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_location_shelf_tab_modal > #location_shelf_tab_modal').replaceWith('<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.locationId + '" selected="selected">' + data.location + '</option></optgroup></select>');
+
+                $('.location-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationShelfTabModal);
+                $('.location-shelf-tab-modal').trigger('change');
+                $('button[data-id="location_shelf_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#shelf_shelf_tab_modal').val(data.shelf);
+                $('#shelf_desc_shelf_tab_modal').val(data.description);
+                $('#id_shelf_tab_modal').val(id);
+
+                $('#btn_save_shelf_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#shelf_tab_modal_title').text("EDIT SHELF");
+                $('#ajax_process_modal').modal('hide');
+                $('#shelf_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Shelf
+
+    // Press Enter shelf_tab_modal
+    $("#shelf_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_shelf_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter shelf_tab_modal
+
+    // Save Shelf
+    $("#btn_save_shelf_tab_modal").click(function() {
+        var formData = {
+            shelf: $('#shelf_shelf_tab_modal').val().trim(),
+            description: $('#shelf_desc_shelf_tab_modal').val().trim(),
+            tbl_location_id: $('#location_shelf_tab_modal').val(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_shelf_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-shelf';
+        var shelfId = $('#id_shelf_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-shelf/' + shelfId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#shelf_tab_modal :input").prop('disabled', true);
+                $(".error_saving_shelf_tab_modal").hide();
+                $(".error_updating_shelf_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_shelf_tab_modal").show();
+                } else {
+                    $(".updating_shelf_tab_modal").show();
+                }
+
+                $("#form_shelf_shelf_tab_modal").removeClass("has-error");
+                $("#shelf_shelf_tab_modal + p.help-block").text("");
+
+                $("#form_location_shelf_tab_modal").removeClass("has-error");
+                $("#location_shelf_tab_modal + p.help-block").text("");
+
+                $("#form_shelf_desc_shelf_tab_modal").removeClass("has-error");
+                $("#shelf_desc_shelf_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#shelf_tab_modal_form').trigger("reset");
+                $(".saving_shelf_tab_modal").hide();
+                $(".updating_shelf_tab_modal").hide();
+
+                $('#shelf_tab_modal').modal('hide');
+                reload_shelf_table();
+                $("#shelf_tab_modal :input").prop('disabled', false);
+
+                $("#form_shelf_shelf_tab_modal").removeClass("has-error");
+                $("#shelf_shelf_tab_modal + p.help-block").text("");
+
+                $("#form_location_shelf_tab_modal").removeClass("has-error");
+                $("#location_shelf_tab_modal + p.help-block").text("");
+
+                $("#form_shelf_desc_shelf_tab_modal").removeClass("has-error");
+                $("#shelf_desc_shelf_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_shelf_tab_modal").hide();
+                $(".updating_shelf_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_shelf_tab_modal").show();
+                } else {
+                    $(".error_updating_shelf_tab_modal").show();
+                }
+                $("#shelf_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.shelf) {
+                    $("#form_shelf_shelf_tab_modal").addClass("has-error");
+                    $("#shelf_shelf_tab_modal + p.help-block").text(errors.shelf);
+                } else {
+                    $("#form_shelf_shelf_tab_modal").removeClass("has-error");
+                    $("#shelf_shelf_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.location) {
+                    $("#form_location_shelf_tab_modal").addClass("has-error");
+                    $("#location_shelf_tab_modal + p.help-block").text(errors.location);
+                } else {
+                    $("#form_location_shelf_tab_modal").removeClass("has-error");
+                    $("#location_shelf_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_shelf_desc_shelf_tab_modal").addClass("has-error");
+                    $("#shelf_desc_shelf_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_shelf_desc_shelf_tab_modal").removeClass("has-error");
+                    $("#shelf_desc_shelf_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Shelf
+
+    // Delete Shelf
+    $(document).on('click', '.delete-sh', function() {
+        id = $(this).attr('data-id');
+
+        var shelf = $("table#shelf_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#shelf_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>SHELF</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + shelf + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Shelf?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-shelf/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_shelf_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Shelf.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Shelf
+
+    // Changed Select inside Shelf Modal
+    $(document).ajaxComplete(function() {
+
+        $('#holding_shelf_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_company_shelf_tab_modal').html('<select id="company_shelf_tab_modal" class="company-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-shelf-tab-modal with-ajax" style="width: 100%;">';
+            plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_shelf_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            plantSelectModal += '<select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+            plantSelectModal += '</div>';
+            $("#select_plant_shelf_tab_modal").html(plantSelectModal);
+
+            var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-shelf-tab-modal with-ajax" style="width: 100%;">';
+            locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            locationSelectModal += '<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+            locationSelectModal += '</div>';
+            $("#select_location_shelf_tab_modal").html(locationSelectModal);
+
+            var holdingId = $(this).val();
+            var optionsCompanyShelfTabModal = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.company-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyShelfTabModal);
+            $('.company-shelf-tab-modal').trigger('change');
+            $('button[data-id="company_shelf_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#company_shelf_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_plant_shelf_tab_modal').html('<select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-shelf-tab-modal with-ajax" style="width: 100%;">';
+            locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_shelf_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            locationSelectModal += '<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+            locationSelectModal += '</div>';
+            $("#select_location_shelf_tab_modal").html(locationSelectModal);
+
+            var companyId = $(this).val();
+            var optionsPlantShelfTabModal = {
+                ajax: {
+                    url: 'settings/select-plant/' + companyId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT PLANT',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].plant,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.plant-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantShelfTabModal);
+            $('.plant-shelf-tab-modal').trigger('change');
+            $('button[data-id="plant_shelf_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#plant_shelf_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_location_shelf_tab_modal').html('<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var plantId = $(this).val();
+            var optionsLocationShelfTabModal = {
+                ajax: {
+                    url: 'settings/select-location/' + plantId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT LOCATION',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].location,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.location-shelf-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationShelfTabModal);
+            $('.location-shelf-tab-modal').trigger('change');
+            $('button[data-id="location_shelf_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+    });
+    // End Changed Select inside Shelf Modal
+
+    // Shelf Modal hide
+    $('#shelf_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_shelf_tab_modal').html('<select id="holding_shelf_tab_modal" class="holding-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_company_shelf_tab_modal').html('<select id="company_shelf_tab_modal" class="company-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_plant_shelf_tab_modal').html('<select id="plant_shelf_tab_modal" class="plant-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_location_shelf_tab_modal').html('<select id="location_shelf_tab_modal" class="location-shelf-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $(".error_saving_shelf_tab_modal").hide();
+        $(".error_updating_shelf_tab_modal").hide();
+
+        $('#shelf_tab_modal_form').trigger("reset");
+
+        $("#form_shelf_shelf_tab_modal").removeClass("has-error");
+        $("#shelf_shelf_tab_modal + p.help-block").text("");
+
+        $("#form_location_shelf_tab_modal").removeClass("has-error");
+        $("#location_shelf_tab_modal + p.help-block").text("");
+
+        $("#form_shelf_desc_shelf_tab_modal").removeClass("has-error");
+        $("#shelf_desc_shelf_tab_modal + p.help-block").text("");
+    });
+    // End Shelf Modal Hide
+
+    // END HOLDING-BIN SHELF TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START HOLDING-BIN BIN TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_bin_tab;
+    $("#bin_tab").one("click", function() {
+
+        datatable_bin_tab = $('#bin_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-bin',
+                data: function(d) {
+                    d.holdingId = $('#holding_bin_tab').val();
+                    d.companyId = $('#company_bin_tab').val();
+                    d.plantId = $('#plant_bin_tab').val();
+                    d.locationId = $('#location_bin_tab').val();
+                    d.shelfId = $('#shelf_bin_tab').val();
+                },
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'bin',
+                name: 'tbl_bin.bin'
+            }, {
+                data: 'description',
+                name: 'tbl_bin.description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            dom: "<'row'f>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        var filterBin = '<div class="col-sm-2" id="select_holding_bin_tab">';
+        filterBin += '<select id="holding_bin_tab" class="holding-bin-tab with-ajax" data-live-search="true" data-width="100%"></select>';
+        filterBin += '</div>';
+
+        filterBin += '<div class="col-sm-2" id="select_company_bin_tab">';
+        filterBin += '<select id="company_bin_tab" class="company-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterBin += '</div>';
+
+        filterBin += '<div class="col-sm-2" id="select_plant_bin_tab">';
+        filterBin += '<select id="plant_bin_tab" class="plant-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterBin += '</div>';
+
+        filterBin += '<div class="col-sm-2" id="select_location_bin_tab">';
+        filterBin += '<select id="location_bin_tab" class="location-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterBin += '</div>';
+
+        filterBin += '<div class="col-sm-2" id="select_shelf_bin_tab">';
+        filterBin += '<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled></select>';
+        filterBin += '</div>';
+
+        $(filterBin).insertBefore("#bin_table_filter");
+        $('#bin_table_filter').addClass('col-sm-2').css("padding-left", "0px");
+
+        // FILTER TOP
+        // Filter Holding Top
+        var optionsHoldingBinTab = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'ALL HOLDING',
+                statusInitialized: 'Start typing...'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+        $('.holding-bin-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingBinTab);
+        $('.holding-bin-tab').trigger('change');
+
+        $('button[data-id="holding_bin_tab"]').addClass("btn-sm");
+
+        var companySelect = '<div class="btn-group bootstrap-select disabled company-bin-tab with-ajax" style="width: 100%;">';
+        companySelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_bin_tab" tabindex="-1" title="ALL COMPANY"><span class="filter-option pull-left">ALL COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelect += '<select id="company_bin_tab" class="company-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL COMPANY"><option class="bs-title-option" value="">ALL COMPANY</option></select>';
+        companySelect += '</div>';
+        $("#select_company_bin_tab").html(companySelect);
+
+        var plantSelect = '<div class="btn-group bootstrap-select disabled plant-bin-tab with-ajax" style="width: 100%;">';
+        plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_bin_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelect += '<select id="plant_bin_tab" class="plant-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+        plantSelect += '</div>';
+        $("#select_plant_bin_tab").html(plantSelect);
+
+        var locationSelect = '<div class="btn-group bootstrap-select disabled location-bin-tab with-ajax" style="width: 100%;">';
+        locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        locationSelect += '<select id="location_bin_tab" class="location-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+        locationSelect += '</div>';
+        $("#select_location_bin_tab").html(locationSelect);
+
+        var shelfSelect = '<div class="btn-group bootstrap-select disabled shelf-bin-tab with-ajax" style="width: 100%;">';
+        shelfSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab" tabindex="-1" title="ALL SHELF"><span class="filter-option pull-left">ALL SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        shelfSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        shelfSelect += '<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL SHELF"><option class="bs-title-option" value="">ALL SHELF</option></select>';
+        shelfSelect += '</div>';
+        $("#select_shelf_bin_tab").html(shelfSelect);
+
+        // End Filter Holding Top
+
+        $(document).ajaxComplete(function() {
+            // Changed Holding Top
+            $('#holding_bin_tab').on('changed.bs.select', function(e) {
+                $('#select_company_bin_tab').html('<select id="company_bin_tab" class="company-bin-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var plantSelect = '<div class="btn-group bootstrap-select disabled plant-bin-tab with-ajax" style="width: 100%;">';
+                plantSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_bin_tab" tabindex="-1" title="ALL PLANT"><span class="filter-option pull-left">ALL PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                plantSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                plantSelect += '<select id="plant_bin_tab" class="plant-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL PLANT"><option class="bs-title-option" value="">ALL PLANT</option></select>';
+                plantSelect += '</div>';
+                $("#select_plant_bin_tab").html(plantSelect);
+
+                var locationSelect = '<div class="btn-group bootstrap-select disabled location-bin-tab with-ajax" style="width: 100%;">';
+                locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                locationSelect += '<select id="location_bin_tab" class="location-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+                locationSelect += '</div>';
+                $("#select_location_bin_tab").html(locationSelect);
+
+                var shelfSelect = '<div class="btn-group bootstrap-select disabled shelf-bin-tab with-ajax" style="width: 100%;">';
+                shelfSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab" tabindex="-1" title="ALL SHELF"><span class="filter-option pull-left">ALL SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                shelfSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                shelfSelect += '<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL SHELF"><option class="bs-title-option" value="">ALL SHELF</option></select>';
+                shelfSelect += '</div>';
+                $("#select_shelf_bin_tab").html(shelfSelect);
+
+                var holdingId = $(this).val();
+                var optionsCompanyBinTab = {
+                    ajax: {
+                        url: 'settings/select-company/' + holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL COMPANY',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.company-bin-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyBinTab);
+                $('.company-bin-tab').trigger('change');
+                $('button[data-id="company_bin_tab"]').addClass("btn-sm");
+                datatable_bin_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Holding Top
+
+            // Changed Company Top
+            $('#company_bin_tab').on('changed.bs.select', function(e) {
+                $('#select_plant_bin_tab').html('<select id="plant_bin_tab" class="plant-bin-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var locationSelect = '<div class="btn-group bootstrap-select disabled location-bin-tab with-ajax" style="width: 100%;">';
+                locationSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab" tabindex="-1" title="ALL LOCATION"><span class="filter-option pull-left">ALL LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                locationSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                locationSelect += '<select id="location_bin_tab" class="location-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL LOCATION"><option class="bs-title-option" value="">ALL LOCATION</option></select>';
+                locationSelect += '</div>';
+                $("#select_location_bin_tab").html(locationSelect);
+
+                var shelfSelect = '<div class="btn-group bootstrap-select disabled shelf-bin-tab with-ajax" style="width: 100%;">';
+                shelfSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab" tabindex="-1" title="ALL SHELF"><span class="filter-option pull-left">ALL SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                shelfSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                shelfSelect += '<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL SHELF"><option class="bs-title-option" value="">ALL SHELF</option></select>';
+                shelfSelect += '</div>';
+                $("#select_shelf_bin_tab").html(shelfSelect);
+
+                var companyId = $(this).val();
+                var optionsPlantBinTab = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL PLANT',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.plant-bin-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantBinTab);
+                $('.plant-bin-tab').trigger('change');
+                $('button[data-id="plant_bin_tab"]').addClass("btn-sm");
+                datatable_bin_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top
+
+            // Changed Plant Top
+            $('#plant_bin_tab').on('changed.bs.select', function(e) {
+                $('#select_location_bin_tab').html('<select id="location_bin_tab" class="location-bin-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var shelfSelect = '<div class="btn-group bootstrap-select disabled shelf-bin-tab with-ajax" style="width: 100%;">';
+                shelfSelect += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab" tabindex="-1" title="ALL SHELF"><span class="filter-option pull-left">ALL SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+                shelfSelect += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+                shelfSelect += '<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="ALL SHELF"><option class="bs-title-option" value="">ALL SHELF</option></select>';
+                shelfSelect += '</div>';
+                $("#select_shelf_bin_tab").html(shelfSelect);
+
+                var plantId = $(this).val();
+                var optionsLocationBinTab = {
+                    ajax: {
+                        url: 'settings/select-location/' + plantId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL LOCATION',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].location,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.location-bin-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationBinTab);
+                $('.location-bin-tab').trigger('change');
+                $('button[data-id="location_bin_tab"]').addClass("btn-sm");
+                datatable_bin_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Company Top
+
+            // Changed Location Top
+            $('#location_bin_tab').on('changed.bs.select', function(e) {
+                $('#select_shelf_bin_tab').html('<select id="shelf_bin_tab" class="shelf-bin-tab with-ajax" data-live-search="true" data-width="100%"></select>');
+
+                var locationId = $(this).val();
+                var optionsShelfBinTab = {
+                    ajax: {
+                        url: 'settings/select-shelf/' + locationId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'ALL SHELF',
+                        statusInitialized: 'Start typing...'
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].shelf,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+                $('.shelf-bin-tab').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsShelfBinTab);
+                $('.shelf-bin-tab').trigger('change');
+                $('button[data-id="shelf_bin_tab"]').addClass("btn-sm");
+                datatable_bin_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Location Top
+
+            // Changed Shelf Top
+            $('#shelf_bin_tab').on('changed.bs.select', function(e) {
+                datatable_bin_tab.ajax.reload(null, false).unbind();
+            });
+            // End Changed Shelf Top
+
+        });
+
+        // Right Click Holding Filter Top Bin Tab
+        new BootstrapMenu('button[data-id="holding_bin_tab"]', {
+            actions: [{
+                name: 'SELECT ALL HOLDING',
+                onClick: function() {
+                    if ($('#holding_bin_tab').prop('disabled') == false) {
+                        $('#holding_bin_tab').val([]);
+                        $('#holding_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#holding_bin_tab').selectpicker('refresh');
+                        $('#holding_bin_tab').trigger("click");
+                    }
+                    if ($('#company_bin_tab').prop('disabled') == false) {
+                        $('#company_bin_tab').val([]);
+                        $('#company_bin_tab').prop('disabled', true);
+                        $('#company_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#company_bin_tab').selectpicker('refresh');
+                        $('#company_bin_tab').trigger("click");
+                    }
+
+                    if ($('#plant_bin_tab').prop('disabled') == false) {
+                        $('#plant_bin_tab').val([]);
+                        $('#plant_bin_tab').prop('disabled', true);
+                        $('#plant_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_bin_tab').selectpicker('refresh');
+                        $('#plant_bin_tab').trigger("click");
+                    }
+
+                    if ($('#location_bin_tab').prop('disabled') == false) {
+                        $('#location_bin_tab').val([]);
+                        $('#location_bin_tab').prop('disabled', true);
+                        $('#location_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#location_bin_tab').selectpicker('refresh');
+                        $('#location_bin_tab').trigger("click");
+                    }
+
+                    if ($('#shelf_bin_tab').prop('disabled') == false) {
+                        $('#shelf_bin_tab').val([]);
+                        $('#shelf_bin_tab').prop('disabled', true);
+                        $('#shelf_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#shelf_bin_tab').selectpicker('refresh');
+                        $('#shelf_bin_tab').trigger("click");
+                    }
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Holding Filter Top Bin Tab
+
+        // Right Click Company Filter Top Bin Tab
+        new BootstrapMenu('button[data-id="company_bin_tab"]', {
+            actions: [{
+                name: 'SELECT ALL COMPANY',
+                onClick: function() {
+
+                    if ($('#company_bin_tab').prop('disabled') == false) {
+                        $('#company_bin_tab').val([]);
+                        $('#company_bin_tab').prop('disabled', true);
+                        $('#company_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#company_bin_tab').selectpicker('refresh');
+                        $('#company_bin_tab').trigger("click");
+                    }
+
+                    if ($('#plant_bin_tab').prop('disabled') == false) {
+                        $('#plant_bin_tab').val([]);
+                        $('#plant_bin_tab').prop('disabled', true);
+                        $('#plant_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_bin_tab').selectpicker('refresh');
+                        $('#plant_bin_tab').trigger("click");
+                    }
+
+                    if ($('#location_bin_tab').prop('disabled') == false) {
+                        $('#location_bin_tab').val([]);
+                        $('#location_bin_tab').prop('disabled', true);
+                        $('#location_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#location_bin_tab').selectpicker('refresh');
+                        $('#location_bin_tab').trigger("click");
+                    }
+
+                    if ($('#shelf_bin_tab').prop('disabled') == false) {
+                        $('#shelf_bin_tab').val([]);
+                        $('#shelf_bin_tab').prop('disabled', true);
+                        $('#shelf_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#shelf_bin_tab').selectpicker('refresh');
+                        $('#shelf_bin_tab').trigger("click");
+                    }
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Company Filter Top Bin Tab
+
+        // Right Click Plant Filter Top Bin Tab
+        new BootstrapMenu('button[data-id="plant_bin_tab"]', {
+            actions: [{
+                name: 'SELECT ALL PLANT',
+                onClick: function() {
+
+                    if ($('#plant_bin_tab').prop('disabled') == false) {
+                        $('#plant_bin_tab').val([]);
+                        $('#plant_bin_tab').prop('disabled', true);
+                        $('#plant_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#plant_bin_tab').selectpicker('refresh');
+                        $('#plant_bin_tab').trigger("click");
+                    }
+
+                    if ($('#location_bin_tab').prop('disabled') == false) {
+                        $('#location_bin_tab').val([]);
+                        $('#location_bin_tab').prop('disabled', true);
+                        $('#location_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#location_bin_tab').selectpicker('refresh');
+                        $('#location_bin_tab').trigger("click");
+                    }
+
+                    if ($('#shelf_bin_tab').prop('disabled') == false) {
+                        $('#shelf_bin_tab').val([]);
+                        $('#shelf_bin_tab').prop('disabled', true);
+                        $('#shelf_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#shelf_bin_tab').selectpicker('refresh');
+                        $('#shelf_bin_tab').trigger("click");
+                    }
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Plant Filter Top Bin Tab
+
+        // Right Click Location Filter Top Bin Tab
+        new BootstrapMenu('button[data-id="location_bin_tab"]', {
+            actions: [{
+                name: 'SELECT ALL LOCATION',
+                onClick: function() {
+
+                    if ($('#location_bin_tab').prop('disabled') == false) {
+                        $('#location_bin_tab').val([]);
+                        $('#location_bin_tab').prop('disabled', true);
+                        $('#location_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#location_bin_tab').selectpicker('refresh');
+                        $('#location_bin_tab').trigger("click");
+                    }
+
+                    if ($('#shelf_bin_tab').prop('disabled') == false) {
+                        $('#shelf_bin_tab').val([]);
+                        $('#shelf_bin_tab').prop('disabled', true);
+                        $('#shelf_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#shelf_bin_tab').selectpicker('refresh');
+                        $('#shelf_bin_tab').trigger("click");
+                    }
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Location Filter Top Bin Tab
+
+        // Right Click Shelf Filter Top Bin Tab
+        new BootstrapMenu('button[data-id="shelf_bin_tab"]', {
+            actions: [{
+                name: 'SELECT ALL SHELF',
+                onClick: function() {
+                    if ($('#shelf_bin_tab').prop('disabled') == false) {
+                        $('#shelf_bin_tab').val([]);
+                        $('#shelf_bin_tab').prop('disabled', true);
+                        $('#shelf_bin_tab').trigger('change.abs.preserveSelected');
+                        $('#shelf_bin_tab').selectpicker('refresh');
+                        $('#shelf_bin_tab').trigger("click");
+                    }
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Shelf Filter Top Bin Tab
+
+        // Right Click Datatables Shelf Tab Bin Tab
+        new BootstrapMenu('table#bin_table', {
+            actions: [{
+                name: 'REFRESH BIN DATA',
+                onClick: function() {
+                    datatable_bin_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Shelf Tab Bin Tab
+    });
+
+    // Reload DataTable 
+    function reload_table() {
+        datatable_bin_tab.ajax.reload(null, false);
+    }
+    // End Reload DataTable
+
+    // Add Bin
+    $(document).on('click', '#add-bn', function() {
+        id = $(this).attr('data-id');
+
+        var optionsHoldingBinTabModal = {
+            ajax: {
+                url: 'settings/select-holding',
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT HOLDING',
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].holding,
+                            value: data[i].id,
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.holding-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingBinTabModal);
+        $('.holding-bin-tab-modal').trigger('change');
+        $('button[data-id="holding_bin_tab_modal"]').addClass("btn-sm");
+        $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+        var companySelectModal = '<div class="btn-group bootstrap-select disabled company-bin-tab-modal with-ajax" style="width: 100%;">';
+        companySelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company_bin_tab_modal" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        companySelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        companySelectModal += '<select id="company_bin_tab_modal" class="company-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+        companySelectModal += '</div>';
+        $("#select_company_bin_tab_modal").html(companySelectModal);
+
+        var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-bin-tab-modal with-ajax" style="width: 100%;">';
+        plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_bin_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        plantSelectModal += '<select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+        plantSelectModal += '</div>';
+        $("#select_plant_bin_tab_modal").html(plantSelectModal);
+
+        var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-bin-tab-modal with-ajax" style="width: 100%;">';
+        locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        locationSelectModal += '<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+        locationSelectModal += '</div>';
+        $("#select_location_bin_tab_modal").html(locationSelectModal);
+
+        var shelfSelectModal = '<div class="btn-group bootstrap-select disabled shelf-bin-tab-modal with-ajax" style="width: 100%;">';
+        shelfSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab_modal" tabindex="-1" title="SELECT SHELF"><span class="filter-option pull-left">SELECT SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+        shelfSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+        shelfSelectModal += '<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT SHELF"><option class="bs-title-option" value="">SELECT SHELF</option></select>';
+        shelfSelectModal += '</div>';
+        $("#select_shelf_bin_tab_modal").html(shelfSelectModal);
+
+        $('#btn_save_bin_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#bin_tab_modal_title').text("ADD BIN");
+        $('#bin_tab_modal').modal('show');
+    });
+    // End Add Bin
+
+    // Edit Bin
+    $(document).on('click', '.edit-bn', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-bin/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                var optionsHoldingBinTabModal = {
+                    ajax: {
+                        url: 'settings/select-holding',
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT HOLDING',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].holding,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_holding_bin_tab_modal > button[title='SELECT HOLDING']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="holding_bin_tab_modal" title="' + data.holding + '"><span class="filter-option pull-left">' + data.holding + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_holding_bin_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.holding + '</span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_holding_bin_tab_modal > #holding_bin_tab_modal').replaceWith('<select id="holding_bin_tab_modal" class="holding-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.holdingId + '" selected="selected">' + data.holding + '</option></optgroup></select>');
+
+                $('.holding-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHoldingBinTabModal);
+                $('.holding-bin-tab-modal').trigger('change');
+                $('button[data-id="holding_bin_tab_modal"]').addClass("btn-sm");
+
+                var optionsCompanyBinTabModal = {
+                    ajax: {
+                        url: 'settings/select-company/' + data.holdingId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT COMPANY',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].company,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_company_bin_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_bin_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_company_bin_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '<small class="text-muted">' + data.company_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_company_bin_tab_modal > #company_bin_tab_modal').replaceWith('<select id="company_bin_tab_modal" class="company-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+
+                $('.company-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyBinTabModal);
+                $('.company-bin-tab-modal').trigger('change');
+                $('button[data-id="company_bin_tab_modal"]').addClass("btn-sm");
+
+                var companyId = data.company;
+                var optionsPlantBinTabModal = {
+                    ajax: {
+                        url: 'settings/select-plant/' + companyId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT PLANT',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].plant,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_plant_bin_tab_modal > button[title='SELECT PLANT']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="plant_bin_tab_modal" title="' + data.plant + '"><span class="filter-option pull-left">' + data.plant + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_plant_bin_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.plant + '<small class="text-muted">' + data.plant_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_plant_bin_tab_modal > #plant_bin_tab_modal').replaceWith('<select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.plantId + '" selected="selected">' + data.plant + '</option></optgroup></select>');
+
+                $('.plant-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantBinTabModal);
+                $('.plant-bin-tab-modal').trigger('change');
+                $('button[data-id="plant_bin_tab_modal"]').addClass("btn-sm");
+
+                var plantId = data.plant;
+                var optionsLocationBinTabModal = {
+                    ajax: {
+                        url: 'settings/select-location/' + plantId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT LOCATION',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].location,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_location_bin_tab_modal > button[title='SELECT LOCATION']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="location_bin_tab_modal" title="' + data.location + '"><span class="filter-option pull-left">' + data.location + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_location_bin_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.location + '<small class="text-muted">' + data.location_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_location_bin_tab_modal > #location_bin_tab_modal').replaceWith('<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.locationId + '" selected="selected">' + data.location + '</option></optgroup></select>');
+
+                $('.location-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationBinTabModal);
+                $('.location-bin-tab-modal').trigger('change');
+                $('button[data-id="location_bin_tab_modal"]').addClass("btn-sm");
+
+                var locationId = data.location;
+                var optionsShelfBinTabModal = {
+                    ajax: {
+                        url: 'settings/select-shelf/' + locationId,
+                        type: 'POST',
+                        dataType: 'json',
+                    },
+                    locale: {
+                        emptyTitle: 'SELECT SHELF',
+                    },
+                    preprocessData: function(data) {
+                        var i, l = data.length,
+                            array = [];
+                        if (l) {
+                            for (i = 0; i < l; i++) {
+                                array.push($.extend(true, data[i], {
+                                    text: data[i].shelf,
+                                    value: data[i].id,
+                                }));
+                            }
+                        }
+                        return array;
+                    }
+                };
+
+                $("#select_shelf_bin_tab_modal > button[title='SELECT SHELF']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="shelf_bin_tab_modal" title="' + data.shelf + '"><span class="filter-option pull-left">' + data.shelf + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
+                $('#select_shelf_bin_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.shelf + '<small class="text-muted">' + data.shelf_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
+                $('#select_shelf_bin_tab_modal > #shelf_bin_tab_modal').replaceWith('<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.shelfId + '" selected="selected">' + data.shelf + '</option></optgroup></select>');
+
+                $('.shelf-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsShelfBinTabModal);
+                $('.shelf-bin-tab-modal').trigger('change');
+                $('button[data-id="shelf_bin_tab_modal"]').addClass("btn-sm");
+
+                $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+                $('#bin_bin_tab_modal').val(data.bin);
+                $('#bin_desc_bin_tab_modal').val(data.description);
+                $('#id_bin_tab_modal').val(id);
+
+                $('#btn_save_bin_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#bin_tab_modal_title').text("EDIT BIN");
+                $('#ajax_process_modal').modal('hide');
+                $('#bin_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Bin
+
+    // Press Enter bin_tab_modal
+    $("#bin_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_bin_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter bin_tab_modal
+
+    // Save Bin
+    $("#btn_save_bin_tab_modal").click(function() {
+        var formData = {
+            bin: $('#bin_bin_tab_modal').val().trim(),
+            description: $('#bin_desc_bin_tab_modal').val().trim(),
+            tbl_shelf_id: $('#shelf_bin_tab_modal').val(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_bin_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-bin';
+        var binId = $('#id_bin_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-bin/' + binId;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#bin_tab_modal :input").prop('disabled', true);
+                $(".error_saving_bin_tab_modal").hide();
+                $(".error_updating_bin_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_bin_tab_modal").show();
+                } else {
+                    $(".updating_bin_tab_modal").show();
+                }
+
+                $("#form_bin_bin_tab_modal").removeClass("has-error");
+                $("#bin_bin_tab_modal + p.help-block").text("");
+
+                $("#form_shelf_bin_tab_modal").removeClass("has-error");
+                $("#shelf_bin_tab_modal + p.help-block").text("");
+
+                $("#form_bin_desc_bin_tab_modal").removeClass("has-error");
+                $("#bin_desc_bin_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#bin_tab_modal_form').trigger("reset");
+                $(".saving_bin_tab_modal").hide();
+                $(".updating_bin_tab_modal").hide();
+
+                $('#bin_tab_modal').modal('hide');
+                reload_table();
+                $("#bin_tab_modal :input").prop('disabled', false);
+
+                $("#form_bin_bin_tab_modal").removeClass("has-error");
+                $("#bin_bin_tab_modal + p.help-block").text("");
+
+                $("#form_shelf_bin_tab_modal").removeClass("has-error");
+                $("#shelf_bin_tab_modal + p.help-block").text("");
+
+                $("#form_bin_desc_bin_tab_modal").removeClass("has-error");
+                $("#bin_desc_bin_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_bin_tab_modal").hide();
+                $(".updating_bin_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_bin_tab_modal").show();
+                } else {
+                    $(".error_updating_bin_tab_modal").show();
+                }
+                $("#bin_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.bin) {
+                    $("#form_bin_bin_tab_modal").addClass("has-error");
+                    $("#bin_bin_tab_modal + p.help-block").text(errors.bin);
+                } else {
+                    $("#form_bin_bin_tab_modal").removeClass("has-error");
+                    $("#bin_bin_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.shelf) {
+                    $("#form_shelf_bin_tab_modal").addClass("has-error");
+                    $("#shelf_bin_tab_modal + p.help-block").text(errors.shelf);
+                } else {
+                    $("#form_shelf_bin_tab_modal").removeClass("has-error");
+                    $("#shelf_bin_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_bin_desc_bin_tab_modal").addClass("has-error");
+                    $("#bin_desc_bin_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_bin_desc_bin_tab_modal").removeClass("has-error");
+                    $("#bin_desc_bin_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Bin
+
+    // Delete Bin
+    $(document).on('click', '.delete-bn', function() {
+        id = $(this).attr('data-id');
+
+        var bin = $("table#bin_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#bin_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>BIN</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + bin + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Bin?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-bin/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Bin.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Bin
+
+    // Changed Select inside Modal
+    $(document).ajaxComplete(function() {
+
+        $('#holding_bin_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_company_bin_tab_modal').html('<select id="company_bin_tab_modal" class="company-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var plantSelectModal = '<div class="btn-group bootstrap-select disabled plant-bin-tab-modal with-ajax" style="width: 100%;">';
+            plantSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="plant_bin_tab_modal" tabindex="-1" title="SELECT PLANT"><span class="filter-option pull-left">SELECT PLANT</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            plantSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            plantSelectModal += '<select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT PLANT"><option class="bs-title-option" value="">SELECT PLANT</option></select>';
+            plantSelectModal += '</div>';
+            $("#select_plant_bin_tab_modal").html(plantSelectModal);
+
+            var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-bin-tab-modal with-ajax" style="width: 100%;">';
+            locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            locationSelectModal += '<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+            locationSelectModal += '</div>';
+            $("#select_location_bin_tab_modal").html(locationSelectModal);
+
+            var shelfSelectModal = '<div class="btn-group bootstrap-select disabled shelf-bin-tab-modal with-ajax" style="width: 100%;">';
+            shelfSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab_modal" tabindex="-1" title="SELECT SHELF"><span class="filter-option pull-left">SELECT SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            shelfSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            shelfSelectModal += '<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT SHELF"><option class="bs-title-option" value="">SELECT SHELF</option></select>';
+            shelfSelectModal += '</div>';
+            $("#select_shelf_bin_tab_modal").html(shelfSelectModal);
+
+            var holdingId = $(this).val();
+            var optionsCompanyBinTabModal = {
+                ajax: {
+                    url: 'settings/select-company/' + holdingId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.company-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyBinTabModal);
+            $('.company-bin-tab-modal').trigger('change');
+            $('button[data-id="company_bin_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#company_bin_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_plant_bin_tab_modal').html('<select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var locationSelectModal = '<div class="btn-group bootstrap-select disabled location-bin-tab-modal with-ajax" style="width: 100%;">';
+            locationSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="location_bin_tab_modal" tabindex="-1" title="SELECT LOCATION"><span class="filter-option pull-left">SELECT LOCATION</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            locationSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            locationSelectModal += '<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT LOCATION"><option class="bs-title-option" value="">SELECT LOCATION</option></select>';
+            locationSelectModal += '</div>';
+            $("#select_location_bin_tab_modal").html(locationSelectModal);
+
+            var shelfSelectModal = '<div class="btn-group bootstrap-select disabled shelf-bin-tab-modal with-ajax" style="width: 100%;">';
+            shelfSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab_modal" tabindex="-1" title="SELECT SHELF"><span class="filter-option pull-left">SELECT SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            shelfSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            shelfSelectModal += '<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT SHELF"><option class="bs-title-option" value="">SELECT SHELF</option></select>';
+            shelfSelectModal += '</div>';
+            $("#select_shelf_bin_tab_modal").html(shelfSelectModal);
+
+            $("#bin_bin_tab_modal").val("");
+            $("#bin_desc_bin_tab_modal").val("");
+
+            var companyId = $(this).val();
+            var optionsPlantBinTabModal = {
+                ajax: {
+                    url: 'settings/select-plant/' + companyId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT PLANT',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].plant,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.plant-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsPlantBinTabModal);
+            $('.plant-bin-tab-modal').trigger('change');
+            $('button[data-id="plant_bin_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#plant_bin_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_location_bin_tab_modal').html('<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var shelfSelectModal = '<div class="btn-group bootstrap-select disabled shelf-bin-tab-modal with-ajax" style="width: 100%;">';
+            shelfSelectModal += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="shelf_bin_tab_modal" tabindex="-1" title="SELECT SHELF"><span class="filter-option pull-left">SELECT SHELF</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+            shelfSelectModal += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+            shelfSelectModal += '<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT SHELF"><option class="bs-title-option" value="">SELECT SHELF</option></select>';
+            shelfSelectModal += '</div>';
+            $("#select_shelf_bin_tab_modal").html(shelfSelectModal);
+
+            var plantId = $(this).val();
+            var optionsLocationBinTabModal = {
+                ajax: {
+                    url: 'settings/select-location/' + plantId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT LOCATION',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].location,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.location-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsLocationBinTabModal);
+            $('.location-bin-tab-modal').trigger('change');
+            $('button[data-id="location_bin_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+
+        $('#location_bin_tab_modal').on('changed.bs.select', function(e) {
+            $('#select_shelf_bin_tab_modal').html('<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+            var locationId = $(this).val();
+            var optionsShelfBinTabModal = {
+                ajax: {
+                    url: 'settings/select-shelf/' + locationId,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT SHELF',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].shelf,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.shelf-bin-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsShelfBinTabModal);
+            $('.shelf-bin-tab-modal').trigger('change');
+            $('button[data-id="shelf_bin_tab_modal"]').addClass("btn-sm");
+            $('.bs-searchbox > input.form-control').addClass("input-sm");
+        });
+    });
+    // End Changed Select inside Modal
+
+    // Bin Modal hide
+    $('#bin_tab_modal').on('hide.bs.modal', function(e) {
+        $('#select_holding_bin_tab_modal').html('<select id="holding_bin_tab_modal" class="holding-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_company_bin_tab_modal').html('<select id="company_bin_tab_modal" class="company-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_plant_bin_tab_modal').html('<select id="plant_bin_tab_modal" class="plant-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_location_bin_tab_modal').html('<select id="location_bin_tab_modal" class="location-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+        $('#select_shelf_bin_tab_modal').html('<select id="shelf_bin_tab_modal" class="shelf-bin-tab-modal with-ajax" data-live-search="true" data-width="100%"></select>');
+
+        $(".error_saving_bin_tab_modal").hide();
+        $(".error_updating_bin_tab_modal").hide();
+
+        $('#bin_tab_modal_form').trigger("reset");
+
+        $("#form_bin_bin_tab_modal").removeClass("has-error");
+        $("#bin_bin_tab_modal + p.help-block").text("");
+
+        $("#form_shelf_bin_tab_modal").removeClass("has-error");
+        $("#shelf_bin_tab_modal + p.help-block").text("");
+
+        $("#form_bin_desc_bin_tab_modal").removeClass("has-error");
+        $("#bin_desc_bin_tab_modal + p.help-block").text("");
+    });
+    // End Bin Modal Hide
+
+    // END HOLDING-BIN BIN TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START ITEM TYPE TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_item_type_tab;
+    $("#item_type_tab").one("click", function() {
+
+        datatable_item_type_tab = $('#item_type_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-item-type',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'type',
+                name: 'type'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Item Type Tab
+        new BootstrapMenu('table#item_type_table', {
+            actions: [{
+                name: 'REFRESH ITEM TYPE DATA',
+                onClick: function() {
+                    datatable_item_type_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Item Type Tab
+    });
+
+    // Reload Item Type DataTables
+    function reload_item_type_table() {
+        datatable_item_type_tab.ajax.reload(null, false);
+    }
+    // End Reload Item Type DataTables
+
+    // Add Item Type
+    $(document).on('click', '#add-it', function() {
+        $('#btn_save_item_type_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#item_type_tab_modal_title').text("ADD ITEM TYPE");
+        $('#item_type_tab_modal').modal('show');
+    });
+    // End Add Item Type
+
+    // Edit Item Type
+    $(document).on('click', '.edit-it', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#item_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#item_type_table tr#" + id + " td:eq(2)").html();
+
+        $('#item_type_item_type_tab_modal').val(type);
+        $('#desc_item_type_tab_modal').val(description);
+        $('#id_item_type_tab_modal').val(id);
+
+        $('#btn_save_item_type_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#item_type_tab_modal_title').text("EDIT ITEM TYPE");
+        $('#ajax_process_modal').modal('hide');
+        $('#item_type_tab_modal').modal('show');
+    });
+    // End Edit Item Type
+
+    // Press Enter item_type_tab_modal
+    $("#item_type_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_item_type_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter item_type_tab_modal
+
+
+    // Save Catalog Type
+    $("#btn_save_item_type_tab_modal").click(function() {
+        var formData = {
+            type: $('#item_type_item_type_tab_modal').val().trim(),
+            description: $('#desc_item_type_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_item_type_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-item-type';
+        var id = $('#id_item_type_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-item-type/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#item_type_tab_modal :input").prop('disabled', true);
+                $(".error_saving_item_type_tab_modal").hide();
+                $(".error_updating_item_type_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_item_type_tab_modal").show();
+                } else {
+                    $(".updating_item_type_tab_modal").show();
+                }
+                $("#form_item_type_item_type_tab_modal").removeClass("has-error");
+                $("#item_type_item_type_tab_modal + p.help-block").text("");
+                $("#form_desc_item_type_tab_modal").removeClass("has-error");
+                $("#desc_item_type_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#item_type_tab_modal_form').trigger("reset");
+                $(".saving_item_type_tab_modal").hide();
+                $(".updating_item_type_tab_modal").hide();
+
+                $('#item_type_tab_modal').modal('hide');
+                reload_item_type_table();
+                $("#item_type_tab_modal :input").prop('disabled', false);
+
+                $("#form_item_type_item_type_tab_modal").removeClass("has-error");
+                $("#item_type_item_type_tab_modal + p.help-block").text("");
+                $("#form_desc_item_type_tab_modal").removeClass("has-error");
+                $("#desc_item_type_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_item_type_tab_modal").hide();
+                $(".updating_item_type_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_item_type_tab_modal").show();
+                } else {
+                    $(".error_updating_item_type_tab_modal").show();
+                }
+                $("#item_type_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.type) {
+                    $("#form_item_type_item_type_tab_modal").addClass("has-error");
+                    $("#item_type_item_type_tab_modal + p.help-block").text(errors.type);
+                } else {
+                    $("#form_item_type_item_type_tab_modal").removeClass("has-error");
+                    $("#item_type_item_type_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_item_type_tab_modal").addClass("has-error");
+                    $("#desc_item_type_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_item_type_tab_modal").removeClass("has-error");
+                    $("#desc_item_type_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Item Type
+
+    // Delete Item Type
+    $(document).on('click', '.delete-it', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#item_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#item_type_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>ITEM TYPE</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + type + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Item Type?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-item-type/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_item_type_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Item Type.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Item Type
+
+    // Item Type Modal hide
+    $('#item_type_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_item_type_tab_modal").hide();
+        $(".error_updating_item_type_tab_modal").hide();
+
+        $('#item_type_tab_modal_form').trigger("reset");
+
+        $("#form_item_type_item_type_tab_modal").removeClass("has-error");
+        $("#item_type_item_type_tab_modal + p.help-block").text("");
+        $("#form_desc_item_type_tab_modal").removeClass("has-error");
+        $("#desc_item_type_tab_modal + p.help-block").text("");
+    });
+    // End Item Type Modal Hide
+
+    // END ITEM TYPE TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START SOURCE TYPE TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_source_type_tab;
+    $("#source_type_tab").one("click", function() {
+
+        datatable_source_type_tab = $('#source_type_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-source-type',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'type',
+                name: 'type'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Source Type Tab
+        new BootstrapMenu('table#source_type_table', {
+            actions: [{
+                name: 'REFRESH SOURCE TYPE DATA',
+                onClick: function() {
+                    datatable_source_type_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Source Type Tab
+    });
+
+    // Reload Source Type DataTables
+    function reload_source_type_table() {
+        datatable_source_type_tab.ajax.reload(null, false);
+    }
+    // End Reload Source Type DataTables
+
+    // Add Source Type
+    $(document).on('click', '#add-sot', function() {
+        $('#btn_save_source_type_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#source_type_tab_modal_title').text("ADD SOURCE TYPE");
+        $('#source_type_tab_modal').modal('show');
+    });
+    // End Add Source Type
+
+    // Edit Source Type
+    $(document).on('click', '.edit-sot', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#source_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#source_type_table tr#" + id + " td:eq(2)").html();
+
+        $('#source_type_source_type_tab_modal').val(type);
+        $('#desc_source_type_tab_modal').val(description);
+        $('#id_source_type_tab_modal').val(id);
+
+        $('#btn_save_source_type_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#source_type_tab_modal_title').text("EDIT SOURCE TYPE");
+        $('#ajax_process_modal').modal('hide');
+        $('#source_type_tab_modal').modal('show');
+    });
+    // End Edit Source Type
+
+    // Press Enter source_type_tab_modal
+    $("#source_type_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_source_type_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter source_type_tab_modal
+
+    // Save Source Type
+    $("#btn_save_source_type_tab_modal").click(function() {
+        var formData = {
+            type: $('#source_type_source_type_tab_modal').val().trim(),
+            description: $('#desc_source_type_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_source_type_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-source-type';
+        var id = $('#id_source_type_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-source-type/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#source_type_tab_modal :input").prop('disabled', true);
+                $(".error_saving_source_type_tab_modal").hide();
+                $(".error_updating_source_type_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_source_type_tab_modal").show();
+                } else {
+                    $(".updating_source_type_tab_modal").show();
+                }
+
+                $("#form_source_type_source_type_tab_modal").removeClass("has-error");
+                $("#source_type_source_type_tab_modal + p.help-block").text("");
+                $("#form_desc_source_type_tab_modal").removeClass("has-error");
+                $("#desc_source_type_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#source_type_tab_modal_form').trigger("reset");
+                $(".saving_source_type_tab_modal").hide();
+                $(".updating_source_type_tab_modal").hide();
+
+                $('#source_type_tab_modal').modal('hide');
+                reload_source_type_table();
+                $("#source_type_tab_modal :input").prop('disabled', false);
+
+                $("#form_source_type_source_type_tab_modal").removeClass("has-error");
+                $("#source_type_source_type_tab_modal + p.help-block").text("");
+                $("#form_desc_source_type_tab_modal").removeClass("has-error");
+                $("#desc_source_type_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_source_type_tab_modal").hide();
+                $(".updating_source_type_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_source_type_tab_modal").show();
+                } else {
+                    $(".error_updating_source_type_tab_modal").show();
+                }
+                $("#source_type_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.type) {
+                    $("#form_source_type_source_type_tab_modal").addClass("has-error");
+                    $("#source_type_source_type_tab_modal + p.help-block").text(errors.type);
+                } else {
+                    $("#form_source_source_item_type_tab_modal").removeClass("has-error");
+                    $("#source_source_item_type_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_source_type_tab_modal").addClass("has-error");
+                    $("#desc_source_type_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_source_type_tab_modal").removeClass("has-error");
+                    $("#desc_source_type_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Source Type
+
+    // Delete Source Type
+    $(document).on('click', '.delete-sot', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#source_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#source_type_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>SOURCE TYPE</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + type + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Source Type?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-source-type/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_source_type_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Source Type.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Source Type
+
+    // Source Type Modal hide
+    $('#source_type_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_source_type_tab_modal").hide();
+        $(".error_updating_source_type_tab_modal").hide();
+        $('#source_type_tab_modal_form').trigger("reset");
+
+        $("#form_source_type_source_type_tab_modal").removeClass("has-error");
+        $("#source_type_source_type_tab_modal + p.help-block").text("");
+        $("#form_desc_source_type_tab_modal").removeClass("has-error");
+        $("#desc_source_type_tab_modal + p.help-block").text("");
+
+    });
+    // End Source Type Modal Hide
+
+    // END SOURCE TYPE TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START STOCK TYPE TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_stock_type_tab;
+    $("#stock_type_tab").one("click", function() {
+
+        datatable_stock_type_tab = $('#stock_type_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-stock-type',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'type',
+                name: 'type'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Stock Type Tab
+        new BootstrapMenu('table#stock_type_table', {
+            actions: [{
+                name: 'REFRESH STOCK TYPE DATA',
+                onClick: function() {
+                    datatable_stock_type_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Stock Type Tab
+    });
+
+    // Reload Stock Type DataTables
+    function reload_stock_type_table() {
+        datatable_stock_type_tab.ajax.reload(null, false);
+    }
+    // End Reload Stock Type DataTables
+
+    // Add Source Type
+    $(document).on('click', '#add-stt', function() {
+        $('#btn_save_stock_type_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#stock_type_tab_modal_title').text("ADD STOCK TYPE");
+        $('#stock_type_tab_modal').modal('show');
+    });
+    // End Add Stock Type
+
+    // Edit Stock Type
+    $(document).on('click', '.edit-stt', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#stock_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#stock_type_table tr#" + id + " td:eq(2)").html();
+
+        $('#stock_type_stock_type_tab_modal').val(type);
+        $('#desc_stock_type_tab_modal').val(description);
+        $('#id_stock_type_tab_modal').val(id);
+
+        $('#btn_save_stock_type_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#stock_type_tab_modal_title').text("EDIT STOCK TYPE");
+        $('#ajax_process_modal').modal('hide');
+        $('#stock_type_tab_modal').modal('show');
+    });
+    // End Edit Stock Type
+
+    // Press Enter stock_type_tab_modal
+    $("#stock_type_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_stock_type_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter stock_type_tab_modal
+
+    // Save Stock Type
+    $("#btn_save_stock_type_tab_modal").click(function() {
+        var formData = {
+            type: $('#stock_type_stock_type_tab_modal').val().trim(),
+            description: $('#desc_stock_type_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_stock_type_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-stock-type';
+        var id = $('#id_stock_type_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-stock-type/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#stock_type_tab_modal :input").prop('disabled', true);
+                $(".error_saving_stock_type_tab_modal").hide();
+                $(".error_updating_stock_type_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_stock_type_tab_modal").show();
+                } else {
+                    $(".updating_stock_type_tab_modal").show();
+                }
+
+                $("#form_stock_type_stock_type_tab_modal").removeClass("has-error");
+                $("#stock_type_stock_type_tab_modal + p.help-block").text("");
+
+                $("#form_desc_stock_type_tab_modal").removeClass("has-error");
+                $("#desc_stock_type_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#stock_type_tab_modal_form').trigger("reset");
+                $(".saving_stock_type_tab_modal").hide();
+                $(".updating_stock_type_tab_modal").hide();
+
+                $('#stock_type_tab_modal').modal('hide');
+                reload_stock_type_table();
+                $("#stock_type_tab_modal :input").prop('disabled', false);
+
+                $("#form_stock_type_stock_type_tab_modal").removeClass("has-error");
+                $("#stock_type_stock_type_tab_modal + p.help-block").text("");
+
+                $("#form_desc_stock_type_tab_modal").removeClass("has-error");
+                $("#desc_stock_type_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_stock_type_tab_modal").hide();
+                $(".updating_stock_type_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_stock_type_tab_modal").show();
+                } else {
+                    $(".error_updating_stock_type_tab_modal").show();
+                }
+                $("#stock_type_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.type) {
+                    $("#form_stock_type_stock_type_tab_modal").addClass("has-error");
+                    $("#stock_type_stock_type_tab_modal + p.help-block").text(errors.type);
+                } else {
+                    $("#form_stock_type_stock_type_tab_modal").removeClass("has-error");
+                    $("#stock_type_stock_type_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_stock_type_tab_modal").addClass("has-error");
+                    $("#desc_stock_type_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_stock_type_tab_modal").removeClass("has-error");
+                    $("#desc_stock_type_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Stock Type
+
+    // Delete Stock Type
+    $(document).on('click', '.delete-stt', function() {
+        id = $(this).attr('data-id');
+
+        var type = $("table#stock_type_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#stock_type_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>STOCK TYPE</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + type + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Stock Type?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-stock-type/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_stock_type_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Stock Type.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Stock Type
+
+    // Stock Type Modal hide
+    $('#stock_type_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_stock_type_tab_modal").hide();
+        $(".error_updating_stock_type_tab_modal").hide();
+        $('#stock_type_tab_modal_form').trigger("reset");
+
+        $("#form_stock_type_stock_type_tab_modal").removeClass("has-error");
+        $("#stock_type_stock_type_tab_modal + p.help-block").text("");
+
+        $("#form_desc_stock_type_tab_modal").removeClass("has-error");
+        $("#desc_stock_type_tab_modal + p.help-block").text("");
+    });
+    // End Stock Type Modal Hide
+
+    // END STOCK TYPE TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START Unit OF MEASUREMENT TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_unit_of_measurement_tab;
+    $("#unit_of_measurement_tab").one("click", function() {
+        datatable_unit_of_measurement_tab = $('#unit_of_measurement_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-unit-of-measurement',
+            },
+            columns: [{
+                "className": 'details-control',
+                "orderable": false,
+                "searchable": false,
+                "data": null,
+                "defaultContent": ''
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'unit4',
+                name: 'unit4'
+            }, {
+                data: 'unit3',
+                name: 'unit3'
+            }, {
+                data: 'unit2',
+                name: 'unit2'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Datatables Unit Of Measurement Tab
+        new BootstrapMenu('table#unit_of_measurement_table', {
+            actions: [{
+                name: 'REFRESH UNIT OF MEASUREMENT DATA',
+                onClick: function() {
+                    datatable_unit_of_measurement_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Unit Of Measurement Tab
+    });
+
+    /*$(document).ajaxComplete(function() {
+      var template = Handlebars.compile($("#details-template").html());
+      $('#unit_of_measurement_table tbody').on('click', 'td.details-control', function() {
+          var tr = $(this).closest('tr');
+          var row = datatable_unit_of_measurement_tab.row(tr);
+
+          if (row.child.isShown()) {
+              // This row is already open - close it
+              row.child.hide();
+              tr.removeClass('shown');
+          } else {
+              // Open this row
+              row.child(template(row.data())).show();
+              tr.addClass('shown');
+          }
+      });
+      return false;
+    });*/
+
+    // Reload Unit Of Measurement DataTables
+    function reload_unit_of_measurement_table() {
+        datatable_unit_of_measurement_tab.ajax.reload(null, false);
+    }
+    // End Reload Unit Of Measurement DataTables
+
+    // Add Source Type
+    $(document).on('click', '#add-uom', function() {
+        $('#btn_save_unit_of_measurement_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#unit_of_measurement_tab_modal_title').text("ADD UNIT OF MEASUREMENT");
+        $('#unit_of_measurement_tab_modal').modal('show');
+    });
+    // End Add Unit Of Measurement
+
+    // Edit Unit Of Measurement
+    $(document).on('click', '.edit-uom', function() {
+        id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'settings/edit-unit-of-measurement/' + id,
+            type: 'GET',
+            beforeSend: function() {
+                $('#ajax_process_modal').modal('show');
+            },
+            success: function(data) {
+                $('#unit4_unit_of_measurement_tab_modal').val(data.unit4);
+                $('#unit3_unit_of_measurement_tab_modal').val(data.unit3);
+                $('#unit2_unit_of_measurement_tab_modal').val(data.unit2);
+                $('#desc_unit_of_measurement_tab_modal').val(data.description);
+                $('#eng_definition_unit_of_measurement_tab_modal').val(data.eng_definition);
+                $('#ind_definition_unit_of_measurement_tab_modal').val(data.ind_definition);
+                $('#id_unit_of_measurement_tab_modal').val(id);
+
+                $('#btn_save_unit_of_measurement_tab_modal').val("UPDATE").removeAttr("disabled");
+                $('#unit_of_measurement_tab_modal_title').text("EDIT UNIT OF MEASUREMENT");
+                $('#ajax_process_modal').modal('hide');
+                $('#unit_of_measurement_tab_modal').modal('show');
+            },
+            error: function() {
+                $('#ajax_process_modal').modal('hide');
+            }
+        });
+    });
+    // End Edit Unit Of Measurement
+
+    // Press Enter unit_of_measurement_tab_modal
+    $("#unit_of_measurement_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_unit_of_measurement_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter unit_of_measurement_tab_modal
+
+    // Save Unit Of Measurement
+    $("#btn_save_unit_of_measurement_tab_modal").click(function() {
+        var formData = {
+            unit4: $('#unit4_unit_of_measurement_tab_modal').val().trim(),
+            unit3: $('#unit3_unit_of_measurement_tab_modal').val().trim(),
+            unit2: $('#unit2_unit_of_measurement_tab_modal').val().trim(),
+            description: $('#desc_unit_of_measurement_tab_modal').val().trim(),
+            eng_definition: $('#eng_definition_unit_of_measurement_tab_modal').val().trim(),
+            ind_definition: $('#ind_definition_unit_of_measurement_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_unit_of_measurement_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-unit-of-measurement';
+        var id = $('#id_unit_of_measurement_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-unit-of-measurement/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#unit_of_measurement_tab_modal :input").prop('disabled', true);
+                $(".error_saving_unit_of_measurement_tab_modal").hide();
+                $(".error_updating_unit_of_measurement_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_unit_of_measurement_tab_modal").show();
+                } else {
+                    $(".updating_unit_of_measurement_tab_modal").show();
+                }
+
+                $("#form_unit4_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit4_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_unit3_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit3_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_unit2_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit2_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_desc_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#desc_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_eng_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#eng_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_ind_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#ind_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#unit_of_measurement_tab_modal_form').trigger("reset");
+                $(".saving_unit_of_measurement_tab_modal").hide();
+                $(".updating_unit_of_measurement_tab_modal").hide();
+
+                $('#unit_of_measurement_tab_modal').modal('hide');
+                reload_unit_of_measurement_table();
+                $("#unit_of_measurement_tab_modal :input").prop('disabled', false);
+
+                $("#form_unit4_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit4_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_unit3_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit3_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_unit2_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#unit2_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_desc_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#desc_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_eng_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#eng_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+
+                $("#form_ind_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                $("#ind_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_unit_of_measurement_tab_modal").hide();
+                $(".updating_unit_of_measurement_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_unit_of_measurement_tab_modal").show();
+                } else {
+                    $(".error_updating_unit_of_measurement_tab_modal").show();
+                }
+                $("#unit_of_measurement_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.unit4) {
+                    $("#form_unit4_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#unit4_unit_of_measurement_tab_modal + p.help-block").text(errors.unit4);
+                } else {
+                    $("#form_unit4_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#unit4_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.unit3) {
+                    $("#form_unit3_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#unit3_unit_of_measurement_tab_modal + p.help-block").text(errors.unit3);
+                } else {
+                    $("#form_unit3_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#unit3_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.unit2) {
+                    $("#form_unit2_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#unit2_unit_of_measurement_tab_modal + p.help-block").text(errors.unit2);
+                } else {
+                    $("#form_unit2_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#unit2_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#desc_unit_of_measurement_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#desc_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.eng_definition) {
+                    $("#form_eng_definition_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#eng_definition_unit_of_measurement_tab_modal + p.help-block").text(errors.eng_definition);
+                } else {
+                    $("#form_eng_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#eng_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.ind_definition) {
+                    $("#form_ind_definition_unit_of_measurement_tab_modal").addClass("has-error");
+                    $("#ind_definition_unit_of_measurement_tab_modal + p.help-block").text(errors.ind_definition);
+                } else {
+                    $("#form_ind_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+                    $("#ind_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Unit Of Measurement
+
+    // Delete Unit Of Measurement
+    $(document).on('click', '.delete-uom', function() {
+        id = $(this).attr('data-id');
+
+        var unit4 = $("table#unit_of_measurement_table tr#" + id + " td:eq(2)").html();
+        var unit3 = $("table#unit_of_measurement_table tr#" + id + " td:eq(3)").html();
+        var unit2 = $("table#unit_of_measurement_table tr#" + id + " td:eq(4)").html();
+        var description = $("table#unit_of_measurement_table tr#" + id + " td:eq(5)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>UNIT 4</th><th>UNIT 3</th><th>UNIT 2</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + unit4 + "</td><td>" + unit3 + "</td><td>" + unit2 + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Unit Of Measurement?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-unit-of-measurement/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_unit_of_measurement_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Unit Of Measurement.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Unit Of Measurement
+
+    // Unit Of Measurement Modal hide
+    $('#unit_of_measurement_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_unit_of_measurement_tab_modal").hide();
+        $(".error_updating_unit_of_measurement_tab_modal").hide();
+
+        $('#unit_of_measurement_tab_modal_form').trigger("reset");
+
+        $("#form_unit4_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#unit4_unit_of_measurement_tab_modal + p.help-block").text("");
+
+        $("#form_unit3_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#unit3_unit_of_measurement_tab_modal + p.help-block").text("");
+
+        $("#form_unit2_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#unit2_unit_of_measurement_tab_modal + p.help-block").text("");
+
+        $("#form_desc_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#desc_unit_of_measurement_tab_modal + p.help-block").text("");
+
+        $("#form_eng_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#eng_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+
+        $("#form_ind_definition_unit_of_measurement_tab_modal").removeClass("has-error");
+        $("#ind_definition_unit_of_measurement_tab_modal + p.help-block").text("");
+    });
+    // End Unit Of Measurement Modal Hide
+
+    // END Unit Of Measurement TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START USER CLASS TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_user_class_tab;
+    $("#user_class_tab").one("click", function() {
+
+        datatable_user_class_tab = $('#user_class_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-user-class',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'class',
+                name: 'class'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click User Class Tab
+        new BootstrapMenu('table#user_class_table', {
+            actions: [{
+                name: 'REFRESH USER CLASS DATA',
+                onClick: function() {
+                    datatable_user_class_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables User Class Tab
+    });
+
+    // Reload User Class DataTables
+    function reload_user_class_table() {
+        datatable_user_class_tab.ajax.reload(null, false);
+    }
+    // End Reload User Class DataTables
+
+    // Add User Class
+    $(document).on('click', '#add-uc', function() {
+        $('#btn_save_user_class_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#user_class_tab_modal_title').text("ADD USER CLASS");
+        $('#user_class_tab_modal').modal('show');
+    });
+    // End Add User Class
+
+    // Edit User Class
+    $(document).on('click', '.edit-uc', function() {
+        id = $(this).attr('data-id');
+
+        var usclass = $("table#user_class_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#user_class_table tr#" + id + " td:eq(2)").html();
+
+        $('#user_class_user_class_tab_modal').val(usclass);
+        $('#desc_user_class_tab_modal').val(description);
+        $('#id_user_class_tab_modal').val(id);
+
+        $('#btn_save_user_class_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#user_class_tab_modal_title').text("EDIT USER CLASS");
+        $('#ajax_process_modal').modal('hide');
+        $('#user_class_tab_modal').modal('show');
+    });
+    // End Edit User Class
+
+
+    // Press Enter user_class_tab_modal
+    $("#user_class_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_user_class_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter user_class_tab_modal
+
+    // Save User Class
+    $("#btn_save_user_class_tab_modal").click(function() {
+        var formData = {
+            class: $('#user_class_user_class_tab_modal').val().trim(),
+            description: $('#desc_user_class_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_user_class_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-user-class';
+        var id = $('#id_user_class_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-user-class/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#user_class_tab_modal :input").prop('disabled', true);
+                $(".error_saving_user_class_tab_modal").hide();
+                $(".error_updating_user_class_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_user_class_tab_modal").show();
+                } else {
+                    $(".updating_user_class_tab_modal").show();
+                }
+
+                $("#form_desc_user_class_tab_modal").removeClass("has-error");
+                $("#desc_user_class_tab_modal + p.help-block").text("");
+
+                $("#form_user_class_user_class_tab_modal").removeClass("has-error");
+                $("#user_class_user_class_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#user_class_tab_modal_form').trigger("reset");
+                $(".saving_user_class_tab_modal").hide();
+                $(".updating_user_class_tab_modal").hide();
+
+                $('#user_class_tab_modal').modal('hide');
+                reload_user_class_table();
+                $("#user_class_tab_modal :input").prop('disabled', false);
+
+                $("#form_desc_user_class_tab_modal").removeClass("has-error");
+                $("#desc_user_class_tab_modal + p.help-block").text("");
+
+                $("#form_user_class_user_class_tab_modal").removeClass("has-error");
+                $("#user_class_user_class_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_user_class_tab_modal").hide();
+                $(".updating_user_class_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_user_class_tab_modal").show();
+                } else {
+                    $(".error_updating_user_class_tab_modal").show();
+                }
+                $("#user_class_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.class) {
+                    $("#form_user_class_user_class_tab_modal").addClass("has-error");
+                    $("#user_class_user_class_tab_modal + p.help-block").text(errors.class);
+                } else {
+                    $("#form_user_class_user_class_tab_modal").removeClass("has-error");
+                    $("#user_class_user_class_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_user_class_tab_modal").addClass("has-error");
+                    $("#desc_user_class_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_user_class_tab_modal").removeClass("has-error");
+                    $("#desc_user_class_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save User Class
+
+    // Delete User Class
+    $(document).on('click', '.delete-uc', function() {
+        id = $(this).attr('data-id');
+
+        var usclass = $("table#user_class_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#user_class_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>USER CLASS</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + usclass + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this User Class?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-user-class/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_user_class_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this User Class.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete User Class
+
+    // User Class Modal hide
+    $('#user_class_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_user_class_tab_modal").hide();
+        $(".error_updating_user_class_tab_modal").hide();
+        $('#user_class_tab_modal_form').trigger("reset");
+
+        $("#form_desc_user_class_tab_modal").removeClass("has-error");
+        $("#desc_user_class_tab_modal + p.help-block").text("");
+
+        $("#form_user_class_user_class_tab_modal").removeClass("has-error");
+        $("#user_class_user_class_tab_modal + p.help-block").text("");
+    });
+    // End User Class Modal Hide
+
+    // END USER CLASS TAB
+    // ============================================================
+    // ============================================================
+
+
+
+
+    // START WEIGHT UNIT TAB
+    // ============================================================
+    // ============================================================
+
+    var datatable_weight_unit_tab;
+    $("#weight_unit_tab").one("click", function() {
+
+        datatable_weight_unit_tab = $('#weight_unit_table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'settings/datatables-weight-unit',
+            },
+            columns: [{
+                data: 'rownum',
+                name: 'rownum',
+                searchable: false
+            }, {
+                data: 'created_at',
+                name: 'created_at',
+                searchable: false
+            }, {
+                data: 'unit',
+                name: 'unit'
+            }, {
+                data: 'description',
+                name: 'description'
+            }, {
+                data: 'action',
+                name: 'action',
+                orderable: false,
+                searchable: false
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                "sSearch": "",
+                "sSearchPlaceholder": "SEARCH",
+            },
+            columnDefs: [{
+                "targets": [1],
+                "visible": false,
+            }, ],
+            order: [
+                [1, 'desc']
+            ]
+        });
+
+        $("select.form-control").selectpicker();
+        $("div.dataTables_length > label > div.btn-group > button").addClass("btn-sm");
+
+        // Right Click Weight Unit Tab
+        new BootstrapMenu('table#weight_unit_table', {
+            actions: [{
+                name: 'REFRESH WEIGHT UNIT DATA',
+                onClick: function() {
+                    datatable_weight_unit_tab.ajax.reload(null, false);
+                }
+            }]
+        });
+        // End Right Click Datatables Weight Unit Tab
+    });
+
+    // Reload Weight Unit DataTables
+    function reload_weight_unit_table() {
+        datatable_weight_unit_tab.ajax.reload(null, false);
+    }
+    // End Reload Weight Unit DataTables
+
+    // Add Weight Unit
+    $(document).on('click', '#add-wu', function() {
+        $('#btn_save_weight_unit_tab_modal').val("SAVE").removeAttr("disabled");
+        $('#weight_unit_tab_modal_title').text("ADD WEIGHT UNIT");
+        $('#weight_unit_tab_modal').modal('show');
+    });
+    // End Add Weight Unit
+
+    // Edit Weight Unit
+    $(document).on('click', '.edit-wu', function() {
+        id = $(this).attr('data-id');
+
+        var unit = $("table#weight_unit_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#weight_unit_table tr#" + id + " td:eq(2)").html();
+
+        $('#weight_unit_weight_unit_tab_modal').val(unit);
+        $('#desc_weight_unit_tab_modal').val(description);
+        $('#id_weight_unit_tab_modal').val(id);
+
+        $('#btn_save_weight_unit_tab_modal').val("UPDATE").removeAttr("disabled");
+        $('#weight_unit_tab_modal_title').text("EDIT WEIGHT UNIT");
+        $('#ajax_process_modal').modal('hide');
+        $('#weight_unit_tab_modal').modal('show');
+    });
+    // End Edit Weight Unit
+
+    // Press Enter weight_unit_tab_modal
+    $("#weight_unit_tab_modal").keypress(function(e) {
+        switch (e.which) {
+            case 13:
+                $("#btn_save_weight_unit_tab_modal").trigger("click");
+                break;
+        }
+    });
+    // End Press Enter weight_unit_tab_modal
+
+    // Save Weight Unit
+    $("#btn_save_weight_unit_tab_modal").click(function() {
+        var formData = {
+            unit: $('#weight_unit_weight_unit_tab_modal').val().trim(),
+            description: $('#desc_weight_unit_tab_modal').val().trim(),
+            created_by: $('#logged_in_user').val(),
+            last_updated_by: $('#logged_in_user').val(),
+        }
+
+        var state = $('#btn_save_weight_unit_tab_modal').val();
+        var type = "POST";
+        var url = 'settings/add-weight-unit';
+        var id = $('#id_weight_unit_tab_modal').val();
+
+        if (state == "UPDATE") {
+            type = "PUT";
+            url = 'settings/update-weight-unit/' + id;
+        }
+
+        $.ajax({
+            type: type,
+            url: url,
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                $("#weight_unit_tab_modal :input").prop('disabled', true);
+                $(".error_saving_weight_unit_tab_modal").hide();
+                $(".error_updating_weight_unit_tab_modal").hide();
+
+                if (state == "SAVE") {
+                    $(".saving_weight_unit_tab_modal").show();
+                } else {
+                    $(".updating_weight_unit_tab_modal").show();
+                }
+
+                $("#form_weight_unit_weight_unit_tab_modal").removeClass("has-error");
+                $("#weight_unit_weight_unit_tab_modal + p.help-block").text("");
+
+                $("#form_desc_weight_unit_tab_modal").removeClass("has-error");
+                $("#desc_weight_unit_tab_modal + p.help-block").text("");
+            },
+            success: function(data) {
+                $('#weight_unit_tab_modal_form').trigger("reset");
+                $(".saving_weight_unit_tab_modal").hide();
+                $(".updating_weight_unit_tab_modal").hide();
+
+                $('#weight_unit_tab_modal').modal('hide');
+                reload_weight_unit_table();
+                $("#weight_unit_tab_modal :input").prop('disabled', false);
+
+                $("#form_weight_unit_weight_unit_tab_modal").removeClass("has-error");
+                $("#weight_unit_weight_unit_tab_modal + p.help-block").text("");
+
+                $("#form_desc_weight_unit_tab_modal").removeClass("has-error");
+                $("#desc_weight_unit_tab_modal + p.help-block").text("");
+            },
+            error: function(data) {
+                $(".saving_weight_unit_tab_modal").hide();
+                $(".updating_weight_unit_tab_modal").hide();
+                if (state == "SAVE") {
+                    $(".error_saving_weight_unit_tab_modal").show();
+                } else {
+                    $(".error_updating_weight_unit_tab_modal").show();
+                }
+                $("#weight_unit_tab_modal :input").prop('disabled', false);
+
+                var errors = data.responseJSON;
+
+                if (errors.unit) {
+                    $("#form_weight_unit_weight_unit_tab_modal").addClass("has-error");
+                    $("#weight_unit_weight_unit_tab_modal + p.help-block").text(errors.unit);
+                } else {
+                    $("#form_weight_unit_weight_unit_tab_modal").removeClass("has-error");
+                    $("#weight_unit_weight_unit_tab_modal + p.help-block").text("");
+                }
+
+                if (errors.description) {
+                    $("#form_desc_weight_unit_tab_modal").addClass("has-error");
+                    $("#desc_weight_unit_tab_modal + p.help-block").text(errors.description);
+                } else {
+                    $("#form_desc_weight_unit_tab_modal").removeClass("has-error");
+                    $("#desc_weight_unit_tab_modal + p.help-block").text("");
+                }
+            }
+        });
+    });
+    // End Save Weight Unit
+
+    // Delete Weight Unit
+    $(document).on('click', '.delete-wu', function() {
+        id = $(this).attr('data-id');
+
+        var unit = $("table#weight_unit_table tr#" + id + " td:eq(1)").html();
+        var description = $("table#weight_unit_table tr#" + id + " td:eq(2)").html();
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th>WEIGHT UNIT</th><th>DESCRIPTION</th></thead>";
+        msg += "<tbody><tr><td>" + unit + "</td><td>" + description + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Weight Unit?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-weight-unit/' + id,
+                            beforeSend: function() {},
+                            success: function() {
+                                reload_weight_unit_table();
+                            },
+                            error: function() {
+                                alert('Cannot delete this Weight Unit.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Weight Unit
+
+    // Weight Unit Modal hide
+    $('#weight_unit_tab_modal').on('hide.bs.modal', function(e) {
+        $(".error_saving_weight_unit_tab_modal").hide();
+        $(".error_updating_weight_unit_tab_modal").hide();
+
+        $('#weight_unit_tab_modal_form').trigger("reset");
+
+        $("#form_weight_unit_weight_unit_tab_modal").removeClass("has-error");
+        $("#weight_unit_weight_unit_tab_modal + p.help-block").text("");
+
+        $("#form_desc_weight_unit_tab_modal").removeClass("has-error");
+        $("#desc_weight_unit_tab_modal + p.help-block").text("");
+    });
+    // End Weight Unit Modal Hide
+
+    // END WEIGHT UNIT TAB
+    // ============================================================
+    // ============================================================
 });

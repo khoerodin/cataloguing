@@ -200,7 +200,7 @@ elixir(function(mix) {
     ], 'public/css/login.css');
 });
 
-elixir(function(mix) {
+/*elixir(function(mix) {
     mix.version([
         'css/styles.css',
         'css/login.css',
@@ -208,7 +208,7 @@ elixir(function(mix) {
         'js/dictionary.js',
         'js/settings.js',
     ]);
-});
+});*/
 
 /*elixir.extend('compressHtml', function(message) {
     new elixir.Task('compressHtml', function() {

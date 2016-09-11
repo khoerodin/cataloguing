@@ -9,11 +9,13 @@ use DB;
 use Datatables;
 use Response;
 use App\Models\CompanyCharacteristicSequence;
+use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
 use App\Models\TblBin;
 use App\Models\TblShelf;
 use App\Models\TblLocation;
 use App\Models\TblPlant;
+use App\Models\TblCharacteristic;
 use App\Models\TblCompany;
 use App\Models\TblHolding;
 use App\Models\TblEquipmentCode;
@@ -87,6 +89,63 @@ class SettingsController extends Controller
             ->get();
     }
 
+    // GLOBAL CHARACTERISTICS
+    public function getGlobalCharacteristics($incId)
+    {
+        return LinkIncCharacteristic::select('link_inc_characteristic.id', 'characteristic', 'sequence')
+        ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+        ->where('tbl_inc_id', $incId)
+        ->orderBy('sequence')
+        ->get();
+    }
+
+    public function getGlobalCharacteristicsValues($linkIncCharacteristicId)
+    {
+        return LinkIncCharacteristicValue::select('value','abbrev','approved')
+        ->where('link_inc_characteristic_id', $linkIncCharacteristicId)
+        ->get();
+    }
+
+    public function updateGCharOrder(Request $request)
+    {
+        $no = 1;
+        foreach ($request->lic as $id) {
+            $gcs = LinkIncCharacteristic::find($id);
+            $gcs->sequence = $no++;
+            $gcs->save();
+        }
+    }
+
+    private function checkAddCharStatus($incId, $characteristicId)
+    {
+        return LinkIncCharacteristic::where('tbl_inc_id', $incId)
+            ->where('tbl_characteristic_id', $characteristicId)
+            ->first();
+    }
+
+    public function getCharsToBeAdded($incId)
+    {
+        $tbl = TblCharacteristic::select('id', 'characteristic')
+            ->get();
+
+        $arr = [];
+        foreach ($tbl as $key => $value) {
+            if (count($this->checkAddCharStatus($incId, $value->id)) > 0) {
+                $status = 1;
+            }else{
+                $status = 0;
+            }
+
+            $values[] = array(
+                'id' => $value->id,
+                'characteristic' => $value->characteristic,
+                'status' => $status,
+            );
+        }
+        return Response::json($values);
+    }
+    // END GLOBAL CHARACTERISTICS
+
     // COMPANY CHARACTERISTICS
     public function getCompanyCharacteristics($incId,$companyId)
     {
@@ -97,13 +156,19 @@ class SettingsController extends Controller
             ->where('tbl_company_id', $companyId)
             ->orderBy('company_characteristic_sequence.sequence')
             ->get();
-    }
+    } 
 
-    public function getCompanyCharacteristicsValues($linkIncCharacteristicId)
+    public function updateCCharOrder(Request $request)
     {
-        return LinkIncCharacteristicValue::select('value','abbrev','approved')
-        ->where('link_inc_characteristic_id', $linkIncCharacteristicId)
-        ->get();
+        $no = 1;
+        foreach ($request->lic as $id) {
+            $ccs = CompanyCharacteristicSequence::where('link_inc_characteristic_id', $id)
+                ->where('tbl_company_id', $request->company)
+                ->first();
+
+            $ccs->sequence = $no++;
+            $ccs->save();
+        }
     }
     // END COMPANY CHARACTERISTICS
 
@@ -119,19 +184,6 @@ class SettingsController extends Controller
             })
             ->setRowId('id')
             ->make(true);
-    }
-
-    public function updateCCharOrder(Request $request)
-    {
-        $no = 1;
-        foreach ($request->lic as $id) {
-            $ccs = CompanyCharacteristicSequence::where('link_inc_characteristic_id', $id)
-                ->where('tbl_company_id', $request->company)
-                ->first();
-
-            $ccs->sequence = $no++;
-            $ccs->save();
-        }
     }
 
     public function addCatalogStatus(Request $request)

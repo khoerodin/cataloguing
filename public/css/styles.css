@@ -7009,23 +7009,39 @@ kbd.kbd-default {
 kbd.kbd-default:hover {
     background-color: #e6e6e6 !important;
     color: #555;
-} 
+}
 kbd.kbd-primary {
-    background-color: rgba(3, 179, 178, 0.5) !important;    
+    background-color: rgba(3, 179, 178, 1) !important;    
     color: fff; 
 }
 kbd.kbd-primary:hover {
-    background-color: rgba(3, 179, 178, 1) !important;
-} 
-kbd.kbd-danger {
-    /*background-color: rgba(217, 83, 79, 0.5) !important;*/
-    background-color: transparent !important;
-    color: transparent; 
+    background-color: rgba(2, 129, 128, 1) !important;
 }
-kbd.kbd-danger:hover, tr:hover kbd.kbd-danger {
+kbd.kbd-danger {
+    /*belum dikasih warna*/
+}
+kbd.kbd-danger:hover {
     background-color: rgba(217, 83, 79, 1) !important;
     color: #fff;
 }
+/*kbd on datatbeles or other component when need this class*/
+kbd.kbd-primary.hover {
+    background-color: transparent !important;
+    color: transparent;
+}
+tr:hover kbd.kbd-primary.hover {
+    background-color: rgba(3, 179, 178, 1) !important;
+    color: #fff;
+}
+kbd.kbd-danger.hover {
+    background-color: transparent !important;
+    color: transparent; 
+}
+tr:hover kbd.kbd-danger.hover {
+    background-color: rgba(217, 83, 79, 1) !important;
+    color: #fff;
+}
+/*END kbd on datatbeles or other component when need this class*/
 .nav-tabs>li>a {
   padding: 7px 9px;
 }
@@ -7280,7 +7296,7 @@ hr.hr-bawah-part-master{
     margin-top:15px;
     padding: 10px 20px;
 }
-#company_char_table tr{
+#global_char_table tr, #company_char_table tr{
   cursor: move;
 }
 
@@ -7370,7 +7386,11 @@ table.table-char-settings>thead::-webkit-scrollbar{
 }
 
 table.table-char-settings>thead>tr>th:nth-child(1){
-  width: 100%;
+  width: 5%;
+  float: left;
+}
+table.table-char-settings>thead>tr>th:nth-child(2){
+  width: 95%;
   float: left;
 }
 table.table-char-settings>tbody>tr>td:nth-child(1) {
@@ -7387,7 +7407,7 @@ table.table-char-settings tr:first-child td {
 /* end characteristics settings table*/
 
 /*animate.css*/
-.saved {
+.updated {
   -moz-animation-duration: 5s;
   -webkit-animation-duration: 5s;
   -o-animation-duration: 5s;
@@ -7401,6 +7421,12 @@ table.table-char-settings tr:first-child td {
   font-weight: normal !important;
   text-transform: initial;
 }
+
+.not-updated{
+  font-weight: normal !important;
+  text-transform: initial;
+}
+
 @charset "UTF-8";
 
 /*!

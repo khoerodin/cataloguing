@@ -169,14 +169,20 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/select-location/{plantId}', 'SettingsController@selectLocation');
 	Route::post('settings/select-shelf/{locationId}', 'SettingsController@selectShelf');	
 
-	// COMPANY CHARACTERISTICS TAB
+	// FOR CHARACTERISTICS TAB
 	Route::post('settings/select-inc', 'HomeController@selectInc');
-	Route::post('settings/select-holding', 'SettingsController@selectHolding');
-	Route::post('settings/select-company/{holdingId}', 'SettingsController@selectCompany');
+
+	// GLOBAL CHARACTERISTICS VALUE TAB
+	Route::get('settings/get-global-characteristics/{incId}', 'SettingsController@getGlobalCharacteristics');
+	Route::get('settings/get-global-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getGlobalCharacteristicsValues');
+	Route::put('settings/update-gcharacteristics-order', 'SettingsController@updateGCharOrder');
+	Route::get('settings/characteristic-to-be-added/{incId}', 'SettingsController@getCharsToBeAdded');
+	// END GLOBAL CHARACTERISTICS VALUE TAB
+
+	// COMPANY CHARACTERISTICS TAB
 	Route::get('settings/get-company-characteristics/{incId}/{companyId}', 'SettingsController@getCompanyCharacteristics');
-	Route::get('settings/get-company-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getCompanyCharacteristicsValues');
 	Route::put('settings/update-ccharacteristics-order', 'SettingsController@updateCCharOrder');
-	
+
 	// CATALOG STATUS Tab
 	Route::get('settings/datatables-catalog-status', 'SettingsController@datatablesCatalogStatus');
 	Route::post('settings/add-catalog-status', 'SettingsController@addCatalogStatus');

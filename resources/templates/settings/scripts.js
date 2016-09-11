@@ -90,10 +90,6 @@ jQuery(function($) {
     });
     // END SCROLL TAB
 
-    // START COMPANY CHARACTERISICS VALUE TAB
-    // ============================================================
-    // ============================================================
-
     // FILTER TOP
     // Filter INC
     var optionsInc = {
@@ -120,9 +116,17 @@ jQuery(function($) {
             return array;
         }
     };
+
+    // for global characteristic value
+    $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.global_inc').trigger('change');
+    $('button[data-id="global_inc"]').addClass("btn-sm");
+    // end for global characteristic value
+
     $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
     $('.inc').trigger('change');
     $('button[data-id="inc"]').addClass("btn-sm");
+
     $('.bs-searchbox > input.form-control').addClass("input-sm");
 
     // Filter Holding
@@ -162,22 +166,220 @@ jQuery(function($) {
     $("#select_company").html(selectCompany);
 
     // Revert characteristic box to placeholder
-    function getCharPlaceholder(){
+    function getGlobalCharPlaceholder(){
         charPlaceholder  = '<div class="col-xs-6">';
-        charPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        charPlaceholder += '</div>';
+        $("#global-char-area").empty().append(charPlaceholder);
+    } 
+    function getCompanyCharPlaceholder(){
+        charPlaceholder  = '<div class="col-xs-6">';
+        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
         charPlaceholder += '</div>';
         $("#company-char-area").empty().append(charPlaceholder);
-    }        
+    }    
     // End revert characteristic box to placeholder
 
     // Revert value box to placeholder
-    function getValPlaceholder(){
+    function getGlobalValPlaceholder(){
         valPlaceholder  = '<div class="col-xs-6">';
-        valPlaceholder += '<div style="height:300px;margin-top:10px;background-color:#F1F4F8;"></div>';
+        valPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
         valPlaceholder += '</div>';
-        $("#company-val-area").empty().append(valPlaceholder);
-    }        
+        $("#global-val-area").empty().append(valPlaceholder);
+    }
     // End revert value box to placeholder
+
+    // START GLOBAL CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+    $(document).ajaxComplete(function() {
+        // Changed INC
+        $('#global_inc').off('changed.bs.select');
+        $('#global_inc').on('changed.bs.select', function() {
+            getGlobalValPlaceholder();
+            getGlobalCharacteristicsList();
+        });
+        // End Changed INC
+
+        // characteristic row click 
+        $(document).off('click', 'tbody#global_char_table tr');
+        $(document).on('click', 'tbody#global_char_table tr', function() {
+            $("tbody#global_char_table tr:first-child").removeClass('active');
+            $("tbody#global_char_table tr").removeClass('active');
+            $(this).addClass('active');
+            id = $(this).attr('id');
+            getGlobalCharValues(id);
+        });
+        // end characteristic row click
+    });
+
+    function getGlobalCharacteristicsList(bool) {
+        var globalIncId = $("#global_inc").val();
+
+        if (globalIncId){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "settings/get-global-characteristics/" + globalIncId,
+                success: function(data) {
+                    globalCharsTable  = '<div class="col-xs-6">';
+                    globalCharsTable += '<table class="table table-striped table-char-settings">';
+                    globalCharsTable += '<thead><th>#</th><th>CHARACTERISICS';
+                    globalCharsTable += '<span id="global-char-button" class="pull-right">';
+                    globalCharsTable += '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+                    globalCharsTable += '</span>';
+                    globalCharsTable += '</th></thead><tbody id="global_char_table">';
+
+                    globalOldOrder = [];
+                    $.each(data, function(i, item) {
+                        globalCharsTable += '<tr id="'+item.id+'"><td>';
+                        globalCharsTable += '<input class="global_lic_id" name="global_lic_id[]" type="hidden" value="' + item.id + '">';
+                        globalCharsTable += i + 1;
+                        globalCharsTable += '</td><td>' + item.characteristic + '</td></tr>';
+
+                        // save oldOrder temporary
+                        globalOldOrder.push(i + 1);
+                    });
+                    globalCharsTable += '</tbody></table></div>';
+                    $("#global-char-area").empty().append(globalCharsTable);
+                    // for reset order
+                    globalCache = $("#global_char_table").html();
+
+                    if(bool == 1){
+                        sequenceSavedMessage  = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+                        sequenceSavedMessage += '&nbsp;<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+                        $("#global-char-button").empty().append(sequenceSavedMessage);
+                    }                
+                }
+            });
+        }else{
+            getGlobalCharPlaceholder();
+            getGlobalValPlaceholder();
+        }
+    }
+
+    function getGlobalCharValues(linkIncCharacteristicId) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "settings/get-global-characteristics-values/" + linkIncCharacteristicId,
+            success: function(data) {
+                echo  = '<div class="col-xs-6">';
+                echo += '<table class="table table-striped">';
+                echo += '<thead><tr><th style="width:5%;">#</th>';
+                echo += '<th style="width:45%;">VALUES</th>';
+                echo += '<th style="width:35%;">ABBREV</th>';
+                echo += '<th style="width:15%;">APPROVED</th></tr></thead>';
+                echo += '<tbody id="global_val_table">';
+                $.each(data, function(i, item) {
+                    echo += '<tr><td>';
+                    echo += i + 1;
+                    echo += '</td><td>' + item.value + '</td>';
+                    echo += '</td><td>' + item.abbrev + '</td>';
+                    echo += '</td><td>' + item.approved + '</td></tr>';
+                });
+                echo += '</tbody></table></div>';
+
+                $("#global-val-area").empty().append(echo);
+            }
+        });
+    }
+
+    // sortabe
+    $(document).ajaxComplete(function(){
+        $("#global_char_table").sortable({
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            update: function() {
+                globalNewOrder = $("#global_char_table").sortable("toArray");
+                if(globalOldOrder.equals(globalNewOrder) == false){
+                    button  = '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#global-char-button').html(button);
+                }else{
+                    $('#global-char-button').empty();
+                }
+            }
+        });
+    });
+
+    $("#global_char_table").sortable({
+        helper: fixHelper,
+    });
+    // end sortable
+
+    // reset global char order
+    $(document).on('click', '#reset-global-char-order', function() {
+        $("#global_char_table").html(globalCache);
+        $('#global-char-button').html('<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>');
+        getGlobalValPlaceholder();
+    });    
+    // end reset global char order
+
+    // update global char order
+    $(document).on('click', '#update-global-char-order', function() {
+        var global_lic_id = []
+        $("input.global_lic_id").each(function (){
+            global_lic_id.push(parseInt($(this).val()));
+        });
+
+        $.ajax({ 
+            type: "PUT",
+            url: 'settings/update-gcharacteristics-order',
+            data: {'lic': global_lic_id},
+            success: function() {
+                getGlobalValPlaceholder();
+                getGlobalCharacteristicsList(1);                
+            },
+            error: function(){
+                button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
+                button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+                button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                $('#global-char-button').html(button);
+            }
+        });
+    });    
+    // end update global char order
+
+    // ADD CHARACTERISIC MODAL
+    $(document).on('click', '#add-char', function() {
+        var globalIncId = $("#global_inc").val();
+        $.ajax({ 
+            type: "GET",
+            url: 'settings/characteristic-to-be-added/' + globalIncId,
+            dataType: 'json',
+            success: function(data) {
+                tr = '';
+                $.each(data, function(i, item) {
+                    tr += '<tr><td>';
+                    tr += i + 1;
+                    tr += '</td><td>'+item.characteristic;
+                    tr += '<kbd id="#" class="kbd-primary pull-right cpointer">ADD</kbd>';
+                    tr += '</td></tr>';
+                });
+                $("#add-char-table").empty().append(tr);
+
+                inc = $('div.global_inc.with-ajax button').attr('title');
+                $('#item_name').text(inc);
+                $('#add_characteristic_modal').modal('show');           
+            },
+            error: function(){
+                
+            }
+        });
+    });
+    // END ADD CHARACTERISIC MODAL
+
+    // END GLOBAL CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
+    
+
+
+    // START COMPANY CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
 
     $(document).ajaxComplete(function() {
 
@@ -191,8 +393,7 @@ jQuery(function($) {
         // Changed Holding
         $('#holding').on('changed.bs.select', function(e) {
             $('#select_company').html('<select id="company" class="company with-ajax" data-live-search="true" data-width="100%"></select>');
-            getCharPlaceholder();
-            getValPlaceholder();
+            getCompanyCharPlaceholder();
 
             var holdingId = $(this).val();
             var optionsCompany = {
@@ -231,22 +432,13 @@ jQuery(function($) {
             getCompanyCharacteristicsList();
         });
         // End Changed Company
-
-        $(document).off('click', 'tbody#company_char_table tr');
-        $(document).on('click', 'tbody#company_char_table tr', function() {
-            $("tbody#company_char_table tr:first-child").removeClass('active');
-            $("tbody#company_char_table tr").removeClass('active');
-            $(this).addClass('active');
-            id = $(this).attr('id');
-            getValues(id);
-        });
     });
 
     function getCompanyCharacteristicsList(bool) {
         var incId = $("#inc").val();
         var companyId = $("#company").val();
 
-        if (incId && companyId ){
+        if (incId && companyId){
             $.ajax({
                 type: "GET",
                 dataType: "json",
@@ -254,14 +446,14 @@ jQuery(function($) {
                 success: function(data) {
                     charsTable  = '<div class="col-xs-6">';
                     charsTable += '<table class="table table-striped table-char-settings">';
-                    charsTable += '<thead><th colspan="2">CHARACTERISICS';
+                    charsTable += '<thead><th>#</th><th>CHARACTERISICS';
                     charsTable += '<span id="company-char-button" class="pull-right"></span>';
                     charsTable += '</th></thead><tbody id="company_char_table">';
 
                     oldOrder = [];
                     $.each(data, function(i, item) {
                         charsTable += '<tr id="'+item.link_inc_characteristic_id+'"><td>';
-                        charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
+                        charsTable += '<input class="company_lic_id" name="company_lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
                         charsTable += i + 1;
                         charsTable += '</td><td>' + item.characteristic + '</td></tr>';
 
@@ -274,75 +466,15 @@ jQuery(function($) {
                     cache = $("#company_char_table").html();
 
                     if(bool == 1){
-                        sequenceSavedMessage = '<span class="text-primary animated fadeOut saved">Sequence updated</span>';
+                        sequenceSavedMessage = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
                         $("#company-char-button").empty().append(sequenceSavedMessage);
                     }                
                 }
             });
         }else{
-            getCharPlaceholder();
-            getValPlaceholder();
+            getCompanyCharPlaceholder();
         }
     }
-
-    function getValues(linkIncCharacteristicId) {
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "settings/get-company-characteristics-values/" + linkIncCharacteristicId,
-            success: function(data) {
-                echo  = '<div class="col-xs-6">';
-                echo += '<table class="table table-striped">';
-                echo += '<thead><tr><th style="width:5%;">#</th>';
-                echo += '<th style="width:45%;">VALUES</th>';
-                echo += '<th style="width:35%;">ABBREV</th>';
-                echo += '<th style="width:15%;">APPROVE</th></tr></thead>';
-                echo += '<tbody id="val_table">';
-                $.each(data, function(i, item) {
-                    echo += '<tr><td>';
-                    echo += i + 1;
-                    echo += '</td><td>' + item.value + '</td>';
-                    echo += '</td><td>' + item.abbrev + '</td>';
-                    echo += '</td><td>' + item.approved + '</td></tr>';
-                });
-                echo += '</tbody></table></div>';
-
-                $("#company-val-area").empty().append(echo);
-            }
-        });
-    }
-
-    // FUNCTION FOR COMPARE TWO ARRAY
-    // Warn if overriding existing method
-    if(Array.prototype.equals)
-        console.warn("Overriding existing Array.prototype.equals. Possible causes: New API defines the method, there's a framework conflict or you've got double inclusions in your code.");
-    // attach the .equals method to Array's prototype to call it on any array
-    Array.prototype.equals = function (array) {
-        // if the other array is a falsy value, return
-        if (!array)
-            return false;
-
-        // compare lengths - can save a lot of time 
-        if (this.length != array.length)
-            return false;
-
-        for (var i = 0, l=this.length; i < l; i++) {
-            // Check if we have nested arrays
-            if (this[i] instanceof Array && array[i] instanceof Array) {
-                // recurse into the nested arrays
-                if (!this[i].equals(array[i]))
-                    return false;       
-            }           
-            else if (this[i] != array[i]) { 
-                // Warning - two different object instances will never be equal: {x:20} != {x:20}
-                return false;   
-            }           
-        }       
-        return true;
-    }
-    // Hide method from for-in loops
-    Object.defineProperty(Array.prototype, "equals", {enumerable: false});
-    // EFUNCTION FOR COMPARE TWO ARRAY
 
     // sortabe
     $(document).ajaxComplete(function(){
@@ -363,13 +495,6 @@ jQuery(function($) {
         });
     });
 
-    var fixHelper = function(e, ui) {
-        ui.children().each(function() {
-            $(this).width($(this).width());
-        });
-        return ui;
-    }
-
     $("#company_char_table").sortable({
         helper: fixHelper,
     });
@@ -379,23 +504,21 @@ jQuery(function($) {
     $(document).on('click', '#reset-company-char-order', function() {
         $("#company_char_table").html(cache);
         $('#company-char-button').empty();
-        getValPlaceholder();
     });    
     // end reset company char order
 
     // update company char order
     $(document).on('click', '#update-company-char-order', function() {
-        var lic_id = []
-        $("input.lic_id").each(function (){
-            lic_id.push(parseInt($(this).val()));
+        var company_lic_id = []
+        $("input.company_lic_id").each(function (){
+            company_lic_id.push(parseInt($(this).val()));
         });
 
         $.ajax({ 
             type: "PUT",
             url: 'settings/update-ccharacteristics-order',
-            data: {'company': $('select#company').val(), 'lic': lic_id},
+            data: {'company': $('select#company').val(), 'lic': company_lic_id},
             success: function() {
-                getValPlaceholder();
                 getCompanyCharacteristicsList(1);                
             },
             error: function(){
@@ -405,7 +528,7 @@ jQuery(function($) {
     });    
     // end update company char order
 
-    // END COMPANY CHARACTERISICS VALUE TAB
+    // END COMPANY CHARACTERISIC VALUE TAB
     // ============================================================
     // ============================================================
 
