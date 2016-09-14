@@ -972,8 +972,8 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 5,
-            drawCallback: function() {
+            pageLength: 6,
+            drawCallback: function(data) {
                 $('#part_manufacturer_code th:last-child')
                     .removeClass('sorting')
                     .removeClass('sorting_desc')
@@ -981,6 +981,17 @@ jQuery(function($) {
                     .addClass('cpointer')
                     .empty()
                     .append('TYPE <kbd id="add-pmc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 6 ) {
+                    $('#part_manufacturer_code_info').css('display', 'block');
+                    $('#part_manufacturer_code_paginate').css('display', 'block');
+                }else{
+                    $('#part_manufacturer_code_info').css('display', 'none');
+                    $('#part_manufacturer_code_paginate').css('display', 'none');
+                }
             }
         });
     }
@@ -1348,7 +1359,7 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 8,
+            pageLength: 9,
             drawCallback: function() {
                 $('#part_colloquial th:last-child')
                     .removeClass('sorting')
@@ -1357,6 +1368,17 @@ jQuery(function($) {
                     .addClass('cpointer')
                     .empty()
                     .append('COLLOQUIAL NAME <kbd id="add-pc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 9 ) {
+                    $('#part_colloquial_info').css('display', 'block');
+                    $('#part_colloquial_paginate').css('display', 'block');
+                }else{
+                    $('#part_colloquial_info').css('display', 'none');
+                    $('#part_colloquial_paginate').css('display', 'none');
+                }
             }
         });
     }
@@ -1541,6 +1563,17 @@ jQuery(function($) {
                     .addClass('cpointer')
                     .empty()
                     .append('DRAWING REF <kbd id="add-pec" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 9 ) {
+                    $('#part_equipment_code_info').css('display', 'block');
+                    $('#part_equipment_code_paginate').css('display', 'block');
+                }else{
+                    $('#part_equipment_code_info').css('display', 'none');
+                    $('#part_equipment_code_paginate').css('display', 'none');
+                }
             }
         });
     }

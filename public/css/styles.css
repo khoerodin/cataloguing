@@ -6896,7 +6896,7 @@ when a scrollbar is visible and wider when it is not).
 */
 table.table-char-value>tbody {
   overflow-y: scroll;
-  height: 192px;
+  height: 195px;
 }
 
 /*
