@@ -18814,7 +18814,7 @@ jQuery(function($) {
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
             pageLength: 6,
-            drawCallback: function(data) {
+            drawCallback: function() {
                 $('#part_manufacturer_code th:last-child')
                     .removeClass('sorting')
                     .removeClass('sorting_desc')

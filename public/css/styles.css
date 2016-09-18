@@ -7296,7 +7296,7 @@ hr.hr-bawah-part-master{
     margin-top:15px;
     padding: 10px 20px;
 }
-#global_char_table tr, #company_char_table tr{
+#global_short_table tr, #global_char_table tr, #company_char_table tr{
   cursor: move;
 }
 
@@ -7405,6 +7405,73 @@ table.table-char-settings tr:first-child td {
   border-top: none;
 }
 /* end characteristics settings table*/
+
+/*short description settings table*/
+table.table-short-settings {
+  width: 100%;
+}
+
+table.table-short-settings,
+table.table-short-settings>thead,
+table.table-short-settings>tbody,
+table.table-short-settings>thead>tr,
+table.table-short-settings>tbody>tr,
+table.table-short-settings>thead>tr>th,
+table.table-short-settings>tbody>td {
+  display: block;
+}
+
+table.table-short-settings>thead>tr:after,
+table.table-short-settings>tbody>tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+table.table-short-settings>tbody {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+table.table-short-settings>thead {        
+  /*overflow-y: scroll;*/
+  /*margin-right: 16px;*/
+}
+
+table.table-short-settings>thead::-webkit-scrollbar{
+  background-color: inherit;
+}
+
+table.table-short-settings>thead>tr>th:nth-child(1){
+  width: 5%;
+  float: left;
+}
+table.table-short-settings>thead>tr>th:nth-child(2){
+  width: 50%;
+  float: left;
+}
+table.table-short-settings>thead>tr>th:nth-child(3){
+  width: 45%;
+  float: left;
+}
+
+table.table-short-settings>tbody>tr>td:nth-child(1) {
+  width: 5%;
+  float: left;
+}
+table.table-short-settings>tbody>tr>td:nth-child(2){
+  width: 51%;
+  float: left;
+}
+table.table-short-settings>tbody>tr>td:nth-child(3){
+  width: 44%;
+  float: left;
+}
+table.table-short-settings tr:first-child td {
+  border-top: none;
+}
+/* end short description settings table*/
 
 /*animate.css*/
 .updated {

@@ -117,16 +117,6 @@ jQuery(function($) {
         }
     };
 
-    // for global characteristic value
-    $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
-    $('.global_inc').trigger('change');
-    $('button[data-id="global_inc"]').addClass("btn-sm");
-    // end for global characteristic value
-
-    $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
-    $('.inc').trigger('change');
-    $('button[data-id="inc"]').addClass("btn-sm");
-
     $('.bs-searchbox > input.form-control').addClass("input-sm");
 
     // Filter Holding
@@ -153,50 +143,35 @@ jQuery(function($) {
             return array;
         }
     };
-    $('.holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHolding);
-    $('.holding').trigger('change');
-    $('button[data-id="holding"]').addClass("btn-sm");
-    $('.bs-searchbox > input.form-control').addClass("input-sm");
-
-    var selectCompany = '<div class="btn-group bootstrap-select disabled company with-ajax" style="width: 100%;">';
-    selectCompany += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
-    selectCompany += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
-    selectCompany += '<select id="company" class="company with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
-    selectCompany += '</div>';
-    $("#select_company").html(selectCompany);
-
-    // Revert characteristic box to placeholder
-    function getGlobalCharPlaceholder(){
-        charPlaceholder  = '<div class="col-xs-6">';
-        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
-        charPlaceholder += '</div>';
-        $("#global-char-area").empty().append(charPlaceholder);
-    } 
-    function getCompanyCharPlaceholder(){
-        charPlaceholder  = '<div class="col-xs-6">';
-        charPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
-        charPlaceholder += '</div>';
-        $("#company-char-area").empty().append(charPlaceholder);
-    }    
-    // End revert characteristic box to placeholder
-
-    // Revert value box to placeholder
-    function getGlobalValPlaceholder(){
-        valPlaceholder  = '<div class="col-xs-6">';
-        valPlaceholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
-        valPlaceholder += '</div>';
-        $("#global-val-area").empty().append(valPlaceholder);
+    
+    function charPlaceholder(id){
+        var Placeholder  = '<div class="col-xs-6">';
+            Placeholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+            Placeholder += '</div>';
+        $(id).empty().append(Placeholder);
     }
-    // End revert value box to placeholder
+
+    function valPlaceholder(id){
+        var Placeholder  = '<div class="col-xs-6">';
+            Placeholder += '<div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>';
+            Placeholder += '</div>';
+        $(id).empty().append(Placeholder);
+    }
 
     // START GLOBAL CHARACTERISIC VALUE TAB
     // ============================================================
     // ============================================================
+    
+    // Select INC
+    $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.global_inc').trigger('change');
+    $('button[data-id="global_inc"]').addClass("btn-sm");
+
     $(document).ajaxComplete(function() {
         // Changed INC
         $('#global_inc').off('changed.bs.select');
         $('#global_inc').on('changed.bs.select', function() {
-            getGlobalValPlaceholder();
+            valPlaceholder('#global-val-area');          
             getGlobalCharacteristicsList();
         });
         // End Changed INC
@@ -207,8 +182,8 @@ jQuery(function($) {
             $("tbody#global_char_table tr:first-child").removeClass('active');
             $("tbody#global_char_table tr").removeClass('active');
             $(this).addClass('active');
-            id = $(this).attr('id');
-            getGlobalCharValues(id);
+            id = $(this).closest('tr').find("input").val();
+            getGlobalCharValues(id, false);
         });
         // end characteristic row click
     });
@@ -232,7 +207,9 @@ jQuery(function($) {
 
                     globalOldOrder = [];
                     $.each(data, function(i, item) {
-                        globalCharsTable += '<tr id="'+item.id+'"><td>';
+                        globalCharsTable += '<tr id="';
+                        globalCharsTable += i + 1;
+                        globalCharsTable += '"><td>';
                         globalCharsTable += '<input class="global_lic_id" name="global_lic_id[]" type="hidden" value="' + item.id + '">';
                         globalCharsTable += i + 1;
                         globalCharsTable += '</td><td>' + item.characteristic + '</td></tr>';
@@ -245,7 +222,7 @@ jQuery(function($) {
                     // for reset order
                     globalCache = $("#global_char_table").html();
 
-                    if(bool == 1){
+                    if(bool == true){
                         sequenceSavedMessage  = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
                         sequenceSavedMessage += '&nbsp;<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
                         $("#global-char-button").empty().append(sequenceSavedMessage);
@@ -253,12 +230,12 @@ jQuery(function($) {
                 }
             });
         }else{
-            getGlobalCharPlaceholder();
-            getGlobalValPlaceholder();
+            charPlaceholder('#global-char-area');
+            valPlaceholder('#global-val-area');
         }
     }
 
-    function getGlobalCharValues(linkIncCharacteristicId) {
+    function getGlobalCharValues(linkIncCharacteristicId, bool) {
         $.ajax({
             type: "GET",
             dataType: "json",
@@ -280,7 +257,11 @@ jQuery(function($) {
                 });
                 echo += '</tbody></table></div>';
 
-                $("#global-val-area").empty().append(echo);
+                if(bool == true){
+                    $("#global-val-short-area").empty().append(echo);
+                }else{
+                    $("#global-val-area").empty().append(echo);
+                }
             }
         });
     }
@@ -298,7 +279,8 @@ jQuery(function($) {
                     button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
                     $('#global-char-button').html(button);
                 }else{
-                    $('#global-char-button').empty();
+                    button  = '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+                    $('#global-char-button').empty().append(button);
                 }
             }
         });
@@ -313,7 +295,7 @@ jQuery(function($) {
     $(document).on('click', '#reset-global-char-order', function() {
         $("#global_char_table").html(globalCache);
         $('#global-char-button').html('<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>');
-        getGlobalValPlaceholder();
+        valPlaceholder('#global-val-area');
     });    
     // end reset global char order
 
@@ -326,11 +308,11 @@ jQuery(function($) {
 
         $.ajax({ 
             type: "PUT",
-            url: 'settings/update-gcharacteristics-order',
+            url: 'settings/update-global-characteristics-order',
             data: {'lic': global_lic_id},
             success: function() {
-                getGlobalValPlaceholder();
-                getGlobalCharacteristicsList(1);                
+                valPlaceholder('#global-val-area');
+                getGlobalCharacteristicsList(true);                
             },
             error: function(){
                 button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
@@ -377,9 +359,166 @@ jQuery(function($) {
     
 
 
+    // START GLOBAL SHORT DESCRIPTION FORMAT TAB
+    // ============================================================
+    // ============================================================
+    
+    // Select INC
+    $('.global_short_desc_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.global_short_desc_inc').trigger('change');
+    $('button[data-id="global_short_desc_inc"]').addClass("btn-sm");
+
+    $(document).ajaxComplete(function() {
+        // Changed INC
+        $('#global_short_desc_inc').off('changed.bs.select');
+        $('#global_short_desc_inc').on('changed.bs.select', function() {
+            getGlobalShortDescCharacteristicsList();
+        });
+        // End Changed INC
+
+        // characteristic row click 
+        $(document).off('click', 'tbody#global_short_table tr');
+        $(document).on('click', 'tbody#global_short_table tr', function() {
+            $("tbody#global_short_table tr:first-child").removeClass('active');
+            $("tbody#global_short_table tr").removeClass('active');
+            $(this).addClass('active');
+            id = $(this).closest('tr').find("input").val();
+            getGlobalCharValues(id, true);
+        });
+        // end characteristic row click
+    });
+
+    function getGlobalShortDescCharacteristicsList(bool) {
+        var IncId = $("#global_short_desc_inc").val();
+
+        if (IncId){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "settings/get-global-short-desc-format/" + IncId,
+                success: function(data) {
+                    globalShortTable  = '<div class="col-xs-6">';
+                    globalShortTable += '<table class="table table-striped table-short-settings">';
+                    globalShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
+                    globalShortTable += '<span id="global_short_button" class="pull-right">';
+                    globalShortTable += '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+                    globalShortTable += '</span></th></thead>';
+                    globalShortTable += '<tbody id="global_short_table">';
+
+                    globalShortOldOrder = [];
+                    $.each(data, function(i, item) {
+                        globalShortTable += '<tr id="';
+                        globalShortTable += i + 1;
+                        globalShortTable += '"><td>';
+                        globalShortTable += '<input class="global_short_id" name="global_short_id[]" type="hidden" value="' + item.id + '">';
+                        globalShortTable += i + 1;
+                        globalShortTable += '</td><td>' + item.characteristic + '</td>';
+                        globalShortTable += '</td><td><strong>' + item.separator + '</strong></td></tr>';
+
+                        // save oldOrder temporary
+                        globalShortOldOrder.push(i + 1);
+                    });
+                    globalShortTable += '</tbody></table></div>';
+                    $("#global-short-area").empty().append(globalShortTable);
+                    // for reset order
+                    globalShortCache = $("#global_short_table").html();
+
+                    if(bool == true){
+                        var sequenceSavedMessage  = '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+                            sequenceSavedMessage  = '&nbsp;<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+                        $("#global_short_button").empty().append(sequenceSavedMessage);
+                    }                
+                }
+            });
+        }else{
+            charPlaceholder('#global-short-area');
+        }
+    }
+
+    // sortabe
+    $(document).ajaxComplete(function(){
+        $("#global_short_table").sortable({
+            items: "tr",
+            cursor: 'move',
+            opacity: 0.6,
+            update: function() {
+                globalShortNewOrder = $("#global_short_table").sortable("toArray");
+                if(globalShortOldOrder.equals(globalShortNewOrder) == false){
+                    button  = '<kbd id="reset_global_short_order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update_global_short_order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#global_short_button').html(button);
+                }else{
+                    button  = '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+                    $('#global_short_button').empty().append(button);
+                }
+            }
+        });
+    });
+
+    $("#global_short_table").sortable({
+        helper: fixHelper,
+    });
+    // end sortable
+
+    // reset short order
+    $(document).on('click', '#reset_global_short_order', function() {
+        $("#global_short_table").html(globalShortCache);
+        $('#global_short_button').html('<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>');
+        // valPlaceholder('#global-val-area');
+    });    
+    // end reset short order
+
+    // update short order
+    $(document).on('click', '#update_global_short_order', function() {
+        var global_short_id = []
+        $("input.global_short_id").each(function (){
+            global_short_id.push(parseInt($(this).val()));
+        });
+
+        $.ajax({ 
+            type: "PUT",
+            url: 'settings/update-global-short-order',
+            data: {'sid': global_short_id},
+            success: function() {
+                // valPlaceholder('#global-val-area');
+                getGlobalShortDescCharacteristicsList(true);                
+            },
+            error: function(){
+                button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
+                button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+                button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+                $('#global_short_button').html(button);
+            }
+        });
+    });    
+    // end update short order
+    // END GLOBAL SHORT DESCRIPTION FORMAT TAB
+    // ============================================================
+    // ============================================================
+
+
+
     // START COMPANY CHARACTERISIC VALUE TAB
     // ============================================================
     // ============================================================
+    // Select INC
+    $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.inc').trigger('change');
+    $('button[data-id="inc"]').addClass("btn-sm");
+
+    // Select Holding
+    $('.holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHolding);
+    $('.holding').trigger('change');
+    $('button[data-id="holding"]').addClass("btn-sm");
+    $('.bs-searchbox > input.form-control').addClass("input-sm");
+
+    // Select Company
+    var selectCompany = '<div class="btn-group bootstrap-select disabled company with-ajax" style="width: 100%;">';
+    selectCompany += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+    selectCompany += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
+    selectCompany += '<select id="company" class="company with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+    selectCompany += '</div>';
+    $("#select_company").html(selectCompany);
 
     $(document).ajaxComplete(function() {
 
@@ -393,7 +532,7 @@ jQuery(function($) {
         // Changed Holding
         $('#holding').on('changed.bs.select', function(e) {
             $('#select_company').html('<select id="company" class="company with-ajax" data-live-search="true" data-width="100%"></select>');
-            getCompanyCharPlaceholder();
+            charPlaceholder('#company-char-area');
 
             var holdingId = $(this).val();
             var optionsCompany = {
@@ -452,7 +591,9 @@ jQuery(function($) {
 
                     oldOrder = [];
                     $.each(data, function(i, item) {
-                        charsTable += '<tr id="'+item.link_inc_characteristic_id+'"><td>';
+                        charsTable += '<tr id="';
+                        charsTable += i + 1;
+                        charsTable += '"><td>';
                         charsTable += '<input class="company_lic_id" name="company_lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
                         charsTable += i + 1;
                         charsTable += '</td><td>' + item.characteristic + '</td></tr>';
@@ -465,14 +606,14 @@ jQuery(function($) {
                     // for reset order
                     cache = $("#company_char_table").html();
 
-                    if(bool == 1){
+                    if(bool == true){
                         sequenceSavedMessage = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
                         $("#company-char-button").empty().append(sequenceSavedMessage);
                     }                
                 }
             });
         }else{
-            getCompanyCharPlaceholder();
+            charPlaceholder('#company-char-area');
         }
     }
 
@@ -519,7 +660,7 @@ jQuery(function($) {
             url: 'settings/update-ccharacteristics-order',
             data: {'company': $('select#company').val(), 'lic': company_lic_id},
             success: function() {
-                getCompanyCharacteristicsList(1);                
+                getCompanyCharacteristicsList(true);                
             },
             error: function(){
                 console.log(false);

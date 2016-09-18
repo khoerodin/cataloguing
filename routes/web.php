@@ -175,9 +175,14 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	// GLOBAL CHARACTERISTICS VALUE TAB
 	Route::get('settings/get-global-characteristics/{incId}', 'SettingsController@getGlobalCharacteristics');
 	Route::get('settings/get-global-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getGlobalCharacteristicsValues');
-	Route::put('settings/update-gcharacteristics-order', 'SettingsController@updateGCharOrder');
+	Route::put('settings/update-global-characteristics-order', 'SettingsController@updateGlobalCharOrder');
 	Route::get('settings/characteristic-to-be-added/{incId}', 'SettingsController@getCharsToBeAdded');
 	// END GLOBAL CHARACTERISTICS VALUE TAB
+
+	// GLOBAL SHORT DESCRIPTION FORMAT
+	Route::get('settings/get-global-short-desc-format/{incId}', 'SettingsController@getGlobalShortDescFormat');
+	Route::put('settings/update-global-short-order', 'SettingsController@updateGlobalShortOrder');
+	// END GLOBAL SHORT DESCRIPTION FORMAT
 
 	// COMPANY CHARACTERISTICS TAB
 	Route::get('settings/get-company-characteristics/{incId}/{companyId}', 'SettingsController@getCompanyCharacteristics');

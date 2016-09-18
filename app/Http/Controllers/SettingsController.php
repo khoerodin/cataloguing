@@ -11,6 +11,7 @@ use Response;
 use App\Models\CompanyCharacteristicSequence;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
+use App\Models\ShortDescriptionFormat;
 use App\Models\TblBin;
 use App\Models\TblShelf;
 use App\Models\TblLocation;
@@ -106,7 +107,7 @@ class SettingsController extends Controller
         ->get();
     }
 
-    public function updateGCharOrder(Request $request)
+    public function updateGlobalCharOrder(Request $request)
     {
         $no = 1;
         foreach ($request->lic as $id) {
@@ -145,6 +146,29 @@ class SettingsController extends Controller
         return Response::json($values);
     }
     // END GLOBAL CHARACTERISTICS
+
+    // GLOBAL SHORT DESCRIPTION FORMAT
+    public function getGlobalShortDescFormat($incId)
+    {
+        return ShortDescriptionFormat::select('short_description_format.id','characteristic','separator')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
+            ->where('link_inc_characteristic.tbl_inc_id', $incId)
+            ->orderBy('short_description_format.sequence')
+            ->get();
+    }
+
+    public function updateGlobalShortOrder(Request $request)
+    {
+        $no = 1;
+        foreach ($request->sid as $id) {
+            $gss = ShortDescriptionFormat::find($id);
+            $gss->sequence = $no++;
+            $gss->save();
+        }
+    }
+    // END GLOBAL SHORT DESCRIPTION FORMAT
 
     // COMPANY CHARACTERISTICS
     public function getCompanyCharacteristics($incId,$companyId)

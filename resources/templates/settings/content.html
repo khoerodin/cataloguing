@@ -7,6 +7,7 @@
     <div class="wrapper">
         <ul class="nav nav-tabs list" id="setingsTab">
             <li class="active"><a href="#global_characteristic_value">CHARACTERISTIC VALUE</a></li>
+            <li><a href="#global_short_desc_format">SHORT DESCRIPTION FORMAT</a></li>
             <li><a href="#company_characteristic_value">COMPANY CHARACTERISTIC SEQUENCE</a></li>
             <li><a href="#company_short_description">COMPANY SHORT DESCRIPTION</a></li>
             <li><a href="#catalog_status">CATALOG STATUS</a></li>
@@ -26,7 +27,7 @@
         <div role="tabpanel" class="tab-pane active row" id="global_characteristic_value">
             <div class="col-xs-12" style="margin-bottom:10px;">
                 <div class="row">
-                    <div class="col-xs-6" id="select_inc">
+                    <div class="col-xs-6">
                         <select id="global_inc" class="global_inc with-ajax" data-live-search="true" data-width="100%"></select>
                     </div>
                 </div>
@@ -73,10 +74,29 @@
                 </div>
             </div>
         </div>
+        <div role="tabpanel" class="tab-pane row" id="global_short_desc_format">
+            <div class="col-xs-12" style="margin-bottom:10px;">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <select id="global_short_desc_inc" class="global_short_desc_inc with-ajax" data-live-search="true" data-width="100%"></select>
+                    </div>
+                </div>
+            </div>
+            <div id="global-short-area">                
+                <div class="col-xs-6">
+                    <div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>
+                </div>
+            </div>
+            <div id="global-val-short-area">
+                <div class="col-xs-6">
+                    <div style="height:328px;margin-top:10px;background-color:#F1F4F8;"></div>
+                </div>
+            </div>
+        </div>
         <div role="tabpanel" class="tab-pane row" id="company_characteristic_value">
             <div class="col-xs-12" style="margin-bottom:10px;">
                 <div class="row">
-                    <div class="col-xs-6" id="select_inc">
+                    <div class="col-xs-6">
                         <select id="inc" class="inc with-ajax" data-live-search="true" data-width="100%"></select>
                     </div>
                 </div>
