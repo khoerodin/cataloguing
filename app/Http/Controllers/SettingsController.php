@@ -9,6 +9,7 @@ use DB;
 use Datatables;
 use Response;
 use App\Models\CompanyCharacteristicSequence;
+use App\Models\CompanyShortDescriptionFormat;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
 use App\Models\ShortDescriptionFormat;
@@ -91,7 +92,7 @@ class SettingsController extends Controller
     }
 
     // GLOBAL CHARACTERISTICS
-    public function getGlobalCharacteristics($incId)
+    public function getGlobalChars($incId)
     {
         return LinkIncCharacteristic::select('link_inc_characteristic.id', 'characteristic', 'sequence')
         ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
@@ -148,7 +149,7 @@ class SettingsController extends Controller
     // END GLOBAL CHARACTERISTICS
 
     // GLOBAL SHORT DESCRIPTION FORMAT
-    public function getGlobalShortDescFormat($incId)
+    public function getGlobalShortDescChars($incId)
     {
         return ShortDescriptionFormat::select('short_description_format.id','characteristic','separator')
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
@@ -159,7 +160,7 @@ class SettingsController extends Controller
             ->get();
     }
 
-    public function updateGlobalShortOrder(Request $request)
+    public function updateGlobalShortDescOrder(Request $request)
     {
         $no = 1;
         foreach ($request->sid as $id) {
@@ -171,9 +172,9 @@ class SettingsController extends Controller
     // END GLOBAL SHORT DESCRIPTION FORMAT
 
     // COMPANY CHARACTERISTICS
-    public function getCompanyCharacteristics($incId,$companyId)
+    public function getCompanyChars($incId,$companyId)
     {
-        return CompanyCharacteristicSequence::select('characteristic', 'link_inc_characteristic_id')
+        return CompanyCharacteristicSequence::select('company_characteristic_sequence.id', 'characteristic')
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
             ->where('tbl_inc_id', $incId)
@@ -185,16 +186,75 @@ class SettingsController extends Controller
     public function updateCCharOrder(Request $request)
     {
         $no = 1;
-        foreach ($request->lic as $id) {
-            $ccs = CompanyCharacteristicSequence::where('link_inc_characteristic_id', $id)
-                ->where('tbl_company_id', $request->company)
-                ->first();
+        foreach ($request->ccid as $id) {
+            $ccs = CompanyCharacteristicSequence::find($id);
 
             $ccs->sequence = $no++;
             $ccs->save();
         }
     }
     // END COMPANY CHARACTERISTICS
+
+    // COMPANY SHORT DESCRIPTION FORMAT
+    public function getCompanyShortDesc($incId,$companyId)
+    {
+        return CompanyShortDescriptionFormat::select('company_short_description_format.id','characteristic', 'company_short_description_format.separator')
+            ->join('short_description_format', 'short_description_format.id', '=', 'company_short_description_format.short_description_format_id')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->where('tbl_company_id', $companyId)
+            ->orderBy('company_short_description_format.sequence')
+            ->get();
+    }
+
+    public function updateCompanyShortDescOrder(Request $request)
+    {
+        $no = 1;
+        foreach ($request->csid as $id) {
+            $csdf = CompanyShortDescriptionFormat::find($id);
+            $csdf->sequence = $no++;
+            $csdf->save();
+        }
+    }
+
+    public function getCharToBeAddedToShort($incId, $companyId)
+    {
+        $sdf = ShortDescriptionFormat::select('link_inc_characteristic_id')->get()->toArray();
+
+        $csdf = CompanyShortDescriptionFormat::select('short_description_format_id')
+            ->where('tbl_company_id', $companyId)
+            ->get()->toArray();
+
+        $q = LinkIncCharacteristic::select('link_inc_characteristic.id as lic_id', DB::raw('"" as sdf_id'),'characteristic as lic_char',DB::raw('"" as sdf_char'))
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->whereNotIn('link_inc_characteristic.id', $sdf);
+
+        return ShortDescriptionFormat::select(DB::raw('"" as lic_id'),'short_description_format.id as sdf_id',DB::raw('"" as lic_char'),'characteristic as sdf_char')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->whereNotIn('short_description_format.id', $csdf)
+            ->union($q)
+            ->get();
+    }
+
+    public function test2($incId, $companyId)
+    {
+        $csdf = CompanyShortDescriptionFormat::select('short_description_format_id')
+            ->where('tbl_company_id', $companyId)
+            ->get()->toArray();
+
+        return ShortDescriptionFormat::select('short_description_format.id as sdf_id','characteristic')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->whereNotIn('short_description_format.id', $csdf)
+            ->get();
+    }
+
+    // END COMPANY SHORT DESCRIPTION FORMAT
 
     // CATALOG STATUS DataTables
     public function datatablesCatalogStatus()

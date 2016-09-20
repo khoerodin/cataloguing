@@ -173,19 +173,25 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/select-inc', 'HomeController@selectInc');
 
 	// GLOBAL CHARACTERISTICS VALUE TAB
-	Route::get('settings/get-global-characteristics/{incId}', 'SettingsController@getGlobalCharacteristics');
+	Route::get('settings/get-global-chars/{incId}', 'SettingsController@getGlobalChars');
 	Route::get('settings/get-global-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getGlobalCharacteristicsValues');
 	Route::put('settings/update-global-characteristics-order', 'SettingsController@updateGlobalCharOrder');
 	Route::get('settings/characteristic-to-be-added/{incId}', 'SettingsController@getCharsToBeAdded');
 	// END GLOBAL CHARACTERISTICS VALUE TAB
 
 	// GLOBAL SHORT DESCRIPTION FORMAT
-	Route::get('settings/get-global-short-desc-format/{incId}', 'SettingsController@getGlobalShortDescFormat');
-	Route::put('settings/update-global-short-order', 'SettingsController@updateGlobalShortOrder');
+	Route::get('settings/get-global-short-desc-chars/{incId}', 'SettingsController@getGlobalShortDescChars');
+	Route::put('settings/update-global-short-desc-order', 'SettingsController@updateGlobalShortDescOrder');
 	// END GLOBAL SHORT DESCRIPTION FORMAT
 
+	// COMPANY SHORT DESCRIPTION FORMAT
+	Route::get('settings/get-company-short-desc/{incId}/{companyId}', 'SettingsController@getCompanyShortDesc');
+	Route::put('settings/update-company-short-desc-order', 'SettingsController@updateCompanyShortDescOrder');
+	Route::get('settings/char-to-be-added-to-short/{incId}/{companyId}', 'SettingsController@getCharToBeAddedToShort');
+	// END COMPANY SHORT DESCRIPTION FORMAT
+
 	// COMPANY CHARACTERISTICS TAB
-	Route::get('settings/get-company-characteristics/{incId}/{companyId}', 'SettingsController@getCompanyCharacteristics');
+	Route::get('settings/get-company-chars/{incId}/{companyId}', 'SettingsController@getCompanyChars');
 	Route::put('settings/update-ccharacteristics-order', 'SettingsController@updateCCharOrder');
 
 	// CATALOG STATUS Tab

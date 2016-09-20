@@ -7296,7 +7296,7 @@ hr.hr-bawah-part-master{
     margin-top:15px;
     padding: 10px 20px;
 }
-#global_short_table tr, #global_char_table tr, #company_char_table tr{
+#global_short_desc_table tr, #global_char_table tr, #company_char_table tr, #company_short_desc_table tr{
   cursor: move;
 }
 
@@ -7461,11 +7461,11 @@ table.table-short-settings>tbody>tr>td:nth-child(1) {
   float: left;
 }
 table.table-short-settings>tbody>tr>td:nth-child(2){
-  width: 51%;
+  width: 51.5%;
   float: left;
 }
 table.table-short-settings>tbody>tr>td:nth-child(3){
-  width: 44%;
+  width: 43.5%;
   float: left;
 }
 table.table-short-settings tr:first-child td {

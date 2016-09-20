@@ -16,7 +16,7 @@ class CreateShortDescriptionFormatTable extends Migration
         Schema::create('short_description_format', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('link_inc_characteristic_id')->unsigned();
+            $table->integer('link_inc_characteristic_id')->unsigned()->unique();
             $table->foreign('link_inc_characteristic_id', 'short_description_format_lici')->references('id')
                   ->on('link_inc_characteristic')
                   ->onUpdate('CASCADE')
