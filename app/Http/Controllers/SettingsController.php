@@ -8,6 +8,8 @@ use App\Http\Requests;
 use DB;
 use Datatables;
 use Response;
+use Auth;
+
 use App\Models\CompanyCharacteristicSequence;
 use App\Models\CompanyShortDescriptionFormat;
 use App\Models\LinkIncCharacteristic;
@@ -240,18 +242,23 @@ class SettingsController extends Controller
             ->get();
     }
 
-    public function test2($incId, $companyId)
-    {
-        $csdf = CompanyShortDescriptionFormat::select('short_description_format_id')
-            ->where('tbl_company_id', $companyId)
-            ->get()->toArray();
+    public function addShortDescFormat(Request $request)
+    {   
+        $this->validate($request, [
+            'short_description_format_id' => 'required|integer',
+            'tbl_company_id' => 'required|integer'
+        ]);   
 
-        return ShortDescriptionFormat::select('short_description_format.id as sdf_id','characteristic')
-            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
-            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-            ->where('tbl_inc_id', $incId)
-            ->whereNotIn('short_description_format.id', $csdf)
-            ->get();
+        $userId = Auth::user()->id;
+
+        $data = [
+            'tbl_company_id' => $request->tbl_company_id,
+            'short_description_format_id' => $request->short_description_format_id,
+            'created_by' => $userId,
+            'last_updated_by' => $userId,
+        ];           
+
+        return CompanyShortDescriptionFormat::create($data);
     }
 
     // END COMPANY SHORT DESCRIPTION FORMAT

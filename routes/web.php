@@ -188,6 +188,7 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::get('settings/get-company-short-desc/{incId}/{companyId}', 'SettingsController@getCompanyShortDesc');
 	Route::put('settings/update-company-short-desc-order', 'SettingsController@updateCompanyShortDescOrder');
 	Route::get('settings/char-to-be-added-to-short/{incId}/{companyId}', 'SettingsController@getCharToBeAddedToShort');
+	Route::post('settings/add-short-desc-format', 'SettingsController@addShortDescFormat');
 	// END COMPANY SHORT DESCRIPTION FORMAT
 
 	// COMPANY CHARACTERISTICS TAB

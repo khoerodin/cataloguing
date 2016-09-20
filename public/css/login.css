@@ -7493,3 +7493,22 @@ table.table-short-settings tr:first-child td {
   font-weight: normal !important;
   text-transform: initial;
 }
+
+table#part_manufacturer_code>thead>tr>th.cpointer:after,
+table#part_colloquial>thead>tr>th.cpointer:after,
+table#part_equipment_code>thead>tr>th.cpointer:after{
+  content: "" !important;
+}
+table#part_manufacturer_code thead>tr>th.sorting,
+table#part_manufacturer_code thead>tr>th.sorting_desc,
+table#part_manufacturer_code thead>tr>th.sorting_asc,
+
+table#part_colloquial thead>tr>th.sorting,
+table#part_colloquial thead>tr>th.sorting_desc,
+table#part_colloquial thead>tr>th.sorting_asc,
+
+table#part_equipment_code thead>tr>th.sorting,
+table#part_equipment_code thead>tr>th.sorting_desc,
+table#part_equipment_code thead>tr>th.sorting_asc {
+  padding-right: 4px !important;
+}

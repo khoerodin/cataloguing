@@ -776,7 +776,14 @@ jQuery(function($) {
                         companyShortTable += '<input class="company_short_desc_id" name="company_short_desc_id[]" type="hidden" value="' + item.id + '">';
                         companyShortTable += i + 1;
                         companyShortTable += '</td><td>' + item.characteristic + '</td>';
-                        companyShortTable += '</td><td><strong>' + item.separator + '</strong></td></tr>';
+                        companyShortTable += '</td><td><strong>';
+                        if(item.separator){
+                            sp = item.separator;
+                        }else{
+                            sp = '';
+                        }
+                        companyShortTable += sp;
+                        companyShortTable += '</strong></td></tr>';
 
                         // save oldOrder temporary
                         companyShortOldOrder.push(i + 1);
@@ -868,10 +875,11 @@ jQuery(function($) {
                     tr += '</td><td>';
                     if(item.sdf_char){
                         tr += item.sdf_char;
+                        tr += '<kbd id="add_sdf" data-id="'+item.sdf_id+'" class="kbd-primary pull-right cpointer">ADD</kbd>';
                     }else{
                         tr += item.lic_char;
-                    }                    
-                    tr += '<kbd id="#" class="kbd-primary pull-right cpointer">ADD</kbd>';
+                        tr += '<kbd id="add_lic" data-id="'+item.lic_id+'" class="kbd-primary pull-right cpointer">ADD</kbd>';
+                    }
                     tr += '</td></tr>';
                 });
                 $("#add_char_short_table").empty().append(tr);
@@ -890,6 +898,29 @@ jQuery(function($) {
         });
     });
     // END ADD CHARACTERISIC SHORT DESC MODAL
+
+    // ADD SHORT DESCRIPTION FORMAT TO COMPANY SHORT DESC FORMAT
+    $(document).on('click', '#add_sdf', function() {
+        var formData = {
+            short_description_format_id: $(this).attr('data-id'),
+            tbl_company_id: $("#company_short_desc_company").val()
+        }
+        var button = this;
+        $.ajax({ 
+            type: "POST",
+            url: 'settings/add-short-desc-format',
+            dataType: 'json',
+            data: formData,
+            success: function() {
+                getCompanyShortDescList();
+                $(button).remove();
+            },
+            error: function(){
+                
+            }
+        });
+    });
+    // END ADD SHORT DESCRIPTION FORMAT TO COMPANY SHORT DESC FORMAT
     // END COMPANY SHORT DESCRIPTION FORMAT TAB
     // ============================================================
     // ============================================================

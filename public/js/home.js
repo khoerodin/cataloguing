@@ -18816,9 +18816,6 @@ jQuery(function($) {
             pageLength: 6,
             drawCallback: function() {
                 $('#part_manufacturer_code th:last-child')
-                    .removeClass('sorting')
-                    .removeClass('sorting_desc')
-                    .removeClass('sorting_asc')
                     .addClass('cpointer')
                     .empty()
                     .append('TYPE <kbd id="add-pmc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
@@ -19203,9 +19200,6 @@ jQuery(function($) {
             pageLength: 9,
             drawCallback: function() {
                 $('#part_colloquial th:last-child')
-                    .removeClass('sorting')
-                    .removeClass('sorting_desc')
-                    .removeClass('sorting_asc')
                     .addClass('cpointer')
                     .empty()
                     .append('COLLOQUIAL NAME <kbd id="add-pc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
@@ -19398,9 +19392,6 @@ jQuery(function($) {
             pageLength: 8,
             drawCallback: function() {
                 $('#part_equipment_code th:last-child')
-                    .removeClass('sorting')
-                    .removeClass('sorting_desc')
-                    .removeClass('sorting_asc')
                     .addClass('cpointer')
                     .empty()
                     .append('DRAWING REF <kbd id="add-pec" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
