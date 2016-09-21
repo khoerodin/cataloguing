@@ -52,7 +52,7 @@ class CreatePartBinLocationTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->double('stock_on_hand', 15, 8)->nullable();
+            $table->double('stock_on_hand', 15, 8)->default(0,0);
             
             $table->integer('tbl_unit_of_measurement_id')->unsigned()->nullable();
             $table->foreign('tbl_unit_of_measurement_id')->references('id')

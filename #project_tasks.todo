@@ -1,0 +1,38 @@
+Deadline:
+ ✔ add chars to company short chars @done (16-09-21 06:34)
+ ✔ edit separator @done (16-09-21 08:00)
+ ✔ add default separator to link_inc_characteristic @done (16-09-21 10:38)
+ ✔ rename company_characteristic_sequence to company_characteristic @done (16-09-21 10:44)
+ ✔ add hidden column to company_characteristic (default: 0 / visible where catalog status not print lock) @done (16-09-21 10:44)
+ ✔ change nullable column to empty default @done (16-09-21 12:06)
+ ✔ hidden column setting for company_characteristic @done (16-09-21 18:25)
+ ☐ auto add short format for company from company_characteristic table
+ ✔ add hidden colum to company short desc format, default hidden:1 @done (16-09-21 18:41)
+ ✔ delete short_description_format table @done (16-09-21 19:16)
+ ✔ make minded get part chars code @done (16-09-21 21:06) 
+ ☐ default value for sequence company_characteristic manage by code, default:max seq
+ ☐ default value for sequence company_short_desc_format manage by code, default:max seq
+ ☐ default value for sequence short_desc_format manage by code, default:max seq
+
+ ☐ add chars to company chars
+ ☐ crud for value abbrev approved
+ ☐ generate short format
+ 
+ ☐ global searching
+ ☐ popup pick value
+ ☐ upload excel
+ ☐ remove chars from company short format
+ ☐ remove chars from company chars
+ ☐ print
+ ☐ user role permission login
+ ☐ web-api format
+
+Others:
+ ☐ make minded submit values code
+ ☐ dictionary
+ ☐ focus input when edit separator
+ ☐ popup warning when not saved before
+ ☐ disabled state for <kbd> primary, warning and danger
+ ☐ remove chars state
+ ☐ animation loading, beforeSend etc
+ ☐ saven notif for save chars values

@@ -56,7 +56,7 @@ class CreatePartMasterTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->string('conversion', 30)->nullable();
+            $table->string('conversion', 30)->default('');
 
             $table->integer('tbl_user_class_id')->unsigned()->nullable();
             $table->foreign('tbl_user_class_id')->references('id')
@@ -82,7 +82,7 @@ class CreatePartMasterTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->float('weight_value', 30)->nullable();
+            $table->float('weight_value', 30)->default(0);
 
             $table->integer('tbl_weight_unit_id')->unsigned()->nullable();
             $table->foreign('tbl_weight_unit_id')->references('id')
@@ -96,7 +96,7 @@ class CreatePartMasterTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');     
 
-            $table->float('average_unit_price', 30)->nullable();
+            $table->float('average_unit_price', 30)->default(0);
 
             $table->text('memo');
             $table->boolean('edit_mode')->default(0);

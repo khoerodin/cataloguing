@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyCharacteristicSequenceTable extends Migration
+class CreateCompanyCharacteristicTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCompanyCharacteristicSequenceTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_characteristic_sequence', function (Blueprint $table) {
+        Schema::create('company_characteristic', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('tbl_company_id')->unsigned();
@@ -23,12 +23,13 @@ class CreateCompanyCharacteristicSequenceTable extends Migration
                   ->onDelete('NO ACTION');
 
             $table->integer('link_inc_characteristic_id')->unsigned();
-            $table->foreign('link_inc_characteristic_id', 'company_characteristic_sequence_lici')->references('id')
+            $table->foreign('link_inc_characteristic_id', 'company_characteristic_lici')->references('id')
                   ->on('link_inc_characteristic')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->tinyInteger('sequence')->nullable();
+            $table->tinyInteger('sequence')->default(0);
+            $table->tinyInteger('hidden')->default(0);
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
@@ -53,6 +54,6 @@ class CreateCompanyCharacteristicSequenceTable extends Migration
      */
     public function down()
     {
-        Schema::drop('company_characteristic_sequence');
+        Schema::drop('company_characteristic');
     }
 }

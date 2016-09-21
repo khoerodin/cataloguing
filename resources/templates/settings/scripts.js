@@ -775,15 +775,18 @@ jQuery(function($) {
                         companyShortTable += '"><td>';
                         companyShortTable += '<input class="company_short_desc_id" name="company_short_desc_id[]" type="hidden" value="' + item.id + '">';
                         companyShortTable += i + 1;
-                        companyShortTable += '</td><td>' + item.characteristic + '</td>';
-                        companyShortTable += '</td><td><strong>';
+                        companyShortTable += '</td><td>' + item.characteristic + '</td><td><strong>';
                         if(item.separator){
                             sp = item.separator;
                         }else{
                             sp = '';
                         }
                         companyShortTable += sp;
-                        companyShortTable += '</strong></td></tr>';
+                        companyShortTable += '</strong>';
+                        companyShortTable += '<span class="pull-right">';
+                        companyShortTable += '<kbd id="remove_short_separator" data-id="' + item.id + '" class="kbd-default hover cpointer">REMOVE</kbd>&nbsp;';
+                        companyShortTable += '<kbd id="edit_short_separator" data-id="' + item.id + '" class="kbd-primary hover cpointer">EDIT</kbd>';
+                        companyShortTable += '</span></td></tr>';
 
                         // save oldOrder temporary
                         companyShortOldOrder.push(i + 1);
@@ -908,7 +911,28 @@ jQuery(function($) {
         var button = this;
         $.ajax({ 
             type: "POST",
-            url: 'settings/add-short-desc-format',
+            url: 'settings/add-short-desc-format-sdf',
+            dataType: 'json',
+            data: formData,
+            success: function() {
+                getCompanyShortDescList();
+                $(button).remove();
+            },
+            error: function(){
+                
+            }
+        });
+    });
+
+    $(document).on('click', '#add_lic', function() {
+        var formData = {
+            link_inc_characteristic_id: $(this).attr('data-id'),
+            tbl_company_id: $("#company_short_desc_company").val()
+        }
+        var button = this;
+        $.ajax({ 
+            type: "POST",
+            url: 'settings/add-short-desc-format-lic',
             dataType: 'json',
             data: formData,
             success: function() {
@@ -921,6 +945,58 @@ jQuery(function($) {
         });
     });
     // END ADD SHORT DESCRIPTION FORMAT TO COMPANY SHORT DESC FORMAT
+
+    // EDIT SEPARATOR
+    $(document).on('click', '#edit_short_separator', function() {
+        var id = $(this).attr('data-id');
+        $.ajax({ 
+            type: "GET",
+            url: 'settings/edit-short-separator/' + id,
+            dataType: 'json',
+            success: function(data) {
+                if(data.separator){
+                    separator = data.separator;
+                }else{
+                    separator = '';
+                }
+                var msg = '<input type="text" id="short_separator" value="'+separator+'" class="form-control input-sm" autofocus onfocus="var temp_value=this.value; this.value=\'\'; this.value=temp_value">';
+                bootbox.dialog({
+                    message: msg,
+                    title: "EDIT SHORT DESCRIPTION SEPARATOR",
+                    buttons: {
+                        danger: {
+                            label: "CLOSE",
+                            className: "btn-default btn-sm",
+                        },
+                        success: {
+                            label: "UPDATE",
+                            className: "btn-primary btn-sm",
+                            callback: function() {
+                                $.ajax({
+                                    type: "PUT",
+                                    url: 'settings/update-short-separator/',
+                                    data: {id: id, separator: $('input#short_separator').val()},
+                                    beforeSend: function() {},
+                                    success: function() {
+                                        getCompanyShortDescList();
+                                    },
+                                    error: function() {
+                                        alert('Cannot edit separator.');
+                                    }
+                                });
+                            }
+                        },                        
+                    },
+                    animate: false,
+                });
+            },
+            error: function(){
+                
+            }
+        });
+    });
+    // END EDIT SEPARATOR
+    
     // END COMPANY SHORT DESCRIPTION FORMAT TAB
     // ============================================================
     // ============================================================

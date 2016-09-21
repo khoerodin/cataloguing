@@ -26,7 +26,7 @@ class CreateLinkIncCharacteristicValueTable extends Migration
 
             $table->unique(array('link_inc_characteristic_id', 'value'), 'link_inc_characteristic_value_lici_v_unique');
 
-            $table->string('abbrev', 30)->nullable();
+            $table->string('abbrev', 30)->nullable('');
             $table->boolean('approved')->default(0);
 
             $table->integer('created_by')->unsigned();

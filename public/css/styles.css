@@ -7025,6 +7025,14 @@ kbd.kbd-danger:hover {
     color: #fff;
 }
 /*kbd on datatbeles or other component when need this class*/
+kbd.kbd-default.hover {
+    background-color: transparent !important;
+    color: transparent;
+}
+tr:hover kbd.kbd-default.hover {
+    background-color: #e6e6e6 !important;
+    color: #555;
+}
 kbd.kbd-primary.hover {
     background-color: transparent !important;
     color: transparent;

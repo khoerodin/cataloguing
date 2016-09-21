@@ -10,7 +10,7 @@ use DB;
 use Datatables;
 use Response;
 
-use App\Models\CompanyCharacteristicSequence;
+use App\Models\CompanyCharacteristic;
 use App\Models\CompanyCheckShort;
 use App\Models\LinkIncGroupClass;
 use App\Models\LinkIncCharacteristic;
@@ -218,172 +218,131 @@ class HomeController extends Controller
         }
     }
 
-    private function insertCharToCompany($companyId, $incId, $partMasterId)
+    private function incCharIdCompany($companyId)
     {
-
-        $sub_query_comp_char_seq = CompanyCharacteristicSequence::select('link_inc_characteristic_id')
+        return CompanyCharacteristic::select('link_inc_characteristic_id')
             ->where('tbl_company_id', $companyId)
             ->get()->toArray();
+    }
 
+    private function companyHaveChars($companyId,$incId)
+    {
         // cek apakah company sudah punya inc_char_id
-        $inc_char_id_in_company = LinkIncCharacteristic::select('id')
-            ->whereIn('id', $sub_query_comp_char_seq)
+        return LinkIncCharacteristic::select('id')
+            ->whereIn('id', $this->incCharIdCompany($companyId))
             ->where('tbl_inc_id', $incId)
             ->first();
+    }
 
-        // jika company sudah punya inc_char_id 
-        if (count($inc_char_id_in_company) > 0) {
+    private function getPartCharVal($companyId, $incId, $partMasterId)
+    {
+       return LinkIncCharacteristic::select('part_characteristic_value_id as id', 
+            'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 
+            'link_inc_characteristic.id as link_inc_characteristic_id', 
+            'link_inc_characteristic.tbl_characteristic_id as char_id',
+            DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 
+            'short', 'type', 'company_characteristic.sequence')
+            ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
+            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->join('company_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
+            ->leftJoin(DB::raw('(select part_characteristic_value.id as part_characteristic_value_id, part_master_id, 
+                part_characteristic_value.link_inc_characteristic_value_id, 
+                link_inc_characteristic.id as link_inc_char_id, value, company_abbrev.abbrev,
+                company_abbrev.approved, company_check_short.short
+                
+                from part_characteristic_value
+                
+                join company_check_short on company_check_short.part_characteristic_value_id = part_characteristic_value.id
+                join part_master on part_master.id = part_characteristic_value.part_master_id
+                join link_inc_characteristic_value on link_inc_characteristic_value.id = part_characteristic_value.link_inc_characteristic_value_id
+                join company_abbrev on company_abbrev.link_inc_characteristic_value_id = link_inc_characteristic_value.id
+                join link_inc_characteristic on link_inc_characteristic.id = link_inc_characteristic_value.link_inc_characteristic_id
+                join tbl_characteristic on tbl_characteristic.id = link_inc_characteristic.tbl_characteristic_id
+                join tbl_inc on tbl_inc.id = link_inc_characteristic.tbl_inc_id
+                
+                where part_master.id = '.$partMasterId.' and company_abbrev.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
+                {
+                    $leftJoin->on('master_table.link_inc_char_id', '=', 'link_inc_characteristic.id');
+                })
+            ->where('tbl_inc.id', $incId)
+            ->where('tbl_company_id', $companyId)
+            ->where('company_characteristic.hidden', '<>', 1)
+            ->orderByRaw('(CASE WHEN company_characteristic.sequence IS NULL then 1 ELSE 0 END), company_characteristic.sequence asc')
+            ->get();
+    }
 
-            // maka cek apakah ada inc_char_id yang belum masuk company
-            $inc_char_not_in_company = LinkIncCharacteristic::select('id')
-                ->whereNotIn('id', $sub_query_comp_char_seq)
-                ->where('tbl_inc_id', $incId)
-                ->first();
+    private function incCharNotInCompany($companyId, $incId)
+    {
+        return LinkIncCharacteristic::select('id')
+            ->whereNotIn('id', $this->incCharIdCompany($companyId))
+            ->where('tbl_inc_id', $incId)
+            ->first();
+    }
 
+    private function insertSomeCharsToCompany($companyId,$incId,$partMasterId)
+    {
+        // ambil inc_char_id yang belum masuk company TIDAK BESERTA sequence_nya
+        // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
+        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
+        ->whereNotIn('id', $this->incCharIdCompany($companyId))
+        ->where('tbl_inc_id', $incId);
+
+        $bindings = $select->getBindings();
+
+        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,link_inc_characteristic_id,created_by,last_updated_by,created_at,updated_at) '
+        . $select->toSql();
+
+        return DB::insert($insertQuery, $bindings);
+    }
+
+    private function insertCharsToCompany($companyId,$incId,$partMasterId)
+    {
+        // ambil inc_char_id yang belum masuk company, BESERTA sequence_nya
+        // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
+        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, sequence, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
+        ->whereNotIn('id', $this->incCharIdCompany($companyId))
+        ->where('tbl_inc_id', $incId);
+
+        $bindings = $select->getBindings();
+
+        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,link_inc_characteristic_id,sequence,created_by,last_updated_by,created_at,updated_at) '
+        . $select->toSql();
+
+        return DB::insert($insertQuery, $bindings);
+    }
+
+    private function getPartCharValBox($companyId, $incId, $partMasterId)
+    {
+        $this->insertAbbrevAndShort($partMasterId, $companyId);
+        return $this->getPartCharVal($companyId, $incId, $partMasterId);
+    }
+
+    private function doubleCheck($companyId, $incId, $partMasterId)
+    {
+        // jika company sudah punya characteristics (inc_char_id) 
+        if (count($this->companyHaveChars($companyId,$incId)) > 0) {
             // jika ada char yang belum masuk kedalam company
-            if (count($inc_char_not_in_company) > 0) {
-
-                // ambil inc_char_id yang belum masuk company TIDAK BESERTA sequence_nya
-                // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
-                $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
-                ->whereNotIn('id', $sub_query_comp_char_seq)
-                ->where('tbl_inc_id', $incId);
-
-                $bindings = $select->getBindings();
-
-                $insertQuery = 'INSERT into company_characteristic_sequence (tbl_company_id,link_inc_characteristic_id,created_by,last_updated_by,created_at,updated_at) '
-                . $select->toSql();
-
-                if(DB::insert($insertQuery, $bindings)){
-
-                    $this->insertAbbrevAndShort($partMasterId, $companyId);
-
-                    $result = LinkIncCharacteristic::select('part_characteristic_value_id as id', 
-                        'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 
-                        'link_inc_characteristic.id as link_inc_characteristic_id', 
-                        'link_inc_characteristic.tbl_characteristic_id as char_id',
-                        DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 
-                        'short', 'type', 'company_characteristic_sequence.sequence')
-                        ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
-                        ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-                        ->join('company_characteristic_sequence', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
-                        ->leftJoin(DB::raw('(select part_characteristic_value.id as part_characteristic_value_id, part_master_id, 
-                            part_characteristic_value.link_inc_characteristic_value_id, 
-                            link_inc_characteristic.id as link_inc_char_id, value, company_abbrev.abbrev,
-                            company_abbrev.approved, company_check_short.short
-                            
-                            from part_characteristic_value
-                            
-                            join company_check_short on company_check_short.part_characteristic_value_id = part_characteristic_value.id
-                            join part_master on part_master.id = part_characteristic_value.part_master_id
-                            join link_inc_characteristic_value on link_inc_characteristic_value.id = part_characteristic_value.link_inc_characteristic_value_id
-                            join company_abbrev on company_abbrev.link_inc_characteristic_value_id = link_inc_characteristic_value.id
-                            join link_inc_characteristic on link_inc_characteristic.id = link_inc_characteristic_value.link_inc_characteristic_id
-                            join tbl_characteristic on tbl_characteristic.id = link_inc_characteristic.tbl_characteristic_id
-                            join tbl_inc on tbl_inc.id = link_inc_characteristic.tbl_inc_id
-                            
-                            where part_master.id = '.$partMasterId.' and company_abbrev.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
-                            {
-                                $leftJoin->on('master_table.link_inc_char_id', '=', 'link_inc_characteristic.id');
-                            })
-                        ->where('tbl_inc.id', $incId)
-                        ->where('tbl_company_id', $companyId)
-                        ->orderByRaw('(CASE WHEN company_characteristic_sequence.sequence IS NULL then 1 ELSE 0 END), company_characteristic_sequence.sequence asc')->get();
-
+            if (count($this->incCharNotInCompany($companyId, $incId)) > 0) {
+                // maka
+                if($this->insertSomeCharsToCompany($companyId,$incId,$partMasterId)){
+                    $result = $this->getPartCharValBox($companyId, $incId, $partMasterId);
                 }else{
                     $result = [];
-                }              
-
-            // jika inc_char_id sudah masuk semua kedalam company maka tinggal panggil
+                }
             }else{
-
-                $this->insertAbbrevAndShort($partMasterId, $companyId);
-
-                $result = LinkIncCharacteristic::select('part_characteristic_value_id as id', 'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 'link_inc_characteristic.id as link_inc_characteristic_id', 'link_inc_characteristic.tbl_characteristic_id as char_id',
-                    DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 'short', 'type', 'company_characteristic_sequence.sequence')
-                    ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
-                    ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-                    ->join('company_characteristic_sequence', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
-                    ->leftJoin(DB::raw('(select part_characteristic_value.id as part_characteristic_value_id, part_master_id, part_characteristic_value.link_inc_characteristic_value_id, 
-                        link_inc_characteristic.id as link_inc_char_id, value, company_abbrev.abbrev,
-                        company_abbrev.approved, company_check_short.short
-                        
-                        from part_characteristic_value
-                        
-                        join company_check_short on company_check_short.part_characteristic_value_id = part_characteristic_value.id
-                        join part_master on part_master.id = part_characteristic_value.part_master_id
-                        join link_inc_characteristic_value on link_inc_characteristic_value.id = part_characteristic_value.link_inc_characteristic_value_id
-                        join company_abbrev on company_abbrev.link_inc_characteristic_value_id = link_inc_characteristic_value.id
-                        join link_inc_characteristic on link_inc_characteristic.id = link_inc_characteristic_value.link_inc_characteristic_id
-                        join tbl_characteristic on tbl_characteristic.id = link_inc_characteristic.tbl_characteristic_id
-                        join tbl_inc on tbl_inc.id = link_inc_characteristic.tbl_inc_id
-                        
-                        where part_master.id = '.$partMasterId.' and company_abbrev.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
-                        {
-                            $leftJoin->on('master_table.link_inc_char_id', '=', 'link_inc_characteristic.id');
-                        })
-                    ->where('tbl_inc.id', $incId)
-                    ->where('tbl_company_id', $companyId)
-                    ->orderByRaw('(CASE WHEN company_characteristic_sequence.sequence IS NULL then 1 ELSE 0 END), company_characteristic_sequence.sequence asc')->get();
+                // jika inc_char_id sudah masuk semua kedalam company maka tinggal panggil
+                $result = $this->getPartCharValBox($companyId, $incId, $partMasterId);
             }
-
-        // jika company belum memiliki inc_char_id
+        // jika company belum memiliki characteristics (inc_char_id)
         }else{
-
-            // ambil inc_char_id yang belum masuk company, BESERTA sequence_nya
-            // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
-            $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, sequence, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
-            ->whereNotIn('id', $sub_query_comp_char_seq)
-            ->where('tbl_inc_id', $incId);
-
-            $bindings = $select->getBindings();
-
-            $insertQuery = 'INSERT into company_characteristic_sequence (tbl_company_id,link_inc_characteristic_id,sequence,created_by,last_updated_by,created_at,updated_at) '
-            . $select->toSql();
-
-            if(DB::insert($insertQuery, $bindings)){
-
-                $this->insertAbbrevAndShort($partMasterId, $companyId);
-
-                $result = LinkIncCharacteristic::select('part_characteristic_value_id as id', 
-                    'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 
-                    'link_inc_characteristic.id as link_inc_characteristic_id', 
-                    'link_inc_characteristic.tbl_characteristic_id as char_id',
-                    DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 
-                    'short', 'type', 'company_characteristic_sequence.sequence')
-                    ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
-                    ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-                    ->join('company_characteristic_sequence', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
-                    ->leftJoin(DB::raw('(select part_characteristic_value.id as part_characteristic_value_id, part_master_id, 
-                        part_characteristic_value.link_inc_characteristic_value_id, 
-                        link_inc_characteristic.id as link_inc_char_id, value, company_abbrev.abbrev,
-                        company_abbrev.approved, company_check_short.short
-                        
-                        from part_characteristic_value
-                        
-                        join company_check_short on company_check_short.part_characteristic_value_id = part_characteristic_value.id
-                        join part_master on part_master.id = part_characteristic_value.part_master_id
-                        join link_inc_characteristic_value on link_inc_characteristic_value.id = part_characteristic_value.link_inc_characteristic_value_id
-                        join company_abbrev on company_abbrev.link_inc_characteristic_value_id = link_inc_characteristic_value.id
-                        join link_inc_characteristic on link_inc_characteristic.id = link_inc_characteristic_value.link_inc_characteristic_id
-                        join tbl_characteristic on tbl_characteristic.id = link_inc_characteristic.tbl_characteristic_id
-                        join tbl_inc on tbl_inc.id = link_inc_characteristic.tbl_inc_id
-                        
-                        where part_master.id = '.$partMasterId.' and company_abbrev.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
-                        {
-                            $leftJoin->on('master_table.link_inc_char_id', '=', 'link_inc_characteristic.id');
-                        })
-                    ->where('tbl_inc.id', $incId)
-                    ->where('tbl_company_id', $companyId)
-                    ->orderByRaw('(CASE WHEN company_characteristic_sequence.sequence IS NULL then 1 ELSE 0 END), company_characteristic_sequence.sequence asc')->get();
-
+            if($this->insertCharsToCompany($companyId,$incId,$partMasterId)){
+                $result = $this->getPartCharValBox($companyId, $incId, $partMasterId);
             }else{
                 $result = [];
             }
         }
 
         return $result;
-
     }
 
     public function getCharacteristicValue($incId, $partMasterId, $companyId)
@@ -395,16 +354,11 @@ class HomeController extends Controller
         
         // jika inc telah memiliki characteristic             
         if (count($char_for_inc) > 0) {
-
-            return $this->insertCharToCompany($companyId, $incId, $partMasterId);
-
+            return $this->doubleCheck($companyId, $incId, $partMasterId);
         }else{
-
             // munculkan dialog pemberitahuan bahwa characteristic masih kosong
             return 1;
-
         }
-
     }
 
     public function clickRowPartMaster($id)
@@ -424,7 +378,6 @@ class HomeController extends Controller
 
     private function olahShort($data, $len)
     {
-
         $count = '';
         $abbrev = [];
         foreach ($data as $key => $value) {

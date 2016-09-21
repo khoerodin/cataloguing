@@ -242,7 +242,7 @@ class SettingsController extends Controller
             ->get();
     }
 
-    public function addShortDescFormat(Request $request)
+    public function addShortDescFormatSdf(Request $request)
     {   
         $this->validate($request, [
             'short_description_format_id' => 'required|integer',
@@ -261,6 +261,48 @@ class SettingsController extends Controller
         return CompanyShortDescriptionFormat::create($data);
     }
 
+    public function addShortDescFormatLic(Request $request)
+    {   
+        $this->validate($request, [
+            'link_inc_characteristic_id' => 'required|integer',
+            'tbl_company_id' => 'required|integer'
+        ]);   
+
+        $userId = Auth::user()->id;
+
+        $dataSdf = [
+            'link_inc_characteristic_id' => $request->link_inc_characteristic_id,
+            'created_by' => $userId,
+            'last_updated_by' => $userId,
+        ];           
+
+        if($sdf = ShortDescriptionFormat::create($dataSdf)) {
+            $dataCsdf = [
+                'tbl_company_id' => $request->tbl_company_id,
+                'short_description_format_id' => $sdf->id,
+                'created_by' => $userId,
+                'last_updated_by' => $userId,
+            ];           
+
+            return CompanyShortDescriptionFormat::create($dataCsdf);
+        }
+    }
+
+    public function editShortSepartaor($id)
+    {
+        return CompanyShortDescriptionFormat::select('separator')->find($id);
+    }
+
+    public function updateShortSeparator(Request $request)
+    {
+        $csdf = CompanyShortDescriptionFormat::find($request->id);
+
+        $csdf->separator        = $request->separator;
+        $csdf->last_updated_by  = Auth::user()->id;
+
+        $csdf->save();
+        return Response::json($csdf);
+    }
     // END COMPANY SHORT DESCRIPTION FORMAT
 
     // CATALOG STATUS DataTables

@@ -30,7 +30,7 @@ class CreateCompanyAbbrevTable extends Migration
 
             $table->unique(array('tbl_company_id', 'link_inc_characteristic_value_id'),'company_abbrev_tci_licvi_unique');
 
-            $table->string('abbrev', 30)->nullable();
+            $table->string('abbrev', 30)->default('');
             $table->boolean('approved');
 
             $table->integer('created_by')->unsigned();
