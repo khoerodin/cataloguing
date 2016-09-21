@@ -6,26 +6,26 @@ Deadline:
  ✔ add hidden column to company_characteristic (default: 0 / visible where catalog status not print lock) @done (16-09-21 10:44)
  ✔ change nullable column to empty default @done (16-09-21 12:06)
  ✔ hidden column setting for company_characteristic @done (16-09-21 18:25)
- ☐ auto add short format for company from company_characteristic table
+ ☐ auto add short format for company from company_characteristic table @due(9:22)
  ✔ add hidden colum to company short desc format, default hidden:1 @done (16-09-21 18:41)
  ✔ delete short_description_format table @done (16-09-21 19:16)
  ✔ make minded get part chars code @done (16-09-21 21:06) 
- ☐ default value for sequence company_characteristic manage by code, default:max seq
- ☐ default value for sequence company_short_desc_format manage by code, default:max seq
- ☐ default value for sequence short_desc_format manage by code, default:max seq
+ ☐ default value for sequence company_characteristic manage by code, default:max seq @due(9:22)
+ ☐ default value for sequence company_short_desc_format manage by code, default:max seq @due(9:22)
+ ☐ default value for sequence short_desc_format manage by code, default:max seq @due(9:22)
 
- ☐ add chars to company chars
- ☐ crud for value abbrev approved
- ☐ generate short format
+ ☐ add chars to company chars @due(9:22)
+ ☐ crud for value abbrev approved @due(9:22)
+ ☐ generate short format @due(9:23)
  
- ☐ global searching
- ☐ popup pick value
- ☐ upload excel
- ☐ remove chars from company short format
- ☐ remove chars from company chars
- ☐ print
+ ☐ global searching @due(9:25)
+ ☐ popup pick value @due(9:24)
+ ☐ upload excel @due(9:27)
+ ☐ remove chars from company short format @due(9:23)
+ ☐ remove chars from company chars @due(9:23)
+ ☐ print @due(9:26)
  ☐ user role permission login
- ☐ web-api format
+ ☐ web-api format @due(9:25)
 
 Others:
  ☐ make minded submit values code
