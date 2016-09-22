@@ -30,7 +30,7 @@ class CreateCompanyCheckShortTable extends Migration
 
             $table->unique(array('tbl_company_id', 'part_characteristic_value_id'),'company_check_short_tcd_pcvi_unique');
 
-            $table->boolean('short');
+            $table->boolean('short')->default(0);
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

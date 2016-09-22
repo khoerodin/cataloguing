@@ -8,7 +8,7 @@ class CompanyShortDescriptionFormat extends Model
 {
     protected $table = 'company_short_description_format';
     protected $fillable = array(
-    	'company_characteristic_id', 'separator',
+    	'company_characteristic_id', 'short_separator',
     	'sequence',	'hidden', 'created_by','last_updated_by'
     	);
 }

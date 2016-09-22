@@ -30,7 +30,7 @@ class CreateLinkIncCharacteristicTable extends Migration
 
             $table->unique(array('tbl_inc_id', 'tbl_characteristic_id'));
 
-            $table->string('default_separator', 10)->default('');
+            $table->string('default_short_separator', 10)->default('');
             $table->tinyInteger('sequence');
             
             //=======================================================

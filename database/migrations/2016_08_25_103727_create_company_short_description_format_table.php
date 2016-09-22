@@ -16,14 +16,14 @@ class CreateCompanyShortDescriptionFormatTable extends Migration
         Schema::create('company_short_description_format', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('company_characteristic_id')->unsigned();
+            $table->integer('company_characteristic_id')->unsigned()->unique('csdf_ccid_unique');
             $table->foreign('company_characteristic_id','csdf_ccid_foreign')->references('id')
                   ->on('company_characteristic')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->string('separator', 10)->nullable('');
-            $table->tinyInteger('sequence')->nullable(0);
+            $table->string('short_separator', 10)->nullable('');
+            $table->tinyInteger('sequence')->default(0);
             $table->tinyInteger('hidden')->default(1);
 
             $table->integer('created_by')->unsigned();

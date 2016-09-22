@@ -9,7 +9,7 @@ class LinkIncCharacteristic extends Model
     protected $table = 'link_inc_characteristic';
     protected $fillable = array(
     	'tbl_inc_id','tbl_characteristic_id','characteristic',
-    	'default_separator','sequence','created_by','last_updated_by'
+    	'default_short_separator','sequence','created_by','last_updated_by'
     	);
 
     public function linkIncCharacteristicValue() {

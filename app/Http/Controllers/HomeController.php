@@ -12,6 +12,7 @@ use Response;
 
 use App\Models\CompanyCharacteristic;
 use App\Models\CompanyCheckShort;
+use App\Models\CompanyShortDescriptionFormat;
 use App\Models\LinkIncGroupClass;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
@@ -267,7 +268,7 @@ class HomeController extends Controller
             ->where('tbl_inc.id', $incId)
             ->where('tbl_company_id', $companyId)
             ->where('company_characteristic.hidden', '<>', 1)
-            ->orderByRaw('(CASE WHEN company_characteristic.sequence IS NULL then 1 ELSE 0 END), company_characteristic.sequence asc')
+            ->orderByRaw('(CASE WHEN company_characteristic.sequence = 0 then 1 WHEN company_characteristic.sequence IS NULL then 1 END), company_characteristic.sequence asc')
             ->get();
     }
 
@@ -277,6 +278,41 @@ class HomeController extends Controller
             ->whereNotIn('id', $this->incCharIdCompany($companyId))
             ->where('tbl_inc_id', $incId)
             ->first();
+    }
+
+    private function CompanyShortDescFormatId($companyId)
+    {
+        return CompanyShortDescriptionFormat::select('company_characteristic_id')
+            ->join('company_characteristic', 'company_characteristic.id', 'company_short_description_format.company_characteristic_id')
+            ->where('tbl_company_id', $companyId)
+            ->get()->toArray();
+    }
+
+    private function companyCharsNotInCompanyShortFormat($companyId)
+    {
+        return CompanyCharacteristic::whereNotIn('id', $this->CompanyShortDescFormatId($companyId))
+            ->where('tbl_company_id', $companyId)
+            ->select('id')
+            ->get();
+    }
+
+    private function insertCompanyCharsToCompanyShortFormat($companyId)
+    {
+        if(count($this->companyCharsNotInCompanyShortFormat($companyId))>0){
+
+            $select = CompanyCharacteristic::select(array(DB::raw('company_characteristic.id,default_short_separator, company_characteristic.sequence, '. Auth::user()->id .', '. Auth::user()->id .', "'. date("Y-m-d H:i:s") .'", "'. date("Y-m-d H:i:s") .'"')))
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
+            ->whereNotIn('company_characteristic.id', $this->CompanyShortDescFormatId($companyId))
+            ->where('tbl_company_id', $companyId);
+
+            $bindings = $select->getBindings();
+
+            $insertQuery = 'INSERT into company_short_description_format (company_characteristic_id,short_separator,sequence,created_by,last_updated_by,created_at,updated_at) '
+            . $select->toSql();
+
+            return DB::insert($insertQuery, $bindings);
+        
+        }
     }
 
     private function insertSomeCharsToCompany($companyId,$incId,$partMasterId)
@@ -313,6 +349,7 @@ class HomeController extends Controller
 
     private function getPartCharValBox($companyId, $incId, $partMasterId)
     {
+        $this->insertCompanyCharsToCompanyShortFormat($companyId);
         $this->insertAbbrevAndShort($partMasterId, $companyId);
         return $this->getPartCharVal($companyId, $incId, $partMasterId);
     }
@@ -410,7 +447,7 @@ class HomeController extends Controller
 
     public function getShortDescription($partMasterId, $companyId)
     {
-        $data = PartCharacteristicValue::select('company_abbrev.abbrev', 'company_short_description_format.separator')
+        $data = PartCharacteristicValue::select('company_abbrev.abbrev', 'company_short_description_format.short_separator')
             ->join('company_check_short', 'company_check_short.part_characteristic_value_id', '=', 'part_characteristic_value.id')
             ->join('part_master', 'part_master.id', '=', 'part_characteristic_value.part_master_id')
             ->join('link_inc_characteristic_value', 'link_inc_characteristic_value.id', '=', 'part_characteristic_value.link_inc_characteristic_value_id')
