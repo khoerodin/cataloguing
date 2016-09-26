@@ -804,7 +804,7 @@ class HomeController extends Controller
         ->where('part_master_id', $partMasterId);
 
         return Datatables::of($partManufacturerCode)
-            ->editColumn('type', '{{$type}} <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd> <kbd data-id="{{$id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd></span>')
+            ->editColumn('type', '{{$type}} <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd></span>')
             ->setRowId('id')
             ->make(true);
     }
@@ -891,7 +891,7 @@ class HomeController extends Controller
         ->where('part_master_id', $partMasterId);
 
         return Datatables::of($partColloquial)
-            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd> <kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd></span>')
+            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd></span>')
             ->setRowId('id')
             ->make(true);
     }
@@ -997,7 +997,7 @@ class HomeController extends Controller
         ->where('part_master_id', $partMasterId);
 
         return Datatables::of($partPartEquipmentCode)
-            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd> <kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd></span>')
+            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
             ->setRowId('id')
             ->make(true);
     }
