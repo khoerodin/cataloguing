@@ -166,27 +166,27 @@ class HomeController extends Controller
 
     private function insertAbbrevAndShort($partMasterId, $companyId)
     {
-        $sub_query_part_char_val = PartCharacteristicValue::select('company_abbrev.link_inc_characteristic_value_id')
-            ->join('company_abbrev', 'company_abbrev.link_inc_characteristic_value_id', '=', 'part_characteristic_value.link_inc_characteristic_value_id')
+        $sub_query_part_char_val = PartCharacteristicValue::select('company_value.link_inc_characteristic_value_id')
+            ->join('company_value', 'company_value.link_inc_characteristic_value_id', '=', 'part_characteristic_value.link_inc_characteristic_value_id')
             ->where('part_master_id', $partMasterId)
             ->where('tbl_company_id', $companyId)
             ->get()->toArray();
 
-        $check_link_inc_char_val_id_not_in_company_abbrev = PartCharacteristicValue::select('link_inc_characteristic_value_id')
+        $check_link_inc_char_val_id_not_in_company_value = PartCharacteristicValue::select('link_inc_characteristic_value_id')
             ->where('part_master_id', $partMasterId)
             ->whereNotIn('link_inc_characteristic_value_id', $sub_query_part_char_val)
             ->first();
 
-        // jika ada link_inc_characteristic_value_id belum masuk company_abbrev
+        // jika ada link_inc_characteristic_value_id belum masuk company_value
         // dengan part_master_id dan company_id yang ditentukan
-        if(count($check_link_inc_char_val_id_not_in_company_abbrev) > 0){
+        if(count($check_link_inc_char_val_id_not_in_company_value) > 0){
             $select = PartCharacteristicValue::select(array(DB::raw($companyId.' as tbl_company_id, link_inc_characteristic_value_id, "" as abbrev, 0 as approved, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
                 ->where('part_master_id', $partMasterId)
                 ->whereNotIn('link_inc_characteristic_value_id', $sub_query_part_char_val);
 
             $bindings = $select->getBindings();
 
-            $insertQuery = 'INSERT into company_abbrev (tbl_company_id,link_inc_characteristic_value_id,abbrev,approved,created_by,last_updated_by,created_at,updated_at) '
+            $insertQuery = 'INSERT into company_value (tbl_company_id,link_inc_characteristic_value_id,abbrev,approved,created_by,last_updated_by,created_at,updated_at) '
             . $select->toSql();
 
             DB::insert($insertQuery, $bindings);
@@ -248,20 +248,20 @@ class HomeController extends Controller
             ->join('company_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
             ->leftJoin(DB::raw('(select part_characteristic_value.id as part_characteristic_value_id, part_master_id, 
                 part_characteristic_value.link_inc_characteristic_value_id, 
-                link_inc_characteristic.id as link_inc_char_id, value, company_abbrev.abbrev,
-                company_abbrev.approved, company_check_short.short
+                link_inc_characteristic.id as link_inc_char_id, value, company_value.abbrev,
+                company_value.approved, company_check_short.short
                 
                 from part_characteristic_value
                 
                 join company_check_short on company_check_short.part_characteristic_value_id = part_characteristic_value.id
                 join part_master on part_master.id = part_characteristic_value.part_master_id
                 join link_inc_characteristic_value on link_inc_characteristic_value.id = part_characteristic_value.link_inc_characteristic_value_id
-                join company_abbrev on company_abbrev.link_inc_characteristic_value_id = link_inc_characteristic_value.id
+                join company_value on company_value.link_inc_characteristic_value_id = link_inc_characteristic_value.id
                 join link_inc_characteristic on link_inc_characteristic.id = link_inc_characteristic_value.link_inc_characteristic_id
                 join tbl_characteristic on tbl_characteristic.id = link_inc_characteristic.tbl_characteristic_id
                 join tbl_inc on tbl_inc.id = link_inc_characteristic.tbl_inc_id
                 
-                where part_master.id = '.$partMasterId.' and company_abbrev.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
+                where part_master.id = '.$partMasterId.' and company_value.tbl_company_id = '.$companyId.' and company_check_short.tbl_company_id = '.$companyId.') master_table'), function($leftJoin)
                 {
                     $leftJoin->on('master_table.link_inc_char_id', '=', 'link_inc_characteristic.id');
                 })
@@ -447,11 +447,11 @@ class HomeController extends Controller
 
     public function getShortDescription($partMasterId, $companyId)
     {
-        $data = PartCharacteristicValue::select('company_abbrev.abbrev', 'company_short_description_format.short_separator')
+        $data = PartCharacteristicValue::select('company_value.abbrev', 'company_short_description_format.short_separator')
             ->join('company_check_short', 'company_check_short.part_characteristic_value_id', '=', 'part_characteristic_value.id')
             ->join('part_master', 'part_master.id', '=', 'part_characteristic_value.part_master_id')
             ->join('link_inc_characteristic_value', 'link_inc_characteristic_value.id', '=', 'part_characteristic_value.link_inc_characteristic_value_id')
-            ->join('company_abbrev', 'company_abbrev.link_inc_characteristic_value_id', '=', 'link_inc_characteristic_value.id')
+            ->join('company_value', 'company_value.link_inc_characteristic_value_id', '=', 'link_inc_characteristic_value.id')
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
@@ -459,10 +459,10 @@ class HomeController extends Controller
             ->join('company_short_description_format', 'company_short_description_format.short_description_format_id', '=', 'short_description_format.id')
             
             ->where('part_master.id', $partMasterId)
-            ->where('company_abbrev.tbl_company_id', $companyId)
+            ->where('company_value.tbl_company_id', $companyId)
             ->where('company_check_short.tbl_company_id', $companyId)
             ->where('company_check_short.short', 1)
-            ->where('company_abbrev.approved', 1)
+            ->where('company_value.approved', 1)
             
             ->orderBy('company_short_description_format.sequence')
 

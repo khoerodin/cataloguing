@@ -405,7 +405,7 @@ jQuery(function($) {
             success: function(data) {
                 if (data == 0) {
 
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no company available for this INC</center></td></td>";
+                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
                     $("#characteristic_value_box").empty().append(emptyMsg);
 
                     var optionsSelectAddCompany = {
@@ -730,12 +730,12 @@ jQuery(function($) {
 
         newArray = state.concat(cstate);
 
+        // jika array tidak sama / ada yang berubah
         if (jQuery.inArray('1', newArray) == '-1') {
             $("button#submit_values").prop("disabled", true);
         } else {
             $("button#submit_values").prop("disabled", false);
         }
-        console.log("state: " + newArray);
     });
     // END FOR INPUT VALUE
 
@@ -762,12 +762,12 @@ jQuery(function($) {
 
         newArray = state.concat(cstate);
 
+        // jika array tidak sama / ada yang berubah
         if (jQuery.inArray('1', newArray) == '-1') {
             $("button#submit_values").prop("disabled", true);
         } else {
             $("button#submit_values").prop("disabled", false);
         }
-        console.log("cstate: " + newArray);
     });
     // END FOR CHECKBOX	
 
@@ -861,7 +861,7 @@ jQuery(function($) {
             success: function(data) {
                 if (data == 0) {
 
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no company available for this INC</center></td></td>";
+                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
                     $("#characteristic_value_box").empty().append(emptyMsg);
 
                     var optionsSelectAddCompany = {

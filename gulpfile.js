@@ -182,21 +182,23 @@ elixir(function(mix) {
 });
 
 elixir(function(mix) {
+    // mix.sass('app.scss', './resources/assets/css/mybootstrap.css');
     // GLOBAL
     mix.styles([
         'theme.css',
-        'smartcat.css',
+        'styles.css',
         'animate.css',
         'jquery-ui.css',
         'datatables.bootstrap.min.css',
         'bootstrap-select.css',
         'ajax-bootstrap-select.css',
+        'awesome-bootstrap-checkbox.css',
     ], 'public/css/styles.css');
 
     // LOGIN - REGISTER
     mix.styles([
-        'theme.css',
-        'smartcat.css'
+        'mybootstrap.css',
+        'styles.css'
     ], 'public/css/login.css');
 });
 

@@ -1,3 +1,23 @@
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: rgb(3, 179, 178);
+  box-shadow:none;
+  outline: 0 none;
+}
 body {
   padding-top: 40px;
   color: #5a5a5a;
@@ -232,14 +252,22 @@ kbd{
 }
 kbd.kbd-default {
     background-color: #fff !important;
-    color: #b5b5b5;
+    color: #777777;
     font-weight: normal;
     border: 1px #e5e5e5 solid;
-    padding: 2px 5px 1px !important; 
 }
 kbd.kbd-default:hover {
     background-color: #e6e6e6 !important;
     color: #555;
+}
+kbd.kbd-default-grey {
+    background-color: #ccc !important;
+    color: #777777;
+    font-weight: normal;
+    border: none;
+}
+kbd.kbd-default-grey:hover {
+    background-color: #c6c6c6 !important;
 }
 kbd.kbd-primary {
     background-color: rgba(3, 179, 178, 1) !important;    
@@ -271,6 +299,14 @@ kbd.kbd-primary.hover {
 tr:hover kbd.kbd-primary.hover {
     background-color: rgba(3, 179, 178, 1) !important;
     color: #fff;
+}
+kbd.kbd-default-grey.hover {
+    background-color: transparent !important;
+    color: transparent;
+}
+tr:hover kbd.kbd-default-grey.hover {
+    background-color: #c6c6c6 !important;
+    color: #777777;
 }
 kbd.kbd-danger.hover {
     background-color: transparent !important;
@@ -535,7 +571,7 @@ hr.hr-bawah-part-master{
     margin-top:15px;
     padding: 10px 20px;
 }
-#global_short_desc_table tr, #global_char_table tr, #company_char_table tr, #company_short_desc_table tr{
+tbody.move_row tr{
   cursor: move;
 }
 
@@ -629,18 +665,121 @@ table.table-char-settings>thead>tr>th:nth-child(1){
   float: left;
 }
 table.table-char-settings>thead>tr>th:nth-child(2){
-  width: 95%;
+  width: 30%;
   float: left;
+  margin-right: -5px;
 }
+table.table-char-settings>thead>tr>th:nth-child(3){
+  width: 30%;
+  float: left;
+  margin-right: -5px;
+}
+table.table-char-settings>thead>tr>th:nth-child(4){
+  width: 35%;
+  float: left;
+  margin-right: -3px;
+}
+
 table.table-char-settings>tbody>tr>td:nth-child(1) {
   width: 5%;
   float: left;
 }
 table.table-char-settings>tbody>tr>td:nth-child(2){
-  width: 95%;
+  width: 30%;
+  float: left;
+}
+table.table-char-settings>tbody>tr>td:nth-child(3) {
+  width: 30%;
+  float: left;
+}
+table.table-char-settings>tbody>tr>td:nth-child(4){
+  width: 35%;
   float: left;
 }
 table.table-char-settings tr:first-child td {
+  border-top: none;
+}
+/* end characteristics settings table*/
+
+/*characteristics value settings table*/
+table.table-val-settings {
+  width: 100%;
+}
+
+table.table-val-settings,
+table.table-val-settings>thead,
+table.table-val-settings>tbody,
+table.table-val-settings>thead>tr,
+table.table-val-settings>tbody>tr,
+table.table-val-settings>thead>tr>th,
+table.table-val-settings>tbody>td {
+  display: block;
+}
+
+table.table-val-settings>thead>tr:after,
+table.table-val-settings>tbody>tr:after {
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+table.table-val-settings>tbody {
+  overflow-y: scroll;
+  height: 300px;
+}
+
+table.table-val-settings>thead {        
+  /*overflow-y: scroll;*/
+  /*margin-right: 16px;*/
+}
+
+table.table-val-settings>thead::-webkit-scrollbar{
+  background-color: inherit;
+}
+
+table.table-val-settings>thead>tr>th:nth-child(1){
+  width: 5%;
+  float: left;
+}
+table.table-val-settings>thead>tr>th:nth-child(2){
+  width: 25%;
+  float: left;
+}
+table.table-val-settings>thead>tr>th:nth-child(3){
+  width: 20%;
+  float: left;
+}
+table.table-val-settings>thead>tr>th:nth-child(4){
+  width: 25%;
+  float: left;
+}
+table.table-val-settings>thead>tr>th:nth-child(5){
+  width: 25%;
+  float: left;
+}
+
+table.table-val-settings>tbody>tr>td:nth-child(1) {
+  width: 5%;
+  float: left;
+}
+table.table-val-settings>tbody>tr>td:nth-child(2){
+  width: 25%;
+  float: left;
+}
+table.table-val-settings>tbody>tr>td:nth-child(3) {
+  width: 20%;
+  float: left;
+}
+table.table-val-settings>tbody>tr>td:nth-child(4){
+  width: 25%;
+  float: left;
+}
+table.table-val-settings>tbody>tr>td:nth-child(5){
+  width: 25%;
+  float: left;
+}
+table.table-val-settings tr:first-child td {
   border-top: none;
 }
 /* end characteristics settings table*/

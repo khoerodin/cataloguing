@@ -28,7 +28,15 @@ class CreateCompanyCharacteristicTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
+            $table->string('custom_char_name')->default('');
             $table->tinyInteger('sequence')->default(0);
+
+            $table->integer('tbl_po_style_id')->unsigned()->default(1);
+            $table->foreign('tbl_po_style_id')->references('id')
+                  ->on('tbl_po_style')
+                  ->onUpdate('CASCADE')
+                  ->onDelete('NO ACTION');
+
             $table->tinyInteger('hidden')->default(0);
 
             $table->integer('created_by')->unsigned();

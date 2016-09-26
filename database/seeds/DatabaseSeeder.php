@@ -55,8 +55,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PartSourceDescriptionSeeder::class);        
         $this->call(PartSourcePartNoSeeder::class);
             
+        $this->call(TblPoStyleSeeder::class);        
         $this->call(CompanyCharacteristicSeeder::class);        
-        // $this->call(CompanyAbbrevSeeder::class);
-        // $this->call(CompanyCheckShortSeeder::class);
     }
 }

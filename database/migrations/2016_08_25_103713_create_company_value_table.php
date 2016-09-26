@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyAbbrevTable extends Migration
+class CreateCompanyValueTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCompanyAbbrevTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_abbrev', function (Blueprint $table) {
+        Schema::create('company_value', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('tbl_company_id')->unsigned();
@@ -30,6 +30,7 @@ class CreateCompanyAbbrevTable extends Migration
 
             $table->unique(array('tbl_company_id', 'link_inc_characteristic_value_id'),'company_abbrev_tci_licvi_unique');
 
+            $table->string('custom_value_name')->default('');
             $table->string('abbrev', 30)->default('');
             $table->boolean('approved');
 
@@ -44,7 +45,7 @@ class CreateCompanyAbbrevTable extends Migration
                   ->on('users')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
-                  
+
             $table->timestamps();
         });
     }
@@ -56,6 +57,6 @@ class CreateCompanyAbbrevTable extends Migration
      */
     public function down()
     {
-        Schema::drop('company_abbrev');
+        Schema::dropIfExists('company_value');
     }
 }

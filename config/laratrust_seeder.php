@@ -17,7 +17,7 @@ return [
         'cataloguer' => [
             'profile' => 'r,u'
         ],
-        'guest' => [
+        'khoerodin' => [
             'profile' => 'r'
         ]
     ],

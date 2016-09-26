@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLinkIncCharacteristicValueTable extends Migration
+class CreateTblPoStyleTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,13 @@ class CreateLinkIncCharacteristicValueTable extends Migration
      */
     public function up()
     {
-        Schema::create('link_inc_characteristic_value', function (Blueprint $table) {
+        Schema::create('tbl_po_style', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('link_inc_characteristic_id')->unsigned();
-            $table->foreign('link_inc_characteristic_id')->references('id')
-                  ->on('link_inc_characteristic')
-                  ->onUpdate('CASCADE')
-                  ->onDelete('NO ACTION');
-
-            $table->string('value', 30);
-
-            $table->unique(array('link_inc_characteristic_id', 'value'), 'link_inc_characteristic_value_lici_v_unique');
-
-            $table->string('abbrev', 30)->default('');
-            $table->boolean('approved')->default(0);
+            $table->string('style_name')->unique();
+            $table->string('after_char_name');
+            $table->string('devider');
+            $table->string('after_devider');
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
@@ -52,6 +44,6 @@ class CreateLinkIncCharacteristicValueTable extends Migration
      */
     public function down()
     {
-        Schema::drop('link_inc_characteristic_value');
+        Schema::dropIfExists('tbl_po_style');
     }
 }

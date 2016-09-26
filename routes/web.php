@@ -158,7 +158,6 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	// CHARACTERISTICS SETTINGS
 	Route::get('characteristics-settings', 'CharacteristicsSettingsController@index');
 
-
 	// SETTINGS
 	Route::get('settings', 'SettingsController@index');
 	
@@ -173,30 +172,45 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/select-inc', 'HomeController@selectInc');
 
 	// GLOBAL CHARACTERISTICS VALUE TAB
-	Route::get('settings/get-global-chars/{incId}', 'SettingsController@getGlobalChars');
-	Route::get('settings/get-global-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getGlobalCharacteristicsValues');
-	Route::put('settings/update-global-characteristics-order', 'SettingsController@updateGlobalCharOrder');
-	Route::get('settings/characteristic-to-be-added/{incId}', 'SettingsController@getCharsToBeAdded');
+	// Route::get('settings/get-global-chars/{incId}', 'SettingsController@getGlobalChars');
+	// Route::get('settings/get-global-characteristics-values/{linkIncCharacteristicId}', 'SettingsController@getGlobalCharacteristicsValues');
+	// Route::put('settings/update-global-characteristics-order', 'SettingsController@updateGlobalCharOrder');
+	// Route::get('settings/characteristic-to-be-added/{incId}', 'SettingsController@getCharsToBeAdded');
 	// END GLOBAL CHARACTERISTICS VALUE TAB
 
 	// GLOBAL SHORT DESCRIPTION FORMAT
-	Route::get('settings/get-global-short-desc-chars/{incId}', 'SettingsController@getGlobalShortDescChars');
-	Route::put('settings/update-global-short-desc-order', 'SettingsController@updateGlobalShortDescOrder');
+	// Route::get('settings/get-global-short-desc-chars/{incId}', 'SettingsController@getGlobalShortDescChars');
+	// Route::put('settings/update-global-short-desc-order', 'SettingsController@updateGlobalShortDescOrder');
 	// END GLOBAL SHORT DESCRIPTION FORMAT
 
-	// COMPANY SHORT DESCRIPTION FORMAT
-	Route::get('settings/get-company-short-desc/{incId}/{companyId}', 'SettingsController@getCompanyShortDesc');
-	Route::put('settings/update-company-short-desc-order', 'SettingsController@updateCompanyShortDescOrder');
-	Route::get('settings/char-to-be-added-to-short/{incId}/{companyId}', 'SettingsController@getCharToBeAddedToShort');
-	Route::post('settings/add-short-desc-format-sdf', 'SettingsController@addShortDescFormatSdf');
-	Route::post('settings/add-short-desc-format-lic', 'SettingsController@addShortDescFormatLic');
-	Route::get('settings/edit-short-separator/{id}', 'SettingsController@editShortSepartaor');
-	Route::put('settings/update-short-separator', 'SettingsController@updateShortSeparator');
-	// END COMPANY SHORT DESCRIPTION FORMAT
+	// SHORT DESCRIPTION FORMAT
+	// Route::get('settings/get-company-short-desc/{incId}/{companyId}', 'SettingsController@getCompanyShortDesc');
+	// Route::put('settings/update-company-short-desc-order', 'SettingsController@updateCompanyShortDescOrder');
+	// Route::get('settings/char-to-be-added-to-short/{incId}/{companyId}', 'SettingsController@getCharToBeAddedToShort');
+	// Route::post('settings/add-short-desc-format-sdf', 'SettingsController@addShortDescFormatSdf');
+	// Route::post('settings/add-short-desc-format-lic', 'SettingsController@addShortDescFormatLic');
+	// Route::get('settings/edit-short-separator/{id}', 'SettingsController@editShortSepartaor');
+	// Route::put('settings/update-short-separator', 'SettingsController@updateShortSeparator');
+	// END SHORT DESCRIPTION FORMAT
 
-	// COMPANY CHARACTERISTICS TAB
-	Route::get('settings/get-company-chars/{incId}/{companyId}', 'SettingsController@getCompanyChars');
-	Route::put('settings/update-ccharacteristics-order', 'SettingsController@updateCCharOrder');
+	// CHARACTERISTICS VALUE TAB
+	Route::get('settings/char/{incId}/{companyId}', 'SettingsController@getChar');
+	Route::put('settings/update-char-val-order', 'SettingsController@updateCharValOrder');
+	Route::put('settings/update-char-visibility', 'SettingsController@updateCharVisibility');
+	Route::get('settings/edit-company-char/{id}', 'SettingsController@editCompanyChar');
+	Route::get('settings/po-style', 'SettingsController@getPoStyle');
+	Route::put('settings/update-company-char', 'SettingsController@updateCompanyChar');
+	Route::get('settings/char-value/{licId}/{companyId}', 'SettingsController@getCharValue');
+	Route::put('settings/update-value', 'SettingsController@updateValue');
+	Route::delete('settings/delete-value/{cvid}/{licvid}', 'SettingsController@deleteValue');
+	Route::post('settings/add-char-value', 'SettingsController@addCharValue');
+
+	// SHORT DESCRIPTION FORMAT
+	Route::get('settings/get-short-desc/{incId}/{companyId}', 'SettingsController@getShortDesc');
+	Route::put('settings/update-short-desc-order', 'SettingsController@updateShortDescOrder');
+	Route::put('settings/update-short-visibility', 'SettingsController@updateShortVisibility');
+	Route::put('settings/update-short-separator', 'SettingsController@updateShortSeparator');
+	// END SHORT DESCRIPTION FORMAT
 
 	// CATALOG STATUS Tab
 	Route::get('settings/datatables-catalog-status', 'SettingsController@datatablesCatalogStatus');

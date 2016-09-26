@@ -10,7 +10,8 @@ use Datatables;
 use Response;
 use Auth;
 
-use App\Models\CompanyCharacteristicSequence;
+use App\Models\CompanyValue;
+use App\Models\CompanyCharacteristic;
 use App\Models\CompanyShortDescriptionFormat;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
@@ -19,6 +20,7 @@ use App\Models\TblBin;
 use App\Models\TblShelf;
 use App\Models\TblLocation;
 use App\Models\TblPlant;
+use App\Models\TblPoStyle;
 use App\Models\TblCharacteristic;
 use App\Models\TblCompany;
 use App\Models\TblHolding;
@@ -94,115 +96,250 @@ class SettingsController extends Controller
     }
 
     // GLOBAL CHARACTERISTICS
-    public function getGlobalChars($incId)
-    {
-        return LinkIncCharacteristic::select('link_inc_characteristic.id', 'characteristic', 'sequence')
-        ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-        ->where('tbl_inc_id', $incId)
-        ->orderBy('sequence')
-        ->get();
-    }
+    // public function getGlobalChars($incId)
+    // {
+    //     return LinkIncCharacteristic::select('link_inc_characteristic.id', 'characteristic', 'sequence')
+    //     ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+    //     ->where('tbl_inc_id', $incId)
+    //     ->orderBy('sequence')
+    //     ->get();
+    // }
 
-    public function getGlobalCharacteristicsValues($linkIncCharacteristicId)
-    {
-        return LinkIncCharacteristicValue::select('value','abbrev','approved')
-        ->where('link_inc_characteristic_id', $linkIncCharacteristicId)
-        ->get();
-    }
+    // public function getGlobalCharacteristicsValues($linkIncCharacteristicId)
+    // {
+    //     return LinkIncCharacteristicValue::select('value','abbrev','approved')
+    //     ->where('link_inc_characteristic_id', $linkIncCharacteristicId)
+    //     ->get();
+    // }
 
-    public function updateGlobalCharOrder(Request $request)
-    {
-        $no = 1;
-        foreach ($request->lic as $id) {
-            $gcs = LinkIncCharacteristic::find($id);
-            $gcs->sequence = $no++;
-            $gcs->save();
-        }
-    }
+    // public function updateGlobalCharOrder(Request $request)
+    // {
+    //     $no = 1;
+    //     foreach ($request->lic as $id) {
+    //         $gcs = LinkIncCharacteristic::find($id);
+    //         $gcs->sequence = $no++;
+    //         $gcs->save();
+    //     }
+    // }
 
-    private function checkAddCharStatus($incId, $characteristicId)
-    {
-        return LinkIncCharacteristic::where('tbl_inc_id', $incId)
-            ->where('tbl_characteristic_id', $characteristicId)
-            ->first();
-    }
+    // private function checkAddCharStatus($incId, $characteristicId)
+    // {
+    //     return LinkIncCharacteristic::where('tbl_inc_id', $incId)
+    //         ->where('tbl_characteristic_id', $characteristicId)
+    //         ->first();
+    // }
 
-    public function getCharsToBeAdded($incId)
-    {
-        $tbl = TblCharacteristic::select('id', 'characteristic')
-            ->get();
+    // public function getCharsToBeAdded($incId)
+    // {
+    //     $tbl = TblCharacteristic::select('id', 'characteristic')
+    //         ->get();
 
-        $arr = [];
-        foreach ($tbl as $key => $value) {
-            if (count($this->checkAddCharStatus($incId, $value->id)) > 0) {
-                $status = 1;
-            }else{
-                $status = 0;
-            }
+    //     $arr = [];
+    //     foreach ($tbl as $key => $value) {
+    //         if (count($this->checkAddCharStatus($incId, $value->id)) > 0) {
+    //             $status = 1;
+    //         }else{
+    //             $status = 0;
+    //         }
 
-            $values[] = array(
-                'id' => $value->id,
-                'characteristic' => $value->characteristic,
-                'status' => $status,
-            );
-        }
-        return Response::json($values);
-    }
+    //         $values[] = array(
+    //             'id' => $value->id,
+    //             'characteristic' => $value->characteristic,
+    //             'status' => $status,
+    //         );
+    //     }
+    //     return Response::json($values);
+    // }
     // END GLOBAL CHARACTERISTICS
 
     // GLOBAL SHORT DESCRIPTION FORMAT
-    public function getGlobalShortDescChars($incId)
-    {
-        return ShortDescriptionFormat::select('short_description_format.id','characteristic','separator')
-            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
-            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-            ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
-            ->where('link_inc_characteristic.tbl_inc_id', $incId)
-            ->orderBy('short_description_format.sequence')
-            ->get();
-    }
+    // public function getGlobalShortDescChars($incId)
+    // {
+    //     return ShortDescriptionFormat::select('short_description_format.id','characteristic','separator')
+    //         ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+    //         ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+    //         ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
+    //         ->where('link_inc_characteristic.tbl_inc_id', $incId)
+    //         ->orderBy('short_description_format.sequence')
+    //         ->get();
+    // }
 
-    public function updateGlobalShortDescOrder(Request $request)
-    {
-        $no = 1;
-        foreach ($request->sid as $id) {
-            $gss = ShortDescriptionFormat::find($id);
-            $gss->sequence = $no++;
-            $gss->save();
-        }
-    }
+    // public function updateGlobalShortDescOrder(Request $request)
+    // {
+    //     $no = 1;
+    //     foreach ($request->sid as $id) {
+    //         $gss = ShortDescriptionFormat::find($id);
+    //         $gss->sequence = $no++;
+    //         $gss->save();
+    //     }
+    // }
     // END GLOBAL SHORT DESCRIPTION FORMAT
 
-    // COMPANY CHARACTERISTICS
-    public function getCompanyChars($incId,$companyId)
+    // CHARACTERISTICS VALUE
+    public function getChar($incId,$companyId)
     {
-        return CompanyCharacteristicSequence::select('company_characteristic_sequence.id', 'characteristic')
-            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic_sequence.link_inc_characteristic_id')
+        return CompanyCharacteristic::select('company_characteristic.id', 'link_inc_characteristic_id as lic_id', 'characteristic', 'custom_char_name', 'style_name', 'hidden')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            ->join('tbl_po_style', 'tbl_po_style.id', '=', 'company_characteristic.tbl_po_style_id')
             ->where('tbl_inc_id', $incId)
             ->where('tbl_company_id', $companyId)
-            ->orderBy('company_characteristic_sequence.sequence')
+            ->orderBy('company_characteristic.sequence')
             ->get();
     } 
 
-    public function updateCCharOrder(Request $request)
+    public function updateCharValOrder(Request $request)
     {
         $no = 1;
-        foreach ($request->ccid as $id) {
-            $ccs = CompanyCharacteristicSequence::find($id);
+        $reponse = [];
+        foreach ($request->id as $company_char_id) {
+            $update = CompanyCharacteristic::find($company_char_id);
 
-            $ccs->sequence = $no++;
-            $ccs->save();
+            $update->sequence = $no++;
+            $update->last_updated_by  = Auth::user()->id;
+            $reponse[] = $update->save();
         }
+        return Response::json($reponse);
     }
-    // END COMPANY CHARACTERISTICS
 
-    // COMPANY SHORT DESCRIPTION FORMAT
-    public function getCompanyShortDesc($incId,$companyId)
+    public function updateCharVisibility(Request $request)
     {
-        return CompanyShortDescriptionFormat::select('company_short_description_format.id','characteristic', 'company_short_description_format.separator')
-            ->join('short_description_format', 'short_description_format.id', '=', 'company_short_description_format.short_description_format_id')
-            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
+        $cc = CompanyCharacteristic::where('id', $request->id)
+            ->select('hidden')
+            ->first();
+
+        $update = CompanyCharacteristic::find($request->id);
+        if($cc->hidden == 0){            
+            $update->hidden = 1;           
+        }else{
+            $update->hidden = 0;
+        }
+        $update->last_updated_by  = Auth::user()->id;
+
+        return Response::json($update->save());
+    }
+
+    public function editCompanyChar($id)
+    {
+        return CompanyCharacteristic::where('company_characteristic.id',$id)
+            ->join('tbl_po_style', 'tbl_po_style.id', '=', 'company_characteristic.tbl_po_style_id')
+            ->select('company_characteristic.id','custom_char_name','style_name','tbl_po_style_id')
+            ->first();
+    }
+
+    public function getPoStyle()
+    {
+        return TblPoStyle::select('id','style_name')->get();
+    }
+
+    public function updateCompanyChar(Request $request)
+    {
+        $update = CompanyCharacteristic::find($request->id);
+        $update->custom_char_name = trim(strtoupper($request->custom_name));
+        $update->tbl_po_style_id = $request->po_style;
+        $update->last_updated_by  = Auth::user()->id;
+
+        return Response::json($update->save());
+    }
+
+    public function getCharValue($licId,$companyId)
+    {
+        return LinkIncCharacteristicValue::select('link_inc_characteristic_value.id', 'company_value.id as cvid', 'value','custom_value_name','company_value.abbrev','company_value.approved')
+            ->join('company_value', 'company_value.link_inc_characteristic_value_id', '=', 'link_inc_characteristic_value.id')
+            ->where('link_inc_characteristic_id', $licId)
+            ->where('tbl_company_id', $companyId)
+            ->orderBy('value')
+            ->get();       
+    }
+
+    private function updateLicValue($licvId,$charValue)
+    {
+        $value = LinkIncCharacteristicValue::find($licvId);
+        $value->value = trim(strtoupper($charValue));
+        $value->last_updated_by  = Auth::user()->id;
+        return $value->save();
+    }
+
+    private function updateCompanyValue($licvId,$companyId,$customValueName,$valueAbbrev,$approved)
+    {
+        $value = CompanyValue::where('link_inc_characteristic_value_id', $licvId)
+            ->where('tbl_company_id', $companyId)->first();
+        $value->custom_value_name = trim(strtoupper($customValueName));
+        $value->abbrev = trim(strtoupper($valueAbbrev));
+        $value->approved = $approved;
+        $value->last_updated_by  = Auth::user()->id;
+        return $value->save();
+    }
+
+    public function updateValue(Request $request)
+    {
+        $this->validate($request, [
+            'charValue' => 'required',
+            'approved' => 'integer|required',
+        ]);  
+
+        $reponse[] = $this->updateLicValue($request->licvId,$request->charValue);
+        $reponse[] = $this->updateCompanyValue($request->licvId,$request->companyId,$request->customValueName,$request->valueAbbrev,$request->approved);
+
+        if($request->valueAbbrev != NULL && $request->approved != NULL){
+            $abbrev = LinkIncCharacteristicValue::where('id',$request->licvId)->first()->abbrev;
+            $approved = LinkIncCharacteristicValue::where('id',$request->licvId)->first()->approved;
+            if($abbrev == NULL OR $approved == NULL){
+                $licv = LinkIncCharacteristicValue::find($request->licvId);
+                $licv->abbrev = trim(strtoupper($request->valueAbbrev));
+                $licv->approved = trim(strtoupper($request->approved));
+                $licv->last_updated_by  = Auth::user()->id;
+                $reponse[] = $licv->save();
+            }
+        }
+
+        return Response::json($reponse);
+    }
+
+    public function deleteValue($cvid,$licvid)
+    {
+        $delete[] = CompanyValue::where('id',$cvid)->delete();
+        $delete[] = LinkIncCharacteristicValue::where('id',$licvid)->delete();
+        return Response::json($delete);
+    }
+
+    public function addCharValue(Request $request)
+    {
+        $this->validate($request, [
+            'char_value'    => 'required|max:30'
+        ]);
+
+        $licv = [
+            'link_inc_characteristic_id' => $request->licId,
+            'value' => trim(strtoupper($request->char_value)),
+            'abbrev' => trim(strtoupper($request->value_abbrev)),
+            'approved' => $request->approved,
+            'created_by' => Auth::user()->id,
+            'last_updated_by' => Auth::user()->id,
+        ];           
+
+        $licv = LinkIncCharacteristicValue::create($licv);
+
+        $cv = [
+            'tbl_company_id' => $request->companyId,
+            'link_inc_characteristic_value_id' => $licv->id,
+            'custom_value_name' => trim(strtoupper($request->custom_value_name)),
+            'abbrev' => trim(strtoupper($request->value_abbrev)),
+            'approved' => $request->approved,
+            'created_by' => Auth::user()->id,
+            'last_updated_by' => Auth::user()->id,
+        ];           
+
+        return CompanyValue::create($cv);
+    }
+    // END CHARACTERISTICS VALUE
+
+    // SHORT DESCRIPTION FORMAT
+    public function getShortDesc($incId,$companyId)
+    {
+        return CompanyShortDescriptionFormat::select('company_short_description_format.id','characteristic', 'company_short_description_format.short_separator','company_short_description_format.hidden')
+            ->join('company_characteristic', 'company_characteristic.id', '=', 'company_short_description_format.company_characteristic_id')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
             ->where('tbl_inc_id', $incId)
             ->where('tbl_company_id', $companyId)
@@ -210,100 +347,47 @@ class SettingsController extends Controller
             ->get();
     }
 
-    public function updateCompanyShortDescOrder(Request $request)
+    public function updateShortDescOrder(Request $request)
     {
         $no = 1;
+        $response = [];
         foreach ($request->csid as $id) {
-            $csdf = CompanyShortDescriptionFormat::find($id);
-            $csdf->sequence = $no++;
-            $csdf->save();
+            $update = CompanyShortDescriptionFormat::find($id);
+            $update->sequence = $no++;
+            $update->last_updated_by  = Auth::user()->id;
+            $response[] = $update->save();
         }
+        return $response;
     }
 
-    public function getCharToBeAddedToShort($incId, $companyId)
+    public function updateShortVisibility(Request $request)
     {
-        $sdf = ShortDescriptionFormat::select('link_inc_characteristic_id')->get()->toArray();
+        $cc = CompanyShortDescriptionFormat::where('id', $request->id)
+            ->select('hidden')
+            ->first();
 
-        $csdf = CompanyShortDescriptionFormat::select('short_description_format_id')
-            ->where('tbl_company_id', $companyId)
-            ->get()->toArray();
-
-        $q = LinkIncCharacteristic::select('link_inc_characteristic.id as lic_id', DB::raw('"" as sdf_id'),'characteristic as lic_char',DB::raw('"" as sdf_char'))
-            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-            ->where('tbl_inc_id', $incId)
-            ->whereNotIn('link_inc_characteristic.id', $sdf);
-
-        return ShortDescriptionFormat::select(DB::raw('"" as lic_id'),'short_description_format.id as sdf_id',DB::raw('"" as lic_char'),'characteristic as sdf_char')
-            ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'short_description_format.link_inc_characteristic_id')
-            ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-            ->where('tbl_inc_id', $incId)
-            ->whereNotIn('short_description_format.id', $csdf)
-            ->union($q)
-            ->get();
-    }
-
-    public function addShortDescFormatSdf(Request $request)
-    {   
-        $this->validate($request, [
-            'short_description_format_id' => 'required|integer',
-            'tbl_company_id' => 'required|integer'
-        ]);   
-
-        $userId = Auth::user()->id;
-
-        $data = [
-            'tbl_company_id' => $request->tbl_company_id,
-            'short_description_format_id' => $request->short_description_format_id,
-            'created_by' => $userId,
-            'last_updated_by' => $userId,
-        ];           
-
-        return CompanyShortDescriptionFormat::create($data);
-    }
-
-    public function addShortDescFormatLic(Request $request)
-    {   
-        $this->validate($request, [
-            'link_inc_characteristic_id' => 'required|integer',
-            'tbl_company_id' => 'required|integer'
-        ]);   
-
-        $userId = Auth::user()->id;
-
-        $dataSdf = [
-            'link_inc_characteristic_id' => $request->link_inc_characteristic_id,
-            'created_by' => $userId,
-            'last_updated_by' => $userId,
-        ];           
-
-        if($sdf = ShortDescriptionFormat::create($dataSdf)) {
-            $dataCsdf = [
-                'tbl_company_id' => $request->tbl_company_id,
-                'short_description_format_id' => $sdf->id,
-                'created_by' => $userId,
-                'last_updated_by' => $userId,
-            ];           
-
-            return CompanyShortDescriptionFormat::create($dataCsdf);
+        $update = CompanyShortDescriptionFormat::find($request->id);
+        if($cc->hidden == 0){            
+            $update->hidden = 1;            
+        }else{
+            $update->hidden = 0;
         }
-    }
+        $update->last_updated_by  = Auth::user()->id;
 
-    public function editShortSepartaor($id)
-    {
-        return CompanyShortDescriptionFormat::select('separator')->find($id);
+        return Response::json($update->save());
     }
 
     public function updateShortSeparator(Request $request)
     {
-        $csdf = CompanyShortDescriptionFormat::find($request->id);
+        $update = CompanyShortDescriptionFormat::find($request->id);
 
-        $csdf->separator        = $request->separator;
-        $csdf->last_updated_by  = Auth::user()->id;
+        $update->short_separator  = trim(strtoupper($request->separator));
+        $update->last_updated_by  = Auth::user()->id;
 
-        $csdf->save();
-        return Response::json($csdf);
+        $update->save();
+        return Response::json($update);
     }
-    // END COMPANY SHORT DESCRIPTION FORMAT
+    // END SHORT DESCRIPTION FORMAT
 
     // CATALOG STATUS DataTables
     public function datatablesCatalogStatus()

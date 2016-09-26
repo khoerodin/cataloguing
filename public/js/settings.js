@@ -16999,7 +16999,7 @@ var fixHelper = function(e, ui) {
 Handlebars.registerPartial("ontent", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#global_characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#global_short_desc_format\">SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#company_characteristic_value\">COMPANY CHARACTERISTIC SEQUENCE</a></li>\n            <li><a href=\"#company_short_desc_format\">COMPANY SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"global_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"global_inc\" class=\"global_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_modal_title\">\n                                ADD CHARACTERISTIC <small id=\"item_name\"></small>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add-char-table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n\n            <div id=\"global-char-area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global-val-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"global_short_desc_format\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"global_short_desc_inc\" class=\"global_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div id=\"global_short_desc_area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global_val_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"inc\" class=\"inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"holding\" class=\"holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company-char-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company-val-area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_short_desc_format\">\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_short_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_short_modal_title\">\n                                ADD CHARACTERISTIC TO SHORT DESCRIPTON FORMAT\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add_char_short_table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"company_short_desc_inc\" class=\"company_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"company_short_desc_holding\" class=\"company_short_desc_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"company_short_desc_select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company_short_desc_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company_short_desc_val_area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
+  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#short_desc_format\">SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"char_val_inc\" class=\"char_val_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>                    \n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"char_val_holding\" class=\"char_val_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_char_val_company\">\n                    </div>\n                    <div class=\"col-xs-6\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"char_val_char_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"char_val_val_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n\n            <!-- Edit Company Char Modal -->            \n            <div class=\"modal\" id=\"edit_company_char_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_company_char_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> CHARACTERISTIC\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_company_char_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"custom_name\" class=\"col-sm-3 control-label\">CUSTOM NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"po_style\" class=\"col-sm-3 control-label\">PO STYLE</label>\n                                    <div class=\"col-sm-1\">\n                                        <select id=\"po_style\" class=\"\"></select>\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"ccid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Company Char Modal -->\n\n            <!-- Edit Val Modal -->            \n            <div class=\"modal\" id=\"edit_char_val_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_char_val_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> VALUE\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_char_val_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">VALUE</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"char_value\" type=\"text\" class=\"form-control input-sm\" disabled>\n                                        <span class=\"help-block\">This value applied to ALL COMPANY, change this value also change value on ALL COMPANIES that use this value, if there is no value that you want, please make a new.</span>\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">CUSTOM VALUE NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_value_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">ABBREV</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"value_abbrev\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>                                \n                                <div class=\"form-group\">\n                                    <label for=\"approved_abbrev\" class=\"col-sm-3 control-label\">APPROVED</label>\n                                    <div class=\"col-sm-9\">\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"yes\" value=\"1\" name=\"approved\">\n                                            <label for=\"yes\"> YES </label>\n                                        </div>\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"no\" value=\"0\" name=\"approved\">\n                                            <label for=\"no\"> NO </label>\n                                        </div>\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"licvid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left\">Still want to change value? <a href=\"#\" id=\"still_edit_value\">click here</a></span>\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Val Modal -->\n\n            <!-- Edit Char Val Modal -->            \n            <div class=\"modal\" id=\"add_char_val_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_char_val_modal_title\">\n                                ADD <span id=\"current_char_name\"></span> VALUE\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"add_char_val_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">VALUE</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"char_value\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">CUSTOM VALUE NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_value_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">ABBREV</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"value_abbrev\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>                                \n                                <div class=\"form-group\">\n                                    <label for=\"approved_abbrev\" class=\"col-sm-3 control-label\">APPROVED</label>\n                                    <div class=\"col-sm-9\">\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"add_yes\" value=\"1\" name=\"approved\">\n                                            <label for=\"add_yes\"> YES </label>\n                                        </div>\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"add_no\" value=\"0\" name=\"approved\">\n                                            <label for=\"add_no\"> NO </label>\n                                        </div>\n                                    </div>\n                                </div>\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save\" value=\"SAVE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Char Val Modal -->\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"short_desc_format\">\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_short_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_short_modal_title\">\n                                ADD CHARACTERISTIC TO SHORT DESCRIPTON FORMAT\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add_char_short_table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"company_short_desc_inc\" class=\"company_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"company_short_desc_holding\" class=\"company_short_desc_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"company_short_desc_select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"short_desc_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"short_desc_val_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n\n            <!-- Edit Short Separator-->            \n            <div class=\"modal\" id=\"edit_short_separator_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_short_separator_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> SHORT SEPARATOR\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_short_separator_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">SEPARATOR</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"separator\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"csdfid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Short Separator -->\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
     + alias3(((helper = (helper = helpers.eng_definition || (depth0 != null ? depth0.eng_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"eng_definition","hash":{},"data":data}) : helper)))
     + "</div><br/>\n                    <div><b>IDN DEFINITION</b><div>\n                    <div>@"
     + alias3(((helper = (helper = helpers.ind_definition || (depth0 != null ? depth0.ind_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ind_definition","hash":{},"data":data}) : helper)))
@@ -17010,7 +17010,7 @@ this["Settings"]["templates"] = this["Settings"]["templates"] || {};
 this["Settings"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     var helper, alias1=helpers.helperMissing, alias2="function", alias3=this.escapeExpression;
 
-  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#global_characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#global_short_desc_format\">SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#company_characteristic_value\">COMPANY CHARACTERISTIC SEQUENCE</a></li>\n            <li><a href=\"#company_short_desc_format\">COMPANY SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"global_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"global_inc\" class=\"global_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_modal_title\">\n                                ADD CHARACTERISTIC <small id=\"item_name\"></small>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add-char-table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n\n            <div id=\"global-char-area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global-val-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"global_short_desc_format\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"global_short_desc_inc\" class=\"global_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div id=\"global_short_desc_area\">                \n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"global_val_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"inc\" class=\"inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"holding\" class=\"holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company-char-area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company-val-area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"company_short_desc_format\">\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_short_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_short_modal_title\">\n                                ADD CHARACTERISTIC TO SHORT DESCRIPTON FORMAT\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add_char_short_table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"company_short_desc_inc\" class=\"company_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"company_short_desc_holding\" class=\"company_short_desc_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"company_short_desc_select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"company_short_desc_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"company_short_desc_val_area\">\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
+  return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>SETTINGS <small>CHARACTERISTIC VALUE</small></h2>\n    </div>\n    <div class=\"scroller scroller-left\"><i class=\"glyphicon glyphicon-chevron-left\"></i></div>\n    <div class=\"scroller scroller-right\"><i class=\"glyphicon glyphicon-chevron-right\"></i></div>\n    <div class=\"wrapper\">\n        <ul class=\"nav nav-tabs list\" id=\"setingsTab\">\n            <li class=\"active\"><a href=\"#characteristic_value\">CHARACTERISTIC VALUE</a></li>\n            <li><a href=\"#short_desc_format\">SHORT DESCRIPTION FORMAT</a></li>\n            <li><a href=\"#catalog_status\">CATALOG STATUS</a></li>\n            <li><a href=\"#equipment_code\" id=\"equipment_code_tab\">EQUIPMENT CODE</a></li>\n            <li><a href=\"#harmonized_code\" id=\"harmonized_code_tab\">HARMONIZED CODE</a></li>\n            <li><a href=\"#hazard_class\" id=\"hazard_class_tab\">HAZARD CLASS</a></li>\n            <li><a href=\"#holding_bin\" id=\"holding_to_bin_tab\">HOLDING&nbsp;&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span>&nbsp;&nbsp;BIN</a></li>\n            <li><a href=\"#item_type\" id=\"item_type_tab\">ITEM TYPE</a></li>\n            <li><a href=\"#source_type\" id=\"source_type_tab\">SOURCE TYPE</a></li>\n            <li><a href=\"#stock_type\" id=\"stock_type_tab\">STOCK TYPE</a></li>\n            <li><a href=\"#Unit_of_measurement\" id=\"unit_of_measurement_tab\">UNIT OF MEASUREMENT</a></li>\n            <li><a href=\"#user_class\" id=\"user_class_tab\">USER CLASS</a></li>\n            <li><a href=\"#weight_unit\" id=\"weight_unit_tab\">WEIGHT UNIT</a></li>\n        </ul>\n    </div>\n    <div class=\"tab-content\">\n        <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"characteristic_value\">\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"char_val_inc\" class=\"char_val_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>                    \n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"char_val_holding\" class=\"char_val_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"select_char_val_company\">\n                    </div>\n                    <div class=\"col-xs-6\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"char_val_char_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"char_val_val_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n\n            <!-- Edit Company Char Modal -->            \n            <div class=\"modal\" id=\"edit_company_char_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_company_char_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> CHARACTERISTIC\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_company_char_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"custom_name\" class=\"col-sm-3 control-label\">CUSTOM NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"po_style\" class=\"col-sm-3 control-label\">PO STYLE</label>\n                                    <div class=\"col-sm-1\">\n                                        <select id=\"po_style\" class=\"\"></select>\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"ccid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Company Char Modal -->\n\n            <!-- Edit Val Modal -->            \n            <div class=\"modal\" id=\"edit_char_val_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_char_val_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> VALUE\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_char_val_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">VALUE</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"char_value\" type=\"text\" class=\"form-control input-sm\" disabled>\n                                        <span class=\"help-block\">This value applied to ALL COMPANY, change this value also change value on ALL COMPANIES that use this value, if there is no value that you want, please make a new.</span>\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">CUSTOM VALUE NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_value_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">ABBREV</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"value_abbrev\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>                                \n                                <div class=\"form-group\">\n                                    <label for=\"approved_abbrev\" class=\"col-sm-3 control-label\">APPROVED</label>\n                                    <div class=\"col-sm-9\">\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"yes\" value=\"1\" name=\"approved\">\n                                            <label for=\"yes\"> YES </label>\n                                        </div>\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"no\" value=\"0\" name=\"approved\">\n                                            <label for=\"no\"> NO </label>\n                                        </div>\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"licvid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left\">Still want to change value? <a href=\"#\" id=\"still_edit_value\">click here</a></span>\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Val Modal -->\n\n            <!-- Edit Char Val Modal -->            \n            <div class=\"modal\" id=\"add_char_val_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_char_val_modal_title\">\n                                ADD <span id=\"current_char_name\"></span> VALUE\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"add_char_val_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">VALUE</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"char_value\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">CUSTOM VALUE NAME</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"custom_value_name\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <div class=\"form-group\">\n                                    <label for=\"value_abbrev\" class=\"col-sm-3 control-label\">ABBREV</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"value_abbrev\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>                                \n                                <div class=\"form-group\">\n                                    <label for=\"approved_abbrev\" class=\"col-sm-3 control-label\">APPROVED</label>\n                                    <div class=\"col-sm-9\">\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"add_yes\" value=\"1\" name=\"approved\">\n                                            <label for=\"add_yes\"> YES </label>\n                                        </div>\n                                        <div class=\"radio radio-primary radio-inline\">\n                                            <input type=\"radio\" id=\"add_no\" value=\"0\" name=\"approved\">\n                                            <label for=\"add_no\"> NO </label>\n                                        </div>\n                                    </div>\n                                </div>\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_save\" value=\"SAVE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Char Val Modal -->\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"short_desc_format\">\n            <!-- Add Characteristic Modal -->            \n            <div class=\"modal\" id=\"add_characteristic_short_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"add_characteristic_short_modal_title\">\n                                ADD CHARACTERISTIC TO SHORT DESCRIPTON FORMAT\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <table class=\"table table-striped table-hover table-char-settings\">\n                                <thead>\n                                    <tr>\n                                        <th width=\"5%\">#</th>\n                                        <th width=\"95%\">CHARACTERISTICS</th>\n                                    </tr>                                    \n                                </thead>\n                                <tbody id=\"add_char_short_table\">         \n                                </tbody>\n                            </table>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Add Characteristic Modal -->\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-6\">\n                        <select id=\"company_short_desc_inc\" class=\"company_short_desc_inc with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                </div>\n            </div>\n            <div class=\"col-xs-12\" style=\"margin-bottom:10px;\">\n                <div class=\"row\">\n                    <div class=\"col-xs-3\">\n                        <select id=\"company_short_desc_holding\" class=\"company_short_desc_holding with-ajax\" data-live-search=\"true\" data-width=\"100%\"></select>\n                    </div>\n                    <div class=\"col-xs-3\" id=\"company_short_desc_select_company\">\n                    </div>\n                </div>\n            </div>\n            <div id=\"short_desc_short_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n            <div id=\"short_desc_val_area\">\n                <div class=\"col-xs-6\">\n                    <div style=\"height:328px;margin-top:10px;background-color:#F1F4F8;\"></div>\n                </div>\n            </div>\n\n            <!-- Edit Short Separator-->            \n            <div class=\"modal\" id=\"edit_short_separator_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n                <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                    <div class=\"modal-content\">\n                        <div class=\"modal-header\">\n                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                            <h4 class=\"modal-title\" id=\"edit_short_separator_modal_title\">\n                                EDIT <span id=\"current_char_name\"></span> SHORT SEPARATOR\n                                <p>\n                                    <span class=\"small\" id=\"item_name\" style=\"margin-top:10px\"></span> - \n                                    <span class=\"small\" id=\"company_name\"></span>\n                                </p>\n                            </h4>\n                        </div>\n                        <div class=\"modal-body\">\n                            <form class=\"form-horizontal\" id=\"edit_short_separator_modal_form\">\n                                <div class=\"form-group\">\n                                    <label for=\"char_value\" class=\"col-sm-3 control-label\">SEPARATOR</label>\n                                    <div class=\"col-sm-9\">\n                                        <input id=\"separator\" type=\"text\" class=\"form-control input-sm\">\n                                    </div>\n                                </div>\n                                <input type=\"hidden\" id=\"csdfid\">\n                            </form>\n                        </div>\n                        <div class=\"modal-footer\">\n                            <span class=\"pull-left hidden notif\"></span>\n                            <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                            <input type=\"button\" class=\"btn btn-sm btn-primary\" id=\"btn_update\" value=\"UPDATE\">\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <!-- End Edit Short Separator -->\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"catalog_status\">\n            <div class=\"col-xs-12\">\n                <table id=\"catalog_status_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">CATALOG STATUS</th>\n                            <th width=\"40%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-cs\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"equipment_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"equipment_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">EQUIPMENT CODE</th>\n                            <th width=\"50%\">EQUIPMENT NAME</th>\n                            <th width=\"5%\"><kbd id=\"add-eq\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"harmonized_code\">\n            <div class=\"col-xs-12\">\n                <table id=\"harmonized_code_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HARMONIZED CODE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hrc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"hazard_class\">\n            <div class=\"col-xs-12\">\n                <table id=\"hazard_class_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">HAZARD CLASS</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-hzc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"holding_bin\">\n            <div class=\"col-xs-12\">\n                <ul class=\"nav nav-tabs\" role=\"tablist\">\n                    <li role=\"presentation\" class=\"active\"><a href=\"#holding\" data-toggle=\"tab\">HOLDING</a></li>\n                    <li role=\"presentation\" id=\"company_tab\"><a href=\"#company\" data-toggle=\"tab\">COMPANY</a></li>\n                    <li role=\"presentation\" id=\"plant_tab\"><a href=\"#plant\" data-toggle=\"tab\">PLANT</a></li>\n                    <li role=\"presentation\" id=\"location_tab\"><a href=\"#location\" data-toggle=\"tab\">LOCATION</a></li>\n                    <li role=\"presentation\" id=\"shelf_tab\"><a href=\"#shelf\" data-toggle=\"tab\">SHELF</a></li>\n                    <li role=\"presentation\" id=\"bin_tab\"><a href=\"#bin\" data-toggle=\"tab\">BIN</a></li>\n                </ul>\n                <div class=\"tab-content\">\n                    <div role=\"tabpanel\" class=\"tab-pane active\" id=\"holding\">\n                        <table id=\"holding_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">HOLDING</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-hol\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"company\">\n                        <table id=\"company_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">COMPANY</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-cp\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"plant\">\n                        <table id=\"plant_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">PLANT</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-pl\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"location\">\n                        <table id=\"location_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">LOCATION</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-loc\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"shelf\">\n                        <table id=\"shelf_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">SHELF</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-sh\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                    <div role=\"tabpanel\" class=\"tab-pane\" id=\"bin\">\n                        <table id=\"bin_table\" class=\"table table-striped\" width=\"100%\">\n                            <thead>\n                                <tr>\n                                    <th width=\"5%\">#</th>\n                                    <th></th>\n                                    <th width=\"40%\">BIN</th>\n                                    <th width=\"50%\">DESCRIPTION</th>\n                                    <th width=\"5%\"><kbd id=\"add-bn\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                                </tr>\n                            </thead>\n                        </table>\n                    </div>\n                </div>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"item_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"item_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">ITEM TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-it\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"source_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"source_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">SOURCE TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-sot\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div  role=\"tabpanel\" class=\"tab-pane row\" id=\"stock_type\">\n            <div class=\"col-xs-12\">\n                <table id=\"stock_type_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\">#</th>\n                            <th></th>\n                            <th width=\"40%\">STOCK TYPE</th>\n                            <th width=\"50%\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-stt\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n            </div>\n        </div>\n        <div role=\"tabpanel\" class=\"tab-pane row\" id=\"Unit_of_measurement\">\n            <div class=\"col-xs-12\">\n                <table id=\"unit_of_measurement_table\" class=\"table table-striped\" width=\"100%\">\n                    <thead>\n                        <tr>\n                            <th width=\"5%\"></th>\n                            <th></th>\n                            <th width=\"5%\">#</th>\n                            <th width=\"20%\">UNIT 4</th>\n                            <th width=\"20%\">UNIT 3</th>\n                            <th width=\"20%\">UNIT 2</th>\n                            <th width=\"25\">DESCRIPTION</th>\n                            <th width=\"5%\"><kbd id=\"add-uom\" class=\"kbd-primary pull-right cpointer text-center\" style=\"width:100%;\"><i class=\"fa fa-plus\"></i>&nbsp;ADD DATA</kbd></th>\n                        </tr>\n                    </thead>\n                </table>\n                <script id=\"details-template\" type=\"text/x-handlebars-template\">\n                    <div><b>ENG DEFINITION</b></div>\n                    <div>@"
     + alias3(((helper = (helper = helpers.eng_definition || (depth0 != null ? depth0.eng_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"eng_definition","hash":{},"data":data}) : helper)))
     + "</div><br/>\n                    <div><b>IDN DEFINITION</b><div>\n                    <div>@"
     + alias3(((helper = (helper = helpers.ind_definition || (depth0 != null ? depth0.ind_definition : depth0)) != null ? helper : alias1),(typeof helper === alias2 ? helper.call(depth0,{"name":"ind_definition","hash":{},"data":data}) : helper)))
@@ -17182,382 +17182,384 @@ jQuery(function($) {
         $(id).empty().append(Placeholder);
     }
 
-    // START GLOBAL CHARACTERISIC VALUE TAB
-    // ============================================================
-    // ============================================================
+    // // START GLOBAL CHARACTERISIC VALUE TAB
+    // // ============================================================
+    // // ============================================================
     
-    // Select INC
-    $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
-    $('.global_inc').trigger('change');
-    $('button[data-id="global_inc"]').addClass("btn-sm");
+    // // Select INC
+    // $('.global_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    // $('.global_inc').trigger('change');
+    // $('button[data-id="global_inc"]').addClass("btn-sm");
 
-    $(document).ajaxComplete(function() {
-        // Changed INC
-        $('#global_inc').off('changed.bs.select');
-        $('#global_inc').on('changed.bs.select', function() {
-            valPlaceholder('#global-val-area');          
-            getGlobalCharsList();
-        });
-        // End Changed INC
+    // $(document).ajaxComplete(function() {
+    //     // Changed INC
+    //     $('#global_inc').off('changed.bs.select');
+    //     $('#global_inc').on('changed.bs.select', function() {
+    //         valPlaceholder('#global-val-area');          
+    //         getGlobalCharsList();
+    //     });
+    //     // End Changed INC
 
-        // characteristic row click 
-        $(document).off('click', 'tbody#global_char_table tr');
-        $(document).on('click', 'tbody#global_char_table tr', function() {
-            $("tbody#global_char_table tr:first-child").removeClass('active');
-            $("tbody#global_char_table tr").removeClass('active');
-            $(this).addClass('active');
-            id = $(this).closest('tr').find("input").val();
-            getGlobalCharValues(id, false);
-        });
-        // end characteristic row click
-    });
+    //     // characteristic row click 
+    //     $(document).off('click', 'tbody#global_char_table tr');
+    //     $(document).on('click', 'tbody#global_char_table tr', function() {
+    //         $("tbody#global_char_table tr:first-child").removeClass('active');
+    //         $("tbody#global_char_table tr").removeClass('active');
+    //         $(this).addClass('active');
+    //         id = $(this).closest('tr').find("input").val();
+    //         getGlobalCharValues(id, false);
+    //     });
+    //     // end characteristic row click
+    // });
 
-    function getGlobalCharsList(bool) {
-        var globalIncId = $("#global_inc").val();
+    // function getGlobalCharsList(bool) {
+    //     var globalIncId = $("#global_inc").val();
 
-        if (globalIncId){
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: "settings/get-global-chars/" + globalIncId,
-                success: function(data) {
-                    globalCharsTable  = '<div class="col-xs-6">';
-                    globalCharsTable += '<table class="table table-striped table-char-settings">';
-                    globalCharsTable += '<thead><th>#</th><th>CHARACTERISICS';
-                    globalCharsTable += '<span id="global-char-button" class="pull-right">';
-                    globalCharsTable += '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
-                    globalCharsTable += '</span>';
-                    globalCharsTable += '</th></thead><tbody id="global_char_table">';
+    //     if (globalIncId){
+    //         $.ajax({
+    //             type: "GET",
+    //             dataType: "json",
+    //             url: "settings/get-global-chars/" + globalIncId,
+    //             success: function(data) {
+    //                 globalCharsTable  = '<div class="col-xs-6">';
+    //                 globalCharsTable += '<table class="table table-striped table-char-settings">';
+    //                 globalCharsTable += '<thead><th>#</th><th>CHARACTERISICS';
+    //                 globalCharsTable += '<span id="global-char-button" class="pull-right">';
+    //                 globalCharsTable += '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+    //                 globalCharsTable += '</span>';
+    //                 globalCharsTable += '</th></thead><tbody id="global_char_table">';
 
-                    globalOldOrder = [];
-                    $.each(data, function(i, item) {
-                        globalCharsTable += '<tr id="';
-                        globalCharsTable += i + 1;
-                        globalCharsTable += '"><td>';
-                        globalCharsTable += '<input class="global_lic_id" name="global_lic_id[]" type="hidden" value="' + item.id + '">';
-                        globalCharsTable += i + 1;
-                        globalCharsTable += '</td><td>' + item.characteristic + '</td></tr>';
+    //                 globalOldOrder = [];
+    //                 $.each(data, function(i, item) {
+    //                     globalCharsTable += '<tr id="';
+    //                     globalCharsTable += i + 1;
+    //                     globalCharsTable += '"><td>';
+    //                     globalCharsTable += '<input class="global_lic_id" name="global_lic_id[]" type="hidden" value="' + item.id + '">';
+    //                     globalCharsTable += i + 1;
+    //                     globalCharsTable += '</td><td>' + item.characteristic + '</td></tr>';
 
-                        // save oldOrder temporary
-                        globalOldOrder.push(i + 1);
-                    });
-                    globalCharsTable += '</tbody></table></div>';
-                    $("#global-char-area").empty().append(globalCharsTable);
-                    // for reset order
-                    globalCache = $("#global_char_table").html();
+    //                     // save oldOrder temporary
+    //                     globalOldOrder.push(i + 1);
+    //                 });
+    //                 globalCharsTable += '</tbody></table></div>';
+    //                 $("#global-char-area").empty().append(globalCharsTable);
+    //                 // for reset order
+    //                 globalCache = $("#global_char_table").html();
 
-                    if(bool == true){
-                        sequenceSavedMessage  = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
-                        sequenceSavedMessage += '&nbsp;<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
-                        $("#global-char-button").empty().append(sequenceSavedMessage);
-                    }                
-                }
-            });
-        }else{
-            charPlaceholder('#global-char-area');
-            valPlaceholder('#global-val-area');
-        }
-    }
+    //                 if(bool == true){
+    //                     sequenceSavedMessage  = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+    //                     sequenceSavedMessage += '&nbsp;<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+    //                     $("#global-char-button").empty().append(sequenceSavedMessage);
+    //                 }                
+    //             }
+    //         });
+    //     }else{
+    //         charPlaceholder('#global-char-area');
+    //         valPlaceholder('#global-val-area');
+    //     }
+    // }
 
-    function getGlobalCharValues(linkIncCharacteristicId, bool) {
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "settings/get-global-characteristics-values/" + linkIncCharacteristicId,
-            success: function(data) {
-                echo  = '<div class="col-xs-6">';
-                echo += '<table class="table table-striped">';
-                echo += '<thead><tr><th style="width:5%;">#</th>';
-                echo += '<th style="width:45%;">VALUES</th>';
-                echo += '<th style="width:35%;">ABBREV</th>';
-                echo += '<th style="width:15%;">APPROVED</th></tr></thead>';
-                echo += '<tbody id="global_val_table">';
-                $.each(data, function(i, item) {
-                    echo += '<tr><td>';
-                    echo += i + 1;
-                    echo += '</td><td>' + item.value + '</td>';
-                    echo += '</td><td>' + item.abbrev + '</td>';
-                    echo += '</td><td>' + item.approved + '</td></tr>';
-                });
-                echo += '</tbody></table></div>';
+    // function getGlobalCharValues(linkIncCharacteristicId, bool) {
+    //     $.ajax({
+    //         type: "GET",
+    //         dataType: "json",
+    //         url: "settings/get-global-characteristics-values/" + linkIncCharacteristicId,
+    //         success: function(data) {
+    //             echo  = '<div class="col-xs-6">';
+    //             echo += '<table class="table table-striped">';
+    //             echo += '<thead><tr><th style="width:5%;">#</th>';
+    //             echo += '<th style="width:45%;">VALUES</th>';
+    //             echo += '<th style="width:35%;">ABBREV</th>';
+    //             echo += '<th style="width:15%;">APPROVED</th></tr></thead>';
+    //             echo += '<tbody id="global_val_table">';
+    //             $.each(data, function(i, item) {
+    //                 echo += '<tr><td>';
+    //                 echo += i + 1;
+    //                 echo += '</td><td>' + item.value + '</td>';
+    //                 echo += '</td><td>' + item.abbrev + '</td>';
+    //                 echo += '</td><td>' + item.approved + '</td></tr>';
+    //             });
+    //             echo += '</tbody></table></div>';
 
-                if(bool == true){
-                    $("#global_val_short_area").empty().append(echo);
-                }else{
-                    $("#global-val-area").empty().append(echo);
-                }
-            }
-        });
-    }
+    //             if(bool == true){
+    //                 $("#global_val_short_area").empty().append(echo);
+    //             }else{
+    //                 $("#global-val-area").empty().append(echo);
+    //             }
+    //         }
+    //     });
+    // }
 
-    // sortabe
-    $(document).ajaxComplete(function(){
-        $("#global_char_table").sortable({
-            items: "tr",
-            cursor: 'move',
-            opacity: 0.6,
-            update: function() {
-                globalNewOrder = $("#global_char_table").sortable("toArray");
-                if(globalOldOrder.equals(globalNewOrder) == false){
-                    button  = '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
-                    button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
-                    $('#global-char-button').html(button);
-                }else{
-                    button  = '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
-                    $('#global-char-button').empty().append(button);
-                }
-            }
-        });
-    });
+    // // sortabe
+    // $(document).ajaxComplete(function(){
+    //     $("#global_char_table").sortable({
+    //         items: "tr",
+    //         cursor: 'move',
+    //         opacity: 0.6,
+    //         update: function() {
+    //             globalNewOrder = $("#global_char_table").sortable("toArray");
+    //             if(globalOldOrder.equals(globalNewOrder) == false){
+    //                 button  = '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+    //                 button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+    //                 $('#global-char-button').html(button);
+    //             }else{
+    //                 button  = '<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>';
+    //                 $('#global-char-button').empty().append(button);
+    //             }
+    //         }
+    //     });
+    // });
 
-    $("#global_char_table").sortable({
-        helper: fixHelper,
-    });
-    // end sortable
+    // $("#global_char_table").sortable({
+    //     helper: fixHelper,
+    // });
+    // // end sortable
 
-    // reset global char order
-    $(document).on('click', '#reset-global-char-order', function() {
-        $("#global_char_table").html(globalCache);
-        $('#global-char-button').html('<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>');
-        valPlaceholder('#global-val-area');
-    });    
-    // end reset global char order
+    // // reset global char order
+    // $(document).on('click', '#reset-global-char-order', function() {
+    //     $("#global_char_table").html(globalCache);
+    //     $('#global-char-button').html('<kbd id="add-char" class="kbd-primary cpointer">ADD</kbd>');
+    //     valPlaceholder('#global-val-area');
+    // });    
+    // // end reset global char order
 
-    // update global char order
-    $(document).on('click', '#update-global-char-order', function() {
-        var global_lic_id = []
-        $("input.global_lic_id").each(function (){
-            global_lic_id.push(parseInt($(this).val()));
-        });
+    // // update global char order
+    // $(document).on('click', '#update-global-char-order', function() {
+    //     var global_lic_id = []
+    //     $("input.global_lic_id").each(function (){
+    //         global_lic_id.push(parseInt($(this).val()));
+    //     });
 
-        $.ajax({ 
-            type: "PUT",
-            url: 'settings/update-global-characteristics-order',
-            data: {'lic': global_lic_id},
-            success: function() {
-                valPlaceholder('#global-val-area');
-                getGlobalCharsList(true);                
-            },
-            error: function(){
-                button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
-                button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
-                button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
-                $('#global-char-button').html(button);
-            }
-        });
-    });    
-    // end update global char order
+    //     $.ajax({ 
+    //         type: "PUT",
+    //         url: 'settings/update-global-characteristics-order',
+    //         data: {'lic': global_lic_id},
+    //         success: function() {
+    //             valPlaceholder('#global-val-area');
+    //             getGlobalCharsList(true);                
+    //         },
+    //         error: function(){
+    //             button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
+    //             button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+    //             button += '&nbsp;<kbd id="update-global-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
+    //             $('#global-char-button').html(button);
+    //         }
+    //     });
+    // });    
+    // // end update global char order
 
-    // ADD CHARACTERISIC MODAL
-    $(document).on('click', '#add-char', function() {
-        var globalIncId = $("#global_inc").val();
-        $.ajax({ 
-            type: "GET",
-            url: 'settings/characteristic-to-be-added/' + globalIncId,
-            dataType: 'json',
-            success: function(data) {
-                tr = '';
-                $.each(data, function(i, item) {
-                    tr += '<tr><td>';
-                    tr += i + 1;
-                    tr += '</td><td>'+item.characteristic;
-                    tr += '<kbd id="#" class="kbd-primary pull-right cpointer">ADD</kbd>';
-                    tr += '</td></tr>';
-                });
-                $("#add-char-table").empty().append(tr);
+    // // ADD CHARACTERISIC MODAL
+    // $(document).on('click', '#add-char', function() {
+    //     var globalIncId = $("#global_inc").val();
+    //     $.ajax({ 
+    //         type: "GET",
+    //         url: 'settings/characteristic-to-be-added/' + globalIncId,
+    //         dataType: 'json',
+    //         success: function(data) {
+    //             tr = '';
+    //             $.each(data, function(i, item) {
+    //                 tr += '<tr><td>';
+    //                 tr += i + 1;
+    //                 tr += '</td><td>'+item.characteristic;
+    //                 tr += '<kbd id="#" class="kbd-primary pull-right cpointer">ADD</kbd>';
+    //                 tr += '</td></tr>';
+    //             });
+    //             $("#add-char-table").empty().append(tr);
 
-                inc = $('div.global_inc.with-ajax button').attr('title');
-                $('#item_name').text(inc);
-                $('#add_characteristic_modal').modal('show');           
-            },
-            error: function(){
+    //             inc = $('div.global_inc.with-ajax button').attr('title');
+    //             $('#item_name').text(inc);
+    //             $('#add_characteristic_modal').modal('show');           
+    //         },
+    //         error: function(){
                 
-            }
-        });
-    });
-    // END ADD CHARACTERISIC MODAL
+    //         }
+    //     });
+    // });
+    // // END ADD CHARACTERISIC MODAL
 
-    // END GLOBAL CHARACTERISIC VALUE TAB
-    // ============================================================
-    // ============================================================
+    // // END GLOBAL CHARACTERISIC VALUE TAB
+    // // ============================================================
+    // // ============================================================
     
 
 
-    // START GLOBAL SHORT DESCRIPTION FORMAT TAB
-    // ============================================================
-    // ============================================================
+    // // START GLOBAL SHORT DESCRIPTION FORMAT TAB
+    // // ============================================================
+    // // ============================================================
     
+    // // Select INC
+    // $('.global_short_desc_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    // $('.global_short_desc_inc').trigger('change');
+    // $('button[data-id="global_short_desc_inc"]').addClass("btn-sm");
+
+    // $(document).ajaxComplete(function() {
+    //     // Changed INC
+    //     $('#global_short_desc_inc').off('changed.bs.select');
+    //     $('#global_short_desc_inc').on('changed.bs.select', function() {
+    //         valPlaceholder('#global_val_short_area');
+    //         getGlobalShortDescCharsList();
+    //     });
+    //     // End Changed INC
+
+    //     // characteristic row click 
+    //     $(document).off('click', 'tbody#global_short_desc_table tr');
+    //     $(document).on('click', 'tbody#global_short_desc_table tr', function() {
+    //         $("tbody#global_short_desc_table tr:first-child").removeClass('active');
+    //         $("tbody#global_short_desc_table tr").removeClass('active');
+    //         $(this).addClass('active');
+    //         id = $(this).closest('tr').find("input").val();
+    //         getGlobalCharValues(id, true);
+    //     });
+    //     // end characteristic row click
+    // });
+
+    // function getGlobalShortDescCharsList(bool) {
+    //     var IncId = $("#global_short_desc_inc").val();
+
+    //     if (IncId){
+    //         $.ajax({
+    //             type: "GET",
+    //             dataType: "json",
+    //             url: "settings/get-global-short-desc-chars/" + IncId,
+    //             success: function(data) {
+    //                 globalShortTable  = '<div class="col-xs-6">';
+    //                 globalShortTable += '<table class="table table-striped table-short-settings">';
+    //                 globalShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
+    //                 globalShortTable += '<span id="global_short_desc_button" class="pull-right">';
+    //                 globalShortTable += '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+    //                 globalShortTable += '</span></th></thead>';
+    //                 globalShortTable += '<tbody id="global_short_desc_table">';
+
+    //                 globalShortOldOrder = [];
+    //                 $.each(data, function(i, item) {
+    //                     globalShortTable += '<tr id="';
+    //                     globalShortTable += i + 1;
+    //                     globalShortTable += '"><td>';
+    //                     globalShortTable += '<input class="global_short_desc_id" name="global_short_desc_id[]" type="hidden" value="' + item.id + '">';
+    //                     globalShortTable += i + 1;
+    //                     globalShortTable += '</td><td>' + item.characteristic + '</td>';
+    //                     globalShortTable += '</td><td><strong>' + item.separator + '</strong></td></tr>';
+
+    //                     // save oldOrder temporary
+    //                     globalShortOldOrder.push(i + 1);
+    //                 });
+    //                 globalShortTable += '</tbody></table></div>';
+    //                 $("#global_short_desc_area").empty().append(globalShortTable);
+    //                 // for reset order
+    //                 globalShortCache = $("#global_short_desc_table").html();
+
+    //                 if(bool == true){
+    //                     var sequenceSavedMessage   = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
+    //                         sequenceSavedMessage  += '&nbsp;<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+    //                     $("#global_short_desc_button").empty().append(sequenceSavedMessage);
+    //                 }                
+    //             }
+    //         });
+    //     }else{
+    //         charPlaceholder('#global_short_desc_area');
+    //     }
+    // }
+
+    // // sortabe
+    // $(document).ajaxComplete(function(){
+    //     $("#global_short_desc_table").sortable({
+    //         items: "tr",
+    //         cursor: 'move',
+    //         opacity: 0.6,
+    //         update: function() {
+    //             globalShortNewOrder = $("#global_short_desc_table").sortable("toArray");
+    //             if(globalShortOldOrder.equals(globalShortNewOrder) == false){
+    //                 button  = '<kbd id="reset_global_short_desc_order" class="kbd-default cpointer">RESET</kbd>';
+    //                 button += '&nbsp;<kbd id="update_global_short_desc_order" class="kbd-primary cpointer">UPDATE</kbd>';
+    //                 $('#global_short_desc_button').html(button);
+    //             }else{
+    //                 button  = '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
+    //                 $('#global_short_desc_button').empty().append(button);
+    //             }
+    //         }
+    //     });
+    // });
+
+    // $("#global_short_desc_table").sortable({
+    //     helper: fixHelper,
+    // });
+    // // end sortable
+
+    // // reset short order
+    // $(document).on('click', '#reset_global_short_desc_order', function() {
+    //     $("#global_short_desc_table").html(globalShortCache);
+    //     $('#global_short_desc_button').html('<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>');
+    //     // valPlaceholder('#global-val-area');
+    // });    
+    // // end reset short order
+
+    // // update short order
+    // $(document).on('click', '#update_global_short_desc_order', function() {
+    //     var global_short_desc_id = []
+    //     $("input.global_short_desc_id").each(function (){
+    //         global_short_desc_id.push(parseInt($(this).val()));
+    //     });
+
+    //     $.ajax({ 
+    //         type: "PUT",
+    //         url: 'settings/update-global-short-desc-order',
+    //         data: {'sid': global_short_desc_id},
+    //         success: function() {
+    //             valPlaceholder('#global_val_short_area');
+    //             getGlobalShortDescCharsList(true);                
+    //         },
+    //         error: function(){
+    //             button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
+    //             button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
+    //             button += '&nbsp;<kbd id="update_global_short_desc_order" class="kbd-primary cpointer">UPDATE</kbd>';
+    //             $('#global_short_desc_button').html(button);
+    //         }
+    //     });
+    // });    
+    // // end update short order
+    // // END GLOBAL SHORT DESCRIPTION FORMAT TAB
+    // // ============================================================
+    // // ============================================================
+
+
+
+    // START CHARACTERISIC VALUE TAB
+    // ============================================================
+    // ============================================================
     // Select INC
-    $('.global_short_desc_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
-    $('.global_short_desc_inc').trigger('change');
-    $('button[data-id="global_short_desc_inc"]').addClass("btn-sm");
-
-    $(document).ajaxComplete(function() {
-        // Changed INC
-        $('#global_short_desc_inc').off('changed.bs.select');
-        $('#global_short_desc_inc').on('changed.bs.select', function() {
-            valPlaceholder('#global_val_short_area');
-            getGlobalShortDescCharsList();
-        });
-        // End Changed INC
-
-        // characteristic row click 
-        $(document).off('click', 'tbody#global_short_desc_table tr');
-        $(document).on('click', 'tbody#global_short_desc_table tr', function() {
-            $("tbody#global_short_desc_table tr:first-child").removeClass('active');
-            $("tbody#global_short_desc_table tr").removeClass('active');
-            $(this).addClass('active');
-            id = $(this).closest('tr').find("input").val();
-            getGlobalCharValues(id, true);
-        });
-        // end characteristic row click
-    });
-
-    function getGlobalShortDescCharsList(bool) {
-        var IncId = $("#global_short_desc_inc").val();
-
-        if (IncId){
-            $.ajax({
-                type: "GET",
-                dataType: "json",
-                url: "settings/get-global-short-desc-chars/" + IncId,
-                success: function(data) {
-                    globalShortTable  = '<div class="col-xs-6">';
-                    globalShortTable += '<table class="table table-striped table-short-settings">';
-                    globalShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
-                    globalShortTable += '<span id="global_short_desc_button" class="pull-right">';
-                    globalShortTable += '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
-                    globalShortTable += '</span></th></thead>';
-                    globalShortTable += '<tbody id="global_short_desc_table">';
-
-                    globalShortOldOrder = [];
-                    $.each(data, function(i, item) {
-                        globalShortTable += '<tr id="';
-                        globalShortTable += i + 1;
-                        globalShortTable += '"><td>';
-                        globalShortTable += '<input class="global_short_desc_id" name="global_short_desc_id[]" type="hidden" value="' + item.id + '">';
-                        globalShortTable += i + 1;
-                        globalShortTable += '</td><td>' + item.characteristic + '</td>';
-                        globalShortTable += '</td><td><strong>' + item.separator + '</strong></td></tr>';
-
-                        // save oldOrder temporary
-                        globalShortOldOrder.push(i + 1);
-                    });
-                    globalShortTable += '</tbody></table></div>';
-                    $("#global_short_desc_area").empty().append(globalShortTable);
-                    // for reset order
-                    globalShortCache = $("#global_short_desc_table").html();
-
-                    if(bool == true){
-                        var sequenceSavedMessage   = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
-                            sequenceSavedMessage  += '&nbsp;<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
-                        $("#global_short_desc_button").empty().append(sequenceSavedMessage);
-                    }                
-                }
-            });
-        }else{
-            charPlaceholder('#global_short_desc_area');
-        }
-    }
-
-    // sortabe
-    $(document).ajaxComplete(function(){
-        $("#global_short_desc_table").sortable({
-            items: "tr",
-            cursor: 'move',
-            opacity: 0.6,
-            update: function() {
-                globalShortNewOrder = $("#global_short_desc_table").sortable("toArray");
-                if(globalShortOldOrder.equals(globalShortNewOrder) == false){
-                    button  = '<kbd id="reset_global_short_desc_order" class="kbd-default cpointer">RESET</kbd>';
-                    button += '&nbsp;<kbd id="update_global_short_desc_order" class="kbd-primary cpointer">UPDATE</kbd>';
-                    $('#global_short_desc_button').html(button);
-                }else{
-                    button  = '<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>';
-                    $('#global_short_desc_button').empty().append(button);
-                }
-            }
-        });
-    });
-
-    $("#global_short_desc_table").sortable({
-        helper: fixHelper,
-    });
-    // end sortable
-
-    // reset short order
-    $(document).on('click', '#reset_global_short_desc_order', function() {
-        $("#global_short_desc_table").html(globalShortCache);
-        $('#global_short_desc_button').html('<kbd id="add-short" class="kbd-primary cpointer">ADD</kbd>');
-        // valPlaceholder('#global-val-area');
-    });    
-    // end reset short order
-
-    // update short order
-    $(document).on('click', '#update_global_short_desc_order', function() {
-        var global_short_desc_id = []
-        $("input.global_short_desc_id").each(function (){
-            global_short_desc_id.push(parseInt($(this).val()));
-        });
-
-        $.ajax({ 
-            type: "PUT",
-            url: 'settings/update-global-short-desc-order',
-            data: {'sid': global_short_desc_id},
-            success: function() {
-                valPlaceholder('#global_val_short_area');
-                getGlobalShortDescCharsList(true);                
-            },
-            error: function(){
-                button  = '<span class="text-danger not-updated">Sequence not updated</span>&nbsp;';
-                button += '<kbd id="reset-global-char-order" class="kbd-default cpointer">RESET</kbd>';
-                button += '&nbsp;<kbd id="update_global_short_desc_order" class="kbd-primary cpointer">UPDATE</kbd>';
-                $('#global_short_desc_button').html(button);
-            }
-        });
-    });    
-    // end update short order
-    // END GLOBAL SHORT DESCRIPTION FORMAT TAB
-    // ============================================================
-    // ============================================================
-
-
-
-    // START COMPANY CHARACTERISIC VALUE TAB
-    // ============================================================
-    // ============================================================
-    // Select INC
-    $('.inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
-    $('.inc').trigger('change');
-    $('button[data-id="inc"]').addClass("btn-sm");
+    $('.char_val_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
+    $('.char_val_inc').trigger('change');
+    $('button[data-id="char_val_inc"]').addClass("btn-sm");
 
     // Select Holding
-    $('.holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHolding);
-    $('.holding').trigger('change');
-    $('button[data-id="holding"]').addClass("btn-sm");
+    $('.char_val_holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsHolding);
+    $('.char_val_holding').trigger('change');
+    $('button[data-id="char_val_holding"]').addClass("btn-sm");
     $('.bs-searchbox > input.form-control').addClass("input-sm");
 
     // Select Company
-    var selectCompany = '<div class="btn-group bootstrap-select disabled company with-ajax" style="width: 100%;">';
-    selectCompany += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="company" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
+    var selectCompany = '<div class="btn-group bootstrap-select disabled char_val_company with-ajax" style="width: 100%;">';
+    selectCompany += '<button type="button" class="btn dropdown-toggle disabled btn-default btn-sm" data-toggle="dropdown" data-id="char_val_company" tabindex="-1" title="SELECT COMPANY"><span class="filter-option pull-left">SELECT COMPANY</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>';
     selectCompany += '<div class="dropdown-menu open" style="min-height: 0px;"><div class="bs-searchbox"><input type="text" class="form-control" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px;"></ul><div class="status" style="">Start typing a search query</div></div>';
-    selectCompany += '<select id="company" class="company with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
+    selectCompany += '<select id="char_val_company" class="char_val_company with-ajax" data-live-search="true" data-width="100%" disabled="" tabindex="-98" title="SELECT COMPANY"><option class="bs-title-option" value="">SELECT COMPANY</option></select>';
     selectCompany += '</div>';
-    $("#select_company").html(selectCompany);
+    $("#select_char_val_company").html(selectCompany);
 
     $(document).ajaxComplete(function() {
 
         // Changed INC
-        $('#inc').off('changed.bs.select');
-        $('#inc').on('changed.bs.select', function() {
-            getCompanyCharsList();
+        $('#char_val_inc').off('changed.bs.select');
+        $('#char_val_inc').on('changed.bs.select', function() {
+            valPlaceholder('#char_val_val_area');
+            getCharValCharList();
         });
         // End Changed INC
 
         // Changed Holding
-        $('#holding').on('changed.bs.select', function(e) {
-            $('#select_company').html('<select id="company" class="company with-ajax" data-live-search="true" data-width="100%"></select>');
-            charPlaceholder('#company-char-area');
+        $('#char_val_holding').on('changed.bs.select', function(e) {
+            $('#select_char_val_company').html('<select id="char_val_company" class="char_val_company with-ajax" data-live-search="true" data-width="100%"></select>');
+            charPlaceholder('#char_val_char_area');
+            valPlaceholder('#char_val_val_area');
 
             var holdingId = $(this).val();
             var optionsCompany = {
@@ -17583,124 +17585,523 @@ jQuery(function($) {
                     return array;
                 }
             };
-            $('.company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompany);
-            $('.company').trigger('change');
-            $('button[data-id="company"]').addClass("btn-sm");
+            $('.char_val_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompany);
+            $('.char_val_company').trigger('change');
+            $('button[data-id="char_val_company"]').addClass("btn-sm");
             $('.bs-searchbox > input.form-control').addClass("input-sm");
         });
         // End Changed Holding  
 
         // Changed Company
-        $('#company').off('changed.bs.select');
-        $('#company').on('changed.bs.select', function() {
-            getCompanyCharsList();
+        $('#char_val_company').off('changed.bs.select');
+        $('#char_val_company').on('changed.bs.select', function() {
+            valPlaceholder('#char_val_val_area');
+            getCharValCharList();
         });
         // End Changed Company
+    
+        // characteristic row click 
+        $(document).off('click', 'tbody#char_val_table tr');
+        $(document).on('click', 'tbody#char_val_table tr', function() {
+            $("tbody#char_val_table tr:first-child").removeClass('active');
+            $("tbody#char_val_table tr").removeClass('active');
+            $(this).addClass('active');
+            licId = $(this).closest('tr').find("input.lic_id").val();
+            companyId = $('#char_val_company').val();
+            getCharValues(licId,companyId);
+        });
+        // end characteristic row click
     });
 
-    function getCompanyCharsList(bool) {
-        var incId = $("#inc").val();
-        var companyId = $("#company").val();
+    function getCharValCharList() {
+        var incId = $("#char_val_inc").val();
+        var companyId = $("#char_val_company").val();
 
         if (incId && companyId){
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "settings/get-company-chars/" + incId + "/" + companyId,
+                url: "settings/char/" + incId + "/" + companyId,
                 success: function(data) {
                     charsTable  = '<div class="col-xs-6">';
                     charsTable += '<table class="table table-striped table-char-settings">';
-                    charsTable += '<thead><th>#</th><th>CHARACTERISICS';
-                    charsTable += '<span id="company-char-button" class="pull-right"></span>';
-                    charsTable += '</th></thead><tbody id="company_char_table">';
+                    charsTable += '<thead><th>#</th><th>CHARACTERISICS</th>';
+                    charsTable += '<th>CUSTOM NAME</th>';
+                    charsTable += '<th><span class="style_name">PO STYLE</span>';
+                    charsTable += '<span id="char_val_btn" class="pull-right"></span>';
+                    charsTable += '</th></thead><tbody id="char_val_table" class="move_row">';
 
                     oldOrder = [];
                     $.each(data, function(i, item) {
                         charsTable += '<tr id="';
                         charsTable += i + 1;
                         charsTable += '"><td>';
-                        charsTable += '<input class="company_char_id" name="company_char_id[]" type="hidden" value="' + item.id + '">';
+                        charsTable += '<input class="char_val_char_id" name="char_val_char_id[]" type="hidden" value="' + item.id + '">';
+                        charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.lic_id + '">';
                         charsTable += i + 1;
-                        charsTable += '</td><td>' + item.characteristic + '</td></tr>';
+                        charsTable += '</td><td>' + item.characteristic + '</td>';
+                        if(item.custom_char_name){
+                            charsTable += '<td>' + item.custom_char_name + '</td>';
+                        }else{
+                            charsTable += '<td><span style="color:transparent;">t</span></td>';
+                        }                        
+                        charsTable += '<td><span class="style_name">' + item.style_name + '</span><span class="pull-right">';
+                        charsTable += '<kbd data-id="' + item.id + '" id="edit_company_char" class="kbd-primary hover cpointer edit_company_char">EDIT</kbd>&nbsp;';
+                        if(item.hidden == 0){
+                            charsTable += '<kbd data-id="' + item.id + '" id="update_char_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
+                        }else if(item.hidden == 1){
+                            charsTable += '<kbd data-id="' + item.id + '" id="update_char_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
+                        }                        
+                        charsTable += '</span></td></tr>';
 
                         // save oldOrder temporary
                         oldOrder.push(i + 1);
                     });
                     charsTable += '</tbody></table></div>';
-                    $("#company-char-area").empty().append(charsTable);
+                    $("#char_val_char_area").empty().append(charsTable);
                     // for reset order
-                    cache = $("#company_char_table").html();
-
-                    if(bool == true){
-                        sequenceSavedMessage = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
-                        $("#company-char-button").empty().append(sequenceSavedMessage);
-                    }                
+                    cache = $("#char_val_table").html();
                 }
             });
         }else{
-            charPlaceholder('#company-char-area');
+            charPlaceholder('#char_val_char_area');
+            valPlaceholder('#char_val_val_area');
         }
+    }
+
+    function getCharValues(licId,companyId) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "settings/char-value/" + licId + "/" + companyId,
+            success: function(data) {
+                valueTable  = '<div class="col-xs-6">';
+                valueTable += '<table class="table table-striped table-hover table-val-settings">';
+                valueTable += '<thead><tr><th>#</th>';
+                valueTable += '<th>VALUES</th>';
+                valueTable += '<th>CUSTOM NAME</th>';
+                valueTable += '<th>ABBREV</th>';
+                valueTable += '<th>APPROVED<span class="pull-right"><kbd class="kbd-primary cpointer" id="add_val">ADD</kbd></span></th></tr></thead>';
+                valueTable += '<tbody id="val_table">';
+                $.each(data, function(i, item) {
+                    valueTable += '<tr><td>';
+                    valueTable += i + 1;
+                    valueTable += '</td><td>' + item.value + '</td>';
+                    valueTable += '</td><td>' + item.custom_value_name + '</td>';
+                    valueTable += '</td><td>' + item.abbrev + '</td>';                    
+                    valueTable += '<td><span class="approved_state">';
+                    if(item.approved == 1){
+                        valueTable += 'YES';
+                    }else{
+                        valueTable += 'NO';
+                    }                    
+                    valueTable += '</span><span class="pull-right">';
+                    valueTable += '<kbd data-licv="' + item.id + '" data-cv="' + item.cvid + '" id="delete" class="kbd-danger hover cpointer">DELETE</kbd>&nbsp;';
+                    valueTable += '<kbd data-id="' + item.id + '" id="edit" class="kbd-primary hover cpointer">EDIT</kbd>';
+                    valueTable += '</span>';
+
+                    valueTable += '</td></tr>';
+                });
+                valueTable += '</tbody></table></div>';
+
+                $("#char_val_val_area").empty().append(valueTable);
+            }
+        });
     }
 
     // sortabe
     $(document).ajaxComplete(function(){
-        $("#company_char_table").sortable({
+        $("#char_val_table").sortable({
             items: "tr",
             cursor: 'move',
-            opacity: 0.6,
+            opacity: 0.8,
+            start: function() {
+                $('#char_val_table .hide_btn').addClass('hidden');
+                $('#char_val_table .style_name').addClass('hidden');
+                $('#char_val_table .edit_company_char').removeClass('hover').addClass('hidden');
+                if ($('#char_val_table  #char_val_btn').is(':empty')){
+                  $('#char_val_table #char_val_btn').html('<span style="color:transparent">TEXT</span>');
+                }
+            },
+            beforeStop() {
+                $('#char_val_table #char_val_btn').empty();
+                $('#char_val_table .hide_btn').removeClass('hidden');
+                $('#char_val_table .style_name').removeClass('hidden');
+                $('#char_val_table .edit_company_char').removeClass('hidden').addClass('hover');
+            },
             update: function() {
-                newOrder = $("#company_char_table").sortable("toArray");
+                newOrder = $("#char_val_table").sortable("toArray");
                 if(oldOrder.equals(newOrder) == false){
-                    button  = '<kbd id="reset-company-char-order" class="kbd-default cpointer">RESET</kbd>';
-                    button += '&nbsp;<kbd id="update-company-char-order" class="kbd-primary cpointer">UPDATE</kbd>';
-                    $('#company-char-button').html(button);
+                    button  = '<kbd id="reset_char_val_order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update_char_val_order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#char_val_btn').html(button);
+                    $('#char_val_table .hide_btn').addClass('hidden');
+                    $('#char_val_table .style_name').addClass('hidden');
+                    $('#char_val_table .edit_company_char').removeClass('hover').addClass('hidden');
                 }else{
-                    $('#company-char-button').empty();
+                    $('#char_val_btn').empty();
+                    $('#char_val_table .hide_btn').removeClass('hidden');
+                    $('#char_val_table .style_name').removeClass('hidden');
+                    $('#char_val_table .edit_company_char').removeClass('hidden').addClass('hover');
                 }
             }
         });
     });
 
-    $("#company_char_table").sortable({
+    $("#char_val_table").sortable({
         helper: fixHelper,
     });
     // end sortable
 
-    // reset company char order
-    $(document).on('click', '#reset-company-char-order', function() {
-        $("#company_char_table").html(cache);
-        $('#company-char-button').empty();
+    // reset char order
+    $(document).on('click', '#reset_char_val_order', function() {
+        $("#char_val_table").html(cache);
+        $('#char_val_char_area #char_val_btn').empty();
+        valPlaceholder('#char_val_val_area');
+        $('#char_val_table .hide_btn').removeClass('hidden');
+        $('#char_val_table .style_name').removeClass('hidden');
+        $('#char_val_table .edit_company_char').removeClass('hidden').addClass('hover');
     });    
-    // end reset company char order
+    // end reset char order
 
-    // update company char order
-    $(document).on('click', '#update-company-char-order', function() {
-        var company_char_id = []
-        $("input.company_char_id").each(function (){
-            company_char_id.push(parseInt($(this).val()));
+    // update char order
+    $(document).on('click', '#update_char_val_order', function() {
+        var char_val_char_id = []
+        $("input.char_val_char_id").each(function (){
+            char_val_char_id.push(parseInt($(this).val()));
         });
 
         $.ajax({ 
             type: "PUT",
-            url: 'settings/update-ccharacteristics-order',
-            data: {'ccid': company_char_id},
+            url: 'settings/update-char-val-order',
+            data: {'id': char_val_char_id},
             success: function() {
-                getCompanyCharsList(true);                
+                getCharValCharList();                
             },
             error: function(){
                 console.log(false);
             }
         });
     });    
-    // end update company char order
+    // end update char order
 
-    // END COMPANY CHARACTERISIC VALUE TAB
+    // update char visibility
+    $(document).on('click', '#update_char_visibility', function() {
+        id = $(this).attr('data-id');
+        button = this;
+        $.ajax({ 
+            type: "PUT",
+            url: 'settings/update-char-visibility',
+            data: {'id': id},
+            success: function() {
+                if($(button).hasClass('kbd-default-grey')){
+                    $(button).removeClass('kbd-default-grey').addClass('kbd-default').text('SHOW');
+                }else{
+                    $(button).removeClass('kbd-default').addClass('kbd-default-grey').text('HIDE');
+                }
+            }
+        });
+    });    
+    // end update char visibility
+
+    // edit company char
+    $(document).on('click', '#edit_company_char', function() {
+        id = $(this).attr('data-id');
+        button = this;
+
+        $.ajax({ 
+            type: "GET",
+            url: 'settings/edit-company-char/' + id,
+            success: function(data) {                               
+                var requestCallback = new MyRequestsCompleted({
+                    numRequest: 1,
+                    singleCallback: function() {
+                        company = $('div.char_val_company.with-ajax button').attr('title');
+                        $('h4#edit_company_char_modal_title #company_name').text(company);
+
+                        inc     = $('div.char_val_inc.with-ajax button').attr('title');                
+                        $('h4#edit_company_char_modal_title #item_name').text(inc);
+
+                        current_char_name = $(button).closest('tr').children('td:eq(1)').text();
+                        $('#current_char_name').text(current_char_name);
+
+                        $('#custom_name').val(data.custom_char_name);                
+                        $('#ccid').val(data.id); 
+
+                        $('#edit_company_char_modal').modal('show');
+                    }
+                });
+
+                $.ajax({
+                    type: 'GET',
+                    url: 'settings/po-style',
+                    dataType: 'json',
+                    success: function(poStyleData) {
+                        var option = '';
+                        $.each(poStyleData, function(i, item) {
+                            if (data.tbl_po_style_id == item.id) {
+                                option += '<option value="' + item.id + '" selected>';
+                            }else{
+                                option += '<option value="' + item.id + '">';
+                            }                                                        
+                            option += item.style_name.toUpperCase();
+                            option += '</option>';
+                        });
+                        $("#po_style").empty().append(option);
+                        $("#po_style").selectpicker('refresh');
+                        $('button[data-id="po_style"]').addClass("btn-sm");
+
+                        requestCallback.requestComplete(true);
+                    },
+                });
+            },
+        });
+    });    
+    // end edit company char
+
+    // Update Company Characteristic
+    $("#edit_company_char_modal #btn_update").click(function() {
+        var formData = {
+            id: $("#edit_company_char_modal_form input#ccid").val(),
+            custom_name: $("#edit_company_char_modal_form input#custom_name").val(),
+            po_style: $("#edit_company_char_modal_form select#po_style").val(),
+        }
+
+        id: $("#edit_company_char_modal_form input#ccid").val();
+        button = $('kbd#edit_company_char[data-id="'+id+'"]');
+
+        $.ajax({
+            type: "PUT",
+            url: 'settings/update-company-char',
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                
+            },
+            success: function(data) {
+                custom_name = $('#custom_name').val();                
+                po_style_id = $('select#po_style').val();
+                po_style = $('#po_style option[value="'+po_style_id+'"]').text();
+
+                $(button).closest('tr').children('td:eq(2)').text(custom_name);
+                $(button).closest('tr').children('td:eq(3)').children('span.style_name').text(po_style);
+
+                $('#edit_company_char_modal').modal('hide');
+            },
+            error: function(data) {
+                
+            }
+        });
+    });
+    // END Update Company Characteristic
+
+    // show add value from
+    $(document).on('click', 'kbd#add_val', function() {
+        company = $('div.char_val_company.with-ajax button').attr('title');
+        $('h4#add_char_val_modal_title #company_name').text(company);
+
+        inc     = $('div.char_val_inc.with-ajax button').attr('title');                
+        $('h4#add_char_val_modal_title #item_name').text(inc);
+
+        current_char_name = $('#char_val_table tr.active').children('td:eq(1)').text();
+        $('#add_char_val_modal_title #current_char_name').text(current_char_name);
+
+        $('#add_char_val_modal').modal('show');
+    });    
+    // end show add value from
+
+    // Save new value
+    $("#add_char_val_modal #btn_save").click(function() {
+        var formData = {
+            licId: $('#char_val_table tr.active').children('td:eq(0)').children('.lic_id').val(),
+            companyId : $('#char_val_company').val(),
+            char_value: $("#add_char_val_modal_form input#char_value").val(),
+            custom_value_name: $("#add_char_val_modal_form input#custom_value_name").val(),
+            value_abbrev: $("#add_char_val_modal_form input#value_abbrev").val(),
+            approved: $("#add_char_val_modal_form input[name='approved']:checked").val(),
+        }
+
+        licId = $('#char_val_table tr.active').children('td:eq(0)').children('.lic_id').val();
+        companyId = $('#char_val_company').val();
+
+        $.ajax({
+            type: "POST",
+            url: 'settings/add-char-value',
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                
+            },
+            success: function(data) {
+                getCharValues(licId,companyId);
+                $('#add_char_val_modal').modal('hide');
+            },
+            error: function(data) {
+                
+            }
+        });
+    });
+    // END Save new value
+
+    $('#add_char_val_modal').on('hidden.bs.modal', function (e) {
+        $("#add_char_val_modal_form input#char_value").val('');
+        $("#add_char_val_modal_form input#custom_value_name").val('');
+        $("#add_char_val_modal_form input#value_abbrev").val('');
+        $("#add_char_val_modal_form input#add_yes").prop('checked', false);
+        $("#add_char_val_modal_form input#add_no").prop('checked', false);
+    })
+
+    // edit value
+    $(document).on('click', '#val_table kbd#edit', function() {
+        id = $(this).attr('data-id');
+
+        value = $(this).closest('tr').children('td:eq(1)').text();
+        $('#edit_char_val_modal_form #char_value').val(value);
+
+        custom_value_name = $(this).closest('tr').children('td:eq(2)').text();
+        $('#edit_char_val_modal_form #custom_value_name').val(custom_value_name);
+
+        abbrev = $(this).closest('tr').children('td:eq(3)').text();
+        $('#edit_char_val_modal_form #value_abbrev').val(abbrev);
+
+        approved = $(this).closest('tr').children('td:eq(4)').children('.approved_state').text();        
+
+        if(approved == 'YES'){
+            $( '#edit_char_val_modal_form #yes' ).prop( 'checked', true );
+        }else{
+            $( '#edit_char_val_modal_form #no' ).prop( 'checked', true );
+        }
+
+        company = $('div.char_val_company.with-ajax button').attr('title');
+        $('h4#edit_char_val_modal_title #company_name').text(company);
+
+        inc     = $('div.char_val_inc.with-ajax button').attr('title');                
+        $('h4#edit_char_val_modal_title #item_name').text(inc);
+
+        current_char_name = $('#char_val_table tr.active').children('td:eq(1)').text();
+        $('#edit_char_val_modal_title #current_char_name').text(current_char_name);
+
+        $('#licvid').val(id); 
+        $('#edit_char_val_modal').modal('show');
+    });    
+    // end edit value
+
+    // Update Value of Characteristic
+    $("#edit_char_val_modal #btn_update").click(function() {
+        var formData = {
+            licvId: $("#edit_char_val_modal input#licvid").val(),
+            companyId : $('#char_val_company').val(),
+            charValue: $("#edit_char_val_modal input#char_value").val(),
+            customValueName: $("#edit_char_val_modal input#custom_value_name").val(),
+            valueAbbrev: $("#edit_char_val_modal input#value_abbrev").val(),
+            approved: $("#edit_char_val_modal input[name='approved']:checked").val(),
+        }
+
+        id: $("#edit_char_val_modal input#licvid").val();
+        button = $('#val_table kbd#edit[data-id="'+id+'"]');
+
+        $.ajax({
+            type: "PUT",
+            url: 'settings/update-value',
+            data: formData,
+            dataType: 'json',
+            beforeSend: function(data) {
+                
+            },
+            success: function(data) {
+                char_value = $('input#char_value').val();                
+                custom_value_name = $('input#custom_value_name').val();                
+                value_abbrev = $('input#value_abbrev').val();
+                approved = $('input[name="approved"]:checked').val();
+
+                if(approved == '1'){
+                    approved = 'YES';
+                }else{
+                    approved = 'NO';
+                }
+
+                $(button).closest('tr').children('td:eq(1)').text(char_value);
+                $(button).closest('tr').children('td:eq(2)').text(custom_value_name);
+                $(button).closest('tr').children('td:eq(3)').text(value_abbrev);
+                $(button).closest('tr').children('td:eq(4)').children('span.approved_state').text(approved);
+
+                $('#edit_char_val_modal').modal('hide');                
+            },
+            error: function(data) {
+                
+            }
+        });
+    });
+    // END Update Value of Characteristic
+
+    // hide edit value link
+    $(document).on('click', '#still_edit_value', function() {
+        $('#edit_char_val_modal_form #char_value').removeAttr('disabled');
+        $(this).parent('span').addClass('hidden');
+    });
+
+    // show edit valu link
+    $('#edit_char_val_modal').on('hidden.bs.modal', function (e) {
+        $('#edit_char_val_modal_form #char_value').attr('disabled','disabled');
+        $('#still_edit_value').parent('span').removeClass('hidden');
+    })
+
+    // Delete Value of Characteristic
+     $(document).on('click', '#val_table kbd#delete', function() {
+        licvid = $(this).attr('data-licv');
+        cvid = $(this).attr('data-cv');
+        licId = $('#char_val_table tr.active input.lic_id').val();
+        companyId = $('#char_val_company').val();
+
+        value = $(this).closest('tr').children('td:eq(1)').text();
+        custom_value_name = $(this).closest('tr').children('td:eq(2)').text();
+        abbrev = $(this).closest('tr').children('td:eq(3)').text();
+        approved = $(this).closest('tr').children('td:eq(4)').children('span.approved_state').text();
+
+        var msg = "<table class=\"table table-striped\">";
+        msg += "<thead><tr><th width='30%'>VALUE</th><th width='30%'>CUSTOM VALUE NAME</th><th width='20%'>ABBREV</th><th width='20%'>APPROVED</th></thead>";
+        msg += "<tbody><tr><td>" + value + "</td><td>" + custom_value_name + "</td><td>" + abbrev + "</td><td>" + approved + "</td></tr></tbody>";
+        msg += "</table>";
+
+        bootbox.dialog({
+            message: msg,
+            title: "Are you sure you want to delete this Value?",
+            buttons: {
+                success: {
+                    label: "YES DELETE",
+                    className: "btn-danger btn-sm",
+                    callback: function() {
+                        $.ajax({
+                            type: "DELETE",
+                            url: 'settings/delete-value/' + cvid + '/' + licvid,
+                            beforeSend: function() {
+                            },
+                            success: function() {
+                                getCharValues(licId,companyId);
+                            },
+                            error: function() {
+                                alert('Cannot delete this value.');
+                            }
+                        });
+                    }
+                },
+                danger: {
+                    label: "CANCEL",
+                    className: "btn-default btn-sm",
+                },
+            },
+            animate: false,
+        });
+    });
+    // End Delete Value of Characteristic
+
+    // END CHARACTERISIC VALUE TAB
     // ============================================================
     // ============================================================
 
 
 
-    // START COMPANY SHORT DESCRIPTION FORMAT TAB
+    // START SHORT DESCRIPTION FORMAT TAB
     // ============================================================
     // ============================================================
     $('.company_short_desc_inc').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsInc);
@@ -17726,14 +18127,14 @@ jQuery(function($) {
         // Changed INC
         $('#company_short_desc_inc').off('changed.bs.select');
         $('#company_short_desc_inc').on('changed.bs.select', function() {
-            getCompanyShortDescList();
+            getShortDesc();
         });
         // End Changed INC
 
         // Changed Holding
         $('#company_short_desc_holding').on('changed.bs.select', function(e) {
             $('#company_short_desc_select_company').html('<select id="company_short_desc_company" class="company_short_desc_company with-ajax" data-live-search="true" data-width="100%"></select>');
-            charPlaceholder('#company_short_desc_short_area');
+            charPlaceholder('#short_desc_short_area');
 
             var holdingId = $(this).val();
             var optionsCompany = {
@@ -17769,12 +18170,12 @@ jQuery(function($) {
         // Changed Company
         $('#company_short_desc_company').off('changed.bs.select');
         $('#company_short_desc_company').on('changed.bs.select', function() {
-            getCompanyShortDescList();
+            getShortDesc();
         });
         // End Changed Company
     });
 
-    function getCompanyShortDescList(bool) {
+    function getShortDesc() {
         var incId = $("#company_short_desc_inc").val();
         var companyId = $("#company_short_desc_company").val();
 
@@ -17782,246 +18183,183 @@ jQuery(function($) {
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "settings/get-company-short-desc/" + incId + "/" + companyId,
+                url: "settings/get-short-desc/" + incId + "/" + companyId,
                 success: function(data) {
-                    companyShortTable  = '<div class="col-xs-6">';
-                    companyShortTable += '<table class="table table-striped table-short-settings">';
-                    companyShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
-                    companyShortTable += '<span id="company_short_desc_button" class="pull-right">';
-                    companyShortTable += '<kbd id="add_company_char_short" class="kbd-primary cpointer">ADD</kbd>';
-                    companyShortTable += '</span></th></thead>';
-                    companyShortTable += '<tbody id="company_short_desc_table">';
+                    ShortTable  = '<div class="col-xs-6">';
+                    ShortTable += '<table class="table table-striped table-short-settings">';
+                    ShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
+                    ShortTable += '<span id="short_desc_button" class="pull-right">';
+                    ShortTable += '</span></th></thead>';
+                    ShortTable += '<tbody id="short_desc_table" class="move_row">';
 
-                    companyShortOldOrder = [];
+                    ShortOldOrder = [];
                     $.each(data, function(i, item) {
-                        companyShortTable += '<tr id="';
-                        companyShortTable += i + 1;
-                        companyShortTable += '"><td>';
-                        companyShortTable += '<input class="company_short_desc_id" name="company_short_desc_id[]" type="hidden" value="' + item.id + '">';
-                        companyShortTable += i + 1;
-                        companyShortTable += '</td><td>' + item.characteristic + '</td><td><strong>';
-                        if(item.separator){
-                            sp = item.separator;
-                        }else{
-                            sp = '';
-                        }
-                        companyShortTable += sp;
-                        companyShortTable += '</strong>';
-                        companyShortTable += '<span class="pull-right">';
-                        companyShortTable += '<kbd id="remove_short_separator" data-id="' + item.id + '" class="kbd-default hover cpointer">REMOVE</kbd>&nbsp;';
-                        companyShortTable += '<kbd id="edit_short_separator" data-id="' + item.id + '" class="kbd-primary hover cpointer">EDIT</kbd>';
-                        companyShortTable += '</span></td></tr>';
+                        ShortTable += '<tr id="';
+                        ShortTable += i + 1;
+                        ShortTable += '"><td>';
+                        ShortTable += '<input class="short_desc_id" name="short_desc_id[]" type="hidden" value="' + item.id + '">';
+                        ShortTable += i + 1;
+                        ShortTable += '</td><td>' + item.characteristic + '</td>';
+                        ShortTable += '<td><span class="short_separator">' + item.short_separator + '</span><span class="pull-right">';
+                        ShortTable += '<kbd data-id="' + item.id + '" id="edit_short_separator" class="kbd-primary hover cpointer edit_short_separator">EDIT</kbd>&nbsp;';
+                        if(item.hidden == 0){
+                            ShortTable += '<kbd data-id="' + item.id + '" id="update_short_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
+                        }else if(item.hidden == 1){
+                            ShortTable += '<kbd data-id="' + item.id + '" id="update_short_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
+                        }                        
+                        ShortTable += '</span></td></tr>';
 
                         // save oldOrder temporary
-                        companyShortOldOrder.push(i + 1);
+                        ShortOldOrder.push(i + 1);
                     });
-                    companyShortTable += '</tbody></table></div>';
-                    $("#company_short_desc_short_area").empty().append(companyShortTable);
+                    ShortTable += '</tbody></table></div>';
+                    $("#short_desc_short_area").empty().append(ShortTable);
                     // for reset order
-                    companyShortCache = $("#company_short_desc_table").html();
-
-                    if(bool == true){
-                        var sequenceSavedMessage   = '<span class="text-primary animated fadeOut updated">Sequence updated</span>';
-                            sequenceSavedMessage  += '&nbsp;<kbd id="add_company_short" class="kbd-primary cpointer">ADD</kbd>';
-                        $("#company_short_desc_button").empty().append(sequenceSavedMessage);
-                    }
+                    shortCache = $("#short_desc_table").html();
                 }
             });
         }else{
-            charPlaceholder('#company_short_desc_short_area');
+            charPlaceholder('#short_desc_short_area');
         }
     }
 
     // sortabe
     $(document).ajaxComplete(function(){
-        $("#company_short_desc_table").sortable({
+        $("#short_desc_table").sortable({
             items: "tr",
             cursor: 'move',
-            opacity: 0.6,
+            opacity: 0.8,
+            start: function() {
+                $('#short_desc_table .hide_btn').addClass('hidden');
+                $('#short_desc_table .edit_short_separator').removeClass('hover').addClass('hidden');
+            },
+            beforeStop() {
+                $('#short_desc_button').empty();
+                $('#short_desc_table .hide_btn').removeClass('hidden');
+                $('#short_desc_table .edit_short_separator').removeClass('hidden').addClass('hover');
+            },
             update: function() {
-                companyShorNewOrder = $("#company_short_desc_table").sortable("toArray");
-                if(companyShortOldOrder.equals(companyShorNewOrder) == false){
-                    button  = '<kbd id="reset_company_short_desc_table_order" class="kbd-default cpointer">RESET</kbd>';
-                    button += '&nbsp;<kbd id="update_company_short_desc_table_order" class="kbd-primary cpointer">UPDATE</kbd>';
-                    $('#company_short_desc_button').html(button);
+                shortNewOrder = $("#short_desc_table").sortable("toArray");
+                if(ShortOldOrder.equals(shortNewOrder) == false){
+                    button  = '<kbd id="reset_short_desc_table_order" class="kbd-default cpointer">RESET</kbd>';
+                    button += '&nbsp;<kbd id="update_short_desc_order" class="kbd-primary cpointer">UPDATE</kbd>';
+                    $('#short_desc_button').html(button);
+                    $('#short_desc_table .hide_btn').addClass('hidden');
+                    $('#short_desc_table .edit_short_separator').removeClass('hover').addClass('hidden');
                 }else{
-                    button  = '<kbd id="add_company_short" class="kbd-primary cpointer">ADD</kbd>';
-                    $('#company_short_desc_button').empty().append(button);
+                    $('#short_desc_button').empty();
+                    $('#short_desc_table .hide_btn').removeClass('hidden');
+                    $('#short_desc_table .edit_short_separator').removeClass('hidden').addClass('hover');
                 }
             }
         });
     });
 
-    $("#company_short_desc_table").sortable({
+    $("#short_desc_table").sortable({
         helper: fixHelper,
     });
     // end sortable
 
-    // reset company char order
-    $(document).on('click', '#reset_company_short_desc_table_order', function() {
-        $("#company_short_desc_table").html(companyShortCache);
-        button  = '<kbd id="add_company_short" class="kbd-primary cpointer">ADD</kbd>';
-        $('#company_short_desc_button').empty().append(button);
+    // reset short order
+    $(document).on('click', '#reset_short_desc_table_order', function() {
+        $("#short_desc_table").html(shortCache);
+        $('#short_desc_button').empty();
     });    
-    // end reset company char order
+    // end reset short order
 
-    // update company char order
-    $(document).on('click', '#update_company_short_desc_table_order', function() {
-        var company_short_desc_id = []
-        $("input.company_short_desc_id").each(function (){
-            company_short_desc_id.push(parseInt($(this).val()));
+    // update short order
+    $(document).on('click', '#update_short_desc_order', function() {
+        var short_desc_id = []
+        $("input.short_desc_id").each(function (){
+            short_desc_id.push(parseInt($(this).val()));
         });
 
         $.ajax({ 
             type: "PUT",
-            url: 'settings/update-company-short-desc-order',
-            data: {'csid': company_short_desc_id},
+            url: 'settings/update-short-desc-order',
+            data: {'csid': short_desc_id},
             success: function() {
-                getCompanyShortDescList(true);                
+                getShortDesc();                
             },
             error: function(){
                 console.log(false);
             }
         });
     });    
-    // end update company char order
+    // end update short order
 
-    // ADD CHARACTERISIC SHORT DESC MODAL
-    $(document).on('click', '#add_company_char_short', function() {
-        var incId       = $("#company_short_desc_inc").val();
-        var companyId   = $("#company_short_desc_company").val();
+    // update short visibility
+    $(document).on('click', '#update_short_visibility', function() {
+        id = $(this).attr('data-id');
+        button = this;
         $.ajax({ 
-            type: "GET",
-            url: 'settings/char-to-be-added-to-short/' + incId + '/' + companyId,
-            dataType: 'json',
-            success: function(data) {
-                tr = '';
-                $.each(data, function(i, item) {
-                    tr += '<tr><td>';
-                    tr += i + 1;
-                    tr += '</td><td>';
-                    if(item.sdf_char){
-                        tr += item.sdf_char;
-                        tr += '<kbd id="add_sdf" data-id="'+item.sdf_id+'" class="kbd-primary pull-right cpointer">ADD</kbd>';
-                    }else{
-                        tr += item.lic_char;
-                        tr += '<kbd id="add_lic" data-id="'+item.lic_id+'" class="kbd-primary pull-right cpointer">ADD</kbd>';
-                    }
-                    tr += '</td></tr>';
-                });
-                $("#add_char_short_table").empty().append(tr);
-
-                company = $('div.company_short_desc_company.with-ajax button').attr('title');
-                $('h4#add_characteristic_short_modal_title #company_name').text(company);
-
-                inc     = $('div.company_short_desc_inc.with-ajax button').attr('title');                
-                $('h4#add_characteristic_short_modal_title #item_name').text(inc);
-
-                $('#add_characteristic_short_modal').modal('show');           
-            },
-            error: function(){
-                
-            }
-        });
-    });
-    // END ADD CHARACTERISIC SHORT DESC MODAL
-
-    // ADD SHORT DESCRIPTION FORMAT TO COMPANY SHORT DESC FORMAT
-    $(document).on('click', '#add_sdf', function() {
-        var formData = {
-            short_description_format_id: $(this).attr('data-id'),
-            tbl_company_id: $("#company_short_desc_company").val()
-        }
-        var button = this;
-        $.ajax({ 
-            type: "POST",
-            url: 'settings/add-short-desc-format-sdf',
-            dataType: 'json',
-            data: formData,
+            type: "PUT",
+            url: 'settings/update-short-visibility',
+            data: {'id': id},
             success: function() {
-                getCompanyShortDescList();
-                $(button).remove();
-            },
-            error: function(){
-                
-            }
-        });
-    });
-
-    $(document).on('click', '#add_lic', function() {
-        var formData = {
-            link_inc_characteristic_id: $(this).attr('data-id'),
-            tbl_company_id: $("#company_short_desc_company").val()
-        }
-        var button = this;
-        $.ajax({ 
-            type: "POST",
-            url: 'settings/add-short-desc-format-lic',
-            dataType: 'json',
-            data: formData,
-            success: function() {
-                getCompanyShortDescList();
-                $(button).remove();
-            },
-            error: function(){
-                
-            }
-        });
-    });
-    // END ADD SHORT DESCRIPTION FORMAT TO COMPANY SHORT DESC FORMAT
-
-    // EDIT SEPARATOR
-    $(document).on('click', '#edit_short_separator', function() {
-        var id = $(this).attr('data-id');
-        $.ajax({ 
-            type: "GET",
-            url: 'settings/edit-short-separator/' + id,
-            dataType: 'json',
-            success: function(data) {
-                if(data.separator){
-                    separator = data.separator;
+                if($(button).hasClass('kbd-default-grey')){
+                    $(button).removeClass('kbd-default-grey').addClass('kbd-default').text('SHOW');
                 }else{
-                    separator = '';
+                    $(button).removeClass('kbd-default').addClass('kbd-default-grey').text('HIDE');
                 }
-                var msg = '<input type="text" id="short_separator" value="'+separator+'" class="form-control input-sm" autofocus onfocus="var temp_value=this.value; this.value=\'\'; this.value=temp_value">';
-                bootbox.dialog({
-                    message: msg,
-                    title: "EDIT SHORT DESCRIPTION SEPARATOR",
-                    buttons: {
-                        danger: {
-                            label: "CLOSE",
-                            className: "btn-default btn-sm",
-                        },
-                        success: {
-                            label: "UPDATE",
-                            className: "btn-primary btn-sm",
-                            callback: function() {
-                                $.ajax({
-                                    type: "PUT",
-                                    url: 'settings/update-short-separator/',
-                                    data: {id: id, separator: $('input#short_separator').val()},
-                                    beforeSend: function() {},
-                                    success: function() {
-                                        getCompanyShortDescList();
-                                    },
-                                    error: function() {
-                                        alert('Cannot edit separator.');
-                                    }
-                                });
-                            }
-                        },                        
-                    },
-                    animate: false,
-                });
+            }
+        });
+    });    
+    // end update short visibility
+
+    // edit short separator
+    $(document).on('click', '#edit_short_separator', function() {
+        id = $(this).attr('data-id');
+
+        current_char_name = $(this).closest('tr').children('td:eq(1)').text();
+        $('h4#edit_short_separator_modal_title #current_char_name').text(current_char_name);
+
+        inc     = $('div.company_short_desc_inc.with-ajax button').attr('title');                
+        $('h4#edit_short_separator_modal_title #item_name').text(inc);
+
+        company = $('div.company_short_desc_company.with-ajax button').attr('title');                
+        $('h4#edit_short_separator_modal_title #company_name').text(company);
+
+        separator = $(this).closest('tr').children('td:eq(2)').children('.short_separator').text();
+        $('#edit_short_separator_modal_form #separator').val(separator);
+
+        $('#csdfid').val(id); 
+
+        $('#edit_short_separator_modal').modal('show');
+    });    
+    // end edit short separator
+
+    // Update Company Characteristic
+    $("#edit_short_separator_modal #btn_update").click(function() {
+        var formData = {
+            id: $("#edit_short_separator_modal input#csdfid").val(),
+            separator: $("#edit_short_separator_modal input#separator").val(),
+        }
+
+        id: $("#edit_short_separator_modal input#csdfid").val();
+        button = $('kbd#edit_short_separator[data-id="'+id+'"]');
+
+        $.ajax({
+            type: "PUT",
+            url: 'settings/update-short-separator',
+            data: formData,
+            dataType: 'json',
+            beforeSend: function() {
+                
             },
-            error: function(){
+            success: function() {
+                separator = $("#edit_short_separator_modal input#separator").val();
+                $(button).closest('tr').children('td:eq(2)').children('.short_separator').text(separator);
+                $('#edit_short_separator_modal').modal('hide');
+            },
+            error: function() {
                 
             }
         });
     });
-    // END EDIT SEPARATOR
+    // END Update Company Characteristic
     
-    // END COMPANY SHORT DESCRIPTION FORMAT TAB
+    // END SHORT DESCRIPTION FORMAT TAB
     // ============================================================
     // ============================================================
 

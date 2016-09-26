@@ -1,37 +1,46 @@
+$brand-primary: rgb(3, 179, 178);
+$brand-info: rgb(17, 186, 236);
+$font-size-base: 12px;
+$border-radius-base: 2px;
+$border-radius-large: 2px;
+$border-radius-small: 1px;
+$table-cell-padding: 4px;
+$table-condensed-cell-padding: 3px;
+$table-bg-accent: darken(rgb(251, 252, 253),3%);
+$table-bg-hover: #ABE7ED;
+$table-border-color: #E7ECF1;
+$input-border-focus: $brand-primary;
+$zindex-popover: 1010;
+$zindex-tooltip: 1030;
+$grid-gutter-width: 20px;
+$navbar-height: 30px;
+$navbar-default-color: rgb(255, 255, 255);
+$navbar-default-bg: $brand-primary;
+$navbar-default-link-color: rgb(255, 255, 255);
+$navbar-default-link-hover-color: rgb(255, 255, 255);
+$navbar-default-link-active-color: rgb(255, 255, 255);
+$state-success-border: rgb(223, 240, 216);
+$state-info-border: rgb(217, 237, 247);
+$state-warning-border: rgb(252, 248, 227);
+$state-danger-border: rgb(242, 222, 222);
 
-// Body
-$body-bg: #f5f8fa;
-
-// Borders
-$laravel-border-color: darken($body-bg, 10%);
-$list-group-border: $laravel-border-color;
-$navbar-default-border: $laravel-border-color;
-$panel-default-border: $laravel-border-color;
-$panel-inner-border: $laravel-border-color;
-
-// Brands
-$brand-primary: #3097D1;
-$brand-info: #8eb4cb;
-$brand-success: #2ab27b;
-$brand-warning: #cbb956;
-$brand-danger:  #bf5329;
-
-// Typography
-$font-family-sans-serif: "Raleway", sans-serif;
-$font-size-base: 14px;
-$line-height-base: 1.6;
-$text-color: #636b6f;
-
-// Navbar
-$navbar-default-bg: #fff;
-
-// Buttons
-$btn-default-color: $text-color;
-
-// Inputs
-$input-border: lighten($text-color, 40%);
-$input-border-focus: lighten($brand-primary, 25%);
-$input-color-placeholder: lighten($text-color, 30%);
-
-// Panels
-$panel-default-heading-bg: #fff;
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: $brand-primary;
+  box-shadow:none;
+  outline: 0 none;
+}
