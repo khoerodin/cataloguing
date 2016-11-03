@@ -17883,18 +17883,15 @@ jQuery(function($) {
         }
 
         var arr = [catalogNo, incId];
-        // arr = arr.filter(Boolean)
         hashed = hashids.encode(arr);
-        // alert(hashed);
         var newURL = window.location.protocol + "//" + window.location.host + "/?key=" + hashed;
         history.pushState(null, null, newURL);
-        // alert($.urlParam('key'));        
     });
+
     $.urlParam = function(name){
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results[1] || 0;       
     }
-    // param = $.urlParam('key');
 
     if (window.location.search.indexOf('key=') > -1) {
         param = $.urlParam('key');
@@ -17908,8 +17905,7 @@ jQuery(function($) {
     } else {
         $('#search_result').css('display', 'none');
         $('#search_form').css('display', 'block');  
-    }
-    
+    }    
     // END GLOBAL SEARCH 
 
     // PART MASTER
