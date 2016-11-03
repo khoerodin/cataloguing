@@ -129,6 +129,9 @@ elixir(function(mix) {
         // handlebars
         'handlebars-templates/home.js',
 
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
+
         // scripts template
         './resources/templates/home/scripts.js'
     ], 'public/js/home.js');

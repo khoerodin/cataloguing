@@ -23,7 +23,7 @@ Deadline:
  ✔ company short format sequence @due( 9:23 ) @done (16-09-25 09:46)
  ✔ company chars custom name, devider and style @due( 9:23 ) @done (16-09-23 09:57)
  ✔ show chars from company short desc format @due( 9:23 ) @done (16-09-25 09:46)
- ☐ generate short format @due(9:23)
+ ✔ generate short format @due(9:23) @done (16-09-28 09:29)
  ☐ popup pick value @due(9:24) 
  ☐ global searching @due(9:25) 
  ☐ web-api format @due(9:25)

@@ -18,4 +18,9 @@ class PartMaster extends Model
     	'tbl_stock_type_id', 'average_unit_price', 'memo', 'edit_mode', 
         'edit_mode_by', 'created_by', 'last_updated_by'
     	);
+
+    public function scopeSearchCatalogNo($query, $catalog_no)
+    {
+      if ($catalog_no) $query->where('catalog_no', '%'.$catalog_no.'%');
+    }
 }

@@ -16,7 +16,7 @@ use App\Models\CompanyShortDescriptionFormat;
 use App\Models\LinkIncGroupClass;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
-use App\Models\Models\PartBinLocation;
+use App\Models\PartBinLocation;
 use App\Models\PartCharacteristicValue;
 use App\Models\PartColloquial;
 use App\Models\PartEquipmentCode;
@@ -54,6 +54,38 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function globalSearch(Request $request)
+    {
+        return PartMaster::select('part_master.id')
+            ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
+            ->join('part_colloquial', 'part_colloquial.part_master_id', '=', 'part_master.id')
+            ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'part_master.tbl_catalog_status_id')
+            ->join('tbl_item_type', 'tbl_item_type.id', '=', 'part_master.tbl_item_type_id')
+            ->join('part_manufacturer_code', 'part_manufacturer_code.part_master_id', '=', 'part_master.id')
+            ->join('part_equipment_code', 'part_equipment_code.part_master_id', '=', 'part_master.id')
+            ->join('part_equipment_code', 'part_equipment_code.part_master_id', '=', 'part_master.id')
+            
+            ->SearchCatalogNo($request->catalogNo);
+            // ->SearchHoldingNo($request->holdingNo)
+            // ->SearchIncId($request->incId)
+            // ->SearchColloquialId($request->colloquialId)            
+            // ->SearchGroupClassId($request->itemName)
+            // ->SearchCatalogStatusId($request->itemName)
+            // ->SearchItemTypeId($request->itemName)
+            // ->SearchMaufacturerCodeId($request->itemName)            
+            // ->SearchMaufacturerRef($request->itemName)            
+            // ->SearchEquipmentCodeId($request->itemName)            
+            // ->SearchHoldingId($request->itemName)
+            
+            // ->SearchCompanyId($request->itemName)
+            // ->SearchPlantId($request->itemName)
+            // ->SearchLocationId($request->itemName)
+            // ->SearchShelfId($request->itemName)
+            // ->SearchBinId($request->itemName)
+            // ->SearchSourceDesc($request->itemName)
+            // ->SearchUserId($request->itemName)
     }
 
     public function getPartMaster()
@@ -413,54 +445,70 @@ class HomeController extends Controller
                 ->get();
     }
 
-    private function olahShort($data, $len)
-    {
-        $count = '';
-        $abbrev = [];
-        foreach ($data as $key => $value) {
-            $count      .= $value->abbrev;
-            $abbrev[]  .= $value->abbrev;
-            if(strlen($count) > $len ){
-                break;
-            }
-        }
-
-        $count2 = '';
-        $separator = [];
-        foreach ($data as $key => $value) {
-            $count2      .= $value->abbrev;
-            $separator[] .= $value->separator;          
-            if(strlen($count2) > $len ){
-                break;
-            }      
-        }
-        array_pop($separator);
-        array_push($separator, '');
-
-        $short_desc = array_combine($abbrev, $separator);
+    private function shortLesEqual($data)
+    {   
         $short = '';
-        foreach ($short_desc as $key => $value) {
-            $short .= $key.$value;
+        $jml = count($data);
+        $i = 1;
+        foreach ($data as $key => $value) {
+            $short .= $value->abbrev;
+            if($jml == $i++){
+                $short .= '';
+            }else{
+                $short .= $value->short_separator;
+            }            
         }
         return $short;
+    }
+
+    private function shortMoreThan($data,$len)
+    {   
+        $short   = '';
+        $shortAr = [];
+        foreach ($data as $key => $value) {
+            $short     .= $value->abbrev;
+            $shortAr[] = $value->abbrev;
+            if(strlen(substr($short, 0,$len)) == $len){
+                $final = '';
+                for ($i=0; $i < count($shortAr)-1-1; $i++) { //dikurangi 1 krn mulain dr 0, dikurangi 1 lg krn seapartor teakhir tidak terpakai 
+                    $final .= $shortAr[$i];
+                }
+                // hentikan loop
+                break;
+            }else{
+                // tetap ambil separator jika belum nyampe $len
+                $short     .= $value->short_separator;
+                $shortAr[] = $value->short_separator;
+            }
+        }
+        return $final;
     }
 
     public function getShortDescription($partMasterId, $companyId)
     {
         $data = PartCharacteristicValue::select('company_value.abbrev', 'company_short_description_format.short_separator')
             ->join('company_check_short', 'company_check_short.part_characteristic_value_id', '=', 'part_characteristic_value.id')
+
             ->join('part_master', 'part_master.id', '=', 'part_characteristic_value.part_master_id')
+            
             ->join('link_inc_characteristic_value', 'link_inc_characteristic_value.id', '=', 'part_characteristic_value.link_inc_characteristic_value_id')
+            
             ->join('company_value', 'company_value.link_inc_characteristic_value_id', '=', 'link_inc_characteristic_value.id')
+            
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
+            
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
+            
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
-            ->join('short_description_format', 'short_description_format.link_inc_characteristic_id', '=', 'link_inc_characteristic.id')
-            ->join('company_short_description_format', 'company_short_description_format.short_description_format_id', '=', 'short_description_format.id')
+
+            ->join('company_characteristic', 'company_characteristic.link_inc_characteristic_id', '=', 'link_inc_characteristic.id')
+            
+            ->join('company_short_description_format', 'company_short_description_format.company_characteristic_id', '=', 'company_characteristic.id')
             
             ->where('part_master.id', $partMasterId)
             ->where('company_value.tbl_company_id', $companyId)
             ->where('company_check_short.tbl_company_id', $companyId)
+            ->where('company_characteristic.tbl_company_id', $companyId)
             ->where('company_check_short.short', 1)
             ->where('company_value.approved', 1)
             
@@ -468,8 +516,18 @@ class HomeController extends Controller
 
             ->get();
 
-        if(count($data)>0){
-            return $this->olahShort($data, 40);
+        $len = 40;
+        $approved = '';
+        foreach ($data as $key => $value) {
+            $approved .= $value->abbrev . $value->short_separator;
+        }
+
+        if(strlen(trim($approved)) <= $len){
+            return $this->shortLesEqual($data);
+        }elseif(strlen(trim($approved)) > $len){
+            return $this->shortMoreThan($data,$len);
+        }else{
+            echo 'ups, ada yang salah nih..';
         }
     }
 

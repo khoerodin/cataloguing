@@ -14,6 +14,58 @@ jQuery(function($) {
     });
     // END LOADING
 
+    // GLOBAL SEARCH
+    function replaceQueryParam(param, newval, search) {
+        var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
+        var query = search.replace(regex, "$1").replace(/&$/, '');
+
+        return (query.length > 2 ? query + "&" : "?") + (newval ? param + "=" + newval : '');
+    }
+
+    var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'); // all lowercase
+    
+    $(document).on('click', '#btn_search', function() {
+        catalogNo = $('select#search_catalog_no').val();
+        if(catalogNo){
+            catalogNo = catalogNo;
+        }else{
+            catalogNo = 0;
+        }
+
+        incId = $('select#search_inc_item_name').val();
+        if(incId){
+            incId = incId;
+        }else{
+            incId = 0;
+        }
+
+        var arr = [catalogNo, incId];
+        hashed = hashids.encode(arr);
+        var newURL = window.location.protocol + "//" + window.location.host + "/?key=" + hashed;
+        history.pushState(null, null, newURL);
+    });
+    
+    $.urlParam = function(name){
+        var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+        return results[1] || 0;       
+    }
+
+    if (window.location.search.indexOf('key=') > -1) {
+        param = $.urlParam('key');
+        if(param == 0){
+            $('#search_result').css('display', 'none');
+            $('#search_form').css('display', 'block');        
+        }else{
+            $('#search_result').css('display', 'block');
+            $('#search_form').css('display', 'none');
+        }
+    } else {
+        $('#search_result').css('display', 'none');
+        $('#search_form').css('display', 'block');  
+    }
+    
+    // END GLOBAL SEARCH 
+
     // PART MASTER
     $('#part_master').DataTable({
         processing: false,
@@ -384,6 +436,7 @@ jQuery(function($) {
             type: 'GET',
             success: function(data) {
                 $('#short_desc').val(data);
+                console.log(data.length);
             },
             error: function() {
                 console.log('astaghfirullah');
@@ -457,24 +510,20 @@ jQuery(function($) {
 
                         if (item.value != '') {
                             charval += '<tr>';
-
                             charval += '<td>' + item.characteristic;
-
                             charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
-
                             charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="update_inc_char_id" name="update_inc_char_id[' + index + ']">';
-
                             charval += '<input type="hidden" value="' + item.char_id + '" class="update_char_id" name="update_char_id[' + index + ']"></td>';
-
                             charval += '<td>';
-
                             charval += '<input class="characteristic_value_cell update_value get-values-list state change-char-value" type="text" id="update_value' + index + '" data-change="update_value' + index + '" name="update_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="update" value="' + item.value + '">';
-
                             charval += '<input type="hidden" value="' + item.id + '" class="update_part_char_value_id" name="update_part_char_value_id[' + index + ']"></td>';
-
                             charval += '</td>';
-
-                            charval += '<td><input type="text" title="' + item.abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + item.abbrev + '" disabled></td>';
+                            if(item.approved == 1) {
+                                abbrev = item.abbrev;
+                            }else{
+                                abbrev = '';
+                            }
+                            charval += '<td><input type="text" title="' + abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + abbrev + '" disabled></td>';
 
                             if (item.short != 1) {
                                 charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '"></td>';
@@ -703,7 +752,6 @@ jQuery(function($) {
         } else {
             $("button#submit_values").prop("disabled", false);
         }
-        console.log("state: " + newArray);
     }
     // END FOR INPUT VALUE FROM VALUES LIST / POP UP 
 
