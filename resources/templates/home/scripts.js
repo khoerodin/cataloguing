@@ -44,7 +44,7 @@ jQuery(function($) {
         var newURL = window.location.protocol + "//" + window.location.host + "/?key=" + hashed;
         history.pushState(null, null, newURL);
     });
-    
+
     $.urlParam = function(name){
         var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
         return results[1] || 0;       
@@ -62,8 +62,7 @@ jQuery(function($) {
     } else {
         $('#search_result').css('display', 'none');
         $('#search_form').css('display', 'block');  
-    }
-    
+    }    
     // END GLOBAL SEARCH 
 
     // PART MASTER
