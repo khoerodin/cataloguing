@@ -38,6 +38,9 @@ Deadline:
  ✔ fix edit value @done (16-09-26 18:47)
  ☐ user role permission login @due(9:28)
  ☐ beautify design
+ ☐ search string (holding no, colloquial, part number, source)
+ ☐ search by user?
+ ☐ clear search criteria/query
 
 Others:
  ☐ make minded submit values code
@@ -50,3 +53,9 @@ Others:
  ☐ animation loading, beforeSend etc
  ☐ saven notif for save chars values
  ☐ check login status when pointer move, if logout show warning and redirect to login page
+
+var index   = 3; // id part_master, terus dicari id tsb index ke berapa (mis: index ke 3)
+var ke      = 1 + index; // 4
+var hal     = Math.ceil(ke / 5);
+console.log(hal);
+

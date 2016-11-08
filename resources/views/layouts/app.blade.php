@@ -18,12 +18,10 @@
             <h1 style="visibility: hidden;">_____________________________________________________________</h1>
         </div>        
     </noscript>
-
-    @if (Request::url() != url('login'))
+@if (Request::url() != url('login'))
     <div id="loading"><div class="spinner"></div></div>
-    @endif
-
+@endif
     @yield('content')
-    @yield('scripts')
-    </body>
+@yield('scripts')
+</body>
 </html>

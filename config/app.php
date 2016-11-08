@@ -171,6 +171,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Torann\LaravelMetaTags\MetaTagsServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Vinkla\Hashids\HashidsServiceProvider::class,
         //
 
         /*
@@ -234,6 +235,7 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'MetaTag'   => Torann\LaravelMetaTags\Facades\MetaTag::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
 
     ],
 

@@ -890,3 +890,11 @@ table#part_equipment_code thead>tr>th.sorting_desc,
 table#part_equipment_code thead>tr>th.sorting_asc {
   padding-right: 4px !important;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}

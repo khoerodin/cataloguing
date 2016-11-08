@@ -184,6 +184,74 @@ class PartMasterSeeder extends Seeder
 	        	'created_at' => $now,
 	        	'updated_at' => $now
 	        ],
+	        [
+	        	'catalog_no' => '100028',
+	        	'tbl_holding_id' => 3,
+	        	'holding_no' => 'HOLD1KHR',
+
+	        	'reference_no' => 'HOLD1KHR',
+	        	'link_inc_group_class_id' => 4,
+	        	
+	        	'unit_issue' => 1,
+	        	'unit_purchase' => 2,
+
+	        	'conversion' => '17',
+	        	'tbl_catalog_status_id' => 1,
+	        	'tbl_user_class_id' =>1,
+
+	        	'catalog_type' => 'oem',
+	        	'tbl_item_type_id' => 1,
+	        	'tbl_harmonized_code_id' => 1,
+	        	'tbl_hazard_class_id' => 1,
+	        	'weight_value' => '128',
+
+	        	'tbl_weight_unit_id' => 1,
+	        	'tbl_stock_type_id' => 1,
+	        	'average_unit_price' => '30.5',
+
+	        	'memo' => 'TEST MEMO',
+	        	'edit_mode' => 1,
+	        	'edit_mode_by' => 3,
+
+	        	'created_by' => 1,
+	        	'last_updated_by' => 2,
+	        	'created_at' => $now,
+	        	'updated_at' => $now
+	        ],
+	        [
+	        	'catalog_no' => '100029',
+	        	'tbl_holding_id' => 2,
+	        	'holding_no' => 'HOLD1SMN',
+
+	        	'reference_no' => 'HOLD1SMN',
+	        	'link_inc_group_class_id' => 3,
+	        	
+	        	'unit_issue' => 1,
+	        	'unit_purchase' => 2,
+
+	        	'conversion' => '17',
+	        	'tbl_catalog_status_id' => 1,
+	        	'tbl_user_class_id' =>1,
+
+	        	'catalog_type' => 'oem',
+	        	'tbl_item_type_id' => 1,
+	        	'tbl_harmonized_code_id' => 1,
+	        	'tbl_hazard_class_id' => 1,
+	        	'weight_value' => '128',
+
+	        	'tbl_weight_unit_id' => 1,
+	        	'tbl_stock_type_id' => 1,
+	        	'average_unit_price' => '30.5',
+
+	        	'memo' => 'TEST MEMO',
+	        	'edit_mode' => 1,
+	        	'edit_mode_by' => 3,
+
+	        	'created_by' => 1,
+	        	'last_updated_by' => 2,
+	        	'created_at' => $now,
+	        	'updated_at' => $now
+	        ],
 	      ]);
     }
 }

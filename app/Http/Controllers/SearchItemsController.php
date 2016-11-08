@@ -67,6 +67,7 @@ class SearchItemsController extends Controller
         return TblGroupClass::select('tbl_group_class.id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
             ->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
             ->where(DB::raw('CONCAT(`group`, class)'), 'like', '%'.$request->q.'%')
+            ->orWhere('tbl_group_class.name', 'like', '%'.$request->q.'%')
             ->get();
     }
 

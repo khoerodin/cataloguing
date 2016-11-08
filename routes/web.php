@@ -13,6 +13,10 @@
 
 Auth::routes();
 
+Route::get('current-user', function(){
+	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
+});
+
 // =======================================================
 // SEARCH ITEMS
 // =======================================================
@@ -43,8 +47,11 @@ Route::post('search-items/select-search-user', 'SearchItemsController@selectSear
 
 Route::get('/', 'HomeController@index');
 
+// Search
+Route::post('home/search', 'HomeController@search');
+
 // PartMaster
-Route::get('home/part-master', 'HomeController@getPartMaster');
+Route::get('home/part-master/{key}', 'HomeController@getPartMaster');
 Route::get('home/click-row-part-master/{id}', 'HomeController@clickRowPartMaster');
 
 // Add Company when empty

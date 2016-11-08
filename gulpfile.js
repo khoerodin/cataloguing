@@ -123,14 +123,14 @@ elixir(function(mix) {
         'libraries/dataTables.colResize.js',
         'libraries/handlebars.runtime.3.0.3.min.js',
 
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
+
         // global script for all pages
         'libraries/global-script.js',
 
         // handlebars
-        'handlebars-templates/home.js',
-
-        // hashids
-        './node_modules/hashids/dist/hashids.min.js',
+        'handlebars-templates/home.js',        
 
         // scripts template
         './resources/templates/home/scripts.js'
@@ -148,6 +148,9 @@ elixir(function(mix) {
         'libraries/bootbox.min.js',
         'libraries/BootstrapMenu.min.js',
         'libraries/handlebars.runtime.3.0.3.min.js',
+
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
 
         // global script for all pages
         'libraries/global-script.js',
@@ -173,6 +176,9 @@ elixir(function(mix) {
         'libraries/BootstrapMenu.min.js',        
         'libraries/handlebars.runtime.3.0.3.min.js',
 
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
+        
         // global script for all pages
         'libraries/global-script.js',
 
@@ -192,7 +198,7 @@ elixir(function(mix) {
         'styles.css',
         'animate.css',
         'jquery-ui.css',
-        'datatables.bootstrap.min.css',
+        'dataTables.bootstrap.min.css',
         'bootstrap-select.css',
         'ajax-bootstrap-select.css',
         'awesome-bootstrap-checkbox.css',

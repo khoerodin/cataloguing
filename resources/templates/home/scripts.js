@@ -15,16 +15,8 @@ jQuery(function($) {
     // END LOADING
 
     // GLOBAL SEARCH
-    function replaceQueryParam(param, newval, search) {
-        var regex = new RegExp("([?;&])" + param + "[^&;]*[;&]?");
-        var query = search.replace(regex, "$1").replace(/&$/, '');
-
-        return (query.length > 2 ? query + "&" : "?") + (newval ? param + "=" + newval : '');
-    }
-
-    var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'); // all lowercase
-    
     $(document).on('click', '#btn_search', function() {
+        // 1
         catalogNo = $('select#search_catalog_no').val();
         if(catalogNo){
             catalogNo = catalogNo;
@@ -32,6 +24,7 @@ jQuery(function($) {
             catalogNo = 0;
         }
 
+        // 2
         incId = $('select#search_inc_item_name').val();
         if(incId){
             incId = incId;
@@ -39,10 +32,123 @@ jQuery(function($) {
             incId = 0;
         }
 
-        var arr = [catalogNo, incId];
+        // 3
+        groupClassId = $('select#search_group_class').val();
+        if(groupClassId){
+            groupClassId = groupClassId;
+        }else{
+            groupClassId = 0;
+        }
+
+        // 4
+        catalogStatusId = $('select#search_catalog_status').val();
+        if(catalogStatusId){
+            catalogStatusId = catalogStatusId;
+        }else{
+            catalogStatusId = 0;
+        }
+
+        // 5
+        catalogType = $('select#search_catalog_type').val();
+        if(catalogType){
+            catalogType = catalogType;
+        }else{
+            catalogType = 0;
+        }
+
+        // 6
+        itemTypeId = $('select#search_item_type').val();
+        if(itemTypeId){
+            itemTypeId = itemTypeId;
+        }else{
+            itemTypeId = 0;
+        }
+
+        // 7
+        manCodeId = $('select#search_manufacturer').val();
+        if(manCodeId){
+            manCodeId = manCodeId;
+        }else{
+            manCodeId = 0;
+        }
+
+        // 8
+        equipmentCodeId = $('select#search_equipment').val();
+        if(equipmentCodeId){
+            equipmentCodeId = equipmentCodeId;
+        }else{
+            equipmentCodeId = 0;
+        }
+
+        // 9
+        holdingId = $('select#search_holding').val();
+        if(holdingId){
+            holdingId = holdingId;
+        }else{
+            holdingId = 0;
+        }
+
+        // 10
+        companyId = $('select#search_company').val();
+        if(companyId){
+            companyId = companyId;
+        }else{
+            companyId = 0;
+        }
+
+        // 11
+        plantId = $('select#search_plant').val();
+        if(plantId){
+            plantId = plantId;
+        }else{
+            plantId = 0;
+        }
+
+        // 12
+        locationId = $('select#search_location').val();
+        if(locationId){
+            locationId = locationId;
+        }else{
+            locationId = 0;
+        }
+
+        // 13
+        shelfId = $('select#search_shelf').val();
+        if(shelfId){
+            shelfId = shelfId;
+        }else{
+            shelfId = 0;
+        }
+
+        // 14
+        binId = $('select#search_bin').val();
+        if(binId){
+            binId = binId;
+        }else{
+            binId = 0;
+        }
+
+        var arr = [
+                catalogNo, // 1
+                incId, // 2
+                groupClassId, // 3
+                catalogStatusId, // 4
+                catalogType, // 5
+                itemTypeId, // 6
+                manCodeId, // 7          
+                equipmentCodeId, // 8               
+                holdingId, // 9     
+                companyId, // 10           
+                plantId, // 11        
+                locationId, // 12             
+                shelfId, // 13         
+                binId, // 14        
+            ];
+
         hashed = hashids.encode(arr);
-        var newURL = window.location.protocol + "//" + window.location.host + "/?key=" + hashed;
+        var newURL = window.location.protocol + "//" + window.location.host + "/?s=" + hashed;
         history.pushState(null, null, newURL);
+        getCatalog();
     });
 
     $.urlParam = function(name){
@@ -50,115 +156,143 @@ jQuery(function($) {
         return results[1] || 0;       
     }
 
-    if (window.location.search.indexOf('key=') > -1) {
-        param = $.urlParam('key');
-        if(param == 0){
-            $('#search_result').css('display', 'none');
-            $('#search_form').css('display', 'block');        
-        }else{
-            $('#search_result').css('display', 'block');
-            $('#search_form').css('display', 'none');
+    function getCatalog(){
+        if (window.location.search.indexOf('s=') > -1) {
+            key = $.urlParam('s');
+            if(key == 0){
+                getCatalogDT(key);       
+            }else{
+                getCatalogDT(key);
+            }
+        } else {
+            getCatalogDT(0);
         }
-    } else {
-        $('#search_result').css('display', 'none');
-        $('#search_form').css('display', 'block');  
-    }    
-    // END GLOBAL SEARCH 
+    }
+    
+    getCatalog();
+    // END GLOBAL SEARCH
 
     // PART MASTER
-    $('#part_master').DataTable({
-        processing: false,
-        serverSide: true,
-        ajax: 'home/part-master',
-        columns: [{
-            data: 'catalog_no',
-            name: 'catalog_no'
-        }, {
-            data: 'holding',
-            name: 'holding'
-        }, {
-            data: 'holding_no',
-            name: 'holding_no'
-        }, {
-            data: 'item_name',
-            name: 'tbl_inc.item_name'
-        }, {
-            data: 'inc',
-            name: 'tbl_inc.inc'
-        }, {
-            data: 'group_class',
-            name: 'tbl_group_class.group_class'
-        }, {
-            data: 'unit4',
-            name: 'unit_issue.unit4'
-        }, {
-            data: 'catalog_type',
-            name: 'catalog_type'
-        }, {
-            data: 'status',
-            name: 'tbl_catalog_status.status'
-        }, ],
-        oLanguage: {
-            sLengthMenu: "_MENU_",
-            sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
-            oPaginate: {
-                sFirst: "FIRST",
-                sLast: "LAST",
-                sNext: "NEXT",
-                sPrevious: "PREVIOUS"
+    function getCatalogDT(key){
+        $('#part_master').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'home/part-master/'+key,
+            columns: [{
+                data: 'catalog_no',
+                name: 'catalog_no'
+            }, {
+                data: 'holding',
+                name: 'holding'
+            }, {
+                data: 'holding_no',
+                name: 'holding_no'
+            }, {
+                data: 'item_name',
+                name: 'tbl_inc.item_name'
+            }, {
+                data: 'inc',
+                name: 'tbl_inc.inc'
+            }, {
+                data: 'group_class',
+                name: 'tbl_group_class.group_class'
+            }, {
+                data: 'unit4',
+                name: 'unit_issue.unit4'
+            }, {
+                data: 'catalog_type',
+                name: 'catalog_type'
+            }, {
+                data: 'status',
+                name: 'tbl_catalog_status.status'
+            }, ],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
             },
-            sSearch: "",
-            sSearchPlaceholder: "SEARCH...",
-        },
-        pageLength: 5,
-        /*dom:  "<'row'<'col-sm-12'tr>>" +
-              "<'row'<'col-sm-5'i><'col-sm-7'p>>",*/
-        dom: "Z<'row'<'col-sm-12'tr>>" +
-            "<'row'i<'col-sm-3'p>>",
+            pageLength: 5,
+            /*dom:  "<'row'<'col-sm-12'tr>>" +
+                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",*/
+            dom: "Z<'row'<'col-sm-12'tr>>" +
+                "<'row'i<'col-sm-3'p>>",
 
-        // Callback function for INC - Group Class result
-        drawCallback: function() {
-            var api = this.api();
-            var firstRow = api.rows().data()[0];
-            if (typeof firstRow != "undefined") {
-                var catalog_no = firstRow['catalog_no'];
-                var holding = firstRow['holding'];
-                var holding_no = firstRow['holding_no'];
-                var item_name = firstRow['item_name'];
-                var inc = firstRow['inc'];
-                var group_class = firstRow['group_class'];
-                var unit_issue = firstRow['unit4'];
-                var catalog_type = firstRow['catalog_type'];
-                var status = firstRow['status'];
-                var item_type = firstRow['item_type'];
-                var stock_type = firstRow['stock_type'];
-                var user_class = firstRow['user_class'];
-                var conversion = firstRow['conversion'];
-                var weight_value = firstRow['weight_value'];
-                var weight_unit = firstRow['weight_unit'];
-                var average_unit_price = firstRow['average_unit_price'];
-                var inc_group_class_id = firstRow['inc_group_class_id'];
-            }
+            drawCallback: function() {
+                var api = this.api();
+                var firstRow = api.rows().data()[0];
+                if (typeof firstRow != "undefined") {
+                    var catalog_no = firstRow['catalog_no'];
+                    var holding = firstRow['holding'];
+                    var holding_no = firstRow['holding_no'];
+                    var item_name = firstRow['item_name'];
+                    var inc = firstRow['inc'];
+                    var group_class = firstRow['group_class'];
+                    var unit_issue = firstRow['unit4'];
+                    var catalog_type = firstRow['catalog_type'];
+                    var status = firstRow['status'];
+                    var item_type = firstRow['item_type'];
+                    var stock_type = firstRow['stock_type'];
+                    var user_class = firstRow['user_class'];
+                    var conversion = firstRow['conversion'];
+                    var weight_value = firstRow['weight_value'];
+                    var weight_unit = firstRow['weight_unit'];
+                    var average_unit_price = firstRow['average_unit_price'];
+                    var inc_group_class_id = firstRow['inc_group_class_id'];
+                }
 
-            $("#part_master tbody tr:first-child").addClass('active');
-            $("#part_master tbody tr").on('click', function(event) {
-                $("#part_master tbody tr:first-child").removeClass('active');
-                $("#part_master tbody tr").removeClass('active');
-                $(this).addClass('active');
-            });
+                $("#part_master tbody tr:first-child").addClass('active');
+                $("#part_master tbody tr").on('click', function(event) {
+                    $("#part_master tbody tr:first-child").removeClass('active');
+                    $("#part_master tbody tr").removeClass('active');
+                    $(this).addClass('active');
+                });
 
-            var part_master_id = $("#part_master tbody tr.active").attr("id");
+                var part_master_id = $("#part_master tbody tr.active").attr("id");
 
-            get_compnay(part_master_id)
-            get_part_manufacturer_code(part_master_id);
-            get_part_colloquial(part_master_id);
-            get_part_equipment_code(part_master_id);
-            get_part_characteristic_value(inc_group_class_id);
+                get_compnay(part_master_id)
+                get_part_manufacturer_code(part_master_id);
+                get_part_colloquial(part_master_id);
+                get_part_equipment_code(part_master_id);
+                get_part_characteristic_value(inc_group_class_id);
 
-            $('<span class="text-primary uppercase" id="selected_catalog_info">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type + '</span>').appendTo('#part_master_info');
-        },
-    });
-    $('#part_master_info').addClass('col-sm-9');
+                $('<span class="text-primary uppercase" id="selected_catalog_info">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type + '</span>').appendTo('#part_master_info');
+                
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+
+                if(key == 0){
+                    $('#search_result').css('display', 'none');
+                    $('#search_form').css('display', 'block');
+                }else if(recordsTotal == '0'){
+                    $('#search_result').css('display', 'none');
+                    $('#search_form').css('display', 'block');
+                    notif = '<span class="pull-right text-danger">No match Catalog for your criteria. :(</span>';
+                    $('#search_notif').html(notif);
+                }else{
+                    $('#search_result').css('display', 'block');
+                    $('#search_form').css('display', 'none');
+                    menu  = '<li class="dropdown"><a class="pointer" href="/" target="_blank">SEARCH</a></li>';
+                    menu += '<li class="dropdown"><a class="pointer" target="_blank">HISTORY</a></li>';
+                    $('ul.nav.navbar-nav:not(.navbar-right)').append(menu);
+                }
+
+                var index   = 3;
+                var ke      = 1 + index; // 4
+                var hal     = Math.ceil(ke / 5);
+                console.log(hal);
+            },
+        });
+        
+        $('#part_master_info').addClass('col-sm-9');
+    }
 
     // WHEN CLICK PART MASTER ROW
     $("#part_master tbody").delegate("tr", "click", function() {
@@ -435,10 +569,10 @@ jQuery(function($) {
             type: 'GET',
             success: function(data) {
                 $('#short_desc').val(data);
-                console.log(data.length);
+                // console.log(data.length);
             },
             error: function() {
-                console.log('astaghfirullah');
+                // console.log('astaghfirullah');
             }
         });
     }
@@ -902,7 +1036,7 @@ jQuery(function($) {
         $.ajax({
             type: 'POST',
             url: 'home/submit-values',
-            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&created_by=' + $('#logged_in_user').val() + '&last_updated_by=' + $('#logged_in_user').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $('#company').val(),
+            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $('#company').val(),
             dataType: 'json',
             beforeSend: function() {},
             success: function(data) {
@@ -1941,6 +2075,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT CATALOG NO',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -1960,6 +2095,9 @@ jQuery(function($) {
     $('.search_catalog_no').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCatalogNo);
     $('.search_catalog_no').trigger('change');
     $('button[data-id="search_catalog_no"]').addClass("btn-sm");
+    $('#search_catalog_no').on('changed.bs.select', function(e) {
+        $('button[data-id="search_catalog_no"]').css('background-color','#faffbd');
+    });
 
     // HOLDING NO
     var optionsSearchHoldingNo = {
@@ -1970,6 +2108,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT HOLDING NO',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -1989,6 +2128,9 @@ jQuery(function($) {
     $('.search_holding_no').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchHoldingNo);
     $('.search_holding_no').trigger('change');
     $('button[data-id="search_holding_no"]').addClass("btn-sm");
+    // $('#search_holding_no').on('changed.bs.select', function(e) {
+    //     $('button[data-id="search_holding_no"]').css('background-color','#faffbd');
+    // });
 
     // INC - ITEM NAME
     var optionsSearchIncItemName = {
@@ -1999,7 +2141,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT INC : ITEM NAME',
-            searchPlaceholder: 'SEARCH INC OR ITEM NAME'
+            searchPlaceholder: 'SEARCH INC OR ITEM NAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2019,6 +2162,9 @@ jQuery(function($) {
     $('.search_inc_item_name').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchIncItemName);
     $('.search_inc_item_name').trigger('change');
     $('button[data-id="search_inc_item_name"]').addClass("btn-sm");
+    $('#search_inc_item_name').on('changed.bs.select', function(e) {
+        $('button[data-id="search_inc_item_name"]').css('background-color','#faffbd');
+    });
 
     // COLLOQUIAL
     var optionsSearchColloquial = {
@@ -2029,6 +2175,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT COLLOQUIAL',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2048,6 +2195,9 @@ jQuery(function($) {
     $('.search_colloquial').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchColloquial);
     $('.search_colloquial').trigger('change');
     $('button[data-id="search_colloquial"]').addClass("btn-sm");
+    // $('#search_colloquial').on('changed.bs.select', function(e) {
+    //     $('button[data-id="search_colloquial"]').css('background-color','#faffbd');
+    // });
 
     // GROUP CLASS
     var optionsSearchGroupClass = {
@@ -2058,7 +2208,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT GROUP CLASS : CLASS NAME',
-            searchPlaceholder: 'SEARCH GROUP CLASS OR CLASS NAME'
+            searchPlaceholder: 'SEARCH GROUP CLASS OR CLASS NAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2078,6 +2229,9 @@ jQuery(function($) {
     $('.search_group_class').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchGroupClass);
     $('.search_group_class').trigger('change');
     $('button[data-id="search_group_class"]').addClass("btn-sm");
+    $('#search_group_class').on('changed.bs.select', function(e) {
+        $('button[data-id="search_group_class"]').css('background-color','#faffbd');
+    });
 
     // CATALOG STATUS
     var optionsSearchCatalogStatus = {
@@ -2088,6 +2242,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT CATALOG STATUS',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2107,10 +2262,16 @@ jQuery(function($) {
     $('.search_catalog_status').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCatalogStatus);
     $('.search_catalog_status').trigger('change');
     $('button[data-id="search_catalog_status"]').addClass("btn-sm");
+    $('#search_catalog_status').on('changed.bs.select', function(e) {
+        $('button[data-id="search_catalog_status"]').css('background-color','#faffbd');
+    });
 
     // CATALOG TYPE
     $('.search_catalog_type').selectpicker();
     $('button[data-id="search_catalog_type"]').addClass("btn-sm");
+    $('#search_catalog_type').on('changed.bs.select', function(e) {
+        $('button[data-id="search_catalog_type"]').css('background-color','#faffbd');
+    });
 
     // ITEM TYPE
     var optionsSearchItemType = {
@@ -2121,6 +2282,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT ITEM TYPE',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2140,6 +2302,9 @@ jQuery(function($) {
     $('.search_item_type').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchItemType);
     $('.search_item_type').trigger('change');
     $('button[data-id="search_item_type"]').addClass("btn-sm");
+    $('#search_item_type').on('changed.bs.select', function(e) {
+        $('button[data-id="search_item_type"]').css('background-color','#faffbd');
+    });
 
     // MANUFACTURER
     var optionsSearchManufacturer = {
@@ -2150,7 +2315,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT MANUFACTURER CODE : MANUFACTURER NAME',
-            searchPlaceholder: 'SEARCH MANUFACTURER CODE OR MANUFACTURER NAME'
+            searchPlaceholder: 'SEARCH MANUFACTURER CODE OR MANUFACTURER NAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2170,6 +2336,9 @@ jQuery(function($) {
     $('.search_manufacturer').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchManufacturer);
     $('.search_manufacturer').trigger('change');
     $('button[data-id="search_manufacturer"]').addClass("btn-sm");
+    $('#search_manufacturer').on('changed.bs.select', function(e) {
+        $('button[data-id="search_manufacturer"]').css('background-color','#faffbd');
+    });
 
     // PART NUMBER
     var optionsSearchPartNumber = {
@@ -2180,7 +2349,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT PART NUMBER',
-            searchPlaceholder: 'SEARCH PART NUMBER'
+            searchPlaceholder: 'SEARCH PART NUMBER',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2200,6 +2370,9 @@ jQuery(function($) {
     $('.search_part_number').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchPartNumber);
     $('.search_part_number').trigger('change');
     $('button[data-id="search_part_number"]').addClass("btn-sm");
+    // $('#search_part_number').on('changed.bs.select', function(e) {
+    //     $('button[data-id="search_part_number"]').css('background-color','#faffbd');
+    // });
 
     // EQUIPMENT
     var optionsSearchEquipment = {
@@ -2210,7 +2383,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT EQUIPMENT CODE : EQUIPMENT NAME',
-            searchPlaceholder: 'SEARCH EQUIPMENT CODE OR EQUIPMENT NAME'
+            searchPlaceholder: 'SEARCH EQUIPMENT CODE OR EQUIPMENT NAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2230,6 +2404,9 @@ jQuery(function($) {
     $('.search_equipment').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchEquipment);
     $('.search_equipment').trigger('change');
     $('button[data-id="search_equipment"]').addClass("btn-sm");
+    $('#search_equipment').on('changed.bs.select', function(e) {
+        $('button[data-id="search_equipment"]').css('background-color','#faffbd');
+    });
 
     // HOLDING
     var optionsSearchHolding = {
@@ -2240,7 +2417,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT HOLDING NAME',
-            searchPlaceholder: 'SEARCH HOLDING NAME'
+            searchPlaceholder: 'SEARCH HOLDING NAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2260,6 +2438,9 @@ jQuery(function($) {
     $('.search_holding').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchHolding);
     $('.search_holding').trigger('change');
     $('button[data-id="search_holding"]').addClass("btn-sm");
+    $('#search_holding').on('changed.bs.select', function(e) {
+        $('button[data-id="search_holding"]').css('background-color','#faffbd');
+    });
 
     // COMPANY
     var optionsSearchCompany = {
@@ -2270,6 +2451,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT COMPANY',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2289,6 +2471,9 @@ jQuery(function($) {
     $('.search_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchCompany);
     $('.search_company').trigger('change');
     $('button[data-id="search_company"]').addClass("btn-sm");
+    $('#search_company').on('changed.bs.select', function(e) {
+        $('button[data-id="search_company"]').css('background-color','#faffbd');
+    });
 
     // PLANT
     var optionsSearchPlant = {
@@ -2299,6 +2484,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT PLANT',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2318,6 +2504,9 @@ jQuery(function($) {
     $('.search_plant').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchPlant);
     $('.search_plant').trigger('change');
     $('button[data-id="search_plant"]').addClass("btn-sm");
+    $('#search_plant').on('changed.bs.select', function(e) {
+        $('button[data-id="search_plant"]').css('background-color','#faffbd');
+    });
 
     // PLANT
     var optionsSearchLocation = {
@@ -2328,6 +2517,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT LOCATION',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2347,6 +2537,9 @@ jQuery(function($) {
     $('.search_location').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchLocation);
     $('.search_location').trigger('change');
     $('button[data-id="search_location"]').addClass("btn-sm");
+    $('#search_location').on('changed.bs.select', function(e) {
+        $('button[data-id="search_location"]').css('background-color','#faffbd');
+    });
 
     // SHELF
     var optionsSearchShelf = {
@@ -2357,6 +2550,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT SHELF',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2376,6 +2570,9 @@ jQuery(function($) {
     $('.search_shelf').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchShelf);
     $('.search_shelf').trigger('change');
     $('button[data-id="search_shelf"]').addClass("btn-sm");
+    $('#search_shelf').on('changed.bs.select', function(e) {
+        $('button[data-id="search_shelf"]').css('background-color','#faffbd');
+    });
 
     // BIN
     var optionsSearchBin = {
@@ -2386,6 +2583,7 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT BIN',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2405,6 +2603,9 @@ jQuery(function($) {
     $('.search_bin').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchBin);
     $('.search_bin').trigger('change');
     $('button[data-id="search_bin"]').addClass("btn-sm");
+    $('#search_bin').on('changed.bs.select', function(e) {
+        $('button[data-id="search_bin"]').css('background-color','#faffbd');
+    });
 
     // USER
     var optionsSearchUser = {
@@ -2415,7 +2616,8 @@ jQuery(function($) {
         },
         locale: {
             emptyTitle: 'SELECT USER',
-            searchPlaceholder: 'SEARCH USER OR USERNAME'
+            searchPlaceholder: 'SEARCH USER OR USERNAME',
+            statusInitialized: 'Start typing search keyword(s)'
         },
         preprocessData: function(data) {
             var i, l = data.length,
@@ -2435,6 +2637,10 @@ jQuery(function($) {
     $('.search_user').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchUser);
     $('.search_user').trigger('change');
     $('button[data-id="search_user"]').addClass("btn-sm");
+    $('#search_user').on('changed.bs.select', function(e) {
+        $('button[data-id="search_user"]').css('background-color','#faffbd');
+    });
 
+    $('.bs-searchbox > input.form-control').addClass("input-sm");
     // END OF GLOBAL SEARCH
 });

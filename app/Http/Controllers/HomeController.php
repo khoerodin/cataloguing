@@ -9,6 +9,7 @@ use Auth;
 use DB;
 use Datatables;
 use Response;
+use Vinkla\Hashids\Facades\Hashids;
 
 use App\Models\CompanyCharacteristic;
 use App\Models\CompanyCheckShort;
@@ -56,40 +57,14 @@ class HomeController extends Controller
         return view('home');
     }
 
-    public function globalSearch(Request $request)
+    public function getPartMaster($key)
     {
-        return PartMaster::select('part_master.id')
-            ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
-            ->join('part_colloquial', 'part_colloquial.part_master_id', '=', 'part_master.id')
-            ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'part_master.tbl_catalog_status_id')
-            ->join('tbl_item_type', 'tbl_item_type.id', '=', 'part_master.tbl_item_type_id')
-            ->join('part_manufacturer_code', 'part_manufacturer_code.part_master_id', '=', 'part_master.id')
-            ->join('part_equipment_code', 'part_equipment_code.part_master_id', '=', 'part_master.id')
-            ->join('part_equipment_code', 'part_equipment_code.part_master_id', '=', 'part_master.id')
-            
-            ->SearchCatalogNo($request->catalogNo);
-            // ->SearchHoldingNo($request->holdingNo)
-            // ->SearchIncId($request->incId)
-            // ->SearchColloquialId($request->colloquialId)            
-            // ->SearchGroupClassId($request->itemName)
-            // ->SearchCatalogStatusId($request->itemName)
-            // ->SearchItemTypeId($request->itemName)
-            // ->SearchMaufacturerCodeId($request->itemName)            
-            // ->SearchMaufacturerRef($request->itemName)            
-            // ->SearchEquipmentCodeId($request->itemName)            
-            // ->SearchHoldingId($request->itemName)
-            
-            // ->SearchCompanyId($request->itemName)
-            // ->SearchPlantId($request->itemName)
-            // ->SearchLocationId($request->itemName)
-            // ->SearchShelfId($request->itemName)
-            // ->SearchBinId($request->itemName)
-            // ->SearchSourceDesc($request->itemName)
-            // ->SearchUserId($request->itemName)
-    }
+        if($key == '0'){
+            $id = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+        }else{
+            $id = Hashids::decode($key);
+        }        
 
-    public function getPartMaster()
-    {
         $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
                 ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
                 ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'part_master.tbl_catalog_status_id')
@@ -102,6 +77,22 @@ class HomeController extends Controller
                 ->join('tbl_stock_type', 'tbl_stock_type.id', '=', 'part_master.tbl_stock_type_id')
                 ->join('tbl_user_class', 'tbl_user_class.id', '=', 'part_master.tbl_user_class_id')
                 ->join('tbl_weight_unit', 'tbl_weight_unit.id', '=', 'part_master.tbl_weight_unit_id')
+                
+                ->SearchCatalogNo($id[0])
+                ->SearchIncId($id[1])
+                ->SearchGroupClassId($id[2])
+                ->SearchCatalogStatusId($id[3])
+                ->SearchCatalogType($id[4])
+                ->SearchItemTypeId($id[5])
+                ->SearchManCodeId($id[6])
+                ->SearchEquipmentCodeId($id[7])
+                ->SearchHoldingId($id[8])
+                ->SearchCompanyId($id[9])
+                ->SearchPlantId($id[10])
+                ->SearchLocationId($id[11])
+                ->SearchShelfId($id[12])
+                ->SearchBinId($id[13])
+
                 ->select([
                     'part_master.id',
                     'catalog_no',
@@ -123,7 +114,8 @@ class HomeController extends Controller
                     'tbl_weight_unit.unit',
                     'average_unit_price',
 
-                    'link_inc_group_class.id as inc_group_class_id'
+                    'link_inc_group_class.id as inc_group_class_id',
+                    'tbl_inc_id'
                     ]);
         return Datatables::of($partMaster)
             ->setRowId('id')
@@ -574,8 +566,8 @@ class HomeController extends Controller
                 $inc_id               = $request->inc_id;
                 $group_class_id       = $request->group_class_id;
                 $part_master_id       = $request->part_master_id;
-                $created_by           = $request->created_by;
-                $last_updated_by      = $request->last_updated_by;
+                $created_by           = Auth::user()->id;
+                $last_updated_by      = Auth::user()->id;
                 $company_id           = $request->company_id;
 
                 // UPDATING
@@ -931,7 +923,7 @@ class HomeController extends Controller
         $partManufacturerCode->tbl_source_type_id                    = $request->tbl_source_type_id;
         $partManufacturerCode->manufacturer_ref                      = strtoupper(trim($request->manufacturer_ref));
         $partManufacturerCode->tbl_part_manufacturer_code_type_id    = $request->tbl_part_manufacturer_code_type_id;
-        $partManufacturerCode->last_updated_by                       = $request->last_updated_by;
+        $partManufacturerCode->last_updated_by                       = Auth::user()->id;
 
         $partManufacturerCode->save();
         return Response::json($partManufacturerCode);
