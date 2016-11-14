@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblShelf extends Model
 {
@@ -14,6 +15,11 @@ class TblShelf extends Model
 	    	'created_by',
 	    	'last_updated_by'
 	    	);
+
+    public function getTblShelfIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_shelf_id']);
+    }
 
     public function scopeSearchHolding($query, $holdingId)
     {

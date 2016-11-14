@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblPlant extends Model
 {
@@ -14,8 +15,13 @@ class TblPlant extends Model
     	'created_by',
     	'last_updated_by'
     	);
+    
+    public function getTblPlantIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_plant_id']);
+    }
 
-		public function scopeSearchHolding($query, $holdingId)
+	public function scopeSearchHolding($query, $holdingId)
     {
       if ($holdingId) $query->where('tbl_holding_id', $holdingId);
     }

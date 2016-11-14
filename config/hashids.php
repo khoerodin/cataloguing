@@ -39,8 +39,8 @@ return [
 
         'main' => [
             'salt' => 'LOps/e3mRwOl4Hw9hGW9CmAQBZa8wOzkaFw7zws5EeI=g',
-            'length' => '0',
-            'alphabet' => 'abcdefghijklmnopqrstuvwxyz1234567890',
+            'length' => '7',
+            'alphabet' => 'abcdefghijklmnopqrstuvwxyz',
         ],
 
         'alternative' => [

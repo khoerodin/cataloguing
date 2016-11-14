@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblInc extends Model
 {
@@ -18,6 +19,11 @@ class TblInc extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblIncIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_inc_id']);
+    }
 
     public function scopeSearchInc($query, $inc)
     {

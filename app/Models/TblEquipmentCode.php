@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblEquipmentCode extends Model
 {
@@ -14,6 +15,11 @@ class TblEquipmentCode extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblEquipmentCodeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_equipment_code_id']);
+    }
 
    	public function scopeSearchHolding($query, $holdingId)
     {

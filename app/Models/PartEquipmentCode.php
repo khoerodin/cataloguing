@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class PartEquipmentCode extends Model
 {
@@ -12,4 +13,24 @@ class PartEquipmentCode extends Model
     	'doc_ref', 'dwg_ref', 'tbl_manufacturer_code_id', 'created_by',
     	'last_updated_by'
     	);
+
+    public function getPartEquipmentCodeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['part_equipment_code_id']);
+    }
+
+    public function getPartMasterIdAttribute()
+    {
+        return Hashids::encode($this->attributes['part_master_id']);
+    }
+
+    public function getTblEquipmentCodeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_equipment_code_id']);
+    }
+    
+    public function getTblManufacturerCodeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_manufacturer_code_id']);
+    }
 }

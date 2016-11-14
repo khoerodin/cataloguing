@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblLocation extends Model
 {
@@ -14,6 +15,11 @@ class TblLocation extends Model
 	    	'created_by',
 	    	'last_updated_by'
 	    	);
+
+    public function getTblLocationIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_location_id']);
+    }
 
    	public function scopeSearchHolding($query, $holdingId)
     {

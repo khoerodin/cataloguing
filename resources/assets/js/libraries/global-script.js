@@ -116,7 +116,7 @@ var fixHelper = function(e, ui) {
 // end fix helper for jQuery UI sortable
 
 // Hashids
-var hashids = new Hashids('LOps/e3mRwOl4Hw9hGW9CmAQBZa8wOzkaFw7zws5EeI=g', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
+var hashids = new Hashids('LOps/e3mRwOl4Hw9hGW9CmAQBZa8wOzkaFw7zws5EeI=g', 7, 'abcdefghijklmnopqrstuvwxyz');
 
 // get current user data
 currentUser();
@@ -129,6 +129,42 @@ function currentUser(){
         },
     });  
 }
+
+// converter
+function hexToString(hex) {
+    var hex = hex.toString();//force conversion
+    var str = '';
+    for (var i = 0; i < hex.length; i += 2)
+        str += String.fromCharCode(parseInt(hex.substr(i, 2), 16));
+    return str;
+}
+
+function stringToHex(str) {
+    var hex = '';
+    for(var i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
+function convertToNumber(str){
+  var number = "";
+  for (var i=0; i<str.length; i++){
+    charCode = ('000' + str[i].charCodeAt(0)).substr(-3);
+    number += charCode;
+  }
+  return number;
+}
+// console.log(convertToNumber("HOLD1NA6"));
+function convertToString(numbers){
+  origString = "";
+  numbers = numbers.match(/.{3}/g);
+  for(var i=0; i < numbers.length; i++){
+    origString += String.fromCharCode(numbers[i]);
+  }
+  return origString;
+}
+// console.log(convertToString("072079076068049078065054"));
 
 // get scrollbar width
 function getScrollBarWidth() {

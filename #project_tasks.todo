@@ -41,6 +41,7 @@ Deadline:
  ☐ search string (holding no, colloquial, part number, source)
  ☐ search by user?
  ☐ clear search criteria/query
+ ☐ pencarian: hilangkan koma ketika query, munculkan hasil walopun ada koma
 
 Others:
  ☐ make minded submit values code
@@ -59,3 +60,4 @@ var ke      = 1 + index; // 4
 var hal     = Math.ceil(ke / 5);
 console.log(hal);
 
+coba cek home/inc-char-values/ di js dan controller

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblSourceType extends Model
 {
@@ -13,4 +14,9 @@ class TblSourceType extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblSourceTypeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_source_type_id']);
+    }
 }

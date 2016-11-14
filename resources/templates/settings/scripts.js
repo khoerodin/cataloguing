@@ -109,7 +109,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].inc + ' : ' + data[i].item_name,
-                        value: data[i].id,
+                        value: data[i].tbl_inc_id,
                     }));
                 }
             }
@@ -136,7 +136,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].holding,
-                        value: data[i].id,
+                        value: data[i].tbl_holding_id,
                     }));
                 }
             }
@@ -554,7 +554,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -612,8 +612,8 @@ jQuery(function($) {
                         charsTable += '<tr id="';
                         charsTable += i + 1;
                         charsTable += '"><td>';
-                        charsTable += '<input class="char_val_char_id" name="char_val_char_id[]" type="hidden" value="' + item.id + '">';
-                        charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.lic_id + '">';
+                        charsTable += '<input class="char_val_char_id" name="char_val_char_id[]" type="hidden" value="' + item.company_characteristic_id + '">';
+                        charsTable += '<input class="lic_id" name="lic_id[]" type="hidden" value="' + item.link_inc_characteristic_id + '">';
                         charsTable += i + 1;
                         charsTable += '</td><td>' + item.characteristic + '</td>';
                         if(item.custom_char_name){
@@ -622,11 +622,11 @@ jQuery(function($) {
                             charsTable += '<td><span style="color:transparent;">t</span></td>';
                         }                        
                         charsTable += '<td><span class="style_name">' + item.style_name + '</span><span class="pull-right">';
-                        charsTable += '<kbd data-id="' + item.id + '" id="edit_company_char" class="kbd-primary hover cpointer edit_company_char">EDIT</kbd>&nbsp;';
+                        charsTable += '<kbd data-id="' + item.company_characteristic_id + '" id="edit_company_char" class="kbd-primary hover cpointer edit_company_char">EDIT</kbd>&nbsp;';
                         if(item.hidden == 0){
-                            charsTable += '<kbd data-id="' + item.id + '" id="update_char_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
+                            charsTable += '<kbd data-id="' + item.company_characteristic_id + '" id="update_char_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
                         }else if(item.hidden == 1){
-                            charsTable += '<kbd data-id="' + item.id + '" id="update_char_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
+                            charsTable += '<kbd data-id="' + item.company_characteristic_id + '" id="update_char_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
                         }                        
                         charsTable += '</span></td></tr>';
 
@@ -672,8 +672,8 @@ jQuery(function($) {
                         valueTable += 'NO';
                     }                    
                     valueTable += '</span><span class="pull-right">';
-                    valueTable += '<kbd data-licv="' + item.id + '" data-cv="' + item.cvid + '" id="delete" class="kbd-danger hover cpointer">DELETE</kbd>&nbsp;';
-                    valueTable += '<kbd data-id="' + item.id + '" id="edit" class="kbd-primary hover cpointer">EDIT</kbd>';
+                    valueTable += '<kbd data-licv="' + item.link_inc_characteristic_value_id + '" data-cv="' + item.company_value_id + '" id="delete" class="kbd-danger hover cpointer">DELETE</kbd>&nbsp;';
+                    valueTable += '<kbd data-id="' + item.link_inc_characteristic_value_id + '" id="edit" class="kbd-primary hover cpointer">EDIT</kbd>';
                     valueTable += '</span>';
 
                     valueTable += '</td></tr>';
@@ -744,7 +744,7 @@ jQuery(function($) {
     $(document).on('click', '#update_char_val_order', function() {
         var char_val_char_id = []
         $("input.char_val_char_id").each(function (){
-            char_val_char_id.push(parseInt($(this).val()));
+            char_val_char_id.push($(this).val());
         });
 
         $.ajax({ 
@@ -802,7 +802,7 @@ jQuery(function($) {
                         $('#current_char_name').text(current_char_name);
 
                         $('#custom_name').val(data.custom_char_name);                
-                        $('#ccid').val(data.id); 
+                        $('#ccid').val(data.company_characteristic_id); 
 
                         $('#edit_company_char_modal').modal('show');
                     }
@@ -815,10 +815,10 @@ jQuery(function($) {
                     success: function(poStyleData) {
                         var option = '';
                         $.each(poStyleData, function(i, item) {
-                            if (data.tbl_po_style_id == item.id) {
-                                option += '<option value="' + item.id + '" selected>';
+                            if (data.tbl_po_style_id == item.tbl_po_style_id) {
+                                option += '<option value="' + item.tbl_po_style_id + '" selected>';
                             }else{
-                                option += '<option value="' + item.id + '">';
+                                option += '<option value="' + item.tbl_po_style_id + '">';
                             }                                                        
                             option += item.style_name.toUpperCase();
                             option += '</option>';
@@ -1129,7 +1129,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -1700,7 +1700,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -1757,7 +1757,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -1793,7 +1793,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].plant,
-                                    value: data[i].id,
+                                    value: data[i].tbl_plant_id,
                                 }));
                             }
                         }
@@ -1930,7 +1930,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -1990,7 +1990,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -2023,7 +2023,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -2056,7 +2056,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].plant,
-                                    value: data[i].id,
+                                    value: data[i].tbl_plant_id,
                                 }));
                             }
                         }
@@ -2278,7 +2278,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -2312,7 +2312,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].plant,
-                                value: data[i].id,
+                                value: data[i].tbl_plant_id,
                             }));
                         }
                     }
@@ -3233,7 +3233,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -3307,7 +3307,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -3353,7 +3353,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -3698,7 +3698,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -3799,7 +3799,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -3852,7 +3852,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -3885,7 +3885,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -4093,7 +4093,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -4291,7 +4291,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -4464,7 +4464,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -4523,7 +4523,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -4555,7 +4555,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -4803,7 +4803,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -5056,7 +5056,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -5315,7 +5315,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -5382,7 +5382,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -5414,7 +5414,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -5704,7 +5704,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }
@@ -6019,7 +6019,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -6379,7 +6379,7 @@ jQuery(function($) {
                     for (i = 0; i < l; i++) {
                         array.push($.extend(true, data[i], {
                             text: data[i].holding,
-                            value: data[i].id,
+                            value: data[i].tbl_holding_id,
                         }));
                     }
                 }
@@ -6453,7 +6453,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].holding,
-                                    value: data[i].id,
+                                    value: data[i].tbl_holding_id,
                                 }));
                             }
                         }
@@ -6485,7 +6485,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].company,
-                                    value: data[i].id,
+                                    value: data[i].tbl_company_id,
                                 }));
                             }
                         }
@@ -6817,7 +6817,7 @@ jQuery(function($) {
                         for (i = 0; i < l; i++) {
                             array.push($.extend(true, data[i], {
                                 text: data[i].company,
-                                value: data[i].id,
+                                value: data[i].tbl_company_id,
                             }));
                         }
                     }

@@ -26,7 +26,7 @@ class PartMasterSeeder extends Seeder
 	        	'unit_purchase' => 2,
 
 	        	'conversion' => '12',	        
-	        	'tbl_catalog_status_id' => 1,	        		
+	        	'tbl_catalog_status_id' => 2,	        		
 	        	'tbl_user_class_id' =>1,
 	        	
 	        	'catalog_type' => 'gen',
@@ -60,7 +60,7 @@ class PartMasterSeeder extends Seeder
 	        	'unit_purchase' => 2,
 
 	        	'conversion' => '13',
-	        	'tbl_catalog_status_id' => 1,
+	        	'tbl_catalog_status_id' => 2,
 	        	'tbl_user_class_id' =>1,
 
 	        	'catalog_type' => 'gen',

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblItemType extends Model
 {
@@ -13,4 +14,9 @@ class TblItemType extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblItemTypeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_item_type_id']);
+    }
 }

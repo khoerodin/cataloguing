@@ -198,7 +198,7 @@ elixir(function(mix) {
         'styles.css',
         'animate.css',
         'jquery-ui.css',
-        'dataTables.bootstrap.min.css',
+        'dataTables.bootstrap.min_old.css',
         'bootstrap-select.css',
         'ajax-bootstrap-select.css',
         'awesome-bootstrap-checkbox.css',

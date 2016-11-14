@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblGroupClass extends Model
 {
@@ -16,4 +17,9 @@ class TblGroupClass extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblGroupClassIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_group_class_id']);
+    }
 }

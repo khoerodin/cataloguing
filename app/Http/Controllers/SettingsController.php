@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use Vinkla\Hashids\Facades\Hashids;
 
 use DB;
 use Datatables;
@@ -58,39 +59,39 @@ class SettingsController extends Controller
 
     public function selectHolding(Request $request)
     {
-        return TblHolding::select('id', 'holding')
+        return TblHolding::select('id as tbl_holding_id', 'holding')
             ->where('holding', 'like', '%'.$request->q.'%')
             ->get();
     }
 
     public function selectCompany($holdingId, Request $request)
     {
-        return TblCompany::select('id', 'company')
-            ->where('tbl_holding_id', $holdingId)
+        return TblCompany::select('id as tbl_company_id', 'company')
+            ->where('tbl_holding_id', Hashids::decode($holdingId)[0])
             ->where('company', 'like', '%'.$request->q.'%')
             ->get();
     }
 
     public function selectPlant($companyId, Request $request)
     {
-        return TblPlant::select('id', 'plant')
-            ->where('tbl_company_id', $companyId)
+        return TblPlant::select('id as tbl_plant_id', 'plant')
+            ->where('tbl_company_id', Hashids::decode($companyId)[0])
             ->where('plant', 'like', '%'.$request->q.'%')
             ->get();
     }
 
     public function selectLocation($plantId, Request $request)
     {
-        return TblLocation::select('id', 'location')
-            ->where('tbl_plant_id', $plantId)
+        return TblLocation::select('id as tbl_location_id', 'location')
+            ->where('tbl_plant_id', Hashids::decode($plantId)[0])
             ->where('location', 'like', '%'.$request->q.'%')
             ->get();
     }
 
     public function selectSHelf($locationId, Request $request)
     {
-        return TblShelf::select('id', 'shelf')
-            ->where('tbl_location_id', $locationId)
+        return TblShelf::select('id as tbl_shelf_id', 'shelf')
+            ->where('tbl_location_id', Hashids::decode($locationId)[0])
             ->where('shelf', 'like', '%'.$request->q.'%')
             ->get();
     }
@@ -178,12 +179,12 @@ class SettingsController extends Controller
     // CHARACTERISTICS VALUE
     public function getChar($incId,$companyId)
     {
-        return CompanyCharacteristic::select('company_characteristic.id', 'link_inc_characteristic_id as lic_id', 'characteristic', 'custom_char_name', 'style_name', 'hidden')
+        return CompanyCharacteristic::select('company_characteristic.id as company_characteristic_id', 'link_inc_characteristic_id', 'characteristic', 'custom_char_name', 'style_name', 'hidden')
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
             ->join('tbl_po_style', 'tbl_po_style.id', '=', 'company_characteristic.tbl_po_style_id')
-            ->where('tbl_inc_id', $incId)
-            ->where('tbl_company_id', $companyId)
+            ->where('tbl_inc_id', Hashids::decode($incId)[0])
+            ->where('tbl_company_id', Hashids::decode($companyId)[0])
             ->orderBy('company_characteristic.sequence')
             ->get();
     } 
@@ -193,7 +194,7 @@ class SettingsController extends Controller
         $no = 1;
         $reponse = [];
         foreach ($request->id as $company_char_id) {
-            $update = CompanyCharacteristic::find($company_char_id);
+            $update = CompanyCharacteristic::find(Hashids::decode($company_char_id)[0]);
 
             $update->sequence = $no++;
             $update->last_updated_by  = Auth::user()->id;
@@ -204,11 +205,11 @@ class SettingsController extends Controller
 
     public function updateCharVisibility(Request $request)
     {
-        $cc = CompanyCharacteristic::where('id', $request->id)
+        $cc = CompanyCharacteristic::where('id', Hashids::decode($request->id)[0])
             ->select('hidden')
             ->first();
 
-        $update = CompanyCharacteristic::find($request->id);
+        $update = CompanyCharacteristic::find(Hashids::decode($request->id)[0]);
         if($cc->hidden == 0){            
             $update->hidden = 1;           
         }else{
@@ -221,22 +222,22 @@ class SettingsController extends Controller
 
     public function editCompanyChar($id)
     {
-        return CompanyCharacteristic::where('company_characteristic.id',$id)
+        return CompanyCharacteristic::where('company_characteristic.id', Hashids::decode($id)[0])
             ->join('tbl_po_style', 'tbl_po_style.id', '=', 'company_characteristic.tbl_po_style_id')
-            ->select('company_characteristic.id','custom_char_name','style_name','tbl_po_style_id')
+            ->select('company_characteristic.id as company_characteristic_id','custom_char_name','style_name','tbl_po_style_id')
             ->first();
     }
 
     public function getPoStyle()
     {
-        return TblPoStyle::select('id','style_name')->get();
+        return TblPoStyle::select('id as tbl_po_style_id','style_name')->get();
     }
 
     public function updateCompanyChar(Request $request)
     {
-        $update = CompanyCharacteristic::find($request->id);
+        $update = CompanyCharacteristic::find(Hashids::decode($request->id)[0]);
         $update->custom_char_name = trim(strtoupper($request->custom_name));
-        $update->tbl_po_style_id = $request->po_style;
+        $update->tbl_po_style_id = Hashids::decode($request->po_style)[0];
         $update->last_updated_by  = Auth::user()->id;
 
         return Response::json($update->save());
@@ -244,10 +245,10 @@ class SettingsController extends Controller
 
     public function getCharValue($licId,$companyId)
     {
-        return LinkIncCharacteristicValue::select('link_inc_characteristic_value.id', 'company_value.id as cvid', 'value','custom_value_name','company_value.abbrev','company_value.approved')
+        return LinkIncCharacteristicValue::select('link_inc_characteristic_value.id as link_inc_characteristic_value_id', 'company_value.id as company_value_id', 'value','custom_value_name','company_value.abbrev','company_value.approved')
             ->join('company_value', 'company_value.link_inc_characteristic_value_id', '=', 'link_inc_characteristic_value.id')
-            ->where('link_inc_characteristic_id', $licId)
-            ->where('tbl_company_id', $companyId)
+            ->where('link_inc_characteristic_id', Hashids::decode($licId)[0])
+            ->where('tbl_company_id', Hashids::decode($companyId)[0])
             ->orderBy('value')
             ->get();       
     }
@@ -278,14 +279,14 @@ class SettingsController extends Controller
             'approved' => 'integer|required',
         ]);  
 
-        $reponse[] = $this->updateLicValue($request->licvId,$request->charValue);
-        $reponse[] = $this->updateCompanyValue($request->licvId,$request->companyId,$request->customValueName,$request->valueAbbrev,$request->approved);
+        $reponse[] = $this->updateLicValue(Hashids::decode($request->licvId)[0],$request->charValue);
+        $reponse[] = $this->updateCompanyValue(Hashids::decode($request->licvId)[0],Hashids::decode($request->companyId)[0],$request->customValueName,$request->valueAbbrev,$request->approved);
 
         if($request->valueAbbrev != NULL && $request->approved != NULL){
-            $abbrev = LinkIncCharacteristicValue::where('id',$request->licvId)->first()->abbrev;
-            $approved = LinkIncCharacteristicValue::where('id',$request->licvId)->first()->approved;
+            $abbrev = LinkIncCharacteristicValue::where('id',Hashids::decode($request->licvId)[0])->first()->abbrev;
+            $approved = LinkIncCharacteristicValue::where('id',Hashids::decode($request->licvId)[0])->first()->approved;
             if($abbrev == NULL OR $approved == NULL){
-                $licv = LinkIncCharacteristicValue::find($request->licvId);
+                $licv = LinkIncCharacteristicValue::find(Hashids::decode($request->licvId)[0]);
                 $licv->abbrev = trim(strtoupper($request->valueAbbrev));
                 $licv->approved = trim(strtoupper($request->approved));
                 $licv->last_updated_by  = Auth::user()->id;
@@ -298,9 +299,13 @@ class SettingsController extends Controller
 
     public function deleteValue($cvid,$licvid)
     {
-        $delete[] = CompanyValue::where('id',$cvid)->delete();
-        $delete[] = LinkIncCharacteristicValue::where('id',$licvid)->delete();
-        return Response::json($delete);
+        $delete1 = LinkIncCharacteristicValue::where('id',Hashids::decode($licvid)[0])->delete();
+        if($delete1 == 1){
+            $delete2 = CompanyValue::where('id',Hashids::decode($cvid)[0])->delete();
+            return Response::json($delete2);
+        }else{
+            return Response::json('Cannot delete this value.', 500);
+        }        
     }
 
     public function addCharValue(Request $request)
@@ -309,19 +314,34 @@ class SettingsController extends Controller
             'char_value'    => 'required|max:30'
         ]);
 
-        $licv = [
-            'link_inc_characteristic_id' => $request->licId,
-            'value' => trim(strtoupper($request->char_value)),
-            'abbrev' => trim(strtoupper($request->value_abbrev)),
-            'approved' => $request->approved,
-            'created_by' => Auth::user()->id,
-            'last_updated_by' => Auth::user()->id,
-        ];           
+        $licv = LinkIncCharacteristicValue::select('id')
+            ->where('link_inc_characteristic_id', Hashids::decode($request->licId)[0])
+            ->where('value', trim(strtoupper($request->char_value)))
+            ->first();
+        
+        if(count($licv)>0){
+            $licv = $licv;
+        }else{
 
-        $licv = LinkIncCharacteristicValue::create($licv);
+            $licv = [
+                'link_inc_characteristic_id' => Hashids::decode($request->licId)[0],
+                'value' => trim(strtoupper($request->char_value)),
+                'abbrev' => trim(strtoupper($request->value_abbrev)),
+                'approved' => $request->approved,
+                'created_by' => Auth::user()->id,
+                'last_updated_by' => Auth::user()->id,
+            ];           
+
+            $licv = LinkIncCharacteristicValue::create($licv);
+
+        }
+
+        $checkCv = CompanyValue::where('tbl_company_id', Hashids::decode($request->companyId)[0])
+            ->where('link_inc_characteristic_value_id', $licv->id)
+            ->first();        
 
         $cv = [
-            'tbl_company_id' => $request->companyId,
+            'tbl_company_id' => Hashids::decode($request->companyId)[0],
             'link_inc_characteristic_value_id' => $licv->id,
             'custom_value_name' => trim(strtoupper($request->custom_value_name)),
             'abbrev' => trim(strtoupper($request->value_abbrev)),
@@ -330,7 +350,12 @@ class SettingsController extends Controller
             'last_updated_by' => Auth::user()->id,
         ];           
 
-        return CompanyValue::create($cv);
+        if(count($checkCv)>0){
+            return 'true';
+        }else{
+            return CompanyValue::create($cv);
+        }
+        
     }
     // END CHARACTERISTICS VALUE
 

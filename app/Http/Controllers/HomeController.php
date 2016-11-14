@@ -32,6 +32,7 @@ use App\Models\TblEquipmentCode;
 use App\Models\TblInc;
 use App\Models\TblGroupClass;
 use App\Models\TblManufacturerCode;
+use App\Models\TblSearch;
 use App\Models\TblSourceType;
 use App\Models\TblPartManufacturerCodeType;
 
@@ -59,11 +60,8 @@ class HomeController extends Controller
 
     public function getPartMaster($key)
     {
-        if($key == '0'){
-            $id = array(0,0,0,0,0,0,0,0,0,0,0,0,0,0);
-        }else{
-            $id = Hashids::decode($key);
-        }        
+        $id = Hashids::decode($key)[0];
+        $search = TblSearch::find($id);
 
         $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
                 ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
@@ -78,23 +76,26 @@ class HomeController extends Controller
                 ->join('tbl_user_class', 'tbl_user_class.id', '=', 'part_master.tbl_user_class_id')
                 ->join('tbl_weight_unit', 'tbl_weight_unit.id', '=', 'part_master.tbl_weight_unit_id')
                 
-                ->SearchCatalogNo($id[0])
-                ->SearchIncId($id[1])
-                ->SearchGroupClassId($id[2])
-                ->SearchCatalogStatusId($id[3])
-                ->SearchCatalogType($id[4])
-                ->SearchItemTypeId($id[5])
-                ->SearchManCodeId($id[6])
-                ->SearchEquipmentCodeId($id[7])
-                ->SearchHoldingId($id[8])
-                ->SearchCompanyId($id[9])
-                ->SearchPlantId($id[10])
-                ->SearchLocationId($id[11])
-                ->SearchShelfId($id[12])
-                ->SearchBinId($id[13])
+                ->SearchCatalogNo($search->catalog_no)
+                ->SearchHoldingNo($search->holding_no)
+                ->SearchIncId($search->inc_id)
+                ->SearchColloquialId($search->colloquial_id)
+                ->SearchGroupClassId($search->group_class_id)
+                ->SearchCatalogStatusId($search->catalog_status_id)
+                ->SearchCatalogType($search->catalog_type)
+                ->SearchItemTypeId($search->item_type_id)
+                ->SearchManCodeId($search->man_code_id)
+                ->SearchPartNumber($search->part_number)
+                ->SearchEquipmentCodeId($search->equipment_code_id)
+                ->SearchHoldingId($search->holding_id)
+                ->SearchCompanyId($search->company_id)
+                ->SearchPlantId($search->plant_id)
+                ->SearchLocationId($search->location_id)
+                ->SearchShelfId($search->shelf_id)
+                ->SearchBinId($search->bin_id)
 
                 ->select([
-                    'part_master.id',
+                    'part_master.id as part_master_id',
                     'catalog_no',
                     'holding',
                     'holding_no',
@@ -114,11 +115,11 @@ class HomeController extends Controller
                     'tbl_weight_unit.unit',
                     'average_unit_price',
 
-                    'link_inc_group_class.id as inc_group_class_id',
+                    'link_inc_group_class.id as link_inc_group_class_id',
                     'tbl_inc_id'
                     ]);
         return Datatables::of($partMaster)
-            ->setRowId('id')
+            ->setRowId('part_master_id')
             ->make(true);
     }
 
@@ -152,27 +153,27 @@ class HomeController extends Controller
     }
 
     public function selectCompany($partMasterId){
-        return TblCompany::select('tbl_company.id','company')
+        return TblCompany::select('tbl_company.id as tbl_company_id','company')
         ->join('tbl_holding', 'tbl_holding.id', '=', 'tbl_company.tbl_holding_id')
         ->join('part_master', 'part_master.tbl_holding_id', '=', 'tbl_holding.id')
-        ->where('part_master.id', $partMasterId)
+        ->where('part_master.id', Hashids::decode($partMasterId)[0])
         ->get();
     }
 
-    public function getIncGroupClass($id)
+    public function getIncGroupClass($incGroupClassId)
     {
         return linkIncGroupClass::select('tbl_inc.id as inc_id', 'inc', 'item_name',
             'tbl_group_class.id as group_class_id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
             ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
             ->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
-            ->where('link_inc_group_class.id', $id)
+            ->where('link_inc_group_class.id', Hashids::decode($incGroupClassId)[0])
             ->first();
     }
 
     public function selectInc(Request $request)
     {
-        return TblInc::select('id', 'inc', 'item_name')
+        return TblInc::select('id as tbl_inc_id', 'inc', 'item_name')
             ->where('inc', 'like', '%'.$request->q.'%')
             ->orWhere('item_name', 'like', '%'.$request->q.'%')
             ->get();
@@ -180,11 +181,11 @@ class HomeController extends Controller
 
     public function getGroupClass($incId)
     {
-        return LinkIncGroupClass::select('tbl_group_class.id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
+        return LinkIncGroupClass::select('tbl_group_class.id as group_class_id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
             ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
             ->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
-            ->where('tbl_inc.id', $incId)
+            ->where('tbl_inc.id', Hashids::decode($incId)[0])
             ->get();
     }
 
@@ -245,7 +246,7 @@ class HomeController extends Controller
 
     private function incCharIdCompany($companyId)
     {
-        return CompanyCharacteristic::select('link_inc_characteristic_id')
+        return CompanyCharacteristic::select('link_inc_characteristic_id as id')
             ->where('tbl_company_id', $companyId)
             ->get()->toArray();
     }
@@ -261,9 +262,9 @@ class HomeController extends Controller
 
     private function getPartCharVal($companyId, $incId, $partMasterId)
     {
-       return LinkIncCharacteristic::select('part_characteristic_value_id as id', 
+       return LinkIncCharacteristic::select('link_inc_characteristic.id as link_inc_characteristic_id', 
             'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 
-            'link_inc_characteristic.id as link_inc_characteristic_id', 
+            'part_characteristic_value_id', 
             'link_inc_characteristic.tbl_characteristic_id as char_id',
             DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 
             'short', 'type', 'company_characteristic.sequence')
@@ -408,6 +409,10 @@ class HomeController extends Controller
 
     public function getCharacteristicValue($incId, $partMasterId, $companyId)
     {
+        $incId          = Hashids::decode($incId)[0];
+        $partMasterId   = Hashids::decode($partMasterId)[0];
+        $companyId      = Hashids::decode($companyId)[0];
+
         // apakah inc yang dimaksud telah memiliki characteristic
         $char_for_inc = LinkIncCharacteristic::select('id')
             ->where('tbl_inc_id', $incId)
@@ -424,16 +429,16 @@ class HomeController extends Controller
 
     public function clickRowPartMaster($id)
     {
-        return PartMaster::select('link_inc_group_class_id')->find($id);
+        return PartMaster::select('link_inc_group_class_id')->where('id', Hashids::decode($id)[0])->first();
     }
 
     public function getIncCharValues($incCharId,$incId,$charId)
     {
         return LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                ->where('link_inc_characteristic_id', $incCharId)                
-                ->where('tbl_inc_id', $incId)
-                ->where('tbl_characteristic_id', $charId)
-                ->select('link_inc_characteristic_id','link_inc_characteristic_value.id as link_inc_characteristic_value_id','value','abbrev','approved')
+                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])                
+                ->where('tbl_inc_id', Hashids::decode($incId)[0])
+                ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
+                ->select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','link_inc_characteristic_id','value','abbrev','approved')
                 ->get();
     }
 
@@ -497,10 +502,10 @@ class HomeController extends Controller
             
             ->join('company_short_description_format', 'company_short_description_format.company_characteristic_id', '=', 'company_characteristic.id')
             
-            ->where('part_master.id', $partMasterId)
-            ->where('company_value.tbl_company_id', $companyId)
-            ->where('company_check_short.tbl_company_id', $companyId)
-            ->where('company_characteristic.tbl_company_id', $companyId)
+            ->where('part_master.id', Hashids::decode($partMasterId)[0])
+            ->where('company_value.tbl_company_id', Hashids::decode($companyId)[0])
+            ->where('company_check_short.tbl_company_id', Hashids::decode($companyId)[0])
+            ->where('company_characteristic.tbl_company_id', Hashids::decode($companyId)[0])
             ->where('company_check_short.short', 1)
             ->where('company_value.approved', 1)
             
@@ -584,9 +589,9 @@ class HomeController extends Controller
                             // cek apakah value yang diambil ada dalam link_inc_characteristic_value
                             // dengan syarat inc_id, characteristic_id, dan link_inc_characteristic_id
                             $__checking_value = LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                            ->where('link_inc_characteristic_id', $__inc_char_id[$i])                
-                            ->where('tbl_inc_id', $inc_id)
-                            ->where('tbl_characteristic_id', $__char_id[$i])
+                            ->where('link_inc_characteristic_id', Hashids::decode($__inc_char_id[$i])[0])                
+                            ->where('tbl_inc_id', Hashids::decode($inc_id)[0])
+                            ->where('tbl_characteristic_id', Hashids::decode($__char_id[$i])[0])
                             ->where('value', $__value[$i])
                             ->select('link_inc_characteristic_id','link_inc_characteristic_value.id as link_inc_characteristic_value_id','value')
                             ->first();
@@ -596,8 +601,8 @@ class HomeController extends Controller
                                 // cek apakah link_inc_characteristic_value_id tsb sudah masuk part_characteristic_value
                                 // dengan syarat part_characteristic_value.id dan part_master_id
                                 $__checking_pcv = PartCharacteristicValue::select('id','link_inc_characteristic_value_id','short')
-                                ->where('id', $__part_char_value_id[$i])                
-                                ->where('part_master_id', $part_master_id)
+                                ->where('id', Hashids::decode($__part_char_value_id[$i])[0])                
+                                ->where('part_master_id', Hashids::decode($part_master_id)[0])
                                 ->where('link_inc_characteristic_value_id', $__checking_value->link_inc_characteristic_value_id)
                                 ->first();
 
@@ -606,7 +611,7 @@ class HomeController extends Controller
                                     // cek apakah short beda, dengan syarat company_id
                                     // dan part_characteristic_value_id
                                     $__current_short = CompanyCheckShort::where('part_characteristic_value_id', $__checking_pcv->id)
-                                        ->where('tbl_company_id', $company_id)
+                                        ->where('tbl_company_id', Hashids::decode($company_id)[0])
                                         ->first();
 
                                     // jika short beda
@@ -614,7 +619,7 @@ class HomeController extends Controller
                                         // maka update short
 
                                         $__update_short = CompanyCheckShort::where('part_characteristic_value_id', $__checking_pcv->id)
-                                            ->where('tbl_company_id', $company_id)
+                                            ->where('tbl_company_id', Hashids::decode($company_id)[0])
                                             ->first();
 
                                         $__update_short->short = $__short[$i];
@@ -625,17 +630,17 @@ class HomeController extends Controller
                                 }else{
 
                                     // update dengan link_inc_characteristic_value yang sudah ada
-                                    $__pcv = PartCharacteristicValue::where('id',$__part_char_value_id[$i])
-                                    ->where('part_master_id', $part_master_id)
+                                    $__pcv = PartCharacteristicValue::where('id',Hashids::decode($__part_char_value_id[$i])[0])
+                                    ->where('part_master_id', Hashids::decode($part_master_id)[0])
                                     ->first();
 
-                                    $__pcv->link_inc_characteristic_value_id = $__checking_value->link_inc_characteristic_value_id;
+                                    $__pcv->link_inc_characteristic_value_id = Hashids::decode($__checking_value->link_inc_characteristic_value_id)[0];
                                     $__pcv->last_updated_by = $last_updated_by;
                                     $__pcv->save();
 
                                     // update short berdasarkan part_characteristic_value_id
-                                    $__update_short = CompanyCheckShort::where('part_characteristic_value_id', $__part_char_value_id[$i])
-                                        ->where('tbl_company_id', $company_id)
+                                    $__update_short = CompanyCheckShort::where('part_characteristic_value_id', Hashids::decode($__part_char_value_id[$i])[0])
+                                        ->where('tbl_company_id', Hashids::decode($company_id)[0])
                                         ->first();
 
                                     $__update_short->short = $__short[$i];
@@ -648,7 +653,7 @@ class HomeController extends Controller
                             }else{                   
 
                                 $__licvData = [
-                                    'link_inc_characteristic_id' => $__inc_char_id[$i],
+                                    'link_inc_characteristic_id' => Hashids::decode($__inc_char_id[$i])[0],
                                     'value' => trim(strtoupper($__value[$i])),
                                     'created_by' => $created_by,
                                     'last_updated_by' => $last_updated_by,
@@ -656,8 +661,8 @@ class HomeController extends Controller
 
                                 if($__licv = LinkIncCharacteristicValue::create($__licvData)){
                                     // ambil id dan update part_characteristic_value
-                                    $__pcv = PartCharacteristicValue::where('id',$__part_char_value_id[$i])
-                                    ->where('part_master_id', $part_master_id)
+                                    $__pcv = PartCharacteristicValue::where('id',Hashids::decode($__part_char_value_id[$i])[0])
+                                    ->where('part_master_id', Hashids::decode($part_master_id)[0])
                                     ->first();
 
                                     $__pcv->link_inc_characteristic_value_id = $__licv->id;
@@ -665,8 +670,8 @@ class HomeController extends Controller
                                     $__pcv->save();
 
                                     // update short berdasarkan part_characteristic_value_id
-                                    $__update_short = CompanyCheckShort::where('part_characteristic_value_id', $__part_char_value_id[$i])
-                                        ->where('tbl_company_id', $company_id)
+                                    $__update_short = CompanyCheckShort::where('part_characteristic_value_id', Hashids::decode($__part_char_value_id[$i])[0])
+                                        ->where('tbl_company_id', Hashids::decode($company_id)[0])
                                         ->first();
 
                                     $__update_short->short = $__short[$i];
@@ -680,8 +685,8 @@ class HomeController extends Controller
                         }else{
                             // maka hapus dari part_characteristic_value
                             // dengan terlebih dahulu hapus record yang ber-relasi (CompanyCheckShort)
-                            CompanyCheckShort::where('part_characteristic_value_id', $__part_char_value_id[$i])->delete();
-                            PartCharacteristicValue::where('id',$__part_char_value_id[$i])->delete();
+                            CompanyCheckShort::where('part_characteristic_value_id', Hashids::decode($__part_char_value_id[$i])[0])->delete();
+                            PartCharacteristicValue::where('id',Hashids::decode($__part_char_value_id[$i])[0])->delete();
                         }
 
                     }
@@ -704,9 +709,9 @@ class HomeController extends Controller
                             // cek apakah value yang diambil ada dalam link_inc_characteristic_value
                             // dengan syarat inc_id, characteristic_id, dan link_inc_characteristic_id
                             $_checking_value = LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                            ->where('link_inc_characteristic_id', $_inc_char_id[$i])                
-                            ->where('tbl_inc_id', $inc_id)
-                            ->where('tbl_characteristic_id', $_char_id[$i])
+                            ->where('link_inc_characteristic_id', Hashids::decode($_inc_char_id[$i])[0])                
+                            ->where('tbl_inc_id', Hashids::decode($inc_id)[0])
+                            ->where('tbl_characteristic_id', Hashids::decode($_char_id[$i])[0])
                             ->where('value', $_value[$i])
                             ->select('link_inc_characteristic_id','link_inc_characteristic_value.id as link_inc_characteristic_value_id','value')
                             ->first();
@@ -715,8 +720,8 @@ class HomeController extends Controller
                             if (count($_checking_value) > 0) {
 
                                 $_pcvData = [
-                                    'part_master_id' => $part_master_id,
-                                    'link_inc_characteristic_value_id' => $_checking_value->link_inc_characteristic_value_id,
+                                    'part_master_id' => Hashids::decode($part_master_id)[0],
+                                    'link_inc_characteristic_value_id' => Hashids::decode($_checking_value->link_inc_characteristic_value_id)[0],
                                     'created_by' => $created_by,
                                     'last_updated_by' => $last_updated_by,
                                 ];            
@@ -724,7 +729,7 @@ class HomeController extends Controller
                                 if($_partCharacteristicValue = PartCharacteristicValue::create($_pcvData)){
 
                                     $_shortData = [
-                                        'tbl_company_id' => $company_id,
+                                        'tbl_company_id' => Hashids::decode($company_id)[0],
                                         'part_characteristic_value_id' => $_partCharacteristicValue->id,
                                         'short' => $_short[$i],
                                         'created_by' => $created_by,
@@ -739,7 +744,7 @@ class HomeController extends Controller
                             }else{                   
                                 // maka buat value baru terlebih dahulu
                                 $_licvData = [
-                                    'link_inc_characteristic_id' => $_inc_char_id[$i],
+                                    'link_inc_characteristic_id' => Hashids::decode($_inc_char_id[$i])[0],
                                     'value' => trim(strtoupper($_value[$i])),
                                     'created_by' => $created_by,
                                     'last_updated_by' => $last_updated_by,
@@ -748,7 +753,7 @@ class HomeController extends Controller
                                 // dan masukkan ke part_characteristic_value
                                 if($_licv = LinkIncCharacteristicValue::create($_licvData)){
                                     $_pcvData = [
-                                        'part_master_id' => $part_master_id,
+                                        'part_master_id' => Hashids::decode($part_master_id)[0],
                                         'link_inc_characteristic_value_id' => $_licv->id,
                                         'created_by' => $created_by,
                                         'last_updated_by' => $last_updated_by,
@@ -757,7 +762,7 @@ class HomeController extends Controller
                                     if($_partCharacteristicValue = PartCharacteristicValue::create($_pcvData)){
 
                                         $_shortData = [
-                                            'tbl_company_id' => $company_id,
+                                            'tbl_company_id' => Hashids::decode($company_id)[0],
                                             'part_characteristic_value_id' => $_partCharacteristicValue->id,
                                             'short' => $_short[$i],
                                             'created_by' => $created_by,
@@ -781,23 +786,23 @@ class HomeController extends Controller
                 // ambil data part master lama
                 $old_part_master = PartMaster::select('link_inc_group_class_id','tbl_inc_id')
                     ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
-                    ->where('part_master.id', $part_master_id)
+                    ->where('part_master.id', Hashids::decode($part_master_id)[0])
                     ->first();
 
                 // ambil link_inc_group_class_id baru
                 $new_link_inc_group_class_id = LinkIncGroupClass::select('id')
-                    ->where('tbl_inc_id', $inc_id)                
-                    ->where('tbl_group_class_id', $group_class_id)
+                    ->where('tbl_inc_id', Hashids::decode($inc_id)[0])             
+                    ->where('tbl_group_class_id', Hashids::decode($group_class_id)[0])
                     ->first();
 
                 // jika tidak sama
-                if($old_part_master->link_inc_group_class_id != $new_link_inc_group_class_id->id){
+                if(Hashids::decode($old_part_master->link_inc_group_class_id)[0] != $new_link_inc_group_class_id->id){
                     // jika inc beda
                     if($inc_id != $old_part_master->tbl_inc_id){
 
                         // ambil dulu id PartCharacteristicValue lama
                         $old_part_char_val_id = PartCharacteristicValue::select('id')
-                        ->where('part_master_id', $part_master_id)
+                        ->where('part_master_id', Hashids::decode($part_master_id)[0])
                         ->whereIn('link_inc_characteristic_value_id', function($query) use ($old_part_master){
                             $query->select('link_inc_characteristic_value.id')
                             ->from(with(new LinkIncCharacteristicValue)->getTable())
@@ -816,9 +821,9 @@ class HomeController extends Controller
                     }
 
                     // update dengan link_inc_group_class_id yang baru
-                    $update_part_master = PartMaster::where('id', $part_master_id)
+                    $update_part_master = PartMaster::where('id', Hashids::decode($part_master_id)[0])
                     ->where('link_inc_group_class_id', $old_part_master->link_inc_group_class_id)
-                    ->firstOrFail();
+                    ->first();
 
                     $update_part_master->link_inc_group_class_id = $new_link_inc_group_class_id->id;
                     $update_part_master->last_updated_by = $last_updated_by;
@@ -846,32 +851,34 @@ class HomeController extends Controller
     }
 
     public function getPartManufacturerCode($partMasterId){
-        $partManufacturerCode = PartManufacturerCode::select('part_manufacturer_code.id','manufacturer_code','tbl_source_type.type AS source_type','manufacturer_ref','tbl_part_manufacturer_code_type.type')
+        $partManufacturerCode = PartManufacturerCode::select('part_manufacturer_code.id as part_manufacturer_code_id','manufacturer_code','tbl_source_type.type AS source_type','manufacturer_ref','tbl_part_manufacturer_code_type.type')
         ->join('part_master', 'part_master.id', '=', 'part_manufacturer_code.part_master_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_manufacturer_code.tbl_manufacturer_code_id')
         ->join('tbl_source_type', 'tbl_source_type.id', '=', 'part_manufacturer_code.tbl_source_type_id')
         ->join('tbl_part_manufacturer_code_type', 'tbl_part_manufacturer_code_type.id', '=', 'part_manufacturer_code.tbl_part_manufacturer_code_type_id')
-        ->where('part_master_id', $partMasterId);
+        ->where('part_master_id', Hashids::decode($partMasterId)[0]);
 
         return Datatables::of($partManufacturerCode)
-            ->editColumn('type', '{{$type}} <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd></span>')
-            ->setRowId('id')
+            ->editColumn('type', '{{$type}} <span class="pull-right"><kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd> <kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd></span>')
+            ->setRowId('part_manufacturer_code_id')
             ->make(true);
+
+
     }
 
     public function selectManufacturerCode(Request $request){
-        return TblManufacturerCode::select('id','manufacturer_code','manufacturer_name')
+        return TblManufacturerCode::select('id as tbl_manufacturer_code_id','manufacturer_code','manufacturer_name')
         ->where('manufacturer_code', 'like', '%'.$request->q.'%')
         ->orWhere('manufacturer_name', 'like', '%'.$request->q.'%')
         ->get();
     }
 
     public function getSourceType(){
-        return TblSourceType::select('id','type','description')->get();
+        return TblSourceType::select('id as tbl_source_type_id','type','description')->get();
     }
 
     public function getPartManufacturerCodeType(){
-        return TblPartManufacturerCodeType::select('id','type','description')->get();
+        return TblPartManufacturerCodeType::select('id as tbl_part_manufacturer_code_type_id','type','description')->get();
     }
 
     public function addPartManufacturerCode(Request $request)
@@ -885,25 +892,25 @@ class HomeController extends Controller
         ]);
 
         $request = [
-            'part_master_id' => $request->part_master_id,
-            'tbl_manufacturer_code_id' => $request->tbl_manufacturer_code_id,
-            'tbl_source_type_id' => $request->tbl_source_type_id,
+            'part_master_id' => Hashids::decode($request->part_master_id)[0],
+            'tbl_manufacturer_code_id' => Hashids::decode($request->tbl_manufacturer_code_id)[0],
+            'tbl_source_type_id' => Hashids::decode($request->tbl_source_type_id)[0],
             'manufacturer_ref' => strtoupper(trim($request->manufacturer_ref)),
-            'tbl_part_manufacturer_code_type_id' => $request->tbl_part_manufacturer_code_type_id,
-            'created_by' => $request->created_by,
-            'last_updated_by' => $request->last_updated_by,
+            'tbl_part_manufacturer_code_type_id' => Hashids::decode($request->tbl_part_manufacturer_code_type_id)[0],
+            'created_by' => Auth::user()->id,
+            'last_updated_by' => Auth::user()->id,
         ];  
 
         $partManufacturerCode = PartManufacturerCode::create($request);
-        return Response::json($partManufacturerCode);
+        return Response::json('ok');
     }
 
     public function editPartManufacturerCode($id){
-        return PartManufacturerCode::select('part_manufacturer_code.id as id','tbl_manufacturer_code_id','tbl_source_type_id','manufacturer_code','manufacturer_ref','tbl_part_manufacturer_code_type_id','manufacturer_name','tbl_source_type.type as source','tbl_part_manufacturer_code_type.type as type')
+        return PartManufacturerCode::select('part_manufacturer_code.id as part_manufacturer_code_id','tbl_manufacturer_code_id','tbl_source_type_id','manufacturer_code','manufacturer_ref','tbl_part_manufacturer_code_type_id','manufacturer_name','tbl_source_type.type as source','tbl_part_manufacturer_code_type.type as type')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_manufacturer_code.tbl_manufacturer_code_id')
         ->join('tbl_source_type', 'tbl_source_type.id', '=', 'part_manufacturer_code.tbl_source_type_id')
         ->join('tbl_part_manufacturer_code_type', 'tbl_part_manufacturer_code_type.id', '=', 'part_manufacturer_code.tbl_part_manufacturer_code_type_id')
-        ->find($id);
+        ->where('part_manufacturer_code.id', Hashids::decode($id)[0])->first();
     }
 
     public function updatePartManufacturerCode(Request $request)
@@ -916,33 +923,33 @@ class HomeController extends Controller
             'tbl_part_manufacturer_code_type_id' => 'required'
         ]);
 
-        $partManufacturerCode = PartManufacturerCode::find($request->id);
+        $partManufacturerCode = PartManufacturerCode::find(Hashids::decode($request->id)[0]);
 
-        $partManufacturerCode->part_master_id                        = $request->part_master_id;
-        $partManufacturerCode->tbl_manufacturer_code_id              = $request->tbl_manufacturer_code_id;
-        $partManufacturerCode->tbl_source_type_id                    = $request->tbl_source_type_id;
+        $partManufacturerCode->part_master_id                        = Hashids::decode($request->part_master_id)[0];
+        $partManufacturerCode->tbl_manufacturer_code_id              = Hashids::decode($request->tbl_manufacturer_code_id)[0];
+        $partManufacturerCode->tbl_source_type_id                    = Hashids::decode($request->tbl_source_type_id)[0];
         $partManufacturerCode->manufacturer_ref                      = strtoupper(trim($request->manufacturer_ref));
-        $partManufacturerCode->tbl_part_manufacturer_code_type_id    = $request->tbl_part_manufacturer_code_type_id;
+        $partManufacturerCode->tbl_part_manufacturer_code_type_id    = Hashids::decode($request->tbl_part_manufacturer_code_type_id)[0];
         $partManufacturerCode->last_updated_by                       = Auth::user()->id;
 
         $partManufacturerCode->save();
-        return Response::json($partManufacturerCode);
+        return Response::json('ok');
     }
 
     public function deletePartManufacturerCode($id)
     {
-        $partManufacturerCode = PartManufacturerCode::destroy($id);
+        $partManufacturerCode = PartManufacturerCode::destroy(Hashids::decode($id)[0]);
         return Response::json($partManufacturerCode);
     }
 
     public function getPartColloquial($partMasterId){
-        $partColloquial = PartColloquial::select('part_colloquial.id','colloquial')
+        $partColloquial = PartColloquial::select('part_colloquial.id as part_colloquial_id','colloquial')
         ->join('tbl_colloquial', 'tbl_colloquial.id', '=', 'part_colloquial.tbl_colloquial_id')
-        ->where('part_master_id', $partMasterId);
+        ->where('part_master_id', Hashids::decode($partMasterId)[0]);
 
         return Datatables::of($partColloquial)
-            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd></span>')
-            ->setRowId('id')
+            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span class="pull-right"><kbd data-id="{{$part_colloquial_id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd> <kbd data-id="{{$part_colloquial_id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd></span>')
+            ->setRowId('part_colloquial_id')
             ->make(true);
     }
 
@@ -960,8 +967,8 @@ class HomeController extends Controller
         $id = Auth::user()->id;
         if(count($check_colloquial) > 0){
             $insertRequest = [
-                'tbl_colloquial_id' => 11,
-                'part_master_id' => $request->part_master_id,                
+                'tbl_colloquial_id' => $check_colloquial->id,
+                'part_master_id' => Hashids::decode($request->part_master_id)[0],                
                 'created_by' => $id,
                 'last_updated_by' => $id,
             ];  
@@ -977,15 +984,15 @@ class HomeController extends Controller
             if($tblColloquial = TblColloquial::create($colloquial)){
                 $insertRequest = [
                     'tbl_colloquial_id' => $tblColloquial->id,
-                    'part_master_id' => $request->part_master_id,                
-                    'created_by' => $request->created_by,
-                    'last_updated_by' => $request->last_updated_by,
+                    'part_master_id' => Hashids::decode($request->part_master_id)[0],                
+                    'created_by' => $id,
+                    'last_updated_by' => $id,
                 ]; 
 
                 $partColloquial = PartColloquial::create($insertRequest);
             }            
         }
-        return Response::json($partColloquial);
+        return Response::json('ok');
     }
 
     public function updatePartColloquial(Request $request)
@@ -1002,11 +1009,11 @@ class HomeController extends Controller
         $id = Auth::user()->id;
         if(count($check_colloquial) > 0){
 
-            $partColloquial = PartColloquial::find($request->id);
+            $partColloquial = PartColloquial::find(Hashids::decode($request->id)[0]);
 
-            $partColloquial->part_master_id     = $request->part_master_id;
+            $partColloquial->part_master_id     = Hashids::decode($request->part_master_id)[0];
             $partColloquial->tbl_colloquial_id  = $check_colloquial->id;
-            $partColloquial->last_updated_by    = $request->last_updated_by;
+            $partColloquial->last_updated_by    = $id;
 
             $partColloquial->save();
 
@@ -1019,41 +1026,39 @@ class HomeController extends Controller
             ];  
 
             if($tblColloquial = TblColloquial::create($colloquial)){
-                $partColloquial = PartColloquial::find($request->id);
+                $partColloquial = PartColloquial::find(Hashids::decode($request->id)[0]);
 
-                $partColloquial->part_master_id     = $request->part_master_id;
+                $partColloquial->part_master_id     = Hashids::decode($request->part_master_id)[0];
                 $partColloquial->tbl_colloquial_id  = $tblColloquial->id;
-                $partColloquial->last_updated_by    = $request->last_updated_by;
+                $partColloquial->last_updated_by    = $id;
 
                 $partColloquial->save();
-            } 
-
-            
+            }            
         }
 
-        return Response::json($partColloquial);
+        return Response::json('ok');
     }
 
     public function deletePartColloquial($id)
     {
-        $partColloquial = PartColloquial::destroy($id);
+        $partColloquial = PartColloquial::destroy(Hashids::decode($id)[0]);
         return Response::json($partColloquial);
     }
 
     public function getPartEquipmentCode($partMasterId){
-        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id','part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','doc_ref','dwg_ref','tbl_manufacturer_code_id','manufacturer_code')
+        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','doc_ref','dwg_ref','tbl_manufacturer_code_id','manufacturer_code')
         ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
-        ->where('part_master_id', $partMasterId);
+        ->where('part_master_id', Hashids::decode($partMasterId)[0]);
 
         return Datatables::of($partPartEquipmentCode)
-            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span class="pull-right"><kbd data-id="{{$id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
-            ->setRowId('id')
+            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span class="pull-right"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
+            ->setRowId('part_equipment_code_id')
             ->make(true);
     }
 
     public function selectEquipmentCode(Request $request){
-        return TblEquipmentCode::select('id','equipment_code','equipment_name')
+        return TblEquipmentCode::select('id as tbl_equipment_code_id','equipment_code','equipment_name')
         ->where('equipment_code', 'like', '%'.$request->q.'%')
         ->orWhere('equipment_name', 'like', '%'.$request->q.'%')
         ->get();
@@ -1068,23 +1073,21 @@ class HomeController extends Controller
             'tbl_manufacturer_code_id'  => 'required',
             'doc_ref'                   => 'required_without:dwg_ref|max:255',
             'dwg_ref'                   => 'required_without:doc_ref|max:255',
-            'created_by'                => 'required',
-            'last_updated_by'           => 'required',
         ]);
 
         $request = [
-            'part_master_id'            => $request->part_master_id,
-            'tbl_equipment_code_id'     => $request->tbl_equipment_code_id,
+            'part_master_id'            => Hashids::decode($request->part_master_id)[0],
+            'tbl_equipment_code_id'     => Hashids::decode($request->tbl_equipment_code_id)[0],
             'qty_install'               => trim($request->qty_install),
-            'tbl_manufacturer_code_id'  => $request->tbl_manufacturer_code_id,
+            'tbl_manufacturer_code_id'  => Hashids::decode($request->tbl_manufacturer_code_id)[0],
             'doc_ref'                   => strtoupper(trim($request->doc_ref)),
             'dwg_ref'                   => strtoupper(trim($request->dwg_ref)),
-            'created_by'                => $request->created_by,
-            'last_updated_by'           => $request->last_updated_by,
+            'created_by'                => Auth::user()->id,
+            'last_updated_by'           => Auth::user()->id,
         ];  
 
         $partPartEquipmentCode = PartEquipmentCode::create($request);
-        return Response::json($partPartEquipmentCode);
+        return Response::json('ok');
     }
 
     public function editPartEquipmentCode($id)
@@ -1093,7 +1096,7 @@ class HomeController extends Controller
             'manufacturer_code', 'manufacturer_name')
             ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
             ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
-            ->find($id);
+            ->find(Hashids::decode($id)[0]);
         return Response::json($partEquipmentCode);
     }
 
@@ -1105,26 +1108,24 @@ class HomeController extends Controller
             'tbl_manufacturer_code_id'  => 'required',
             'doc_ref'                   => 'required_without:dwg_ref|max:255',
             'dwg_ref'                   => 'required_without:doc_ref|max:255',
-            'created_by'                => 'required',
-            'last_updated_by'           => 'required',
         ]);
 
-        $partEquipmentCode = PartEquipmentCode::find($request->id);
+        $partEquipmentCode = PartEquipmentCode::find(Hashids::decode($request->id)[0]);
 
-        $partEquipmentCode->tbl_equipment_code_id       = $request->tbl_equipment_code_id;
+        $partEquipmentCode->tbl_equipment_code_id       = Hashids::decode($request->tbl_equipment_code_id)[0];
         $partEquipmentCode->qty_install                 = trim($request->qty_install);
         $partEquipmentCode->doc_ref                     = strtoupper(trim($request->doc_ref));
         $partEquipmentCode->dwg_ref                     = strtoupper(trim($request->dwg_ref));
-        $partEquipmentCode->tbl_manufacturer_code_id    = $request->tbl_manufacturer_code_id;
-        $partEquipmentCode->last_updated_by             = $request->last_updated_by;
+        $partEquipmentCode->tbl_manufacturer_code_id    = Hashids::decode($request->tbl_manufacturer_code_id)[0];
+        $partEquipmentCode->last_updated_by             = Auth::user()->id;
 
         $partEquipmentCode->save();
-        return Response::json($partEquipmentCode);
+        return Response::json('ok');
     }
 
     public function deletePartEquipmentCode($id)
     {
-        $partEquipmentCode = PartEquipmentCode::destroy($id);
+        $partEquipmentCode = PartEquipmentCode::destroy(Hashids::decode($id)[0]);
         return Response::json($partEquipmentCode);
     }
 
@@ -1332,13 +1333,13 @@ class HomeController extends Controller
     {
         return PartSourceDescription::select('catalog_no', 'inc', 'item_name', 'group_class', 'uom', 'source')
             ->join('part_master', 'part_master.id', '=', 'part_source_description.part_master_id')
-            ->where('part_master_id', $partMasterId)->first();
+            ->where('part_master_id', Hashids::decode($partMasterId)[0])->first();
     }
 
     public function getPartSourcePartNo($partMasterId)
     {
         return PartSourcePartNo::select('catalog_no', 'manufacturer_code', 'manufacturer', 'manufacturer_ref', 'ref_type')
             ->join('part_master', 'part_master.id', '=', 'part_source_part_no.part_master_id')
-            ->where('part_master_id', $partMasterId)->get();
+            ->where('part_master_id', Hashids::decode($partMasterId)[0])->get();
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblManufacturerCode extends Model
 {
@@ -14,4 +15,9 @@ class TblManufacturerCode extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblManufacturerCodeIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_manufacturer_code_id']);
+    }
 }

@@ -17,26 +17,30 @@ Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
 
+Route::get('test', 'TestController@index');
+
 // =======================================================
 // SEARCH ITEMS
 // =======================================================
-Route::post('search-items/select-search-catalog-no', 'SearchItemsController@selectSearchCatalogNo');
-Route::post('search-items/select-search-holding-no', 'SearchItemsController@selectSearchHoldingNo');
-Route::post('search-items/select-search-inc-item-name', 'SearchItemsController@selectSearchIncItemName');
-Route::post('search-items/select-search-colloquial', 'SearchItemsController@selectSearchColloquial');
-Route::post('search-items/select-search-group-class', 'SearchItemsController@selectSearchGroupClass');
-Route::post('search-items/select-search-catalog-status', 'SearchItemsController@selectSearchCatalogStatus');
-Route::post('search-items/select-search-item-type', 'SearchItemsController@selectSearchItemType');
-Route::post('search-items/select-search-manufacturer', 'SearchItemsController@selectSearchManufacturer');
-Route::post('search-items/select-search-part-number', 'SearchItemsController@selectSearchPartNumber');
-Route::post('search-items/select-search-equipment', 'SearchItemsController@selectSearchEquipment');
-Route::post('search-items/select-search-holding', 'SearchItemsController@selectSearchHolding');
-Route::post('search-items/select-search-company', 'SearchItemsController@selectSearchCompany');
-Route::post('search-items/select-search-plant', 'SearchItemsController@selectSearchPlant');
-Route::post('search-items/select-search-location', 'SearchItemsController@selectSearchLocation');
-Route::post('search-items/select-search-shelf', 'SearchItemsController@selectSearchShelf');
-Route::post('search-items/select-search-bin', 'SearchItemsController@selectSearchBin');
-Route::post('search-items/select-search-user', 'SearchItemsController@selectSearchUser');
+Route::post('search', 'SearchController@index');
+
+Route::post('search-items/select-search-catalog-no', 'SearchController@selectSearchCatalogNo');
+Route::post('search-items/select-search-holding-no', 'SearchController@selectSearchHoldingNo');
+Route::post('search-items/select-search-inc-item-name', 'SearchController@selectSearchIncItemName');
+Route::post('search-items/select-search-colloquial', 'SearchController@selectSearchColloquial');
+Route::post('search-items/select-search-group-class', 'SearchController@selectSearchGroupClass');
+Route::post('search-items/select-search-catalog-status', 'SearchController@selectSearchCatalogStatus');
+Route::post('search-items/select-search-item-type', 'SearchController@selectSearchItemType');
+Route::post('search-items/select-search-manufacturer', 'SearchController@selectSearchManufacturer');
+Route::post('search-items/select-search-part-number', 'SearchController@selectSearchPartNumber');
+Route::post('search-items/select-search-equipment', 'SearchController@selectSearchEquipment');
+Route::post('search-items/select-search-holding', 'SearchController@selectSearchHolding');
+Route::post('search-items/select-search-company', 'SearchController@selectSearchCompany');
+Route::post('search-items/select-search-plant', 'SearchController@selectSearchPlant');
+Route::post('search-items/select-search-location', 'SearchController@selectSearchLocation');
+Route::post('search-items/select-search-shelf', 'SearchController@selectSearchShelf');
+Route::post('search-items/select-search-bin', 'SearchController@selectSearchBin');
+Route::post('search-items/select-search-user', 'SearchController@selectSearchUser');
 // =======================================================
 // END SEARCH ITEMS
 // =======================================================
@@ -299,3 +303,12 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/add-weight-unit', 'SettingsController@addWeightUnit');
 	Route::put('settings/update-weight-unit/{id}', 'SettingsController@updateWeightUnit');
 	Route::delete('settings/delete-weight-unit/{id}', 'SettingsController@deleteWeightUnit');
+
+
+	Route::get('oke', function(){
+
+		return App\Models\PartMaster::select('link_inc_group_class_id','tbl_inc_id')
+                    ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
+                    ->where('part_master.id', 1)
+                    ->first();
+	});

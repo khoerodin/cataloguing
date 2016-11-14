@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblBin extends Model
 {
@@ -14,6 +15,11 @@ class TblBin extends Model
 	    	'created_by',
 	    	'last_updated_by'
 	    	);
+
+    public function getTblBinIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_bin_id']);
+    }
 
     public function scopeSearchHolding($query, $holdingId)
     {

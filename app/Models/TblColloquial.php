@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class TblColloquial extends Model
 {
@@ -12,4 +13,9 @@ class TblColloquial extends Model
     	'created_by',
     	'last_updated_by'
     	);
+
+    public function getTblColloquialIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_colloquial_id']);
+    }
 }

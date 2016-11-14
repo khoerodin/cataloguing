@@ -16,7 +16,7 @@ jQuery(function($) {
 
     // GLOBAL SEARCH
     $(document).on('click', '#btn_search', function() {
-        // 1
+        
         catalogNo = $('select#search_catalog_no').val();
         if(catalogNo){
             catalogNo = catalogNo;
@@ -24,7 +24,13 @@ jQuery(function($) {
             catalogNo = 0;
         }
 
-        // 2
+        holdingNo = $('select#search_holding_no').val();
+        if(holdingNo){
+            holdingNo = holdingNo.trim();
+        }else{
+            holdingNo = 0;
+        }
+
         incId = $('select#search_inc_item_name').val();
         if(incId){
             incId = incId;
@@ -32,7 +38,13 @@ jQuery(function($) {
             incId = 0;
         }
 
-        // 3
+        colloquialId = $('select#search_colloquial_id').val();
+        if(colloquialId){
+            colloquialId = colloquialId.trim();
+        }else{
+            colloquialId = 0;
+        }
+
         groupClassId = $('select#search_group_class').val();
         if(groupClassId){
             groupClassId = groupClassId;
@@ -40,7 +52,6 @@ jQuery(function($) {
             groupClassId = 0;
         }
 
-        // 4
         catalogStatusId = $('select#search_catalog_status').val();
         if(catalogStatusId){
             catalogStatusId = catalogStatusId;
@@ -48,15 +59,13 @@ jQuery(function($) {
             catalogStatusId = 0;
         }
 
-        // 5
         catalogType = $('select#search_catalog_type').val();
         if(catalogType){
-            catalogType = catalogType;
+            catalogType = hashids.encode(catalogType);
         }else{
             catalogType = 0;
         }
 
-        // 6
         itemTypeId = $('select#search_item_type').val();
         if(itemTypeId){
             itemTypeId = itemTypeId;
@@ -64,7 +73,6 @@ jQuery(function($) {
             itemTypeId = 0;
         }
 
-        // 7
         manCodeId = $('select#search_manufacturer').val();
         if(manCodeId){
             manCodeId = manCodeId;
@@ -72,7 +80,13 @@ jQuery(function($) {
             manCodeId = 0;
         }
 
-        // 8
+        partNumber = $('select#search_part_number').val();
+        if(partNumber){
+            partNumber = partNumber.trim();
+        }else{
+            partNumber = 0;
+        }
+
         equipmentCodeId = $('select#search_equipment').val();
         if(equipmentCodeId){
             equipmentCodeId = equipmentCodeId;
@@ -80,7 +94,6 @@ jQuery(function($) {
             equipmentCodeId = 0;
         }
 
-        // 9
         holdingId = $('select#search_holding').val();
         if(holdingId){
             holdingId = holdingId;
@@ -88,7 +101,6 @@ jQuery(function($) {
             holdingId = 0;
         }
 
-        // 10
         companyId = $('select#search_company').val();
         if(companyId){
             companyId = companyId;
@@ -96,7 +108,6 @@ jQuery(function($) {
             companyId = 0;
         }
 
-        // 11
         plantId = $('select#search_plant').val();
         if(plantId){
             plantId = plantId;
@@ -104,7 +115,6 @@ jQuery(function($) {
             plantId = 0;
         }
 
-        // 12
         locationId = $('select#search_location').val();
         if(locationId){
             locationId = locationId;
@@ -112,7 +122,6 @@ jQuery(function($) {
             locationId = 0;
         }
 
-        // 13
         shelfId = $('select#search_shelf').val();
         if(shelfId){
             shelfId = shelfId;
@@ -120,7 +129,6 @@ jQuery(function($) {
             shelfId = 0;
         }
 
-        // 14
         binId = $('select#search_bin').val();
         if(binId){
             binId = binId;
@@ -128,27 +136,57 @@ jQuery(function($) {
             binId = 0;
         }
 
-        var arr = [
-                catalogNo, // 1
-                incId, // 2
-                groupClassId, // 3
-                catalogStatusId, // 4
-                catalogType, // 5
-                itemTypeId, // 6
-                manCodeId, // 7          
-                equipmentCodeId, // 8               
-                holdingId, // 9     
-                companyId, // 10           
-                plantId, // 11        
-                locationId, // 12             
-                shelfId, // 13         
-                binId, // 14        
-            ];
+        var arr =   [
+                        catalogNo,
+                        holdingNo,
+                        incId,
+                        colloquialId,
+                        groupClassId,
+                        catalogStatusId,
+                        catalogType,
+                        itemTypeId,
+                        manCodeId,          
+                        partNumber,          
+                        equipmentCodeId,               
+                        holdingId,     
+                        companyId,            
+                        plantId,    
+                        locationId,          
+                        shelfId,       
+                        binId,
+                    ];
 
-        hashed = hashids.encode(arr);
-        var newURL = window.location.protocol + "//" + window.location.host + "/?s=" + hashed;
-        history.pushState(null, null, newURL);
-        getCatalog();
+        $.ajax({
+            url: 'search',
+            type: 'POST',
+            data: {
+                    catalogNo:catalogNo,
+                    holdingNo:holdingNo,
+                    incId:incId,
+                    colloquialId:colloquialId,
+                    groupClassId:groupClassId,
+                    catalogStatusId:catalogStatusId,
+                    catalogType:catalogType,
+                    itemTypeId:itemTypeId,
+                    manCodeId:manCodeId,
+                    partNumber:partNumber,
+                    equipmentCodeId:equipmentCodeId,
+                    holdingId:holdingId,
+                    companyId:companyId,
+                    plantId:plantId,
+                    locationId:locationId,
+                    shelfId:shelfId,
+                    binId:binId
+                },
+            success: function(data) {
+                if(data){
+                    var newURL = window.location.protocol + "//" + window.location.host + "/?key=" + data;
+                    history.pushState(null, null, newURL);
+                    getCatalog();
+                }                
+            },
+        });
+        
     });
 
     $.urlParam = function(name){
@@ -157,15 +195,9 @@ jQuery(function($) {
     }
 
     function getCatalog(){
-        if (window.location.search.indexOf('s=') > -1) {
-            key = $.urlParam('s');
-            if(key == 0){
-                getCatalogDT(key);       
-            }else{
-                getCatalogDT(key);
-            }
-        } else {
-            getCatalogDT(0);
+        if (window.location.search.indexOf('key=') > -1) {
+            key = $.urlParam('key');
+            getCatalogDataTable(key);
         }
     }
     
@@ -173,7 +205,7 @@ jQuery(function($) {
     // END GLOBAL SEARCH
 
     // PART MASTER
-    function getCatalogDT(key){
+    function getCatalogDataTable(key){
         $('#part_master').DataTable({
             destroy: true,
             processing: false,
@@ -245,7 +277,7 @@ jQuery(function($) {
                     var weight_value = firstRow['weight_value'];
                     var weight_unit = firstRow['weight_unit'];
                     var average_unit_price = firstRow['average_unit_price'];
-                    var inc_group_class_id = firstRow['inc_group_class_id'];
+                    var inc_group_class_id = firstRow['link_inc_group_class_id'];
                 }
 
                 $("#part_master tbody tr:first-child").addClass('active');
@@ -257,11 +289,13 @@ jQuery(function($) {
 
                 var part_master_id = $("#part_master tbody tr.active").attr("id");
 
-                get_compnay(part_master_id)
-                get_part_manufacturer_code(part_master_id);
-                get_part_colloquial(part_master_id);
-                get_part_equipment_code(part_master_id);
-                get_part_characteristic_value(inc_group_class_id);
+                if(part_master_id){
+                    get_compnay(part_master_id)
+                    get_part_manufacturer_code(part_master_id);
+                    get_part_colloquial(part_master_id);
+                    get_part_equipment_code(part_master_id);
+                    get_part_characteristic_value(inc_group_class_id);
+                }                
 
                 $('<span class="text-primary uppercase" id="selected_catalog_info">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type + '</span>').appendTo('#part_master_info');
                 
@@ -281,7 +315,7 @@ jQuery(function($) {
                     $('#search_form').css('display', 'none');
                     menu  = '<li class="dropdown"><a class="pointer" href="/" target="_blank">SEARCH</a></li>';
                     menu += '<li class="dropdown"><a class="pointer" target="_blank">HISTORY</a></li>';
-                    $('ul.nav.navbar-nav:not(.navbar-right)').append(menu);
+                    // $('ul.nav.navbar-nav:not(.navbar-right)').append(menu);
                 }
 
                 var index   = 3;
@@ -292,37 +326,40 @@ jQuery(function($) {
         });
         
         $('#part_master_info').addClass('col-sm-9');
+        clickPartMasterRow();
     }
 
     // WHEN CLICK PART MASTER ROW
-    $("#part_master tbody").delegate("tr", "click", function() {
-        part_master_id = $(this).attr('id');
-        get_compnay(part_master_id)
-        get_part_manufacturer_code(part_master_id);
-        get_part_colloquial(part_master_id);
-        get_part_equipment_code(part_master_id);
+    function clickPartMasterRow(){
+        $("#part_master tbody").delegate("tr", "click", function() {
+            part_master_id = $(this).attr('id');
+            get_compnay(part_master_id)
+            get_part_manufacturer_code(part_master_id);
+            get_part_colloquial(part_master_id);
+            get_part_equipment_code(part_master_id);
 
-        $.ajax({
-            url: 'home/click-row-part-master/' + part_master_id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
+            $.ajax({
+                url: 'home/click-row-part-master/' + part_master_id,
+                type: 'GET',
+                beforeSend: function() {},
+                success: function(data) {
 
-                get_part_characteristic_value(data.link_inc_group_class_id);
+                    get_part_characteristic_value(data.link_inc_group_class_id);
 
-            },
-            error: function() {}
+                },
+                error: function() {}
+            });
+
+            catalog_no = $("table#part_master tr.active td:eq(0)").text();
+            inc = $("table#part_master tr.active td:eq(4)").text();
+            item_name = $("table#part_master tr.active td:eq(3)").text();
+            unit_issue = $("table#part_master tr.active td:eq(6)").text();
+            catalog_type = $("table#part_master tr.active td:eq(7)").text();
+
+            // $("span#selected_catalog_info").html('bismillah');
+            $("span#selected_catalog_info").html('&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type);
         });
-
-        catalog_no = $("table#part_master tr.active td:eq(0)").text();
-        inc = $("table#part_master tr.active td:eq(4)").text();
-        item_name = $("table#part_master tr.active td:eq(3)").text();
-        unit_issue = $("table#part_master tr.active td:eq(6)").text();
-        catalog_type = $("table#part_master tr.active td:eq(7)").text();
-
-        // $("span#selected_catalog_info").html('bismillah');
-        $("span#selected_catalog_info").html('&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type);
-    });
+    }    
 
     // SELECT COMPANY FOR EVERY CATALOG
     function get_compnay(part_master_id) {
@@ -335,7 +372,7 @@ jQuery(function($) {
             success: function(data) {
                 opt = '';
                 $.each(data, function(i, item) {
-                    opt += '<option value="' + item.id + '">' + item.company + '</option>';
+                    opt += '<option value="' + item.tbl_company_id + '">' + item.company + '</option>';
                 });
                 $("#company").empty().append(opt);
 
@@ -479,7 +516,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].inc + ' : ' + data[i].item_name,
-                                    value: data[i].id,
+                                    value: data[i].tbl_inc_id,
                                 }));
                             }
                         }
@@ -505,9 +542,9 @@ jQuery(function($) {
                         opt = '';
                         $.each(groupClassData, function(i, item) {
                             if (item.id != data.group_class_id) {
-                                opt += '<option value="' + item.id + '">' + item.group_class + ' : ' + item.name + '</option>';
+                                opt += '<option value="' + item.group_class_id + '">' + item.group_class + ' : ' + item.name + '</option>';
                             } else {
-                                opt += '<option value="' + item.id + '" selected="selected">' + item.group_class + ' : ' + item.name + '</option>';
+                                opt += '<option value="' + item.group_class_id + '" selected="selected">' + item.group_class + ' : ' + item.name + '</option>';
 
                                 $("#text_group_class").val(item.name);
                                 $("#text_group_class").attr("title", item.name);
@@ -584,125 +621,170 @@ jQuery(function($) {
         part_master_id = $("#part_master tbody tr.active").attr("id");
         company_id = $("#company").val();
 
-        $.ajax({
-            url: 'home/characteristic-value/' + inc_id + '/' + part_master_id + '/' + company_id,
-            type: 'GET',
-            beforeSend: function() {},
-            success: function(data) {
-                if (data == 0) {
+        if(inc_id && part_master_id && company_id){
 
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
+            $.ajax({
+                url: 'home/characteristic-value/' + inc_id + '/' + part_master_id + '/' + company_id,
+                type: 'GET',
+                beforeSend: function() {},
+                success: function(data) {
+                    if (data == 0) {
 
-                    var optionsSelectAddCompany = {
-                        ajax: {
-                            url: 'home/select-add-company/' + part_master_id,
-                            type: 'POST',
-                            dataType: 'json',
-                        },
-                        locale: {
-                            emptyTitle: 'SELECT COMPANY',
-                        },
-                        preprocessData: function(data) {
-                            var i, l = data.length,
-                                array = [];
-                            if (l) {
-                                for (i = 0; i < l; i++) {
-                                    array.push($.extend(true, data[i], {
-                                        text: data[i].company,
-                                        value: data[i].id,
-                                    }));
+                        emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
+                        $("#characteristic_value_box").empty().append(emptyMsg);
+
+                        var optionsSelectAddCompany = {
+                            ajax: {
+                                url: 'home/select-add-company/' + part_master_id,
+                                type: 'POST',
+                                dataType: 'json',
+                            },
+                            locale: {
+                                emptyTitle: 'SELECT COMPANY',
+                            },
+                            preprocessData: function(data) {
+                                var i, l = data.length,
+                                    array = [];
+                                if (l) {
+                                    for (i = 0; i < l; i++) {
+                                        array.push($.extend(true, data[i], {
+                                            text: data[i].company,
+                                            value: data[i].id,
+                                        }));
+                                    }
+                                }
+                                return array;
+                            }
+                        };
+
+                        $('.select_add_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSelectAddCompany);
+
+                        $('.select_add_company').trigger('change');
+                        $('button[data-id="select_add_company"]').addClass("btn-sm");
+
+                        catalog_no = $("table#part_master tr.active td:eq(0)").text();
+                        holding = $("table#part_master tr.active td:eq(1)").text();
+                        item_name = $("table#part_master tr.active td:eq(3)").text();
+
+                        $('#item_info').text(catalog_no + ' / ' + holding + ' / ' + item_name);
+                        $('#add_company_modal').modal('show');
+
+                    } else if (data == 1) {
+
+                        emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-exclamation-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no characteristic available for this INC</center></td></td>";
+                        $("#characteristic_value_box").empty().append(emptyMsg);
+
+                    } else {
+
+                        charval = '';
+                        index = 0;
+                        $.each(data, function(i, item) {
+
+                            if (item.value != '') {
+                                charval += '<tr>';
+                                charval += '<td>' + item.characteristic;
+                                charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
+                                charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="update_inc_char_id" name="update_inc_char_id[' + index + ']">';
+                                charval += '<input type="hidden" value="' + item.char_id + '" class="update_char_id" name="update_char_id[' + index + ']"></td>';
+                                charval += '<td>';
+                                charval += '<input class="characteristic_value_cell update_value get-values-list state change-char-value" type="text" id="update_value' + index + '" data-change="update_value' + index + '" name="update_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="update" value="' + item.value + '">';
+                                charval += '<input type="hidden" value="' + item.part_characteristic_value_id + '" class="update_part_char_value_id" name="update_part_char_value_id[' + index + ']"></td>';
+                                charval += '</td>';
+                                if(item.approved == 1) {
+                                    abbrev = item.abbrev;
+                                }else{
+                                    abbrev = '';
+                                }
+                                charval += '<td><input type="text" title="' + abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + abbrev + '" disabled></td>';
+
+                                if (item.short != 1) {
+                                    charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '"></td>';
+                                } else {
+                                    charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '" checked></td>';
+                                }
+
+                            } else {
+                                charval += '<tr>';
+                                charval += '<td>' + item.characteristic;
+
+                                charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
+
+                                charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="insert_inc_char_id" name="insert_inc_char_id[' + index + ']">';
+
+                                charval += '<input type="hidden" value="' + item.char_id + '" class="insert_char_id" name="insert_char_id[' + index + ']"></td>';
+
+                                charval += '<td>';
+
+                                charval += '<input class="characteristic_value_cell insert_value state get-values-list state change-char-value" type="text" id="insert_value' + index + '" data-change="insert_value' + index + '" name="insert_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="insert" value="">';
+
+                                charval += '</td>';
+
+                                charval += '<td><input type="text" class="characteristic_value_cell" id="insert_abbrev' + index + '" disabled></td>';
+
+                                if (item.short != 1) {
+                                    charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '"></td>';
+                                } else {
+                                    charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '" checked></td>';
                                 }
                             }
-                            return array;
-                        }
-                    };
 
-                    $('.select_add_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSelectAddCompany);
+                            charval += '</tr>';
+                            index++;
+                        });
+                        $("#characteristic_value_box").empty().append(charval);
 
-                    $('.select_add_company').trigger('change');
-                    $('button[data-id="select_add_company"]').addClass("btn-sm");
+                        get_short_description_result();
+                    }
 
-                    catalog_no = $("table#part_master tr.active td:eq(0)").text();
-                    holding = $("table#part_master tr.active td:eq(1)").text();
-                    item_name = $("table#part_master tr.active td:eq(3)").text();
-
-                    $('#item_info').text(catalog_no + ' / ' + holding + ' / ' + item_name);
-                    $('#add_company_modal').modal('show');
-
-                } else if (data == 1) {
-
-                    emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-exclamation-circle' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>no characteristic available for this INC</center></td></td>";
-                    $("#characteristic_value_box").empty().append(emptyMsg);
-
-                } else {
-
-                    charval = '';
-                    index = 0;
-                    $.each(data, function(i, item) {
-
-                        if (item.value != '') {
-                            charval += '<tr>';
-                            charval += '<td>' + item.characteristic;
-                            charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
-                            charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="update_inc_char_id" name="update_inc_char_id[' + index + ']">';
-                            charval += '<input type="hidden" value="' + item.char_id + '" class="update_char_id" name="update_char_id[' + index + ']"></td>';
-                            charval += '<td>';
-                            charval += '<input class="characteristic_value_cell update_value get-values-list state change-char-value" type="text" id="update_value' + index + '" data-change="update_value' + index + '" name="update_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="update" value="' + item.value + '">';
-                            charval += '<input type="hidden" value="' + item.id + '" class="update_part_char_value_id" name="update_part_char_value_id[' + index + ']"></td>';
-                            charval += '</td>';
-                            if(item.approved == 1) {
-                                abbrev = item.abbrev;
-                            }else{
-                                abbrev = '';
-                            }
-                            charval += '<td><input type="text" title="' + abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + abbrev + '" disabled></td>';
-
-                            if (item.short != 1) {
-                                charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '"></td>';
-                            } else {
-                                charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '" checked></td>';
-                            }
-
-                        } else {
-                            charval += '<tr>';
-                            charval += '<td>' + item.characteristic;
-
-                            charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
-
-                            charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="insert_inc_char_id" name="insert_inc_char_id[' + index + ']">';
-
-                            charval += '<input type="hidden" value="' + item.char_id + '" class="insert_char_id" name="insert_char_id[' + index + ']"></td>';
-
-                            charval += '<td>';
-
-                            charval += '<input class="characteristic_value_cell insert_value state get-values-list state change-char-value" type="text" id="insert_value' + index + '" data-change="insert_value' + index + '" name="insert_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="insert" value="">';
-
-                            charval += '</td>';
-
-                            charval += '<td><input type="text" class="characteristic_value_cell" id="insert_abbrev' + index + '" disabled></td>';
-
-                            if (item.short != 1) {
-                                charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '"></td>';
-                            } else {
-                                charval += '<td><input type="checkbox" class="pull-right insert_short cstate change-char-value" name="insert_short[' + index + ']" value="1" cstate="0" id="insert_short' + index + '" data-change="insert_short' + index + '" checked></td>';
-                            }
-                        }
-
-                        charval += '</tr>';
-                        index++;
-                    });
-                    $("#characteristic_value_box").empty().append(charval);
-
-                    get_short_description_result();
+                },
+                error: function() {
+                    $("#characteristic_value_box").empty()
+                    alert("Error while getting Characteristic Value");
                 }
+            });
 
-            },
-            error: function() {
-                $("#characteristic_value_box").empty()
-                alert("Error while getting Characteristic Value");
-            }
-        });
+        }else{
+            emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
+            $("#characteristic_value_box").empty().append(emptyMsg);
+
+            var optionsSelectAddCompany = {
+                ajax: {
+                    url: 'home/select-add-company/' + part_master_id,
+                    type: 'POST',
+                    dataType: 'json',
+                },
+                locale: {
+                    emptyTitle: 'SELECT COMPANY',
+                },
+                preprocessData: function(data) {
+                    var i, l = data.length,
+                        array = [];
+                    if (l) {
+                        for (i = 0; i < l; i++) {
+                            array.push($.extend(true, data[i], {
+                                text: data[i].company,
+                                value: data[i].id,
+                            }));
+                        }
+                    }
+                    return array;
+                }
+            };
+
+            $('.select_add_company').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSelectAddCompany);
+
+            $('.select_add_company').trigger('change');
+            $('button[data-id="select_add_company"]').addClass("btn-sm");
+
+            catalog_no = $("table#part_master tr.active td:eq(0)").text();
+            holding = $("table#part_master tr.active td:eq(1)").text();
+            item_name = $("table#part_master tr.active td:eq(3)").text();
+
+            $('#item_info').text(catalog_no + ' / ' + holding + ' / ' + item_name);
+            $('#add_company_modal').modal('show');
+        }
+
+        
     }
     // END PART CHARACTERISTIC VALUE BOX
 
@@ -737,7 +819,7 @@ jQuery(function($) {
 
                 opt = '';
                 $.each(data, function(i, item) {
-                    opt += '<option value="' + item.id + '">' + item.group_class + ' : ' + item.name + '</option>';
+                    opt += '<option value="' + item.group_class_id + '">' + item.group_class + ' : ' + item.name + '</option>';
                     $("#text_group_class").val(item.name);
                     $("#text_group_class").attr("title", item.name);
                 });
@@ -809,8 +891,8 @@ jQuery(function($) {
             success: function(data) {
                 valueData = '';
                 $.each(data, function(i, item) {
-                    valueData += '<tr class="pick-value" data-link-inc-char-id="' + item.link_inc_characteristic_value_id + '" data-value="' + item.value + '" data-abbrev="' + item.abbrev + '" data-action="' + action + '">';
-                    valueData += '<td><input type="hidden" id="inc_char_val_id_get_values_list_modal" value="' + item.link_inc_characteristic_value_id + '">' + item.value + '</td>';
+                    valueData += '<tr class="pick-value" data-link-inc-char-val-id="' + item.link_inc_characteristic_value_id + '" data-value="' + item.value + '" data-abbrev="' + item.abbrev + '" data-action="' + action + '">';
+                    valueData += '<td><input type="hidden" id="inc_char_val_id_get_values_list_modal" value="' + item.id + '">' + item.value + '</td>';
                     valueData += '<td>' + item.abbrev + '</td>';
                     valueData += '</tr>';
                 });
@@ -827,7 +909,7 @@ jQuery(function($) {
 
     // PICK VALUE FROM VALUES LIST / POP UP
     $(document).on('dblclick', '.pick-value', function() {
-        lickIncCharId = $(this).attr('data-link-inc-char-id');
+        linckIncCharValId = $(this).attr('data-link-inc-char-val-id');
         value = $(this).attr('data-value');
         abbrev = $(this).attr('data-abbrev');
         action = $(this).attr('data-action');
@@ -835,7 +917,7 @@ jQuery(function($) {
         index = $('#index_get_values_list_modal').val();
 
         if (action != 'update') {
-            $('#insert_inc_char_val_id' + index).val(lickIncCharId);
+            $('#insert_inc_char_val_id' + index).val(linckIncCharValId);
             $('#insert_value' + index).val(value);
             $('#insert_value' + index).attr('title', value);
             $('#insert_abbrev' + index).val(abbrev);
@@ -843,7 +925,7 @@ jQuery(function($) {
 
             change('insert_value' + index);
         } else {
-            $('#update_inc_char_val_id' + index).val(lickIncCharId);
+            $('#update_inc_char_val_id' + index).val(linckIncCharValId);
             $('#update_value' + index).val(value);
             $('#update_value' + index).attr('title', value);
             $('#update_abbrev' + index).val(abbrev);
@@ -1191,7 +1273,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].manufacturer_code,
-                        value: data[i].id,
+                        value: data[i].tbl_manufacturer_code_id,
                         data: {
                             subtext: data[i].manufacturer_name
                         }
@@ -1227,7 +1309,7 @@ jQuery(function($) {
                 $('#part_manufacturer_code_modal_title').text("ADD MANUFACTURER CODE");
                 $('#btn_save_pmc').val("SAVE");
                 $('#part_manufacturer_code_modal').modal('show');
-
+                
             }
         });
 
@@ -1239,7 +1321,7 @@ jQuery(function($) {
             success: function(data) {
                 var option = '';
                 $.each(data, function(i, item) {
-                    option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
+                    option += '<option data-subtext="' + item.description + '" value="' + item.tbl_source_type_id + '">';
                     option += item.type;
                     option += '</option>';
                 });
@@ -1260,7 +1342,7 @@ jQuery(function($) {
             success: function(data) {
                 var option = '';
                 $.each(data, function(i, item) {
-                    option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
+                    option += '<option data-subtext="' + item.description + '" value="' + item.tbl_part_manufacturer_code_type_id + '">';
                     option += item.type;
                     option += '</option>';
                 });
@@ -1364,7 +1446,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].manufacturer_code,
-                                    value: data[i].id,
+                                    value: data[i].tbl_manufacturer_code_id,
                                     data: {
                                         subtext: data[i].manufacturer_name
                                     }
@@ -1383,10 +1465,10 @@ jQuery(function($) {
                     success: function(source_type_data) {
                         var option = '';
                         $.each(source_type_data, function(i, item) {
-                            if (data.tbl_source_type_id == item.id) {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '" selected>';
+                            if (data.tbl_source_type_id == item.tbl_source_type_id) {
+                                option += '<option data-subtext="' + item.description + '" value="' + item.tbl_source_type_id + '" selected>';
                             } else {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
+                                option += '<option data-subtext="' + item.description + '" value="' + item.tbl_source_type_id + '">';
                             }
                             option += item.type;
                             option += '</option>';
@@ -1407,10 +1489,10 @@ jQuery(function($) {
                     success: function(manufacturer_code_type_data) {
                         var option = '';
                         $.each(manufacturer_code_type_data, function(i, item) {
-                            if (data.tbl_part_manufacturer_code_type_id == item.id) {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '" selected>';
+                            if (data.tbl_part_manufacturer_code_type_id == item.tbl_part_manufacturer_code_type_id) {
+                                option += '<option data-subtext="' + item.description + '" value="' + item.tbl_part_manufacturer_code_type_id + '" selected>';
                             } else {
-                                option += '<option data-subtext="' + item.description + '" value="' + item.id + '">';
+                                option += '<option data-subtext="' + item.description + '" value="' + item.tbl_part_manufacturer_code_type_id + '">';
                             }
                             option += item.type;
                             option += '</option>';
@@ -1434,7 +1516,7 @@ jQuery(function($) {
 
                         $('#manufacturer_name_pmc').val(data.manufacturer_name);
                         $('#manufacturer_ref_pmc').val(data.manufacturer_ref);
-                        $('#part_manufacturer_code_id_pmc').val(data.id);
+                        $('#part_manufacturer_code_id_pmc').val(data.part_manufacturer_code_id);
 
                         $('#btn_save_pmc').val("UPDATE");
                         $('#part_manufacturer_code_modal_title').text("EDIT MANUFACTURER CODE");
@@ -1768,7 +1850,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].equipment_code,
-                        value: data[i].id,
+                        value: data[i].tbl_equipment_code_id,
                         data: {
                             subtext: data[i].equipment_name
                         }
@@ -1880,7 +1962,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].equipment_code,
-                                    value: data[i].id,
+                                    value: data[i].tbl_equipment_code_id,
                                     data: {
                                         subtext: data[i].equipment_name
                                     }
@@ -1914,7 +1996,7 @@ jQuery(function($) {
                             for (i = 0; i < l; i++) {
                                 array.push($.extend(true, data[i], {
                                     text: data[i].manufacturer_code,
-                                    value: data[i].id,
+                                    value: data[i].tbl_manufacturer_code_id,
                                     data: {
                                         subtext: data[i].manufacturer_name
                                     }
@@ -2128,9 +2210,9 @@ jQuery(function($) {
     $('.search_holding_no').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchHoldingNo);
     $('.search_holding_no').trigger('change');
     $('button[data-id="search_holding_no"]').addClass("btn-sm");
-    // $('#search_holding_no').on('changed.bs.select', function(e) {
-    //     $('button[data-id="search_holding_no"]').css('background-color','#faffbd');
-    // });
+    $('#search_holding_no').on('changed.bs.select', function(e) {
+        $('button[data-id="search_holding_no"]').css('background-color','#faffbd');
+    });
 
     // INC - ITEM NAME
     var optionsSearchIncItemName = {
@@ -2151,7 +2233,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].inc + ' : ' + data[i].item_name,
-                        value: data[i].id,
+                        value: data[i].tbl_inc_id,
                     }));
                 }
             }
@@ -2184,7 +2266,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].colloquial,
-                        value: data[i].id,
+                        value: data[i].tbl_colloquial_id,
                     }));
                 }
             }
@@ -2192,12 +2274,12 @@ jQuery(function($) {
         }
     };
 
-    $('.search_colloquial').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchColloquial);
-    $('.search_colloquial').trigger('change');
-    $('button[data-id="search_colloquial"]').addClass("btn-sm");
-    // $('#search_colloquial').on('changed.bs.select', function(e) {
-    //     $('button[data-id="search_colloquial"]').css('background-color','#faffbd');
-    // });
+    $('.search_colloquial_id').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchColloquial);
+    $('.search_colloquial_id').trigger('change');
+    $('button[data-id="search_colloquial_id"]').addClass("btn-sm");
+    $('#search_colloquial_id').on('changed.bs.select', function(e) {
+        $('button[data-id="search_colloquial_id"]').css('background-color','#faffbd');
+    });
 
     // GROUP CLASS
     var optionsSearchGroupClass = {
@@ -2218,7 +2300,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].group_class + ' : ' + data[i].name,
-                        value: data[i].id,
+                        value: data[i].tbl_group_class_id,
                     }));
                 }
             }
@@ -2251,7 +2333,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].status,
-                        value: data[i].id,
+                        value: data[i].tbl_catalog_status_id,
                     }));
                 }
             }
@@ -2291,7 +2373,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].type,
-                        value: data[i].id,
+                        value: data[i].tbl_item_type_id,
                     }));
                 }
             }
@@ -2325,7 +2407,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].manufacturer_code + ' : ' + data[i].manufacturer_name,
-                        value: data[i].id,
+                        value: data[i].tbl_manufacturer_code_id,
                     }));
                 }
             }
@@ -2370,9 +2452,9 @@ jQuery(function($) {
     $('.search_part_number').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsSearchPartNumber);
     $('.search_part_number').trigger('change');
     $('button[data-id="search_part_number"]').addClass("btn-sm");
-    // $('#search_part_number').on('changed.bs.select', function(e) {
-    //     $('button[data-id="search_part_number"]').css('background-color','#faffbd');
-    // });
+    $('#search_part_number').on('changed.bs.select', function(e) {
+        $('button[data-id="search_part_number"]').css('background-color','#faffbd');
+    });
 
     // EQUIPMENT
     var optionsSearchEquipment = {
@@ -2393,7 +2475,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].equipment_code + ' : ' + data[i].equipment_name,
-                        value: data[i].id,
+                        value: data[i].tbl_equipment_code_id,
                     }));
                 }
             }
@@ -2427,7 +2509,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].holding,
-                        value: data[i].id,
+                        value: data[i].tbl_holding_id,
                     }));
                 }
             }
@@ -2460,7 +2542,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].company,
-                        value: data[i].id,
+                        value: data[i].tbl_company_id,
                     }));
                 }
             }
@@ -2493,7 +2575,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].plant,
-                        value: data[i].id,
+                        value: data[i].tbl_plant_id,
                     }));
                 }
             }
@@ -2526,7 +2608,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].location,
-                        value: data[i].id,
+                        value: data[i].tbl_location_id,
                     }));
                 }
             }
@@ -2559,7 +2641,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].shelf,
-                        value: data[i].id,
+                        value: data[i].tbl_shelf_id,
                     }));
                 }
             }
@@ -2592,7 +2674,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].bin,
-                        value: data[i].id,
+                        value: data[i].tbl_bin_id,
                     }));
                 }
             }
@@ -2626,7 +2708,7 @@ jQuery(function($) {
                 for (i = 0; i < l; i++) {
                     array.push($.extend(true, data[i], {
                         text: data[i].name + ' ( ' + data[i].username + ' )',
-                        value: data[i].id,
+                        value: data[i].tbl_user_id,
                     }));
                 }
             }
