@@ -362,12 +362,12 @@ class SettingsController extends Controller
     // SHORT DESCRIPTION FORMAT
     public function getShortDesc($incId,$companyId)
     {
-        return CompanyShortDescriptionFormat::select('company_short_description_format.id','characteristic', 'company_short_description_format.short_separator','company_short_description_format.hidden')
+        return CompanyShortDescriptionFormat::select('company_short_description_format.id as company_short_description_format_id','characteristic', 'company_short_description_format.short_separator','company_short_description_format.hidden')
             ->join('company_characteristic', 'company_characteristic.id', '=', 'company_short_description_format.company_characteristic_id')
             ->join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
-            ->where('tbl_inc_id', $incId)
-            ->where('tbl_company_id', $companyId)
+            ->where('tbl_inc_id', Hashids::decode($incId)[0])
+            ->where('tbl_company_id', Hashids::decode($companyId)[0])
             ->orderBy('company_short_description_format.sequence')
             ->get();
     }
@@ -377,7 +377,7 @@ class SettingsController extends Controller
         $no = 1;
         $response = [];
         foreach ($request->csid as $id) {
-            $update = CompanyShortDescriptionFormat::find($id);
+            $update = CompanyShortDescriptionFormat::find(Hashids::decode($id)[0]);
             $update->sequence = $no++;
             $update->last_updated_by  = Auth::user()->id;
             $response[] = $update->save();
@@ -387,11 +387,11 @@ class SettingsController extends Controller
 
     public function updateShortVisibility(Request $request)
     {
-        $cc = CompanyShortDescriptionFormat::where('id', $request->id)
+        $cc = CompanyShortDescriptionFormat::where('id', Hashids::decode($request->id)[0])
             ->select('hidden')
             ->first();
 
-        $update = CompanyShortDescriptionFormat::find($request->id);
+        $update = CompanyShortDescriptionFormat::find(Hashids::decode($request->id)[0]);
         if($cc->hidden == 0){            
             $update->hidden = 1;            
         }else{
@@ -404,7 +404,7 @@ class SettingsController extends Controller
 
     public function updateShortSeparator(Request $request)
     {
-        $update = CompanyShortDescriptionFormat::find($request->id);
+        $update = CompanyShortDescriptionFormat::find(Hashids::decode($request->id)[0]);
 
         $update->short_separator  = trim(strtoupper($request->separator));
         $update->last_updated_by  = Auth::user()->id;

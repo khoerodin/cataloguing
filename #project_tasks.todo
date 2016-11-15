@@ -42,9 +42,12 @@ Deadline:
  ☐ search by user?
  ☐ clear search criteria/query
  ☐ pencarian: hilangkan koma ketika query, munculkan hasil walopun ada koma
+ ☐ handle neterr-connection-refused
+ ☐ Characteristic Value Tab : Value tampil semua, bukan hanya company tsb
 
 Others:
  ☐ make minded submit values code
+ ☐ part Characteristic Value Box => prevent duplicate (unique)
  ☐ dictionary
  ☐ beautify error, before send
  ☐ focus input when edit separator

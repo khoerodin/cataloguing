@@ -1166,22 +1166,22 @@ jQuery(function($) {
                     ShortTable += '<thead><th>#</th><th>CHARACTERISICS</th><th>SEPARATOR';
                     ShortTable += '<span id="short_desc_button" class="pull-right">';
                     ShortTable += '</span></th></thead>';
-                    ShortTable += '<tbody id="short_desc_table" class="move_row">';
+                    ShortTable += '<tbody id="short_desc_table">';
 
                     ShortOldOrder = [];
                     $.each(data, function(i, item) {
                         ShortTable += '<tr id="';
                         ShortTable += i + 1;
                         ShortTable += '"><td>';
-                        ShortTable += '<input class="short_desc_id" name="short_desc_id[]" type="hidden" value="' + item.id + '">';
+                        ShortTable += '<input class="short_desc_id" name="short_desc_id[]" type="hidden" value="' + item.company_short_description_format_id + '">';
                         ShortTable += i + 1;
                         ShortTable += '</td><td>' + item.characteristic + '</td>';
                         ShortTable += '<td><span class="short_separator">' + item.short_separator + '</span><span class="pull-right">';
-                        ShortTable += '<kbd data-id="' + item.id + '" id="edit_short_separator" class="kbd-primary hover cpointer edit_short_separator">EDIT</kbd>&nbsp;';
+                        ShortTable += '<kbd data-id="' + item.company_short_description_format_id + '" id="edit_short_separator" class="kbd-primary hover cpointer edit_short_separator">EDIT</kbd>&nbsp;';
                         if(item.hidden == 0){
-                            ShortTable += '<kbd data-id="' + item.id + '" id="update_short_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
+                            ShortTable += '<kbd data-id="' + item.company_short_description_format_id + '" id="update_short_visibility" class="kbd-default-grey hide_btn cpointer">HIDE</kbd>';
                         }else if(item.hidden == 1){
-                            ShortTable += '<kbd data-id="' + item.id + '" id="update_short_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
+                            ShortTable += '<kbd data-id="' + item.company_short_description_format_id + '" id="update_short_visibility" class="kbd-default hide_btn cpointer">SHOW</kbd>';
                         }                        
                         ShortTable += '</span></td></tr>';
 
@@ -1247,7 +1247,7 @@ jQuery(function($) {
     $(document).on('click', '#update_short_desc_order', function() {
         var short_desc_id = []
         $("input.short_desc_id").each(function (){
-            short_desc_id.push(parseInt($(this).val()));
+            short_desc_id.push($(this).val());
         });
 
         $.ajax({ 

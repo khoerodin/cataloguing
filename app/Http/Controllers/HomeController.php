@@ -508,6 +508,7 @@ class HomeController extends Controller
             ->where('company_characteristic.tbl_company_id', Hashids::decode($companyId)[0])
             ->where('company_check_short.short', 1)
             ->where('company_value.approved', 1)
+            ->where('company_short_description_format.hidden', 0)
             
             ->orderBy('company_short_description_format.sequence')
 
