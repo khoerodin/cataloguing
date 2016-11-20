@@ -872,11 +872,22 @@ table.table-short-settings tr:first-child td {
   text-transform: initial;
 }
 
+table#equipment_code_table>thead>tr>th.cpointer:after,
+table#catalog_status_table>thead>tr>th.cpointer:after,
 table#part_manufacturer_code>thead>tr>th.cpointer:after,
 table#part_colloquial>thead>tr>th.cpointer:after,
 table#part_equipment_code>thead>tr>th.cpointer:after{
   content: "" !important;
 }
+
+table#equipment_code_table thead>tr>th.sorting,
+table#equipment_code_table thead>tr>th.sorting_desc,
+table#equipment_code_table thead>tr>th.sorting_asc,
+
+table#catalog_status_table thead>tr>th.sorting,
+table#catalog_status_table thead>tr>th.sorting_desc,
+table#catalog_status_table thead>tr>th.sorting_asc,
+
 table#part_manufacturer_code thead>tr>th.sorting,
 table#part_manufacturer_code thead>tr>th.sorting_desc,
 table#part_manufacturer_code thead>tr>th.sorting_asc,
@@ -897,4 +908,13 @@ table#part_equipment_code thead>tr>th.sorting_asc {
 
 .uppercase {
   text-transform: uppercase;
+}
+
+#po_text {
+  height: 290px;
+  background-color:#F1F4F8;
+  font-family: monospace;
+  white-space: pre;
+  font-size: medium;
+  padding: 10px;
 }

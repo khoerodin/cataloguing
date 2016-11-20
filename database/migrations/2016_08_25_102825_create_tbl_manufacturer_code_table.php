@@ -43,6 +43,6 @@ class CreateTblManufacturerCodeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_manufacturer_code');
+        Schema::dropIfExists('tbl_manufacturer_code');
     }
 }

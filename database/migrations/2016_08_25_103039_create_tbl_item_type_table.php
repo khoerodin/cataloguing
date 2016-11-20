@@ -42,6 +42,6 @@ class CreateTblItemTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_item_type');
+        Schema::dropIfExists('tbl_item_type');
     }
 }

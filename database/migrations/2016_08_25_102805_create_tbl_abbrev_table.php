@@ -42,6 +42,6 @@ class CreateTblAbbrevTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_abbrev');
+        Schema::dropIfExists('tbl_abbrev');
     }
 }

@@ -42,6 +42,6 @@ class CreateTblWeightUnitTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_weight_unit');
+        Schema::dropIfExists('tbl_weight_unit');
     }
 }

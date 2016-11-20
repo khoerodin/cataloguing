@@ -51,6 +51,6 @@ class CreateLinkIncColloquialTable extends Migration
      */
     public function down()
     {
-        Schema::drop('link_inc_colloquial');
+        Schema::dropIfExists('link_inc_colloquial');
     }
 }

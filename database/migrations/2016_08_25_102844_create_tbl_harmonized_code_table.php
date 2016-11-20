@@ -42,6 +42,6 @@ class CreateTblHarmonizedCodeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_harmonized_code');
+        Schema::dropIfExists('tbl_harmonized_code');
     }
 }

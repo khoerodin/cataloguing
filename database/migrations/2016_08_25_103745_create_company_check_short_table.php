@@ -55,6 +55,6 @@ class CreateCompanyCheckShortTable extends Migration
      */
     public function down()
     {
-        Schema::drop('company_check_short');
+        Schema::dropIfExists('company_check_short');
     }
 }

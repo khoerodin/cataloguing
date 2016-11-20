@@ -25,7 +25,8 @@ class CreatePartSourceDescriptionTable extends Migration
             $table->string('inc');
             $table->string('item_name');
             $table->string('group_class');
-            $table->string('uom');
+            $table->string('unit_issue');
+            $table->string('short');
             $table->text('source');
 
             $table->integer('created_by')->unsigned();
@@ -51,6 +52,6 @@ class CreatePartSourceDescriptionTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_source_description');
+        Schema::dropIfExists('part_source_description');
     }
 }

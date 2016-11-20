@@ -41,6 +41,6 @@ class CreateTblColloquialTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_colloquial');
+        Schema::dropIfExists('tbl_colloquial');
     }
 }

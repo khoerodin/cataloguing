@@ -8,7 +8,7 @@
         <ul class="nav nav-tabs list" id="setingsTab">
             <li class="active"><a href="#characteristic_value">CHARACTERISTIC VALUE</a></li>
             <li><a href="#short_desc_format">SHORT DESCRIPTION FORMAT</a></li>
-            <li><a href="#catalog_status">CATALOG STATUS</a></li>
+            <li><a href="#catalog_status" id="catalog_status_tab">CATALOG STATUS</a></li>
             <li><a href="#equipment_code" id="equipment_code_tab">EQUIPMENT CODE</a></li>
             <li><a href="#harmonized_code" id="harmonized_code_tab">HARMONIZED CODE</a></li>
             <li><a href="#hazard_class" id="hazard_class_tab">HAZARD CLASS</a></li>
@@ -117,7 +117,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="value_abbrev" class="col-sm-3 control-label">CUSTOM VALUE NAME</label>
+                                    <label for="custom_value_name" class="col-sm-3 control-label">CUSTOM VALUE NAME</label>
                                     <div class="col-sm-9">
                                         <input id="custom_value_name" type="text" class="form-control input-sm">
                                     </div>
@@ -312,14 +312,13 @@
         </div>
         <div role="tabpanel" class="tab-pane row" id="catalog_status">
             <div class="col-xs-12">
-                <table id="catalog_status_table" class="table table-striped" width="100%">
+                <table id="catalog_status_table" class="table table-striped table-hover" width="100%">
                     <thead>
                         <tr>
                             <th width="5%">#</th>
                             <th></th>
                             <th width="40%">CATALOG STATUS</th>
-                            <th width="40%">DESCRIPTION</th>
-                            <th width="5%"><kbd id="add-cs" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                            <th width="55%">DESCRIPTION</th>
                         </tr>
                     </thead>
                 </table>
@@ -327,14 +326,13 @@
         </div>
         <div role="tabpanel" class="tab-pane row" id="equipment_code">
             <div class="col-xs-12">
-                <table id="equipment_code_table" class="table table-striped" width="100%">
+                <table id="equipment_code_table" class="table table-striped table-hover" width="100%">
                     <thead>
                         <tr>
                             <th width="5%">#</th>
                             <th></th>
                             <th width="40%">EQUIPMENT CODE</th>
-                            <th width="50%">EQUIPMENT NAME</th>
-                            <th width="5%"><kbd id="add-eq" class="kbd-primary pull-right cpointer text-center" style="width:100%;"><i class="fa fa-plus"></i>&nbsp;ADD DATA</kbd></th>
+                            <th width="60%">EQUIPMENT NAME</th>
                         </tr>
                     </thead>
                 </table>

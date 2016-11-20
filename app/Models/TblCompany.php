@@ -12,6 +12,7 @@ class TblCompany extends Model
 		'company',
 		'description',
 		'tbl_holding_id',								    	
+		'uom_type',								    	
 		'created_by',
 		'last_updated_by'
 		);

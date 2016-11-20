@@ -419,12 +419,11 @@ class SettingsController extends Controller
     {   
         DB::statement(DB::raw('set @rownum=0'));
         $tblCatalogStatus = TblCatalogStatus::select(
-            [DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id','status','description','created_at']);
+            [DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id as tbl_catalog_status_id','status','description','created_at']);
+        
         return Datatables::of($tblCatalogStatus)
-            ->addColumn('action', function ($tblCatalogStatus) {
-                return '<span class="pull-right"><kbd class="kbd-primary cpointer edit-cs" data-id="'.$tblCatalogStatus->id.'">EDIT</kbd>&nbsp;&nbsp;<kbd class="kbd-danger cpointer delete-cs" data-id="'.$tblCatalogStatus->id.'">DELETE</kbd></span>';
-            })
-            ->setRowId('id')
+            ->editColumn('description', '<span class="description">{{$description}}</span><span class="pull-right"><kbd class="kbd-danger hover cpointer delete-cs" data-id="{{$tbl_catalog_status_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-cs" data-id="{{$tbl_catalog_status_id}}">EDIT</kbd></span>')
+            ->setRowId('tbl_catalog_status_id')
             ->make(true);
     }
 
@@ -435,34 +434,37 @@ class SettingsController extends Controller
             'description' => 'required|max:255'
         ]);
 
-        $request1 = array_map("strtoupper", $request->except('created_by', 'last_updated_by'));
-        $request2 = $request->only('created_by', 'last_updated_by');
-        $request3 = array_merge($request1,$request2);
+        $request = [
+            'status' => trim($request->status),
+            'description' => trim($request->description),
+            'created_by' => Auth::user()->id,
+            'last_updated_by' => Auth::user()->id,
+        ];  
 
-        $tblCatalogStatus = TblCatalogStatus::create($request3);
-        return Response::json($tblCatalogStatus);
+        TblCatalogStatus::create($request);
+        return Response::json('ok');
     }
 
     public function updateCatalogStatus(Request $request, $id)
     {
         $this->validate($request, [
-            'status'      => 'required|max:20|unique:tbl_catalog_status,status,'.$id.',id',
+            'status'      => 'required|max:20|unique:tbl_catalog_status,status,'.Hashids::decode($id)[0].',id',
             'description' => 'required|max:255'
         ]);
 
-        $tblCatalogStatus = TblCatalogStatus::where('id',$id)->firstOrFail();
+        $tblCatalogStatus = TblCatalogStatus::find(Hashids::decode($id)[0]);
 
         $tblCatalogStatus->status          = strtoupper($request->status);
         $tblCatalogStatus->description     = strtoupper($request->description);
-        $tblCatalogStatus->last_updated_by = $request->last_updated_by;
+        $tblCatalogStatus->last_updated_by = Auth::user()->id;
 
         $tblCatalogStatus->save();
-        return Response::json($tblCatalogStatus);
+        return Response::json('ok');
     }
 
     public function deleteCatalogStatus($id)
     {
-        $tblCatalogStatus = TblCatalogStatus::where('id',$id)->delete();
+        $tblCatalogStatus = TblCatalogStatus::where('id', Hashids::decode($id)[0])->delete();
         return Response::json($tblCatalogStatus);
     }
 
@@ -472,7 +474,7 @@ class SettingsController extends Controller
         DB::statement(DB::raw('set @rownum=0'));
         $tblEquipmentCode = TblEquipmentCode::select([
             DB::raw('@rownum  := @rownum  + 1 AS rownum'),
-            'tbl_equipment_code.id','tbl_equipment_code.equipment_code',
+            'tbl_equipment_code.id as tbl_equipment_code_id','tbl_equipment_code.equipment_code',
             'tbl_equipment_code.equipment_name','tbl_equipment_code.created_at'])
 
             ->join('tbl_plant', 'tbl_plant.id', '=', 'tbl_equipment_code.tbl_plant_id')
@@ -484,10 +486,8 @@ class SettingsController extends Controller
             ->SearchPlant($request->plantId);
 
         return Datatables::of($tblEquipmentCode)
-            ->addColumn('action', function ($tblEquipmentCode) {
-                return '<span class="pull-right"><kbd class="kbd-primary cpointer edit-eq" data-id="'.$tblEquipmentCode->id.'">EDIT</kbd>&nbsp;&nbsp;<kbd class="kbd-danger cpointer delete-eq" data-id="'.$tblEquipmentCode->id.'">DELETE</kbd></span>';
-            })
-            ->setRowId('id')
+            ->editColumn('equipment_name', '<span class="equipment_name">{{$equipment_name}}</span><span class="pull-right"><kbd class="kbd-danger hover cpointer delete-eq" data-id="{{$tbl_equipment_code_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-eq" data-id="{{$tbl_equipment_code_id}}">EDIT</kbd></span>')
+            ->setRowId('tbl_equipment_code_id')
             ->make(true);
     }
 
@@ -499,27 +499,31 @@ class SettingsController extends Controller
             'tbl_plant_id'   => 'required'
         ]);
 
-        $request1 = array_map("strtoupper", $request->except('created_by', 'last_updated_by'));
-        $request2 = $request->only('created_by', 'last_updated_by');
-        $request3 = array_merge($request1,$request2);
+        $request = [
+            'equipment_code' => trim($request->equipment_code),
+            'equipment_name' => trim($request->equipment_name),
+            'tbl_plant_id' => Hashids::decode($request->tbl_plant_id)[0],
+            'created_by' => Auth::user()->id,
+            'last_updated_by' => Auth::user()->id,
+        ];  
 
-        $tblEquipmentCode = TblEquipmentCode::create($request3);
-        return Response::json($tblEquipmentCode);
+        TblEquipmentCode::create($request);
+        return Response::json('ok');
     }
 
     public function editEquipmentCode($id)
     {
         return TblEquipmentCode::select([
-            'tbl_equipment_code.id',
-            'tbl_holding.id as holdingId','tbl_holding.holding',
-            'tbl_company.id as companyId','tbl_company.company',
-            'tbl_plant.id as plantId','tbl_plant.plant',
+            // 'tbl_equipment_code.id as tbl_equipment_code_id',
+            'tbl_holding.id as tbl_holding_id','tbl_holding.holding',
+            'tbl_company.id as tbl_company_id','tbl_company.company',
+            'tbl_plant.id as tbl_plant_id','tbl_plant.plant',
             'tbl_equipment_code.equipment_code','tbl_equipment_code.equipment_name'])
 
             ->join('tbl_plant', 'tbl_plant.id', '=', 'tbl_equipment_code.tbl_plant_id')
             ->join('tbl_company', 'tbl_company.id', '=', 'tbl_plant.tbl_company_id')
             ->join('tbl_holding', 'tbl_holding.id', '=', 'tbl_company.tbl_holding_id')            
-            ->where('tbl_equipment_code.id', $id)->firstOrFail();
+            ->where('tbl_equipment_code.id', Hashids::decode($id)[0])->first();
     }
 
     public function updateEquipmentCode(Request $request, $id)
@@ -530,20 +534,20 @@ class SettingsController extends Controller
             'tbl_plant_id'   => 'required',
         ]);
 
-        $tblEquipmentCode = TblEquipmentCode::where('id',$id)->firstOrFail();
+        $tblEquipmentCode = TblEquipmentCode::find(Hashids::decode($id)[0]);
         
         $tblEquipmentCode->equipment_code  = strtoupper($request->equipment_code);
         $tblEquipmentCode->equipment_name  = strtoupper($request->equipment_name);
-        $tblEquipmentCode->tbl_plant_id    = $request->tbl_plant_id;
-        $tblEquipmentCode->last_updated_by = $request->last_updated_by;
+        $tblEquipmentCode->tbl_plant_id    = Hashids::decode($request->tbl_plant_id)[0];
+        $tblEquipmentCode->last_updated_by = Auth::user()->id;
 
         $tblEquipmentCode->save();
-        return Response::json($tblEquipmentCode);
+        return Response::json('ok');
     }
 
     public function deleteEquipmentCode($id)
     {
-        $tblEquipmentCode = TblEquipmentCode::where('id',$id)->delete();
+        $tblEquipmentCode = TblEquipmentCode::where('id', Hashids::decode($id)[0])->delete();
         return Response::json($tblEquipmentCode);
     }
 

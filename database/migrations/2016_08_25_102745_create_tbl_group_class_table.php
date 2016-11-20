@@ -56,6 +56,6 @@ class CreateTblGroupClassTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_group_class');
+        Schema::dropIfExists('tbl_group_class');
     }
 }

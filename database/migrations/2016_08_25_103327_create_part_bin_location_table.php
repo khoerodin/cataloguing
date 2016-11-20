@@ -83,6 +83,6 @@ class CreatePartBinLocationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_bin_location');
+        Schema::dropIfExists('part_bin_location');
     }
 }

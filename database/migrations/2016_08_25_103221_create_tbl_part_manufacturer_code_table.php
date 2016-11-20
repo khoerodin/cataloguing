@@ -67,6 +67,6 @@ class CreateTblPartManufacturerCodeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_manufacturer_code');
+        Schema::dropIfExists('part_manufacturer_code');
     }
 }

@@ -44,6 +44,8 @@ Deadline:
  ☐ pencarian: hilangkan koma ketika query, munculkan hasil walopun ada koma
  ☐ handle neterr-connection-refused
  ☐ Characteristic Value Tab : Value tampil semua, bukan hanya company tsb
+ ☐ change save button to active when inc or and group class changed
+ ☐ bedakan salt hash js dan php, untuk keamanan
 
 Others:
  ☐ make minded submit values code

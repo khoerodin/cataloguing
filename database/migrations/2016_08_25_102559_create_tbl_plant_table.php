@@ -48,6 +48,6 @@ class CreateTblPlantTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_plant');
+        Schema::dropIfExists('tbl_plant');
     }
 }

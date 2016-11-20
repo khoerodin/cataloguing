@@ -42,6 +42,6 @@ class CreateTblHoldingTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_holding');
+        Schema::dropIfExists('tbl_holding');
     }
 }

@@ -48,6 +48,6 @@ class CreateTblShelfTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_shelf');
+        Schema::dropIfExists('tbl_shelf');
     }
 }

@@ -52,6 +52,6 @@ class CreateTblIncTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_inc');
+        Schema::dropIfExists('tbl_inc');
     }
 }

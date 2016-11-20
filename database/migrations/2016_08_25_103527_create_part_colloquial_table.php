@@ -51,6 +51,6 @@ class CreatePartColloquialTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_colloquial');
+        Schema::dropIfExists('part_colloquial');
     }
 }

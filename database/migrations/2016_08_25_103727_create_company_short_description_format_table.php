@@ -49,6 +49,6 @@ class CreateCompanyShortDescriptionFormatTable extends Migration
      */
     public function down()
     {
-        Schema::drop('company_short_description_format');
+        Schema::dropIfExists('company_short_description_format');
     }
 }

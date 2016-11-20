@@ -42,6 +42,6 @@ class CreateTblStockTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_stock_type');
+        Schema::dropIfExists('tbl_stock_type');
     }
 }

@@ -52,6 +52,6 @@ class CreateLinkIncCharacteristicValueTable extends Migration
      */
     public function down()
     {
-        Schema::drop('link_inc_characteristic_value');
+        Schema::dropIfExists('link_inc_characteristic_value');
     }
 }

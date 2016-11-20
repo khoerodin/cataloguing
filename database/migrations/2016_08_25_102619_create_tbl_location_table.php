@@ -48,6 +48,6 @@ class CreateTblLocationTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_location');
+        Schema::dropIfExists('tbl_location');
     }
 }

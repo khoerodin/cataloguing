@@ -48,6 +48,6 @@ class CreateTblBinTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_bin');
+        Schema::dropIfExists('tbl_bin');
     }
 }

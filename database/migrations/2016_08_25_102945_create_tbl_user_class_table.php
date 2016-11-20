@@ -42,6 +42,6 @@ class CreateTblUserClassTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_user_class');
+        Schema::dropIfExists('tbl_user_class');
     }
 }

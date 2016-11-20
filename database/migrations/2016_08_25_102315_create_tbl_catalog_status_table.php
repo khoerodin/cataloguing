@@ -42,6 +42,6 @@ class CreateTblCatalogStatusTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_catalog_status');
+        Schema::dropIfExists('tbl_catalog_status');
     }
 }

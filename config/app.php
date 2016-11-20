@@ -172,8 +172,14 @@ return [
         Torann\LaravelMetaTags\MetaTagsServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        Barryvdh\Snappy\ServiceProvider::class,
         //
 
+        /*
+         * My Own Providers...
+         */
+        App\Providers\HelperProvider::class,
+        //
         /*
          * Application Service Providers...
          */
@@ -236,6 +242,11 @@ return [
         'MetaTag'   => Torann\LaravelMetaTags\Facades\MetaTag::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
+        // My Own
+        'Helper' =>  App\Classes\Facades\HelperFacade::class,
 
     ],
 

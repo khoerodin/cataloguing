@@ -48,6 +48,6 @@ class CreateTblEquipmentCodeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_equipment_code');
+        Schema::dropIfExists('tbl_equipment_code');
     }
 }

@@ -46,6 +46,6 @@ class CreateTblUnitOfMeasurementTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_unit_of_measurement');
+        Schema::dropIfExists('tbl_unit_of_measurement');
     }
 }

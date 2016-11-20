@@ -23,7 +23,9 @@ class CreateTblCompanyTable extends Migration
             $table->foreign('tbl_holding_id')->references('id')
                   ->on('tbl_holding')
                   ->onUpdate('CASCADE')
-                  ->onDelete('NO ACTION');            
+                  ->onDelete('NO ACTION');
+
+            $table->enum('uom_type', ['2','3', '4']);  
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
@@ -48,6 +50,6 @@ class CreateTblCompanyTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_company');
+        Schema::dropIfExists('tbl_company');
     }
 }

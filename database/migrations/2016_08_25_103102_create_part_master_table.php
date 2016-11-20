@@ -130,6 +130,6 @@ class CreatePartMasterTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_master');
+        Schema::dropIfExists('part_master');
     }
 }

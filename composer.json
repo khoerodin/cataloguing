@@ -12,7 +12,10 @@
         "yajra/laravel-datatables-oracle": "~6.0",
         "torann/laravel-meta-tags": "^3.0",
         "barryvdh/laravel-debugbar": "^2.2",
-        "vinkla/hashids": "^2.4"
+        "vinkla/hashids": "^2.4",
+        "h4cc/wkhtmltoimage-amd64": "0.12.x",
+        "h4cc/wkhtmltopdf-amd64": "0.12.x",
+        "barryvdh/laravel-snappy": "^0.3.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

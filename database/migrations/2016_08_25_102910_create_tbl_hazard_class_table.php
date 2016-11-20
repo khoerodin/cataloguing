@@ -42,6 +42,6 @@ class CreateTblHazardClassTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_hazard_class');
+        Schema::dropIfExists('tbl_hazard_class');
     }
 }

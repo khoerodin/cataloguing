@@ -49,6 +49,6 @@ class CreateTblCharacteristicTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_characteristic');
+        Schema::dropIfExists('tbl_characteristic');
     }
 }

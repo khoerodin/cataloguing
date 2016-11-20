@@ -398,7 +398,7 @@ jQuery(function($) {
     // END WHEN COMPANY CHANGED
 
     // SHOW SOURCE DESC
-    $(document).on('click', '#show-source', function() {
+    $(document).on('click', '#show_source', function() {
         var requestCallback = new MyRequestsCompleted({
             numRequest: 2,
             singleCallback: function() {
@@ -428,12 +428,12 @@ jQuery(function($) {
                     source_meta += '<tr><td width="25%">GROUP CLASS</td><td>: ' + data.group_class + '</td></tr>';
                 }
 
-                if (data.uom.length > 0) {
-                    source_meta += '<tr><td width="25%">UOM</td><td>: ' + data.uom + '</td></tr>';
+                if (data.unit_issue.length > 0) {
+                    source_meta += '<tr><td width="25%">UOM</td><td>: ' + data.unit_issue + '</td></tr>';
                 }
                 source_meta += '</table>';
 
-                if (data.inc.length > 0 || data.item_name.length > 0 || data.group_class.length > 0 || data.uom.length > 0) {
+                if (data.inc.length > 0 || data.item_name.length > 0 || data.group_class.length > 0 || data.unit_issue.length > 0) {
                     $('#source_modal .modal-body #hr').html("<hr>");
                 } else {
                     $('#source_modal .modal-body #hr').html("");
@@ -480,6 +480,13 @@ jQuery(function($) {
     });
     $('.modal.draggable>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
     // END MODAL DRAGGABLE
+
+    // SHOW SOURCE DESC
+    $(document).on('click', '#create_report', function() {
+        $('#report_modal').modal('show');
+        $('.modal-backdrop').remove();
+    });
+    // END SHOW SOURCE DESC
 
     // GET PART CHARACTERISTIC VALUE
     function get_part_characteristic_value(inc_group_class_id) {
@@ -541,7 +548,7 @@ jQuery(function($) {
                     success: function(groupClassData) {
                         opt = '';
                         $.each(groupClassData, function(i, item) {
-                            if (item.id != data.group_class_id) {
+                            if (item.group_class_id != data.group_class_id) {
                                 opt += '<option value="' + item.group_class_id + '">' + item.group_class + ' : ' + item.name + '</option>';
                             } else {
                                 opt += '<option value="' + item.group_class_id + '" selected="selected">' + item.group_class + ' : ' + item.name + '</option>';
@@ -676,6 +683,15 @@ jQuery(function($) {
 
                     } else {
 
+                        len = [];
+                        $.each(data, function(i, item) {
+                            if (item.value != '') {
+                                len.push(item.characteristic.length);
+                            }
+                        });
+
+                        max_char_len = Math.max.apply(null,len);
+                        po_charval = '';
                         charval = '';
                         index = 0;
                         $.each(data, function(i, item) {
@@ -702,6 +718,12 @@ jQuery(function($) {
                                 } else {
                                     charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '" checked></td>';
                                 }
+
+                                // PO TEXT
+                                space_count  = max_char_len - item.characteristic.length + 1;
+                                spasi        = ' '.repeat(space_count)+': ';
+                                po_charval  += item.characteristic+spasi+item.value+'<br>';
+                                // END PO TEXT
 
                             } else {
                                 charval += '<tr>';
@@ -732,8 +754,11 @@ jQuery(function($) {
                             index++;
                         });
                         $("#characteristic_value_box").empty().append(charval);
-
                         get_short_description_result();
+
+                        // PO TEXT
+                         $("#po_text").empty().append(po_charval);
+                        // END PO TEXT
                     }
 
                 },

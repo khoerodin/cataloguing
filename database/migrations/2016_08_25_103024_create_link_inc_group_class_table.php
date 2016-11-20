@@ -53,6 +53,6 @@ class CreateLinkIncGroupClassTable extends Migration
      */
     public function down()
     {
-        Schema::drop('link_inc_group_class');
+        Schema::dropIfExists('link_inc_group_class');
     }
 }

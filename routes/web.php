@@ -18,6 +18,8 @@ Route::get('current-user', function(){
 });
 
 Route::get('test', 'TestController@index');
+Route::get('report/{partMasterId}/{companyId}', 'ReportController@index');
+Route::get('reportest/{partMasterId}/{companyId}', 'ReportController@test');
 
 // =======================================================
 // SEARCH ITEMS

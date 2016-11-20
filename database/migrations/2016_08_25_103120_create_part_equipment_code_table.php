@@ -64,6 +64,6 @@ class CreatePartEquipmentCodeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_equipment_code');
+        Schema::dropIfExists('part_equipment_code');
     }
 }

@@ -50,6 +50,6 @@ class CreatePartSourcePartNoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_source_part_no');
+        Schema::dropIfExists('part_source_part_no');
     }
 }

@@ -55,6 +55,6 @@ class CreatePartCharacteristicValueTable extends Migration
      */
     public function down()
     {
-        Schema::drop('part_characteristic_value');
+        Schema::dropIfExists('part_characteristic_value');
     }
 }

@@ -42,6 +42,6 @@ class CreateTblPartManufacturerCodeTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_part_manufacturer_code_type');
+        Schema::dropIfExists('tbl_part_manufacturer_code_type');
     }
 }

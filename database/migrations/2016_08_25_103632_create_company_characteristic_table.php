@@ -62,6 +62,6 @@ class CreateCompanyCharacteristicTable extends Migration
      */
     public function down()
     {
-        Schema::drop('company_characteristic');
+        Schema::dropIfExists('company_characteristic');
     }
 }

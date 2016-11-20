@@ -42,6 +42,6 @@ class CreateTblSourceTypeTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tbl_source_type');
+        Schema::dropIfExists('tbl_source_type');
     }
 }
