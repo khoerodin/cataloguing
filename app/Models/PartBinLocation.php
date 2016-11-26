@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Vinkla\Hashids\Facades\Hashids;
 
 class PartBinLocation extends Model
 {
@@ -12,4 +13,9 @@ class PartBinLocation extends Model
     	'tbl_shelf_id', 'tbl_bin_id', 'stock_on_hand', 'tbl_unit_of_measurement_id',
     	'created_by','last_updated_by'
     	);
+
+    public function getTblCompanyIdAttribute()
+	{
+        return Hashids::encode($this->attributes['tbl_company_id']);
+	}
 }

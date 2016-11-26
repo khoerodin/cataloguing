@@ -198,6 +198,7 @@ jQuery(function($) {
         if (window.location.search.indexOf('key=') > -1) {
             key = $.urlParam('key');
             getCatalogDataTable(key);
+            $('.container2').append('<input type="hidden" value="'+key+'" id="key">');
         }
     }
     
@@ -2750,4 +2751,27 @@ jQuery(function($) {
 
     $('.bs-searchbox > input.form-control').addClass("input-sm");
     // END OF GLOBAL SEARCH
+
+    $(document).on('click', '#btn_report', function() {
+        from = $('#create_report_modal input[name="from"]:checked').val();
+        type = $('#create_report_modal input[name="type"]:checked').val();
+        generate = $('#create_report_modal input[name="generate"]:checked').val();
+
+        if(from == 1){
+            selectId = hashids.decode($('#part_master tr.active').attr("id"))[0];
+            current = 1;
+        }else{
+            selectId = hashids.decode($('#key').val())[0];
+            current = 0;
+        }
+
+        keys = [selectId,current,type,generate];
+        encodedKeys = hashids.encode(keys);
+
+        if(generate == 1){
+            document.location = 'report/'+encodedKeys;
+        }else{
+            window.open('report/'+encodedKeys);
+        }        
+    });
 });

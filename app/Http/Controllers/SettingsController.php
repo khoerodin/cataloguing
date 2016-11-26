@@ -44,7 +44,6 @@ class SettingsController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('web');
     }
 
     public function index()

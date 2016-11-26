@@ -163,24 +163,24 @@
 
                 <!-- SHOW REPORT MODAL -->
                 <div class="modal draggable" id="report_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
-                    <div class="modal-dialog" role="" style="width: 40%;">
+                    <div class="modal-dialog" role="" style="width: 50%;">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 <h4 class="modal-title" id="report_modal_title">CREATE DAILY REPORT</h4>
                             </div>
                             <div class="modal-body">
-                                <form class="form-horizontal" id="edit_char_val_modal_form">
+                                <form class="form-horizontal" id="create_report_modal">
                                     <div class="form-group">
                                         <label class="col-sm-3 control-label">FROM</label>
                                         <div class="col-sm-9">
                                             <div class="radio radio-primary">
                                                 <input type="radio" id="current" value="1" name="from">
-                                                <label for="current"> CURRENT CATALOG </label>
+                                                <label for="current"> CURRENT SELECTED CATALOG </label>
                                             </div>
                                             <div class="radio radio-primary">
                                                 <input type="radio" id="all" value="0" name="from">
-                                                <label for="all"> ALL CATALOG (2837 ITEMS)</label>
+                                                <label for="all"> ALL CURRENT SEARCHED CATALOG (2837 ITEMS)</label>
                                             </div>
                                         </div>
                                     </div>
@@ -188,33 +188,33 @@
                                         <label class="col-sm-3 control-label">TYPE</label>
                                         <div class="col-sm-9">
                                             <div class="radio radio-primary">
-                                                <input type="radio" id="full" value="1" name="type">
-                                                <label for="full"> FULL REPORT</label>
+                                                <input type="radio" id="fixed" value="1" name="type">
+                                                <label for="fixed"> FIXED REPORT</label>
                                             </div>
                                             <div class="radio radio-primary">
-                                                <input type="radio" id="fixed" value="0" name="type">
-                                                <label for="fixed"> FIXED REPORT</label>
+                                                <input type="radio" id="full" value="0" name="type">
+                                                <label for="full"> FULL REPORT</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="col-sm-3 control-label">GENERATE</label>
+                                        <label class="col-sm-3 control-label">GENERATE PDF</label>
                                         <div class="col-sm-9">
                                             <div class="radio radio-primary">
-                                                <input type="radio" id="on_new_tab" value="1" name="generate">
-                                                <label for="on_new_tab"> ON SHOW WITH NEW TAB</label>
+                                                <input type="radio" id="on_download" value="1" name="generate">
+                                                <label for="on_download"> WITH DOWNLOAD (RECOMMENDED)</label>
                                             </div>
                                             <div class="radio radio-primary">
-                                                <input type="radio" id="on_download" value="0" name="generate">
-                                                <label for="on_download"> WITH DOWNLOAD</label>
-                                            </div>
+                                                <input type="radio" id="on_new_tab" value="0" name="generate">
+                                                <label for="on_new_tab"> ON SHOW WITH NEW TAB</label>
+                                            </div>                                            
                                         </div>
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
                                 <input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="CLOSE">
-                                <input type="button" class="btn btn-sm btn-primary" id="" value="CREATE REPORT">
+                                <input type="button" class="btn btn-sm btn-primary" id="btn_report" value="CREATE REPORT">
                             </div>
                         </div>
                     </div>

@@ -17,9 +17,7 @@ Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
 
-Route::get('test', 'TestController@index');
-Route::get('report/{partMasterId}/{companyId}', 'ReportController@index');
-Route::get('reportest/{partMasterId}/{companyId}', 'ReportController@test');
+Route::get('oke', 'ReportController@oke');
 
 // =======================================================
 // SEARCH ITEMS
@@ -114,6 +112,14 @@ Route::get('home/part-source-part-no/{part_master_id}', 'HomeController@getPartS
 
 // =======================================================
 // END HOME
+// =======================================================
+
+// =======================================================
+// REPORT
+// =======================================================
+Route::get('report/{key}', 'ReportController@report');
+// =======================================================
+// END REPORT
 // =======================================================
 
 // =======================================================
@@ -305,12 +311,3 @@ Route::post('tools/insert-m', 'ToolsController@insertM');
 	Route::post('settings/add-weight-unit', 'SettingsController@addWeightUnit');
 	Route::put('settings/update-weight-unit/{id}', 'SettingsController@updateWeightUnit');
 	Route::delete('settings/delete-weight-unit/{id}', 'SettingsController@deleteWeightUnit');
-
-
-	Route::get('oke', function(){
-
-		return App\Models\PartMaster::select('link_inc_group_class_id','tbl_inc_id')
-                    ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
-                    ->where('part_master.id', 1)
-                    ->first();
-	});

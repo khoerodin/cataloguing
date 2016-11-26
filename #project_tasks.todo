@@ -51,7 +51,9 @@ Others:
  ☐ make minded submit values code
  ☐ part Characteristic Value Box => prevent duplicate (unique)
  ☐ dictionary
+ ☐ tool untuk cek terdapat catalog yang tidak punya company
  ☐ beautify error, before send
+ ☐ set pdf author dll
  ☐ focus input when edit separator
  ☐ popup warning when not saved before
  ☐ disabled state for <kbd> primary, warning and danger

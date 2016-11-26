@@ -153,16 +153,15 @@ class HomeController extends Controller
     }
 
     public function selectCompany($partMasterId){
-        return TblCompany::select('tbl_company.id as tbl_company_id','company')
-        ->join('tbl_holding', 'tbl_holding.id', '=', 'tbl_company.tbl_holding_id')
-        ->join('part_master', 'part_master.tbl_holding_id', '=', 'tbl_holding.id')
-        ->where('part_master.id', Hashids::decode($partMasterId)[0])
-        ->get();
+        return PartBinLocation::select('tbl_company.id as tbl_company_id','company')
+        ->join('tbl_company', 'tbl_company.id', '=', 'part_bin_location.tbl_company_id')
+        ->where('part_master_id', Hashids::decode($partMasterId)[0])
+        ->distinct()->get();
     }
 
     public function getIncGroupClass($incGroupClassId)
     {
-        return linkIncGroupClass::select('tbl_inc.id as inc_id', 'inc', 'item_name',
+        return LinkIncGroupClass::select('tbl_inc.id as inc_id', 'inc', 'item_name',
             'tbl_group_class.id as group_class_id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
             ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
