@@ -8,6 +8,9 @@ jQuery(function($) {
     $('#content').html(Dictionary.templates.content());
     // END HANDLEBARS TEMPLATE
 
+    // disable datatables error prompt
+    $.fn.dataTable.ext.errMode = 'none';
+
     // LOADING
     $(document).ajaxStop(function() {
         $('#loading').hide();

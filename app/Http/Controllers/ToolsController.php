@@ -5,22 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
-use DB;
-use Response;
-use Validator;
-use Auth;
+use zgldh\UploadManager\UploadManager;
+use Box\Spout\Reader\ReaderFactory;
+use Box\Spout\Common\Type;
 
-use App\Models\Models\LinkIncCharacteristic;
+use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
 use App\Models\LinkIncGroupClass;
 
 use App\Models\PartMaster;
-use App\Models\Models\PartManufacturerCode;
+use App\Models\PartManufacturerCode;
 use App\Models\PartEquipmentCode;
 
 use App\Models\TblAbbrev;
 use App\Models\TblBin;
-use App\Models\Models\TblCatalogStatus;
+use App\Models\TblCatalogStatus;
 use App\Models\TblCharacteristic;
 use App\Models\TblEquipmentCode;
 use App\Models\TblUserClass;
@@ -51,18 +50,18 @@ class ToolsController extends Controller
     }
 
     public function index(){
-    	$tables = DB::select('show tables from smartcat;');
+    	$tables = \DB::select('show tables from '.\Config::get('database.connections.mysql.database').';');
         return view('tools', ['tables' => $tables]);
     }
 
     public function dest_table($table){
-    	$data = DB::select('DESCRIBE '.$table.';');
-    	return Response::json($data);
+    	$data = \DB::select('DESCRIBE '.$table.';');
+    	return \Response::json($data);
     }
 
     public function upload(Request $request)    {
 
-        $validator = Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
             'document' => 'required|mimes:xls,xlsx,ods'
         ]);
 
@@ -2077,8 +2076,8 @@ class ToolsController extends Controller
     	$manufacturer_ref 					= $request->manufacturer_ref;
     	$tbl_part_manufacturer_code_type_id = $request->tbl_part_manufacturer_code_type_id;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($part_master_id as $key => $value) {
@@ -2117,8 +2116,8 @@ class ToolsController extends Controller
     	$doc_ref 						= $request->doc_ref;
     	$dwg_ref 						= $request->dwg_ref;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($part_master_id as $key => $value) {
@@ -2156,8 +2155,8 @@ class ToolsController extends Controller
     	$eng_definition = $request->eng_definition;
     	$ind_definition = $request->ind_definition;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($tbl_group_id as $key => $value) {
@@ -2188,8 +2187,8 @@ class ToolsController extends Controller
     	$tbl_inc_id 		= $request->tbl_inc_id;
     	$tbl_group_class_id = $request->tbl_group_class_id;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($tbl_inc_id as $key => $value) {
@@ -2219,8 +2218,8 @@ class ToolsController extends Controller
     	$tbl_characteristic_id 	= $request->tbl_characteristic_id;
     	$sequence 				= $request->sequence;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($tbl_inc_id as $key => $value) {
@@ -2253,8 +2252,8 @@ class ToolsController extends Controller
     	$abbrev 					= $request->abbrev;
     	$approved 					= $request->approved;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($link_inc_characteristic_id as $key => $val) {
@@ -2318,8 +2317,8 @@ class ToolsController extends Controller
     	$average_unit_price 		= $request->average_unit_price;
     	$memo 						= $request->memo;
 
-		if (Auth::check()) {
-		    $id = Auth::user()->id;
+		if (\Auth::check()) {
+		    $id = \Auth::user()->id;
 
 		    $dataSet = [];
 			foreach ($catalog_no as $key => $val) {

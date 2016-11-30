@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "31955ccadb432783464da3de3d8d88b6",
-    "content-hash": "794959e711b909fbfc337c1acaede230",
+    "hash": "bd68da8ca7d8c1c951e742aa202d729f",
+    "content-hash": "ae9acf1682bb9e046b71dc694b6f907f",
     "packages": [
         {
             "name": "barryvdh/laravel-debugbar",
@@ -112,6 +112,75 @@
                 "wkhtmltopdf"
             ],
             "time": "2016-08-05 13:08:28"
+        },
+        {
+            "name": "box/spout",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box/spout.git",
+                "reference": "e276b4378e8bfc450baf1e516b57c896aeadcd1e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/box/spout/zipball/e276b4378e8bfc450baf1e516b57c896aeadcd1e",
+                "reference": "e276b4378e8bfc450baf1e516b57c896aeadcd1e",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "ext-xmlreader": "*",
+                "ext-zip": "*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.0"
+            },
+            "suggest": {
+                "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
+                "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.8.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Box\\Spout\\": "src/Spout"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Loison",
+                    "email": "adrien@box.com"
+                }
+            ],
+            "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
+            "homepage": "https://www.github.com/box/spout",
+            "keywords": [
+                "OOXML",
+                "csv",
+                "excel",
+                "memory",
+                "odf",
+                "ods",
+                "office",
+                "open",
+                "php",
+                "read",
+                "scale",
+                "spreadsheet",
+                "stream",
+                "write",
+                "xlsx"
+            ],
+            "time": "2016-11-03 20:45:18"
         },
         {
             "name": "classpreloader/classpreloader",
@@ -3012,6 +3081,50 @@
                 "laravel5"
             ],
             "time": "2016-08-10 00:31:22"
+        },
+        {
+            "name": "zgldh/laravel-upload-manager",
+            "version": "v0.4.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/zgldh/laravel-upload-manager.git",
+                "reference": "4c5800c1af1b69ae17e3e60abb47cc6fe26cee09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zgldh/laravel-upload-manager/zipball/4c5800c1af1b69ae17e3e60abb47cc6fe26cee09",
+                "reference": "4c5800c1af1b69ae17e3e60abb47cc6fe26cee09",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "zgldh\\UploadManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "zgldh",
+                    "email": "zgldh@hotmail.com"
+                }
+            ],
+            "description": "Upload, validate, storage, manage by API for Laravel 5.1/5.2",
+            "keywords": [
+                "api",
+                "laravel",
+                "manage",
+                "storage",
+                "upload",
+                "validate"
+            ],
+            "time": "2016-05-08 13:42:22"
         }
     ],
     "packages-dev": [

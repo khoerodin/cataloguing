@@ -102,6 +102,35 @@ elixir.extend('templates', function(message) {
 
         });
     });
+
+    // Tools
+    new elixir.Task('tools', function() {
+        gulp.task('tools', function() {
+
+            var partials = gulp.src(['resources/templates/tools/*.html'])
+                .pipe(handlebars())
+                .pipe(wrap('Handlebars.registerPartial(<%= processPartialName(file.relative) %>, Handlebars.template(<%= contents %>));', {}, {
+                    imports: {
+                        processPartialName: function(fileName) {
+                          return JSON.stringify(path.basename(fileName, '.js').substr(1));
+                        }
+                    }
+                }));
+
+            var templates = gulp.src('resources/templates/tools/*.html')
+                .pipe(handlebars())
+                .pipe(wrap('Handlebars.template(<%= contents %>)'))
+                .pipe(declare({
+                    namespace: 'Tools.templates',
+                    noRedeclare: true
+                }));
+
+            return merge(partials, templates)
+                .pipe(concat('tools.js'))
+                .pipe(gulp.dest('resources/assets/js/handlebars-templates'));
+
+        });
+    });
 });
 
 elixir(function(mix) {
@@ -188,6 +217,30 @@ elixir(function(mix) {
         // scripts template
         './resources/templates/settings/scripts.js'
     ], 'public/js/settings.js');
+
+    // TOOLS
+    mix.scripts([
+        // libraries
+        'libraries/jquery.min.js',
+        'libraries/bootstrap.min.js',
+        'libraries/jquery.form.js',
+        'libraries/bootstrap-select.min.js',
+        'libraries/fuelux.min.js',
+        'libraries/handlebars.runtime.3.0.3.min.js',
+
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
+        
+        // global script for all pages
+        'libraries/global-script.js',
+
+        // handlebars
+        'handlebars-templates/tools.js',
+
+        // scripts template
+        './resources/templates/tools/scripts.js',
+        'libraries/bootstrap-filestyle.min.js'
+    ], 'public/js/tools.js');
 });
 
 elixir(function(mix) {

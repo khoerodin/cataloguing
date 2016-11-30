@@ -173,6 +173,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+        'zgldh\UploadManager\UploadManagerServiceProvider',
         //
 
         /*

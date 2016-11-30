@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/"><strong>CATALOG Web App</strong></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="/dictionary">DICTIONARY</a>
+                </li>
+                <li class="dropdown">
+                    <a href="/settings">SETTINGS</a>
+                </li>
+                <li class="dropdown active">
+                    <a href="/tools">TOOLS</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <input type="hidden" value="5" id="logged_in_user">
+                <li class="dropdown">
+                    <a class="user-name pointer uppercase dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a class="uppercase pointer" id="profile_link">Profile</a></li>
+                        <li><a class="uppercase pointer" id="logout_link">Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

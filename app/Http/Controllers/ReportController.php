@@ -43,8 +43,8 @@ class ReportController extends Controller
     private function fixedReport($key, $current, $generate)
 	{
 		if($current == 1){
-			$key = array('part_master_id' => $key);
-			$data = $key;
+			$key = Hashids::encode($key);
+			$data = array((object)array('part_master_id' => $key));
 		}else{
 			$key = Hashids::encode($key);
 			$data = \Helper::searchMaster($key);
@@ -584,9 +584,9 @@ class ReportController extends Controller
 			->setOrientation('landscape');
 		
 		if($generate == 1){
-			return $pdf->download(snake_case($title.'_'.\Carbon\Carbon::now('GMT+7')).'.pdf');
-		}else{
 			return $pdf->inline(snake_case($title.'_'.\Carbon\Carbon::now('GMT+7')).'.pdf');
+		}else{
+			return $pdf->download(snake_case($title.'_'.\Carbon\Carbon::now('GMT+7')).'.pdf');
 		}
 	}
 

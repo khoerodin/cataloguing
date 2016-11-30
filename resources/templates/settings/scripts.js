@@ -8,18 +8,15 @@ jQuery(function($) {
     $('#content').html(Settings.templates.content());
     // END HANDLEBARS TEMPLATE
 
-    // LOADING
-    $(document).ajaxStop(function() {
-        $('#loading').hide();
-    });
-    // END LOADING
-
     // TAB
     $("#setingsTab a").click(function(e) {
         e.preventDefault();
         $(this).tab('show');
     });
     // END TAB
+
+    // disable datatables error prompt
+    $.fn.dataTable.ext.errMode = 'none';
 
     // SCROLL TAB
     var hidWidth;

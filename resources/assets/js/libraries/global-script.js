@@ -1,3 +1,9 @@
+// LOADING
+$(document).ajaxStop(function() {
+    $('#loading').hide();
+});
+// END LOADING
+
 // Berguna untuk loading multiple request
 var MyRequestsCompleted = (function() {
     var numRequestToComplete, requestsCompleted, callBacks, singleCallBack;
@@ -43,9 +49,6 @@ $(document).ajaxError(function(event, jqxhr, settings, exception) {
 
     }
 });
-
-// disable datatables error prompt
-$.fn.dataTable.ext.errMode = 'none';
 
 // CSRF
 $.ajaxSetup({

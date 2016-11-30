@@ -1,6 +1,8 @@
 /node_modules
 /public/css
 /public/js
+/resources/assets/js/handlebars-templates
+/storage/app/uploads
 /vendor
 /.idea
 Homestead.json

@@ -8,11 +8,8 @@ jQuery(function($) {
     $('#content').html(Home.templates.content());
     // END HANDLEBARS TEMPLATE
 
-    // LOADING
-    $(document).ajaxStop(function() {
-        $('#loading').hide();
-    });
-    // END LOADING
+    // disable datatables error prompt
+    $.fn.dataTable.ext.errMode = 'none';
 
     // GLOBAL SEARCH
     $(document).on('click', '#btn_search', function() {
@@ -485,7 +482,8 @@ jQuery(function($) {
     // SHOW SOURCE DESC
     $(document).on('click', '#create_report', function() {
         $('#report_modal').modal('show');
-        $('.modal-backdrop').remove();
+        $('#report_warn').empty();
+        // $('.modal-backdrop').remove();
     });
     // END SHOW SOURCE DESC
 
@@ -2756,6 +2754,7 @@ jQuery(function($) {
         from = $('#create_report_modal input[name="from"]:checked').val();
         type = $('#create_report_modal input[name="type"]:checked').val();
         generate = $('#create_report_modal input[name="generate"]:checked').val();
+        company = $('select#company').val();        
 
         if(from == 1){
             selectId = hashids.decode($('#part_master tr.active').attr("id"))[0];
@@ -2768,10 +2767,19 @@ jQuery(function($) {
         keys = [selectId,current,type,generate];
         encodedKeys = hashids.encode(keys);
 
-        if(generate == 1){
-            document.location = 'report/'+encodedKeys;
+        if(from && type && generate){
+            if(company){
+                $('#report_warn').empty();
+                if(generate == 1){
+                    window.open('report/'+encodedKeys);
+                }else{
+                    document.location = 'report/'+encodedKeys;
+                }
+            }else{
+                $('#report_warn').text('Please add a company for this catalog.');
+            }
         }else{
-            window.open('report/'+encodedKeys);
-        }        
+            $('#report_warn').html('Make sure you have checked <strong>FROM</strong>, <strong>TYPE</strong> and <strong>GENERATE PDF</strong> option.</checked> ');
+        }
     });
 });

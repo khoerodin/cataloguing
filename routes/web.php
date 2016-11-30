@@ -16,9 +16,6 @@ Auth::routes();
 Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
-
-Route::get('oke', 'ReportController@oke');
-
 // =======================================================
 // SEARCH ITEMS
 // =======================================================
