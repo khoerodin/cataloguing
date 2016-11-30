@@ -21,10 +21,12 @@ jQuery(function($) {
 	$('form').ajaxForm({
 	    beforeSend: function() {
 	        status.empty();
+	        $("#save-btn").empty();
 	        var percentVal = '0%';
 	        bar.width(percentVal)
 	        percent.html(percentVal+' UPLOADED');
 	        $("#display_uploaded_table").html("");
+	        $('#status').html('<span class="text-success"><i class="fa fa-refresh fa-spin"></i> Uploading Spreadsheet, wait...</span>');
 	    },
 	    uploadProgress: function(event, position, total, percentComplete) {
 	        var percentVal = percentComplete + '%';
