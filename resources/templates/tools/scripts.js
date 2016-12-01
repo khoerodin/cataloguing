@@ -39,13 +39,21 @@ jQuery(function($) {
 	        percent.html(percentVal+' UPLOADED');
 	        var dest = $('#select_table').val();
 	        $('#status').html('<span class="text-success"><i class="fa fa-refresh fa-spin"></i> Reading Spreadsheet, wait...</span>');
-	        $.get( "tools/read-source/"+xhr.file, function(data) {
-	        	$('#status').html('');     	
-	        	$("#display_uploaded_table").html(data);
-	        	$("#save-btn").empty();
-	        	$("#insertToDB").appendTo("#save-btn");
-	        });
-
+	        $.ajax({
+			    type: 'GET',
+			    url: 'tools/read-source/'+xhr.file,
+			    success: function(data){
+			    	$('#status').html('');     	
+		        	$("#display_uploaded_table").html(data);
+		        	$("#save-btn").empty();
+		        	$("#insertToDB").appendTo("#save-btn");
+			    },
+			    error: function(xhr){
+			    	var errors = xhr.responseJSON;
+			    	$('#status').html('<span class="text-danger">'+errors.document+'</span>');
+			    	console.log(errors);
+			    }
+			});
 	        // $('#div.progress').remove();
 	    },
 		complete: function(xhr) {},
@@ -55,8 +63,9 @@ jQuery(function($) {
 	        percent.html(percentVal);
 
 	        var errors = xhr.responseJSON;
-			status.html('<font color="red">'+errors.document+'</font>');
+			$('#status').html('<span class="text-danger">'+errors.document+'</span>');
 			$("#display_uploaded_table").html("");
+			console.log(errors);
 		}
 	});
 

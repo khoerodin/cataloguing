@@ -50,6 +50,9 @@ class ToolsController extends Controller
     }
 
     public function index(){
+    	\MetaTag::set('title', 'TOOLS &lsaquo; CATALOG Web App');
+        \MetaTag::set('description', 'Tools page');
+
     	$tables = \DB::select('show tables from '.\Config::get('database.connections.mysql.database').';');
         return view('tools', ['tables' => $tables]);
     }
@@ -62,10 +65,10 @@ class ToolsController extends Controller
     public function upload(Request $request)    {
 
         $validator = \Validator::make($request->all(), [
-            'document' => 'required|mimes:xls,xlsx,ods'
+            'document' => 'required|mimes:xlsx,ods'
         ]);
 
-        $validator->after(function($validator) {
+        $validator->after(function($validator) {        	
         	$file_max = ini_get('upload_max_filesize');
 		    $file_max_str_leng = strlen($file_max);
 		    $file_max_meassure_unit = substr($file_max,$file_max_str_leng - 1,1);
@@ -89,14 +92,12 @@ class ToolsController extends Controller
             }
 
             $this->throwValidationException(
-
                 $request, $validator
-
             );
 
         }
 
-         $file = $request->file('document');
+        $file = $request->file('document');
 
     	if ($request->file('document')->isValid()) {
 		    $manager = UploadManager::getInstance();
@@ -388,7 +389,7 @@ class ToolsController extends Controller
 				echo "<div id='uploaded_area'>";
 				echo "<hr/>";
 				echo "<div class='table-responsive'>";
-				echo "<span><strong>GROUP CLASS</strong></span>";
+				echo "<span><strong>INC CHARACTERISTIC VALUE</strong></span>";
 				echo "<table class='table table-striped table-bordered'>";
 				foreach ($reader->getSheetIterator() as $sheet) {
 					$i = -1;
@@ -2037,10 +2038,243 @@ class ToolsController extends Controller
 				echo "</div>";
 				echo "</div>";
 			}
+		}elseif($table_name == 'INC'){
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = -1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					$i++;
+					if($i == 1){
+						if(strtoupper(trim($rows[0])) == 'INC'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'ITEM NAME'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[2])) == 'SHORT NAME'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[3])) == 'ENG DEFINITION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[4])) == 'IND DEFINITION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+			
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>Table column didn't match</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				echo "<div class='table-responsive'>";
+				echo "<span><strong>INC</strong></span>";
+				echo "<table class='table table-striped table-bordered'>";
+				$cek_id = array();
+				$warn = array();
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = -1;
+					$first = true;
+					$no1 = 1;
+					$no2 = 1;
+					$no3 = 1;
+					$no4 = 1;
+					$no5 = 1;
+					$urut = 1;
+
+					$check_duplicate_inc = [];
+					$check_duplicate_item_name = [];
+					$check_duplicate_short_name = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						$i++;
+						if($i > 0){
+							if($first){
+								echo "<tr><th>NO</th>";
+								echo "<th>".strtoupper(trim($rows[0]))."</th>";
+								echo "<th>".strtoupper(trim($rows[1]))."</th>";
+								echo "<th>".strtoupper(trim($rows[2]))."</th>";
+								echo "<th>".strtoupper(trim($rows[3]))."</th>";
+								echo "<th>".strtoupper(trim($rows[4]))."</th></tr>";
+								$first = false;
+							}else{
+
+								$inc_column = TblInc::where('inc', strtoupper(trim($rows[0])))
+									->select('inc')
+									->first();
+
+								if(count($inc_column)>0){
+									$inc = 0;
+									$cek_already_ini_db[] = 0;
+									$warn[] = '<br/>INC: '.$rows[0];
+								}else{
+									$inc = 1;
+									$cek_already_ini_db[] = 1;
+								}
+
+								$item_name_column = TblInc::where('item_name', strtoupper(trim($rows[1])))
+									->select('item_name')
+									->first();
+
+								if(count($item_name_column)>0){
+									$item_name = 0;
+									$cek_already_ini_db[] = 0;
+									$warn[] = 'ITEM NAME: '.$rows[1];
+								}else{
+									$item_name = 1;
+									$cek_already_ini_db[] = 1;
+								}
+
+								$short_name_column = TblInc::where('short_name', strtoupper(trim($rows[2])))
+									->select('short_name')
+									->first();
+
+								if(count($short_name_column)>0){
+									$short_name = 0;
+									$cek_already_ini_db[] = 0;
+									$warn[] = 'SHORT NAME: '.$rows[2];
+								}else{
+									$short_name = 1;
+									$cek_already_ini_db[] = 1;
+								}
+
+								echo "<tr><td>".$urut++."</td>";
+								echo "<td>";
+								if($inc == 0){
+									echo "<span class='text-danger'><b>";
+									echo strtoupper(trim($rows[0]));
+									echo "</b></span'></td>";
+								}else{
+									echo strtoupper(trim($rows[0]))." <input type='hidden' class='inc' name='inc[".$no1++."]' value='".strtoupper(trim($rows[0]))."'></td>";
+								}
+
+								echo "<td>";
+								if($item_name == 0){
+									echo "<span class='text-danger'><b>";
+									echo strtoupper(trim($rows[1]));
+									echo "</b></span'></td>";
+								}else{
+									echo strtoupper(trim($rows[1]))." <input type='hidden' class='item_name' name='item_name[".$no2++."]' value='".strtoupper(trim($rows[1]))."'></td>";
+								}								
+
+								echo "<td>";
+								if($short_name == 0){
+									echo "<span class='text-danger'><b>";
+									echo strtoupper(trim($rows[2]));
+									echo "</b></span'></td>";
+								}else{
+									echo strtoupper(trim($rows[2]))." <input type='hidden' class='short_name' name='short_name[".$no3++."]' value='".strtoupper(trim($rows[2]))."'></td>";
+								}
+
+								echo "<td>".strtoupper(trim($rows[3]))." <input type='hidden' class='eng_definition' name='eng_definition[".$no4++."]' value='".strtoupper(trim($rows[3]))."'></td>";
+
+								echo "<td>".strtoupper(trim($rows[4]))." <input type='hidden' class='ind_definition' name='ind_definition[".$no5++."]' value='".strtoupper(trim($rows[4]))."'></td></tr>";
+							
+								$check_duplicate_inc[] .= $rows[0];	
+								$check_duplicate_item_name[] .= $rows[1];	
+								$check_duplicate_short_name[] .= $rows[2];	
+							}							
+						}						
+					}					
+					
+				}
+
+				$count_dulp_inc = [];
+				$inc_check_duplicate = array_count_values($check_duplicate_inc);
+				foreach ($inc_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_inc[] = 0;
+						$count_dulp_inc[] = 0;
+					}else{
+						$chek_dupl_inc[] = 1;
+					}
+				}
+
+				$item_name_check_duplicate = array_count_values($check_duplicate_item_name);
+				foreach ($item_name_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_item_name[] = 0;
+					}else{
+						$chek_dupl_item_name[] = 1;
+					}
+				}					
+
+				if(
+					in_array(0, $cek_already_ini_db) || 
+					in_array(0, $chek_dupl_inc) ||
+					in_array(0, $chek_dupl_item_name)
+				){
+					
+					if(in_array(0, $cek_already_ini_db)){
+						$validasi = "<br><span class='text-danger'><strong>ALREADY IN DATABASE: </strong>";
+						$jml = count($warn);
+						$i = 1;
+						foreach ($warn as $value) {
+							if($jml == $i++){
+								$validasi .= $value;						
+							}else{
+								$validasi .= $value.', ';
+							}
+						}
+						$validasi .= "</span>";
+						echo $validasi;
+					}
+
+					if(in_array(0, $chek_dupl_inc)){
+						$validasi = "<br><span class='text-danger'><strong>DUPLICATE INC: </strong> ";
+						
+						$check_duplicate_inc_again = array_count_values($check_duplicate_inc);
+						$jml = count($count_dulp_inc);
+						$i = 1;
+						foreach ($check_duplicate_inc_again as $key => $value) {
+							if($value > 1) {
+								if($jml == $i++){
+									$validasi .= $key;						
+								}else{
+									$validasi .= $key.', ';
+								}
+							}
+						}
+						echo $validasi;
+					}
+
+					if(in_array(0, $chek_dupl_item_name)){
+						$validasi = "<br><span class='text-danger'><strong>DUPLICATE ITEM NAME: </strong> ";
+						
+						$check_duplicate_item_name_again = array_count_values($check_duplicate_item_name);
+						foreach ($check_duplicate_item_name_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+							}
+						}
+						echo $validasi;
+					}
+				}else{
+					echo "<input id='insertToDB' type='button' class='btn btn-sm btn-primary' value='IMPORT INC' onclick='upload_inc()'>";
+				}
+
+				echo "</table>";
+				echo "</div>";
+				echo "</div>";
+			}
 		}else{
 			echo "Ehem.";
 		}
-
 		
 		$reader->close();
     }
