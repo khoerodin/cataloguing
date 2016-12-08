@@ -223,6 +223,8 @@ elixir(function(mix) {
         // libraries
         'libraries/jquery.min.js',
         'libraries/bootstrap.min.js',
+        'libraries/jquery.dataTables.min.js',
+        'libraries/dataTables.bootstrap.min.js',
         'libraries/jquery.form.js',
         'libraries/bootstrap-select.min.js',
         'libraries/fuelux.min.js',

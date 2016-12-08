@@ -152,6 +152,7 @@ Route::post('tools/insert-igc', 'ToolsController@insertIgc');
 Route::post('tools/insert-ic', 'ToolsController@insertIc');
 Route::post('tools/insert-icv', 'ToolsController@insertIcv');
 Route::post('tools/insert-m', 'ToolsController@insertM');
+Route::get('tools/import-inc/{file}', 'ToolsController@importInc');
 // =======================================================
 // END IMPORT
 // =======================================================

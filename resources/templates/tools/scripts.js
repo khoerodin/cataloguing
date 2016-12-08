@@ -18,15 +18,17 @@ jQuery(function($) {
     var bar = $('.progress-bar');
 	var percent = $('.percent');
 	var status = $('#status');	
+	var uploaded_file = '';
 	$('form').ajaxForm({
 	    beforeSend: function() {
 	        status.empty();
-	        $("#save-btn").empty();
+	        $("#save-btn-area").empty();
 	        var percentVal = '0%';
 	        bar.width(percentVal)
 	        percent.html(percentVal+' UPLOADED');
 	        $("#display_uploaded_table").html("");
-	        $('#status').html('<span class="text-success"><i class="fa fa-refresh fa-spin"></i> Uploading Spreadsheet, wait...</span>');
+	        $('#status').html('<span class="text-success">UPLOADING... <div class="mini-spinner"></div></span>');
+	    	$('input#file_upload').attr('disabled', 'disabled');
 	    },
 	    uploadProgress: function(event, position, total, percentComplete) {
 	        var percentVal = percentComplete + '%';
@@ -38,19 +40,40 @@ jQuery(function($) {
 	        bar.width(percentVal)
 	        percent.html(percentVal+' UPLOADED');
 	        var dest = $('#select_table').val();
-	        $('#status').html('<span class="text-success"><i class="fa fa-refresh fa-spin"></i> Reading Spreadsheet, wait...</span>');
+	        $('#status').html('<span class="text-success">VALIDATING... <div class="mini-spinner"></div></span>');
 	        $.ajax({
 			    type: 'GET',
 			    url: 'tools/read-source/'+xhr.file,
 			    success: function(data){
 			    	$('#status').html('');     	
 		        	$("#display_uploaded_table").html(data);
-		        	$("#save-btn").empty();
-		        	$("#insertToDB").appendTo("#save-btn");
+		        	$(".import_to_db").appendTo("#save-btn-area");
+		        	$('input#file_upload').removeAttr('disabled');
+
+		        	$('#datatables').dataTable( {
+						dom: "<'row'<'col-sm-6'><'col-sm-6'f>>" +
+								"<'row'<'col-sm-12'tr>>" +
+								"<'row'<'col-sm-5'i><'col-sm-7'p>>",
+						oLanguage: {
+			                sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
+			                oPaginate: {
+			                    sFirst: "FIRST",
+			                    sLast: "LAST",
+			                    sNext: "NEXT",
+			                    sPrevious: "PREVIOUS"
+			                },
+			                sSearch: "",
+			                sSearchPlaceholder: "SEARCH...",
+			            },
+					});
+
+		        	$("#message").appendTo("div#datatables_wrapper div.row div.col-sm-6:eq(0)");
+
+		        	uploaded_file += xhr.file;
 			    },
 			    error: function(xhr){
 			    	var errors = xhr.responseJSON;
-			    	$('#status').html('<span class="text-danger">'+errors.document+'</span>');
+			    	$('#status').html('<span class="text-danger">'+errors+'</span>');
 			    	console.log(errors);
 			    }
 			});
@@ -74,7 +97,37 @@ jQuery(function($) {
 	  $(this).attr("value", "");
 	});
 
-	$('div.bootstrap-filestyle.input-group > input[type=text]').addClass('normalcase input-sm');
+	// IMPORT to DATABASE
+	var uploaded_file = uploaded_file;
+	$(document).on('click', '.import_inc', function() {
+		$.ajax({
+		    type: 'GET',
+		    url: 'tools/import-inc/'+uploaded_file,
+		    beforeSend: function(){
+		    	$('input#file_upload').attr('disabled', 'disabled');
+		    	$('.import_inc').attr('disabled', 'disabled');
+		    	$("#message").html("IMPORTING YOUR <strong>INC</strong> DATA... <div class='mini-spinner'></div>");
+		    },
+		    success: function(data){
+		    	$('#status').empty();
+		    	$("#file_upload").val('');
+		    	$("div.bootstrap-filestyle.input-group input").val('');
+		    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
+		    	$('input#file_upload').removeAttr('disabled');
+	        	$("#save-btn-area").empty();
+	        	$("#display_uploaded_table").empty();
+	        	$("#message").html("<span class='text-success'><strong>"+data+" OF INC</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY</span>");
+		    },
+		    error: function(){
+		    	$("#file_upload").val('');
+		    	$("div.bootstrap-filestyle.input-group input").val('');
+		    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
+		    	$('input#file_upload').removeAttr('disabled');
+		    	$('.import_inc').removeAttr('disabled');
+	        	$("#message").html("<strong style='color:red;'>ERROR</strong> IMPORTING YOUR <strong>INC</strong> DATA");
+		    }
+		});
+	});
 });
 
 function upload_pmc() {
@@ -99,7 +152,7 @@ function upload_pmc() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('UPLOAD AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -134,7 +187,7 @@ function upload_pec() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -169,7 +222,7 @@ function upload_tgc() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -204,7 +257,7 @@ function upload_igc() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -239,7 +292,7 @@ function upload_ic() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -274,7 +327,7 @@ function upload_icv() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
@@ -309,17 +362,15 @@ function upload_m() {
 	    	
 	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
 
-	    	$("#save-btn").html('');
+	    	$("#save-btn-area").html('');
 	    },
 	    error: function(data){
 	    	var errors = data.responseJSON;
 	    	err = '';
 	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
+				err = '<p>' + value + '</p>';
 			});
 	    	$('#status').html('<font color="red">'+err+'</font>');
 	    }
 	});
 };
-
-$('div.bootstrap-filestyle input').addClass('input-sm');

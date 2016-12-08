@@ -23,11 +23,11 @@ class CreateTblIncTable extends Migration
             //Noun - Modifier dibuat di view/di coding aja
             //=============================================
 
-            $table->string('short_name')->unique();; //buat short description
-            $table->string('sap_code', 30)->unique();;
-            $table->string('sap_char_id', 18)->unique();;
-            $table->text('eng_definition');
-            $table->text('ind_definition');
+            $table->string('short_name')->unique(); //buat short description
+            $table->string('sap_code', 30)->unique();
+            $table->string('sap_char_id', 18)->unique();
+            $table->text('eng_definition')->nullable();
+            $table->text('ind_definition')->nullable();
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

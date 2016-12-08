@@ -463,6 +463,17 @@ hr.hr-bawah-part-master{
   animation: sk-scaleout 1.0s infinite ease-in-out;
 }
 
+.mini-spinner {
+  width: 15px;
+  height: 15px;
+  margin: 0px auto;
+  background-color: #03B3B2;
+  display: inline-block;
+  border-radius: 100%;  
+  -webkit-animation: sk-scaleout 1.0s infinite ease-in-out;
+  animation: sk-scaleout 1.0s infinite ease-in-out;
+}
+
 @-webkit-keyframes sk-scaleout {
   0% { -webkit-transform: scale(0) }
   100% {

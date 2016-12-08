@@ -12,6 +12,9 @@ class LaratrustSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        DB::table('tbl_inc')->truncate();
+
         $this->truncateLaratrustTables();
         
         $config = config('laratrust_seeder.role_structure');
