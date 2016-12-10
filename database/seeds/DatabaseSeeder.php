@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +12,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        if (\App::environment() === 'production') {
+            exit('I just stopped you getting fired. Can be overriden using --env attribute');
+        }
+        
+        if (\App::environment() !== 'localtest') {
+            $this->truncateTables();
+        }
+
+        Model::unguard();
+        
+        // Seed Code goes here ...
         $this->call(LaratrustSeeder::class);
 
         // $this->call(TblHoldingSeeder::class);
@@ -56,6 +68,25 @@ class DatabaseSeeder extends Seeder
         // $this->call(PartSourcePartNoSeeder::class);
             
         // $this->call(TblPoStyleSeeder::class);        
-        // $this->call(CompanyCharacteristicSeeder::class);        
+        // $this->call(CompanyCharacteristicSeeder::class);
+        // End Seed Code ...
+
+        Model::reguard();
+    }
+
+    /**
+     * Truncates all tables except migrations
+     */
+    public function truncateTables()
+    {
+        $dbName = env('DB_DATABASE');
+        // Get all tables list, except migrations table
+        $tables = \DB::select('SHOW TABLES WHERE `Tables_in_' . $dbName . '` != ?', ['migrations']);
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        foreach ($tables as $table) {
+            \DB::table($table->{'Tables_in_' . $dbName})->truncate();
+            $this->command->info('Truncating '.$table->{'Tables_in_' . $dbName}.' table');
+        }
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

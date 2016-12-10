@@ -11,8 +11,8 @@ class TblHarmonizedCodeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblHarmonizedCode::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblHarmonizedCode::insert([
 	        [
 	        	'code' => '03GM',
 	        	'description' => '',

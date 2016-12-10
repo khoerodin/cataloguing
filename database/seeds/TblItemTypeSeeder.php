@@ -11,8 +11,8 @@ class TblItemTypeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblItemType::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblItemType::insert([
 	        [
 	        	'type' => 'ELECTRICAL & ELECTRONIC',
 	        	'description' => 'ELECTRICAL & ELECTRONIC',

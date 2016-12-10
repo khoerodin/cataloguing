@@ -11,8 +11,8 @@ class TblSourceTypeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now 	    = Carbon\Carbon::now();
-	      App\Models\TblSourceType::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblSourceType::insert([
 	        [
 	        	'type' => 'DOC',
 	        	'description' => 'DOCUMENT NUMBER',

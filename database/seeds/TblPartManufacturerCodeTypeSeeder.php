@@ -11,8 +11,8 @@ class TblPartManufacturerCodeTypeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblPartManufacturerCodeType::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblPartManufacturerCodeType::insert([
 	        [
 	        	'type' => 'O',
 	        	'description' => 'OBSOLETE',

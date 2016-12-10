@@ -11,8 +11,8 @@ class TblWeightUnitSeeder extends Seeder
      */
     public function run()
     {
-	    	$now 	= Carbon\Carbon::now();
-	      App\Models\TblWeightUnit::insert([
+	    $now 	= Carbon\Carbon::now();
+	    App\Models\TblWeightUnit::insert([
 	        [
 	        	'unit' => 'GR',
 	        	'description' => 'GRAM',

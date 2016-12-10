@@ -11,8 +11,8 @@ class TblCharacteristicSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblCharacteristic::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblCharacteristic::insert([
 	        [
 	        	'characteristic' => 'STYLE',
 	        	'label' => 'STYLE',

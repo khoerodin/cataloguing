@@ -11,8 +11,8 @@ class TblEquipmentCodeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblEquipmentCode::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblEquipmentCode::insert([
 	        [
 	        	'equipment_code' => '0107GA402A',
 	        	'equipment_name' => 'PUMP, HP ABSORBENT',

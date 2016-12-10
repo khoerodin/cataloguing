@@ -225,6 +225,7 @@ elixir(function(mix) {
         'libraries/bootstrap.min.js',
         'libraries/jquery.dataTables.min.js',
         'libraries/dataTables.bootstrap.min.js',
+        'libraries/dataTables.colResize.js',
         'libraries/jquery.form.js',
         'libraries/bootstrap-select.min.js',
         'libraries/fuelux.min.js',

@@ -21,13 +21,14 @@ jQuery(function($) {
 	var uploaded_file = '';
 	$('form').ajaxForm({
 	    beforeSend: function() {
+	    	window.onbeforeunload = function() {return '';}
 	        status.empty();
 	        $("#save-btn-area").empty();
 	        var percentVal = '0%';
 	        bar.width(percentVal)
 	        percent.html(percentVal+' UPLOADED');
 	        $("#display_uploaded_table").html("");
-	        $('#status').html('<span class="text-success">UPLOADING... <div class="mini-spinner"></div></span>');
+	        $('#status').html('<span class="text-success">UPLOADING SPREADSHEET... <div class="mini-spinner"></div></span>');
 	    	$('input#file_upload').attr('disabled', 'disabled');
 	    },
 	    uploadProgress: function(event, position, total, percentComplete) {
@@ -40,7 +41,7 @@ jQuery(function($) {
 	        bar.width(percentVal)
 	        percent.html(percentVal+' UPLOADED');
 	        var dest = $('#select_table').val();
-	        $('#status').html('<span class="text-success">VALIDATING... <div class="mini-spinner"></div></span>');
+	        $('#status').html('<span class="text-success">SPREADSHEET UPLOADED &#x2714;<br/>READING AND VALIDATING YOUR DATA... <div class="mini-spinner"></div></span>');
 	        $.ajax({
 			    type: 'GET',
 			    url: 'tools/read-source/'+xhr.file,
@@ -52,7 +53,7 @@ jQuery(function($) {
 
 		        	$('#datatables').dataTable( {
 						dom: "<'row'<'col-sm-6'><'col-sm-6'f>>" +
-								"<'row'<'col-sm-12'tr>>" +
+								"Z<'row'<'col-sm-12'tr>>" +
 								"<'row'<'col-sm-5'i><'col-sm-7'p>>",
 						oLanguage: {
 			                sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
@@ -68,13 +69,16 @@ jQuery(function($) {
 					});
 
 		        	$("#message").appendTo("div#datatables_wrapper div.row div.col-sm-6:eq(0)");
+		        	$("#data_counter").appendTo("#counter");
 
-		        	uploaded_file += xhr.file;
+		        	uploaded_file = xhr.file;
+		        	window.onbeforeunload = function() {}
 			    },
 			    error: function(xhr){
 			    	var errors = xhr.responseJSON;
 			    	$('#status').html('<span class="text-danger">'+errors+'</span>');
-			    	console.log(errors);
+			    	$('input#file_upload').removeAttr('disabled');
+			    	window.onbeforeunload = function() {}
 			    }
 			});
 	        // $('#div.progress').remove();
@@ -88,13 +92,17 @@ jQuery(function($) {
 	        var errors = xhr.responseJSON;
 			$('#status').html('<span class="text-danger">'+errors.document+'</span>');
 			$("#display_uploaded_table").html("");
-			console.log(errors);
+			$('input#file_upload').removeAttr('disabled');
+			window.onbeforeunload = function() {}
 		}
 	});
 
 	$('#file_upload').change(function() {
 	  $('form').submit();
-	  $(this).attr("value", "");
+	});
+
+	$('#file_upload').click(function() {
+	    this.value = null;
 	});
 
 	// IMPORT to DATABASE
@@ -104,11 +112,13 @@ jQuery(function($) {
 		    type: 'GET',
 		    url: 'tools/import-inc/'+uploaded_file,
 		    beforeSend: function(){
+		    	window.onbeforeunload = function() {return '';}
 		    	$('input#file_upload').attr('disabled', 'disabled');
 		    	$('.import_inc').attr('disabled', 'disabled');
 		    	$("#message").html("IMPORTING YOUR <strong>INC</strong> DATA... <div class='mini-spinner'></div>");
 		    },
 		    success: function(data){
+		    	window.onbeforeunload = function() {}
 		    	$('#status').empty();
 		    	$("#file_upload").val('');
 		    	$("div.bootstrap-filestyle.input-group input").val('');
@@ -116,9 +126,10 @@ jQuery(function($) {
 		    	$('input#file_upload').removeAttr('disabled');
 	        	$("#save-btn-area").empty();
 	        	$("#display_uploaded_table").empty();
-	        	$("#message").html("<span class='text-success'><strong>"+data+" OF INC</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY</span>");
+	        	$("#status").html("<span class='text-success'><strong>"+data+" OF INC</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY</span>");
 		    },
 		    error: function(){
+		    	window.onbeforeunload = function() {}
 		    	$("#file_upload").val('');
 		    	$("div.bootstrap-filestyle.input-group input").val('');
 		    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');

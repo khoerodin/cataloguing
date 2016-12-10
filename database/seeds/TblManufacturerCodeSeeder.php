@@ -11,8 +11,8 @@ class TblManufacturerCodeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now 	    = Carbon\Carbon::now();
-	      App\Models\TblManufacturerCode::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblManufacturerCode::insert([
 	        [
 	        	'manufacturer_code' => 'CCI',
 	        	'manufacturer_name' => 'CCI (IMI SEVERE SERVICE COMPANY)',

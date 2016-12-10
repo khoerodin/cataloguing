@@ -11,8 +11,8 @@ class TblHazardClassSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblHazardClass::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblHazardClass::insert([
 	        [
 	        	'class' => 'FS X NR',
 	        	'description' => '',

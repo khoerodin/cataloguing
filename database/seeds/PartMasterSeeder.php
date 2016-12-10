@@ -11,9 +11,8 @@ class PartMasterSeeder extends Seeder
      */
     public function run()
     {
-	    	$now 	    	= Carbon\Carbon::now();
-
-	      App\Models\PartMaster::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\PartMaster::insert([
 	        [
 	        	'catalog_no' => '100023',
 	        	'tbl_holding_id' => 1,

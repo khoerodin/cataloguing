@@ -403,14 +403,18 @@ table:not(.normalcase){
   margin-right: 5px;
 }
 
-#part_master.dataTable{ 
+#part_master.dataTable, #datatables.dataTable{ 
   table-layout:fixed; 
   width: 100%; /* IE6 need define width */
 }
 
 #part_master.dataTable thead th,
 #part_master.dataTable tfoot th,
-#part_master.dataTable tbody td {
+#part_master.dataTable tbody td,
+
+#datatables.dataTable thead th,
+#datatables.dataTable tfoot th,
+#datatables.dataTable tbody td {
   overflow:hidden;
   white-space:nowrap;
   -o-text-overflow: ellipsis;

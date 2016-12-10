@@ -2364,11 +2364,10 @@ class ToolsController extends Controller
     public function readSource($filename){		
     	$reader = $this->readSpreadSheet($filename);
     	foreach ($reader->getSheetIterator() as $sheet) {
-			$i = -1;
+			$i = 1;
 			$table_name ='';
 			foreach ($sheet->getRowIterator() as $rows) {
-				$i++;
-				if($i == 0){
+				if($i++ == 1){
 					$table_name = strtoupper(trim($rows[0]));
 				}
 			}
@@ -2377,10 +2376,9 @@ class ToolsController extends Controller
 		if($table_name == 'INC'){
 			$status = array();
 			foreach ($reader->getSheetIterator() as $sheet) {
-				$i = -1;
+				$i = 1;
 				foreach ($sheet->getRowIterator() as $rows) {
-					$i++;
-					if($i == 1){
+					if($i++ == 2){
 						if(strtoupper(trim($rows[0])) == 'INC'){
 							$status[] = 1;
 						}else{
@@ -2419,10 +2417,10 @@ class ToolsController extends Controller
 			}else{
 				echo "<div id='uploaded_area'>";
 				echo "<hr/>";
-				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong>INC</strong> DATA</div>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF INC</strong> DATA</div>";
 				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
 				foreach ($reader->getSheetIterator() as $sheet) {
-					$i = -1;
+					$i = 1;
 					$first = true;
 					$urut = 3;
 
@@ -2439,9 +2437,10 @@ class ToolsController extends Controller
 					$check_empty_inc = [];
 					$check_empty_item_name = [];
 					$check_empty_short_name = [];
+
+					$data_counter = [];
 					foreach ($sheet->getRowIterator() as $rows) {
-						$i++;
-						if($i > 0){
+						if($i++ > 1){
 							if($first){
 								$table .= "<thead><tr>";
 								$table .= "<th width='3%'>#</th>";
@@ -2525,8 +2524,10 @@ class ToolsController extends Controller
 								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
-								$table .= "<td>".str_limit(strtoupper(trim($rows[3])),30)."</td>";
-								$table .= "<td>".str_limit(strtoupper(trim($rows[4])),25)."</td></tr>";
+								$table .= "<td>".strtoupper(trim($rows[3]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[4]))."</td></tr>";
+
+								$data_counter[] = 1;
 							}							
 						}						
 					}					
@@ -2597,7 +2598,9 @@ class ToolsController extends Controller
 					 }
 				}
 
-				if(
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY INC DATA.</span>';
+				}elseif(
 					// cek apakah terdapat item yang sudah ada dalam database
 					in_array(0, $cek_already_in_db) || 
 					// cek apakah terdapat item yang melebihi maksimum string
@@ -2748,7 +2751,7 @@ class ToolsController extends Controller
 						$i = 3;
 						foreach ($check_empty_inc as $value) {
 							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/>Pada baris <b>#'.$i++.'</b> dalam spreadsheet Anda.';
+							 	$validasi .= '<br/>On line <b>#'.$i++.'</b> in your spreadsheet.';
 							 }else{
 							 	$i++;
 							 }
@@ -2763,7 +2766,7 @@ class ToolsController extends Controller
 						$i = 3;
 						foreach ($check_empty_item_name as $value) {
 							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/>Pada baris <b>#'.$i++.'</b> dalam spreadsheet Anda.';
+							 	$validasi .= '<br/>On line <b>#'.$i++.'</b> in your spreadsheet.';
 							 }else{
 							 	$i++;
 							 }
@@ -2778,7 +2781,7 @@ class ToolsController extends Controller
 						$i = 3;
 						foreach ($check_empty_short_name as $value) {
 							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/>Pada baris <b>#'.$i++.'</b> dalam spreadsheet Anda.';
+							 	$validasi .= '<br/>On line <b>#'.$i++.'</b> in your spreadsheet.';
 							 }else{
 							 	$i++;
 							 }
@@ -2796,20 +2799,21 @@ class ToolsController extends Controller
 					echo $item_name_empty;
 					echo $short_name_empty;
 				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
 					echo "<input type='button' class='import_to_db import_inc btn btn-sm btn-primary' value='IMPORT INC DATA'>";
 					echo $table;
 				}
 				echo "</div>";
 			}
 		}else{
-			echo  'Whoops, you try to uploading bad table :(';
+			echo  'Whoops, you try to uploading bad spreadsheet :(';
 		}
 	}
 
     public function importInc($file){
 
+    	// ini_set('max_execution_time', 0);
     	$reader = $this->readSpreadSheet($file);
-
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
 			$dataSet = [];
@@ -2845,7 +2849,14 @@ class ToolsController extends Controller
 			}
 		}
 
-        TblInc::insert($dataSet);
-		return count($jml)-2;
+		if(count($dataSet)>1000){
+			foreach (array_chunk($dataSet,1000) as $data) {
+               TblInc::insert($data);
+            }
+            return number_format(count($jml)-2);
+		}else{
+			TblInc::insert($dataSet);
+			return number_format(count($jml)-2);
+		}
     }
 }

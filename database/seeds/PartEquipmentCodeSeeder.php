@@ -11,8 +11,8 @@ class PartEquipmentCodeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now 	    	= Carbon\Carbon::now();
-	      App\Models\PartEquipmentCode::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\PartEquipmentCode::insert([
 	        [
 	        	'part_master_id' => 1,
 	        	'tbl_equipment_code_id' => 1,

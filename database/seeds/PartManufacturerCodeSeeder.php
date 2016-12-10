@@ -11,8 +11,8 @@ class PartManufacturerCodeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\PartManufacturerCode::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\PartManufacturerCode::insert([
 	        [
 	        	'part_master_id' => 1,
 	        	'tbl_manufacturer_code_id' => 1,

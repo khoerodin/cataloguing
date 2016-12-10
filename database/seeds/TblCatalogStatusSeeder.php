@@ -11,8 +11,8 @@ class TblCatalogStatusSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblCatalogStatus::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblCatalogStatus::insert([
 	        [
 	        	'status' => 'RAW',
 	        	'description' => '',

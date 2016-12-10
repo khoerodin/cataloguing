@@ -11,7 +11,7 @@ class CompanyCharacteristicSeeder extends Seeder
      */
     public function run()
     {
-        $now = Carbon\Carbon::now();
+          $now = Carbon\Carbon::now();
       	App\Models\CompanyCharacteristic::insert([
           [
           	'tbl_company_id' => 1,

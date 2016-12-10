@@ -11,8 +11,8 @@ class TblStockTypeSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblStockType::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblStockType::insert([
 	        [
 	        	'type' => 'CRITICAL',
 	        	'description' => 'CRITICAL',

@@ -11,8 +11,8 @@ class TblUserClassSeeder extends Seeder
      */
     public function run()
     {
-	    	$now = Carbon\Carbon::now();
-	      App\Models\TblUserClass::insert([
+	    $now = Carbon\Carbon::now();
+	    App\Models\TblUserClass::insert([
 	        [
 	        	'class' => 'CATALYST/PALL RING',
 	        	'description' => '',
