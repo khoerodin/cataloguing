@@ -153,6 +153,19 @@ Route::post('tools/insert-ic', 'ToolsController@insertIc');
 Route::post('tools/insert-icv', 'ToolsController@insertIcv');
 Route::post('tools/insert-m', 'ToolsController@insertM');
 Route::get('tools/import-inc/{file}', 'ToolsController@importInc');
+Route::get('tools/import-char/{file}', 'ToolsController@importChar');
+Route::get('tools/import-inc-char/{file}', 'ToolsController@importIncChar');
+Route::get('tools/import-group/{file}', 'ToolsController@importGroup');
+Route::get('tools/import-group-class/{file}', 'ToolsController@importGroupClass');
+Route::get('tools/import-inc-group-class/{file}', 'ToolsController@importIncGroupClass');
+Route::get('tools/import-inc-char-value/{file}', 'ToolsController@importIncCharValue');
+Route::get('tools/import-manufacturer-code/{file}', 'ToolsController@importManufacturerCode');
+Route::get('tools/import-source-type/{file}', 'ToolsController@importSourceType');
+Route::get('tools/import-part-man-code-type/{file}', 'ToolsController@importPartManCodeType');
+Route::get('tools/import-eq-code/{file}', 'ToolsController@importEquipmentCode');
+Route::get('tools/import-eq-plant/{file}', 'ToolsController@importEquipmentPlant');
+Route::get('tools/import-part-master/{file}', 'ToolsController@importPartMaster');
+Route::get('tools/import-part-man-code/{file}', 'ToolsController@importPartManCode');
 // =======================================================
 // END IMPORT
 // =======================================================

@@ -31,7 +31,7 @@ class CreateLinkIncCharacteristicTable extends Migration
             $table->unique(array('tbl_inc_id', 'tbl_characteristic_id'));
 
             $table->string('default_short_separator', 10)->default('');
-            $table->tinyInteger('sequence');
+            $table->integer('sequence');
             
             //=======================================================
             //SAP Char ID / INC untuk Char di SAP, dibikin view aja, atau gimana nanti lah

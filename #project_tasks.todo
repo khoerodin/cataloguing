@@ -46,6 +46,7 @@ Deadline:
  ☐ Characteristic Value Tab : Value tampil semua, bukan hanya company tsb
  ☐ change save button to active when inc or and group class changed
  ☐ bedakan salt hash js dan php, untuk keamanan
+ ☐ select equipment code otomatis disaring dg company
 
 Others:
  ☐ make minded submit values code

@@ -107,37 +107,101 @@ jQuery(function($) {
 
 	// IMPORT to DATABASE
 	var uploaded_file = uploaded_file;
-	$(document).on('click', '.import_inc', function() {
-		$.ajax({
-		    type: 'GET',
-		    url: 'tools/import-inc/'+uploaded_file,
-		    beforeSend: function(){
-		    	window.onbeforeunload = function() {return '';}
-		    	$('input#file_upload').attr('disabled', 'disabled');
-		    	$('.import_inc').attr('disabled', 'disabled');
-		    	$("#message").html("IMPORTING YOUR <strong>INC</strong> DATA... <div class='mini-spinner'></div>");
-		    },
-		    success: function(data){
-		    	window.onbeforeunload = function() {}
-		    	$('#status').empty();
-		    	$("#file_upload").val('');
-		    	$("div.bootstrap-filestyle.input-group input").val('');
-		    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
-		    	$('input#file_upload').removeAttr('disabled');
-	        	$("#save-btn-area").empty();
-	        	$("#display_uploaded_table").empty();
-	        	$("#status").html("<span class='text-success'><strong>"+data+" OF INC</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY</span>");
-		    },
-		    error: function(){
-		    	window.onbeforeunload = function() {}
-		    	$("#file_upload").val('');
-		    	$("div.bootstrap-filestyle.input-group input").val('');
-		    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
-		    	$('input#file_upload').removeAttr('disabled');
-		    	$('.import_inc').removeAttr('disabled');
-	        	$("#message").html("<strong style='color:red;'>ERROR</strong> IMPORTING YOUR <strong>INC</strong> DATA");
-		    }
-		});
+	$(document).on('click', '.import_to_db', function() {
+
+		if($(this).hasClass('import_inc')){
+			var url = 'tools/import-inc/'+uploaded_file;
+			var data_name = 'INC';
+			var action = true;
+		}else if($(this).hasClass('import_char')){
+			var url = 'tools/import-char/'+uploaded_file;
+			var data_name = 'CHARACTERISTIC';
+			var action = true;
+		}else if($(this).hasClass('import_inc_char')){
+			var url = 'tools/import-inc-char/'+uploaded_file;
+			var data_name = 'INC CHARACTERISTIC';
+			var action = true;
+		}else if($(this).hasClass('import_group')){
+			var url = 'tools/import-group/'+uploaded_file;
+			var data_name = 'GROUP';
+			var action = true;
+		}else if($(this).hasClass('import_group_class')){
+			var url = 'tools/import-group-class/'+uploaded_file;
+			var data_name = 'GROUP CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_inc_group_class')){
+			var url = 'tools/import-inc-group-class/'+uploaded_file;
+			var data_name = 'INC GROUP CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_inc_char_value')){
+			var url = 'tools/import-inc-char-value/'+uploaded_file;
+			var data_name = 'INC CHARACTERISTIC VALUE';
+			var action = true;
+		}else if($(this).hasClass('import_manufacturer_code')){
+			var url = 'tools/import-manufacturer-code/'+uploaded_file;
+			var data_name = 'MANUFACTURER CODE';
+			var action = true;
+		}else if($(this).hasClass('import_source_type')){
+			var url = 'tools/import-source-type/'+uploaded_file;
+			var data_name = 'SOURCE TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_part_man_code_type')){
+			var url = 'tools/import-part-man-code-type/'+uploaded_file;
+			var data_name = 'PART MANUFACTURER CODE TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_eq_code')){
+			var url = 'tools/import-eq-code/'+uploaded_file;
+			var data_name = 'EQUIPMENT CODE';
+			var action = true;
+		}else if($(this).hasClass('import_eq_plant')){
+			var url = 'tools/import-eq-plant/'+uploaded_file;
+			var data_name = 'EQUIPMENT PLANT';
+			var action = true;
+		}else if($(this).hasClass('import_part_master')){
+			var url = 'tools/import-part-master/'+uploaded_file;
+			var data_name = 'PART MASTER';
+			var action = true;
+		}else if($(this).hasClass('import_part_man_code')){
+			var url = 'tools/import-part-man-code/'+uploaded_file;
+			var data_name = 'PART MANUFACTURER CODE';
+			var action = true;
+		}else{
+			var action = false;
+		}
+
+		if(action == true){
+
+			$.ajax({
+			    type: 'GET',
+			    url: url,
+			    beforeSend: function(){
+			    	window.onbeforeunload = function() {return '';}
+			    	$('input#file_upload').attr('disabled', 'disabled');
+			    	$('.import_inc').attr('disabled', 'disabled');
+			    	$("#message").html("IMPORTING YOUR <strong>"+data_name+"</strong> DATA... <div class='mini-spinner'></div>");
+			    },
+			    success: function(data){
+			    	window.onbeforeunload = function() {}
+			    	$('#status').empty();    	
+			    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
+			    	$('input#file_upload').removeAttr('disabled');
+		        	$("#save-btn-area").empty();
+		        	$("#display_uploaded_table").empty();
+		        	file_name = $("div.bootstrap-filestyle.input-group input").val();
+		        	$("#status").html("<span class='text-success'><strong>"+data+" OF "+data_name+"</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY<br/>UPLOADED FILE NAME: <b>"+file_name+"</b></span>");
+			    	$("div.bootstrap-filestyle.input-group input").val('');
+			    },
+			    error: function(){
+			    	window.onbeforeunload = function() {}
+			    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
+			    	$('input#file_upload').removeAttr('disabled');
+			    	$('.import_inc').removeAttr('disabled');
+		        	$("#message").html("<strong style='color:red;'>ERROR</strong> IMPORTING YOUR <strong>"+data_name+"</strong> DATA");
+			    }
+			});
+
+		}
+		
 	});
 });
 

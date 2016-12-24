@@ -17,7 +17,7 @@ class CreateTblPartManufacturerCodeTypeTable extends Migration
             $table->increments('id');
 
             $table->string('type', 15)->unique();
-            $table->string('description');
+           $table->text('description')->nullable();
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

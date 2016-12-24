@@ -196,7 +196,7 @@ class SearchController extends Controller
         return TblInc::select('id as tbl_inc_id', 'inc', 'item_name')
             ->where('inc', 'like', '%'.$request->q.'%')
             ->orWhere('item_name', 'like', '%'.$request->q.'%')
-            ->get();
+            ->limit(5)->get();
     }
 
     public function selectSearchColloquial(Request $request)

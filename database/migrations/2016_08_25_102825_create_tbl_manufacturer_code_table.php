@@ -18,7 +18,7 @@ class CreateTblManufacturerCodeTable extends Migration
 
             $table->string('manufacturer_code', 10)->unique();
             $table->string('manufacturer_name');
-            $table->text('address');
+            $table->text('address')->nullable();
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

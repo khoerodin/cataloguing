@@ -16,8 +16,11 @@ class CreateTblGroupTable extends Migration
         Schema::create('tbl_group', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('group')->length(2)->unsigned()->unique();
-            $table->string('name', 50)->unique();
+            $table->tinyInteger('group')->unsigned()->unique();
+            $table->string('name')->unique();
+
+            $table->text('eng_definition')->nullable();
+            $table->text('ind_definition')->nullable();
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
@@ -33,6 +36,8 @@ class CreateTblGroupTable extends Migration
                   
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE tbl_group MODIFY `group` TINYINT(2) UNSIGNED NOT NULL;');
     }
 
     /**

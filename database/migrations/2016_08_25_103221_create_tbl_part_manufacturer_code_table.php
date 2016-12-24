@@ -34,7 +34,7 @@ class CreateTblPartManufacturerCodeTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->string('manufacturer_ref', 100); //bisa part number, dwg/doc number dll
+            $table->string('manufacturer_ref'); //bisa part number, dwg/doc number dll
 
             $table->unique(array('part_master_id', 'tbl_manufacturer_code_id', 'tbl_source_type_id', 'manufacturer_ref'), 'part_manufacturer_code_tmci_tsti_mf');
 

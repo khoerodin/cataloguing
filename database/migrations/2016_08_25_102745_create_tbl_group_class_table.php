@@ -22,14 +22,14 @@ class CreateTblGroupClassTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->integer('class')->length(2)->unsigned();
+            $table->tinyInteger('class')->unsigned();
 
             $table->unique(array('tbl_group_id', 'class'));
 
             $table->string('name')->unique();     
               
-            $table->text('eng_definition');
-            $table->text('ind_definition');
+            $table->text('eng_definition')->nullable();
+            $table->text('ind_definition')->nullable();
                   
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
@@ -46,7 +46,7 @@ class CreateTblGroupClassTable extends Migration
             $table->timestamps();
         });
 
-        DB::statement('ALTER TABLE tbl_group_class MODIFY class INTEGER(2) UNSIGNED ZEROFILL NOT NULL;');
+        DB::statement('ALTER TABLE tbl_group_class MODIFY class TINYINT(2) UNSIGNED ZEROFILL NOT NULL;');
     }
 
     /**
