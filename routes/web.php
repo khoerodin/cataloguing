@@ -166,6 +166,7 @@ Route::get('tools/import-eq-code/{file}', 'ToolsController@importEquipmentCode')
 Route::get('tools/import-eq-plant/{file}', 'ToolsController@importEquipmentPlant');
 Route::get('tools/import-part-master/{file}', 'ToolsController@importPartMaster');
 Route::get('tools/import-part-man-code/{file}', 'ToolsController@importPartManCode');
+Route::get('tools/import-part-eq-code/{file}', 'ToolsController@importPartEqCode');
 // =======================================================
 // END IMPORT
 // =======================================================

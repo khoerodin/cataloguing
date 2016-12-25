@@ -7219,7 +7219,6 @@ class ToolsController extends Controller
 					$i = 1;
 					$first = true;
 					$urut = 3;
-					$urut2 = 3;
 
 					$cek_exist_in_db = [];
 					$warn_exist_in_db = [];
@@ -7317,6 +7316,24 @@ class ToolsController extends Controller
 										$cek_exist_in_db[] = 0;
 										$warn_exist_in_db[] = 'TYPE <b>'.strtoupper(trim($rows[4])).'</b>';
 									}
+								}
+
+								// CHEK ALREADY IN DB DB?
+								$check_already_in_db = PartManufacturerCode::select('part_manufacturer_code.id')
+									->join('part_master', 'part_master.id', 'part_manufacturer_code.part_master_id')
+									->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', 'part_manufacturer_code.tbl_manufacturer_code_id')
+									->join('tbl_source_type', 'tbl_source_type.id', 'part_manufacturer_code.tbl_source_type_id')
+									->where('catalog_no', trim($rows[0]))
+									->where('manufacturer_code', trim($rows[1]))
+									->where('type', trim($rows[2]))
+									->where('manufacturer_ref', trim($rows[3]))
+									->first();
+
+								if(count($check_already_in_db)>0){
+									$cek_already_in_db[] = 0;
+									$warn_already_in_db[] = 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH MANUFACTURER CODE <b>'.strtoupper(trim($rows[1])).'</b> AND SOURCE TYPE <b>'.strtoupper(trim($rows[2])).'</b> AND MANUFACTURER REF <b>'.strtoupper(trim($rows[3])).'</b>';
+								}else{
+									$cek_already_in_db[] = 1;
 								}
 
 								// CEK EMPTY
@@ -7588,6 +7605,498 @@ class ToolsController extends Controller
 				}else{
 					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
 					echo "<input type='button' class='import_to_db import_part_man_code btn btn-sm btn-primary' value='IMPORT PART MANUFACTURER CODE DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'PART EQUIPMENT CODE'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'CATALOG NO'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'EQUIPMENT CODE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[2])) == 'QTY INSTALL'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[3])) == 'MANUFACTURER CODE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[4])) == 'DOC REF'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[5])) == 'DWG REF'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF PART EQUIPMENT CODE</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_exist_in_db = [];
+					$warn_exist_in_db = [];
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_catalog_no = [];
+					$check_empty_eq_code = [];
+					$check_empty_qty_install = [];
+					$check_empty_man_code = [];
+					$check_empty_ref = [];
+
+					$check_duplicate = [];
+					$cek_numerical = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='18%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='9%'>".strtoupper(trim($rows[2]))."</th>";
+								$table .= "<th width='19%'>".strtoupper(trim($rows[3]))."</th>";
+								$table .= "<th width='20%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "<th width='20%'>".strtoupper(trim($rows[5]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// CHEK EXIST IN DB DB?
+								if($rows[0] == '' || $rows[0] == null){
+
+									$cek_exist_in_db[] = 1;
+								
+								}else{
+									$exist_column = PartMaster::select('id')
+										->where('catalog_no', trim($rows[0]))->first();
+
+									if(count($exist_column)>0){
+										$cek_exist_in_db[] = 1;
+									}else{
+										$cek_exist_in_db[] = 0;
+										$warn_exist_in_db[] = 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b>';
+									}
+								}
+
+								if($rows[1] == '' || $rows[1] == null){
+
+									$cek_exist_in_db[] = 1;
+								
+								}else{
+									$exist_column = TblEquipmentCode::select('id')
+										->where('equipment_code', trim($rows[1]))->first();
+
+									if(count($exist_column)>0){
+										$cek_exist_in_db[] = 1;
+									}else{
+										$cek_exist_in_db[] = 0;
+										$warn_exist_in_db[] = 'EQUIPMENT CODE <b>'.strtoupper(trim($rows[1])).'</b>';
+									}
+								}
+
+								if($rows[3] == '' || $rows[3] == null){
+
+									$cek_exist_in_db[] = 1;
+								
+								}else{
+									$exist_column = TblManufacturerCode::select('id')
+										->where('manufacturer_code', trim($rows[3]))->first();
+
+									if(count($exist_column)>0){
+										$cek_exist_in_db[] = 1;
+									}else{
+										$cek_exist_in_db[] = 0;
+										$warn_exist_in_db[] = 'MANUFACTURER CODE <b>'.strtoupper(trim($rows[3])).'</b>';
+									}
+								}
+
+								// CHEK ALREADY IN DB DB?
+								$check_already_in_db = PartEquipmentCode::select('part_equipment_code.id')
+									->join('part_master', 'part_master.id', 'part_equipment_code.part_master_id')
+									->join('tbl_equipment_code', 'tbl_equipment_code.id', 'part_equipment_code.tbl_equipment_code_id')
+									->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', 'part_equipment_code.tbl_manufacturer_code_id')
+									->where('catalog_no', trim($rows[0]))
+									->where('equipment_code', trim($rows[1]))
+									->where('manufacturer_code', trim($rows[3]))
+									->first();
+
+								if(count($check_already_in_db)>0){
+									$cek_already_in_db[] = 0;
+									$warn_already_in_db[] = 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH EQUIPMENT CODE <b>'.strtoupper(trim($rows[1])).'</b> AND MANUFACTURER CODE <b>'.strtoupper(trim($rows[3])).'</b>';
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK EMPTY
+								$check_empty_catalog_no[] .= $rows[0];
+								$check_empty_eq_code[] .= $rows[1];
+								$check_empty_qty_install[] .= $rows[2];
+								$check_empty_man_code[] .= $rows[3];
+
+								$cek_ref = $rows[4].$rows[5];
+
+								if($cek_ref == '' || $cek_ref == null){
+									$check_empty_ref[] = '';
+								}else{
+									$check_empty_ref[] = 'ADA';
+								}
+
+								// MAX STR
+								if(strlen(trim($rows[2])) > 11){
+									$max_str[] = 0;
+									$warn_max_str[] = 'QTY INSTALL <b>"'.strtoupper(trim($rows[2])).'"</b> LENGTH MAY NOT BE GREATER THAN 11';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[4])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = 'DOC REF <b>"'.strtoupper(trim($rows[4])).'"</b> LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[5])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = 'DWG REF <b>"'.strtoupper(trim($rows[5])).'"</b> LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								// CEK DUPLICATE
+								if(
+									is_null($rows[0]) || $rows[0] == '' || 
+									is_null($rows[1]) || $rows[1] == '' ||
+									is_null($rows[3]) || $rows[3] == ''
+								){
+									$check_duplicate[] .= '';
+								}else{
+									$check_duplicate[] .= 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH EQUIPMENT CODE <b>'.strtoupper(trim($rows[1])).'</b> MANUFACTURER CODE <b>'.strtoupper(trim($rows[3])).'</b>';
+								}
+
+								$cek_numerical[] .= $rows[2];
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[3]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[4]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[5]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_catalog_no = array();
+				foreach ($check_empty_catalog_no as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_catalog_no[] = 0;
+					 }else{
+					 	$empty_catalog_no[] = 1;
+					 }
+				}
+
+				$empty_eq_code = array();
+				foreach ($check_empty_eq_code as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_eq_code[] = 0;
+					 }else{
+					 	$empty_eq_code[] = 1;
+					 }
+				}
+
+				$empty_qty_install = array();
+				foreach ($check_empty_qty_install as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_qty_install[] = 0;
+					 }else{
+					 	$empty_qty_install[] = 1;
+					 }
+				}
+
+				$empty_man_code = array();
+				foreach ($check_empty_man_code as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_man_code[] = 0;
+					 }else{
+					 	$empty_man_code[] = 1;
+					 }
+				}
+
+				$empty_ref = array();
+				foreach ($check_empty_ref as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_ref[] = 0;
+					 }else{
+					 	$empty_ref[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$check_duplicate_ = array_count_values($check_duplicate);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$check_dupl = array();
+				foreach ($check_duplicate_ as $key => $value) {
+					if($value > 1) {
+						$check_dupl[] = 0;
+					}else{
+						$check_dupl[] = 1;
+					}
+				}
+
+				// CEK NUMERIK
+				$is_numerical = array();
+				foreach ($cek_numerical as $value) {
+					 if($value <> null && $value <> ''){
+					 	if(is_numeric($value) == true){
+					 		$is_numerical[] = 1;
+					 	}else{
+					 		$is_numerical[] = 0;
+					 	}					 	
+					 }else{
+					 	$is_numerical[] = 1;
+					 }
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY PART EQUIPMENT CODE DATA.</span>';
+				}elseif(
+					in_array(0, $cek_exist_in_db) ||
+					// cek apakah terdapat item yang melebihi maksimum string
+					in_array(0, $max_str) ||	
+					// cek apakah ada item yg ada dlm database
+					in_array(0, $cek_already_in_db) ||
+					// cek apakah terdapat yang kosong
+					in_array(0, $empty_catalog_no) ||
+					in_array(0, $empty_eq_code) ||
+					in_array(0, $empty_qty_install) ||
+					in_array(0, $empty_man_code) ||
+					in_array(0, $empty_ref) ||
+					// cek apakah ada duplicate dalam spreadsheet
+					in_array(0, $check_dupl) ||
+					// cek apakah value berupa numeric
+					in_array(0, $is_numerical)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR PART EQUIPMENT CODE SPREADSHEET</strong></span>";
+
+					// EXIST?
+					$exist = '';
+					if(in_array(0, $cek_exist_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>NOT FOUND RECORD IN DATABASE:</u></strong>";
+						foreach ($warn_exist_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$exist = $validasi;
+					}
+
+					// MAX LENGTH
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					// ALREADY IN DB
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					// CEK EMPTY
+					$catalog_no_empty = '';
+					if(in_array(0, $empty_catalog_no)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY CATALOG NO:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_catalog_no as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$catalog_no_empty = $validasi;
+					}
+
+					$eq_code_empty = '';
+					if(in_array(0, $empty_eq_code)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY EQUIPMENT CODE NO:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_eq_code as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$eq_code_empty = $validasi;
+					}
+					
+					$qty_install_empty = '';
+					if(in_array(0, $empty_qty_install)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY QTY INSTALL NO:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_qty_install as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$qty_install_empty = $validasi;
+					}
+
+					$man_code_empty = '';
+					if(in_array(0, $empty_man_code)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY MANUFACTURER CODE NO:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_man_code as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$man_code_empty = $validasi;
+					}
+
+					$ref_empty = '';
+					if(in_array(0, $empty_ref)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DOC REF OR DWG REF:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_ref as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$ref_empty = $validasi;
+					}
+
+					$dupl_ = '';
+					$dupl = '';
+					if(in_array(0, $check_dupl)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_again = array_count_values($check_duplicate);
+
+						// remove empty
+						foreach($check_duplicate_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl .= "<br><br><strong class='text-danger'><u>DUPLICATE DATA:</u> </strong> ";
+							$dupl .= $dupl_;
+						}else{
+							$dupl .= '';
+						}
+					}
+
+					$is_numeric = '';
+					if(in_array(0, $is_numerical)){
+						$validasi = "<br><br><strong class='text-danger'><u>QTY INSTALL MUST NUMERIC:</u></strong> ";
+						$i = 3;
+						foreach ($cek_numerical as $value) {
+							if($value <> null && $value <> ''){
+								if(is_numeric($value) != true){
+									$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+								}else{
+									$i++;
+								}
+							}else{
+								$i++;
+							}							
+						}
+						$is_numeric = $validasi;
+					}
+
+					echo $exist;
+					echo $already;
+					echo $max_length;
+
+					echo $catalog_no_empty;
+					echo $eq_code_empty;
+					echo $qty_install_empty;
+					echo $man_code_empty;
+					echo $ref_empty;
+
+					echo $dupl;
+					echo $is_numeric;
+
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_part_eq_code btn btn-sm btn-primary' value='IMPORT PART EQUIPMENT CODE DATA'>";
 					echo $table;
 				}
 				echo "</div>";
@@ -8311,6 +8820,56 @@ class ToolsController extends Controller
             return number_format(count($dataSet));
 		}else{
 			PartManufacturerCode::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importPartEqCode($file){
+
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+
+					$part_master_id 	= PartMaster::select('id')->where('catalog_no', trim($cel[0]))->first()->id;
+					$tbl_equipment_code_id = TblEquipmentCode::select('id')->where('equipment_code', trim($cel[1]))->first()->id;
+					$qty_install = strtoupper(trim($cel[2]));
+					$tbl_manufacturer_code_id = TblManufacturerCode::select('id')->where('manufacturer_code', trim($cel[3]))->first()->id;
+					$doc_ref = strtoupper(trim($cel[4]));
+					$dwg_ref = strtoupper(trim($cel[5]));
+					$date 			= \Carbon\Carbon::now();
+					$id 			= \Auth::user()->id;
+
+					$dataSet[] = [
+						'part_master_id' 			=> $part_master_id,
+						'tbl_equipment_code_id' 	=> $tbl_equipment_code_id,
+						'qty_install' 				=> $qty_install,
+						'tbl_manufacturer_code_id'	=> $tbl_manufacturer_code_id,
+						'doc_ref' 					=> $doc_ref,
+						'dwg_ref'					=> $dwg_ref,
+						'created_by' 		=> $id,
+						'last_updated_by'	=> $id,
+		        		'created_at'	 	=> $date,
+     					'updated_at'	 	=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               PartEquipmentCode::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			PartEquipmentCode::insert($dataSet);
 			return number_format(count($dataSet));
 		}
     }

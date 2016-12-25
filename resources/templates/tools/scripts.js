@@ -165,6 +165,10 @@ jQuery(function($) {
 			var url = 'tools/import-part-man-code/'+uploaded_file;
 			var data_name = 'PART MANUFACTURER CODE';
 			var action = true;
+		}else if($(this).hasClass('import_part_eq_code')){
+			var url = 'tools/import-part-eq-code/'+uploaded_file;
+			var data_name = 'PART EQUIPMENT CODE';
+			var action = true;
 		}else{
 			var action = false;
 		}
