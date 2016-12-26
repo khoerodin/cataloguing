@@ -47,6 +47,7 @@ Deadline:
  ☐ change save button to active when inc or and group class changed
  ☐ bedakan salt hash js dan php, untuk keamanan
  ☐ select equipment code otomatis disaring dg company
+ ☐ catalog status
 
 Others:
  ☐ make minded submit values code
@@ -69,3 +70,32 @@ var hal     = Math.ceil(ke / 5);
 console.log(hal);
 
 coba cek home/inc-char-values/ di js dan controller
+
+
+exist (with parent)
+======================
+COMPANY
+PLANT
+
+already in db
+======================
+EQUIPMENT CODE OK
+COMPANY OK
+
+max str
+======================
+
+
+not empty
+======================
+HOLODING
+COMPANY OK
+PLANT OK
+
+duplicate excel
+======================
+EQUIPMENT CODE OK
+COMPANY OK
+
+number
+======================

@@ -76,7 +76,7 @@ jQuery(function($) {
 			    },
 			    error: function(xhr){
 			    	var errors = xhr.responseJSON;
-			    	$('#status').html('<span class="text-danger">'+errors+'</span>');
+			    	$('#status').html('<span class="text-danger">ERROR</span>');
 			    	$('input#file_upload').removeAttr('disabled');
 			    	window.onbeforeunload = function() {}
 			    }
@@ -90,7 +90,7 @@ jQuery(function($) {
 	        percent.html(percentVal);
 
 	        var errors = xhr.responseJSON;
-			$('#status').html('<span class="text-danger">'+errors.document+'</span>');
+			$('#status').html('<span class="text-danger">ERROR</span>');
 			$("#display_uploaded_table").html("");
 			$('input#file_upload').removeAttr('disabled');
 			window.onbeforeunload = function() {}
@@ -152,10 +152,6 @@ jQuery(function($) {
 		}else if($(this).hasClass('import_eq_code')){
 			var url = 'tools/import-eq-code/'+uploaded_file;
 			var data_name = 'EQUIPMENT CODE';
-			var action = true;
-		}else if($(this).hasClass('import_eq_plant')){
-			var url = 'tools/import-eq-plant/'+uploaded_file;
-			var data_name = 'EQUIPMENT PLANT';
 			var action = true;
 		}else if($(this).hasClass('import_part_master')){
 			var url = 'tools/import-part-master/'+uploaded_file;

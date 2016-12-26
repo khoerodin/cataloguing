@@ -65,7 +65,6 @@ class HomeController extends Controller
 
         $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
                 ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
-                ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'part_master.tbl_catalog_status_id')
                 ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
                 ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
                 ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
@@ -116,9 +115,12 @@ class HomeController extends Controller
                     'average_unit_price',
 
                     'link_inc_group_class.id as link_inc_group_class_id',
-                    'tbl_inc_id'
+                    'tbl_inc_id',
+                    'tbl_company_id',
+                    'company',
                     ]);
         return Datatables::of($partMaster)
+            ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" name="company" value="{{$tbl_company_id}}">')
             ->setRowId('part_master_id')
             ->make(true);
     }
@@ -343,13 +345,13 @@ class HomeController extends Controller
     {
         // ambil inc_char_id yang belum masuk company TIDAK BESERTA sequence_nya
         // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
-        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
+        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, (select id from tbl_po_style where style_name="DEFAULT") as tbl_po_style_id, id as link_inc_characteristic_id, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
         ->whereNotIn('id', $this->incCharIdCompany($companyId))
         ->where('tbl_inc_id', $incId);
 
         $bindings = $select->getBindings();
 
-        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,link_inc_characteristic_id,created_by,last_updated_by,created_at,updated_at) '
+        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,tbl_po_style_id,link_inc_characteristic_id,created_by,last_updated_by,created_at,updated_at) '
         . $select->toSql();
 
         return DB::insert($insertQuery, $bindings);
@@ -359,13 +361,13 @@ class HomeController extends Controller
     {
         // ambil inc_char_id yang belum masuk company, BESERTA sequence_nya
         // http://stackoverflow.com/questions/25533608/create-a-insert-select-statement-in-laravel
-        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, id as link_inc_characteristic_id, sequence, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
+        $select = LinkIncCharacteristic::select(array(DB::raw($companyId.' as tbl_company_id, (select id from tbl_po_style where style_name="DEFAULT") as tbl_po_style_id, id as link_inc_characteristic_id, sequence, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
         ->whereNotIn('id', $this->incCharIdCompany($companyId))
         ->where('tbl_inc_id', $incId);
 
         $bindings = $select->getBindings();
 
-        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,link_inc_characteristic_id,sequence,created_by,last_updated_by,created_at,updated_at) '
+        $insertQuery = 'INSERT into company_characteristic (tbl_company_id,tbl_po_style_id,link_inc_characteristic_id,sequence,created_by,last_updated_by,created_at,updated_at) '
         . $select->toSql();
 
         return DB::insert($insertQuery, $bindings);
@@ -777,7 +779,7 @@ class HomeController extends Controller
         ->where('part_master_id', Hashids::decode($partMasterId)[0]);
 
         return Datatables::of($partManufacturerCode)
-            ->editColumn('type', '{{$type}} <span class="pull-right"><kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd> <kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd></span>')
+            ->editColumn('type', '{{$type}} <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-danger hover delete-pmc cpointer">DELETE</kbd> <kbd data-id="{{$part_manufacturer_code_id}}" class="kbd-primary hover edit-pmc cpointer">EDIT</kbd></span>')
             ->setRowId('part_manufacturer_code_id')
             ->make(true);
 
@@ -866,7 +868,7 @@ class HomeController extends Controller
         ->where('part_master_id', Hashids::decode($partMasterId)[0]);
 
         return Datatables::of($partColloquial)
-            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span class="pull-right"><kbd data-id="{{$part_colloquial_id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd> <kbd data-id="{{$part_colloquial_id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd></span>')
+            ->editColumn('colloquial', '<span class="colloquial">{{$colloquial}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_colloquial_id}}" class="kbd-danger hover cpointer delete-pc">DELETE</kbd> <kbd data-id="{{$part_colloquial_id}}" class="kbd-primary hover cpointer edit-pc">EDIT</kbd></span>')
             ->setRowId('part_colloquial_id')
             ->make(true);
     }
@@ -963,14 +965,22 @@ class HomeController extends Controller
         return Response::json($partColloquial);
     }
 
-    public function getPartEquipmentCode($partMasterId){
-        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','doc_ref','dwg_ref','tbl_manufacturer_code_id','manufacturer_code')
+    public function getPartEquipmentCode($partMasterId,$companyId){
+        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_equipment_code.part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','doc_ref','dwg_ref','tbl_manufacturer_code_id','manufacturer_code')
         ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
-        ->where('part_master_id', Hashids::decode($partMasterId)[0]);
+
+        ->join('company_catalog', function($q)
+            {
+                $q->on('company_catalog.part_master_id', '=', 'part_equipment_code.part_master_id')
+                    ->on('company_catalog.tbl_company_id', '=', 'tbl_equipment_code.tbl_company_id');
+            })
+
+        ->where('part_equipment_code.part_master_id', Hashids::decode($partMasterId)[0])
+        ->where('tbl_equipment_code.tbl_company_id', Hashids::decode($companyId)[0]);
 
         return Datatables::of($partPartEquipmentCode)
-            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span class="pull-right"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
+            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
             ->setRowId('part_equipment_code_id')
             ->make(true);
     }

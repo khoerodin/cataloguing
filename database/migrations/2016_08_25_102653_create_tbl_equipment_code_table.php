@@ -19,7 +19,19 @@ class CreateTblEquipmentCodeTable extends Migration
             $table->string('equipment_code', 50);
             $table->string('equipment_name');
 
-            $table->unique(array('equipment_code', 'equipment_name'));
+            $table->integer('tbl_company_id')->unsigned();
+            $table->foreign('tbl_company_id')->references('id')
+                  ->on('tbl_company')
+                  ->onUpdate('CASCADE')
+                  ->onDelete('NO ACTION');
+
+            $table->integer('tbl_plant_id')->unsigned();
+            $table->foreign('tbl_plant_id')->references('id')
+                  ->on('tbl_plant')
+                  ->onUpdate('CASCADE')
+                  ->onDelete('NO ACTION');
+
+            $table->unique(array('equipment_code', 'tbl_company_id'));
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

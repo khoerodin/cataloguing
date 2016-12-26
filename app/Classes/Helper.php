@@ -107,7 +107,6 @@ class Helper {
 
         return PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
                 ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
-                ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'part_master.tbl_catalog_status_id')
                 ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
                 ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
                 ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
@@ -158,7 +157,10 @@ class Helper {
                     'average_unit_price',
 
                     'link_inc_group_class.id as link_inc_group_class_id',
-                    'tbl_inc_id'
+                    'tbl_inc_id',
+                    'tbl_company_id',
+                    'company',
+                    'uom_type',
                     ])
                 ->get();
     }

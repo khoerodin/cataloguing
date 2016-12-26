@@ -266,31 +266,3 @@ elixir(function(mix) {
         'styles.css'
     ], 'public/css/login.css');
 });
-
-/*elixir(function(mix) {
-    mix.version([
-        'css/styles.css',
-        'css/login.css',
-        'js/home.js',
-        'js/dictionary.js',
-        'js/settings.js',
-    ]);
-});*/
-
-/*elixir.extend('compressHtml', function(message) {
-    new elixir.Task('compressHtml', function() {
-        const opts = {
-             collapseWhitespace: true,
-             removeAttributeQuotes: true,
-             removeComments: true, 
-             minifyJS: true
-       };
-       return gulp.src('./storage/framework/views/*')
-       .pipe(htmlmin(opts))
-       .pipe(gulp.dest('./storage/framework/views/')) })
-       .watch('./storage/framework/views/*')
-});
-
-elixir(function(mix) {
-    mix.compressHtml();
-});*/

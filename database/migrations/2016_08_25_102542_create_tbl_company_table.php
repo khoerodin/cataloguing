@@ -25,7 +25,7 @@ class CreateTblCompanyTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->enum('uom_type', ['2','3', '4']);  
+            $table->enum('uom_type', ['2','3', '4'])->default('3');  
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

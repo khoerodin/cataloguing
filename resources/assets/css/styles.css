@@ -248,7 +248,9 @@ input:not(.normalcase), textarea:not(.normalcase){
 kbd{
   border-radius: 3px !important;
   box-shadow: none !important;
-  padding: 3px 5px 2px !important;
+  padding: 3px 5px 3px !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  font-size: smaller;
 }
 kbd.kbd-default {
     background-color: #fff !important;
@@ -443,7 +445,7 @@ hr.hr-bawah-part-master{
 }
 .double-input .form-control.dua{
   width: 100%;
-  border-left-width: 0px;
+  border: none;
 }
 #loading {
   width: 100%;

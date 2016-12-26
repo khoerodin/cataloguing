@@ -115,18 +115,18 @@
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6">
                     <input type="button" class="btn btn-sm btn-primary pull-right" value="SEARCH" id="btn_search">
-                    <input type="button" class="btn btn-sm pull-right" value="CLEAR">
+                    <input type="button" class="btn btn-sm btn-default pull-right" value="CLEAR">
                 </div>
             </div>
         </form>
     </span>
     <span id="search_result" style="display:none;">
-        <div>
+        <div style="min-height: 200px;">
             <table id="part_master" class="table table-striped table-hover table-bordered" cellspacing="0">
                 <thead>
                     <tr>
                         <th width="8%">CATALOG NO</th>
-                        <th width="20%">HOLDING</th>
+                        <th width="20%">COMPANY</th>
                         <th width="16%">HOLDING NO</th>
                         <th width="25%">ITEM NAME</th>
                         <th width="5%">INC</th>
@@ -224,12 +224,30 @@
 
                 <div class="input-group double-input">
                     <span class="input-group-btn">
-                    <button id="show_source" class="btn btn-sm btn-primary">SOURCE</button>
-                    <!-- <button id="#" class="btn btn-sm btn-primary">REFERENCE</button> -->
-                    <button id="create_report" class="btn btn-sm btn-primary">REPORT</button>
+                        <button id="show_source" class="btn btn-sm btn-primary">SOURCE</button>
+                        <button id="create_report" class="btn btn-sm btn-primary">REPORT</button>
                     </span>
-                    <select id="company" data-live-search-placeholder="SELECT COMPANY" data-width="20%" class="company"></select>
-                    <input type="text" class="form-control dua input-sm" id="#" readonly placeholder="SELECTED INFORMATION" style="font-size:12px;">
+                    <input type="text" class="form-control dua input-sm" id="selected_catalog_info" readonly placeholder="SELECTED INFORMATION" style="font-size:12px;">
+
+                    <div class="pull-right" style="margin-top: 5px;position: absolute;right: 10px;z-index: 10;">
+                        <div class="radio radio-danger radio-inline">
+                            <input type="radio" id="inlineRadio1" value="option1" name="radioInline" checked>
+                            <label for="inlineRadio1"> RAW </label>
+                        </div>
+                        <div class="radio radio-warning radio-inline">
+                            <input type="radio" id="inlineRadio2" value="option2" name="radioInline">
+                            <label for="inlineRadio2"> CAT </label>
+                        </div>
+                        <div class="radio radio-success radio-inline">
+                            <input type="radio" id="inlineRadio3" value="option3" name="radioInline">
+                            <label for="inlineRadio3"> QA </label>
+                        </div>
+                        <div class="radio radio-primary radio-inline">
+                            <input type="radio" id="inlineRadio4" value="option4" name="radioInline">
+                            <label for="inlineRadio4"> LOCKED </label>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -35,6 +35,11 @@ class PartMaster extends Model
         return Hashids::encode($this->attributes['link_inc_group_class_id']);
     }
 
+    public function getTblCompanyIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_company_id']);
+    }
+
     public function scopeSearchCatalogNo($query, $catalog_no)
     {
       if ($catalog_no != null) $query->where('catalog_no', $catalog_no);
@@ -64,7 +69,9 @@ class PartMaster extends Model
 
     public function scopeSearchCatalogStatusId($query, $catalog_status_id)
     {
-        if ($catalog_status_id != null) $query->where('tbl_catalog_status_id', $catalog_status_id);
+        if ($catalog_status_id != null) 
+            $query->join('company_catalog', 'company_catalog.part_master_id', '=', 'part_master.id')
+            ->where('tbl_catalog_status_id', $catalog_status_id);
     }
 
     public function scopeSearchCatalogType($query, $catalog_type)
@@ -105,9 +112,16 @@ class PartMaster extends Model
 
     public function scopeSearchCompanyId($query, $company_id)
     {
-        if ($company_id != null) 
-            $query->join('part_bin_location', 'part_bin_location.part_master_id', '=', 'part_master.id')
+        if ($company_id != null) {
+            $query->join('company_catalog', 'company_catalog.part_master_id', '=', 'part_master.id')
+            ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'company_catalog.tbl_catalog_status_id')
+            ->join('tbl_company', 'tbl_company.id', 'company_catalog.tbl_company_id')
             ->where('tbl_company_id', $company_id);
+        }else{
+            $query->join('company_catalog', 'company_catalog.part_master_id', '=', 'part_master.id')
+            ->join('tbl_catalog_status', 'tbl_catalog_status.id', '=', 'company_catalog.tbl_catalog_status_id')
+            ->join('tbl_company', 'tbl_company.id', 'company_catalog.tbl_company_id');
+        }
     }
 
     public function scopeSearchPlantId($query, $plant_id)

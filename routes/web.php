@@ -16,6 +16,9 @@ Auth::routes();
 Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
+
+Route::get('coba/{key}', 'ReportController@coba');
+
 // =======================================================
 // SEARCH ITEMS
 // =======================================================
@@ -94,7 +97,7 @@ Route::put('home/update-part-colloquial', 'HomeController@updatePartColloquial')
 Route::delete('home/delete-part-colloquial/{id}', 'HomeController@deletePartColloquial');
 
 // Part Equipment Code
-Route::get('home/part-equipment-code/{part_master_id}', 'HomeController@getPartEquipmentCode');
+Route::get('home/part-equipment-code/{part_master_id}/{company_id}', 'HomeController@getPartEquipmentCode');
 Route::post('home/select-equipment-code', 'HomeController@selectEquipmentCode');
 Route::post('home/add-part-equipment-code', 'HomeController@addPartEquipmentCode');
 Route::get('home/edit-part-equipment-code/{id}', 'HomeController@editPartEquipmentCode');

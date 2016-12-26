@@ -16,15 +16,9 @@ class CreatePartBinLocationTable extends Migration
         Schema::create('part_bin_location', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->integer('part_master_id')->unsigned();
-            $table->foreign('part_master_id')->references('id')
-                  ->on('part_master')
-                  ->onUpdate('CASCADE')
-                  ->onDelete('NO ACTION');
-
-            $table->integer('tbl_company_id')->unsigned();
-            $table->foreign('tbl_company_id')->references('id')
-                  ->on('tbl_company')
+            $table->integer('company_catalog_id')->unsigned();
+            $table->foreign('company_catalog_id')->references('id')
+                  ->on('company_catalog')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
@@ -51,6 +45,8 @@ class CreatePartBinLocationTable extends Migration
                   ->on('tbl_bin')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
+            
+            $table->unique(array('company_catalog_id', 'tbl_plant_id', 'tbl_location_id', 'tbl_shelf_id', 'tbl_bin_id'), 'cc_tp_tl_ts_tb');
 
             $table->double('stock_on_hand', 15, 8)->default(0,0);
             

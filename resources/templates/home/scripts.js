@@ -213,8 +213,8 @@ jQuery(function($) {
                 data: 'catalog_no',
                 name: 'catalog_no'
             }, {
-                data: 'holding',
-                name: 'holding'
+                data: 'company',
+                name: 'company'
             }, {
                 data: 'holding_no',
                 name: 'holding_no'
@@ -276,6 +276,7 @@ jQuery(function($) {
                     var weight_unit = firstRow['weight_unit'];
                     var average_unit_price = firstRow['average_unit_price'];
                     var inc_group_class_id = firstRow['link_inc_group_class_id'];
+                    var company_id = firstRow['tbl_company_id'];
                 }
 
                 $("#part_master tbody tr:first-child").addClass('active');
@@ -286,17 +287,25 @@ jQuery(function($) {
                 });
 
                 var part_master_id = $("#part_master tbody tr.active").attr("id");
-
-                if(part_master_id){
-                    get_compnay(part_master_id)
+                var company_id = $("#part_master tbody tr.active input[name='company']").val();
+                if(part_master_id && company_id){
+                    // get_company(part_master_id)
                     get_part_manufacturer_code(part_master_id);
                     get_part_colloquial(part_master_id);
-                    get_part_equipment_code(part_master_id);
+                    get_part_equipment_code(part_master_id,company_id);
                     get_part_characteristic_value(inc_group_class_id);
                 }                
 
-                $('<span class="text-primary uppercase" id="selected_catalog_info">&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type + '</span>').appendTo('#part_master_info');
+                catalog_no = $("table#part_master tr.active td:eq(0)").text();
+                company = $("table#part_master tr.active td:eq(1)").text();
+                inc = $("table#part_master tr.active td:eq(4)").text();
+                item_name = $("table#part_master tr.active td:eq(3)").text();
+                unit_issue = $("table#part_master tr.active td:eq(6)").text();
+                catalog_type = $("table#part_master tr.active td:eq(7)").text();
                 
+                var selected_info = catalog_no + ' : ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
+                $('#selected_catalog_info').val(selected_info);
+
                 var info = api.page.info();
                 recordsTotal = info.recordsTotal;
 
@@ -330,11 +339,12 @@ jQuery(function($) {
     // WHEN CLICK PART MASTER ROW
     function clickPartMasterRow(){
         $("#part_master tbody").delegate("tr", "click", function() {
-            part_master_id = $(this).attr('id');
-            get_compnay(part_master_id)
+            var part_master_id = $(this).attr('id');
+            var company_id = $(this).find("input[name='company']").val();
+            // get_company(part_master_id)
             get_part_manufacturer_code(part_master_id);
             get_part_colloquial(part_master_id);
-            get_part_equipment_code(part_master_id);
+            get_part_equipment_code(part_master_id,company_id);
 
             $.ajax({
                 url: 'home/click-row-part-master/' + part_master_id,
@@ -349,51 +359,16 @@ jQuery(function($) {
             });
 
             catalog_no = $("table#part_master tr.active td:eq(0)").text();
+            company = $("table#part_master tr.active td:eq(1)").text();
             inc = $("table#part_master tr.active td:eq(4)").text();
             item_name = $("table#part_master tr.active td:eq(3)").text();
             unit_issue = $("table#part_master tr.active td:eq(6)").text();
             catalog_type = $("table#part_master tr.active td:eq(7)").text();
 
-            // $("span#selected_catalog_info").html('bismillah');
-            $("span#selected_catalog_info").html('&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;SELECTED : ' + catalog_no + '  /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type);
+            var selected_info = catalog_no + ' : ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
+            $("#selected_catalog_info").val(selected_info);
         });
     }    
-
-    // SELECT COMPANY FOR EVERY CATALOG
-    function get_compnay(part_master_id) {
-        $.ajax({
-            url: 'home/select-company/' + part_master_id,
-            type: 'GET',
-            beforeSend: function() {
-
-            },
-            success: function(data) {
-                opt = '';
-                $.each(data, function(i, item) {
-                    opt += '<option value="' + item.tbl_company_id + '">' + item.company + '</option>';
-                });
-                $("#company").empty().append(opt);
-
-                $('#company').selectpicker('refresh');
-                $('button[data-id="company"]').addClass("btn-sm");
-                $('button[data-id="company"]').css("border-left-width", "0px");
-                $('.bs-searchbox > input.form-control').addClass("input-sm");
-            },
-            error: function() {
-                $("#company").empty();
-                $('.company').selectpicker('refresh');
-                $('button[data-id="company"]').addClass("btn-sm");
-                $('button[data-id="company"] > span.filter-option').html("<font color='red'>ERROR WHILE GETTING COMPANY DATA</font>");
-            }
-        });
-    }
-    // END SELECT COMPANY FOR EVERY CATALOG
-
-    // WHEN COMPANY CHANGED
-    $('#company').on('changed.bs.select', function(e) {
-        part_characteristic_value_box();
-    });
-    // END WHEN COMPANY CHANGED
 
     // SHOW SOURCE DESC
     $(document).on('click', '#show_source', function() {
@@ -605,7 +580,8 @@ jQuery(function($) {
     // SHORT DESCRIPTION RESULT
     function get_short_description_result() {
         part_master_id = $("#part_master tbody tr.active").attr("id");
-        company_id = $("#company").val();
+        // company_id = $("#company").val();
+        company_id = $("#part_master tbody tr.active input[name='company']").val();
 
         $.ajax({
             url: 'home/short-description/' + part_master_id + '/' + company_id,
@@ -625,7 +601,8 @@ jQuery(function($) {
     function part_characteristic_value_box() {
         inc_id = $("#inc").val();
         part_master_id = $("#part_master tbody tr.active").attr("id");
-        company_id = $("#company").val();
+        // company_id = $("#company").val();
+        company_id = $("#part_master tbody tr.active input[name='company']").val();
 
         if(inc_id && part_master_id && company_id){
 
@@ -1142,7 +1119,7 @@ jQuery(function($) {
         $.ajax({
             type: 'POST',
             url: 'home/submit-values',
-            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $('#company').val(),
+            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $("#part_master tbody tr.active input[name='company']").val(),
             dataType: 'json',
             beforeSend: function() {},
             success: function(data) {
@@ -1264,7 +1241,7 @@ jQuery(function($) {
                 $('#part_manufacturer_code th:last-child')
                     .addClass('cpointer')
                     .empty()
-                    .append('TYPE <kbd id="add-pmc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                    .append('TYPE <kbd id="add-pmc" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
                 
                 var api = this.api();
                 var info = api.page.info();
@@ -1648,7 +1625,7 @@ jQuery(function($) {
                 $('#part_colloquial th:last-child')
                     .addClass('cpointer')
                     .empty()
-                    .append('COLLOQUIAL NAME <kbd id="add-pc" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                    .append('COLLOQUIAL NAME <kbd id="add-pc" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
             
                 var api = this.api();
                 var info = api.page.info();
@@ -1796,12 +1773,12 @@ jQuery(function($) {
     // DATATABLES
     var datatable_part_equipment_code;
 
-    function get_part_equipment_code(part_master_id) {
+    function get_part_equipment_code(part_master_id,company_id) {
         datatable_part_equipment_code = $('#part_equipment_code').DataTable({
             destroy: true,
             processing: false,
             serverSide: true,
-            ajax: 'home/part-equipment-code/' + part_master_id,
+            ajax: 'home/part-equipment-code/' + part_master_id + '/' + company_id,
             columns: [{
                 data: 'equipment_code',
                 name: 'equipment_code'
@@ -1840,7 +1817,7 @@ jQuery(function($) {
                 $('#part_equipment_code th:last-child')
                     .addClass('cpointer')
                     .empty()
-                    .append('DRAWING REF <kbd id="add-pec" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                    .append('DRAWING REF <kbd id="add-pec" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
             
                 var api = this.api();
                 var info = api.page.info();
@@ -2754,21 +2731,23 @@ jQuery(function($) {
         from = $('#create_report_modal input[name="from"]:checked').val();
         type = $('#create_report_modal input[name="type"]:checked').val();
         generate = $('#create_report_modal input[name="generate"]:checked').val();
-        company = $('select#company').val();        
+        // company = $('select#company').val();        
+        company_id = $("#part_master tbody tr.active input[name='company']").val();
 
         if(from == 1){
-            selectId = hashids.decode($('#part_master tr.active').attr("id"))[0];
+            key = hashids.decode($('#part_master tr.active').attr("id"))[0];
             current = 1;
         }else{
-            selectId = hashids.decode($('#key').val())[0];
+            key = hashids.decode($('#key').val())[0];
             current = 0;
         }
 
-        keys = [selectId,current,type,generate];
+        company_id = hashids.decode(company_id)[0];
+        keys = [key,current,type,generate,company_id];
         encodedKeys = hashids.encode(keys);
 
         if(from && type && generate){
-            if(company){
+            if(company_id){
                 $('#report_warn').empty();
                 if(generate == 1){
                     window.open('report/'+encodedKeys);

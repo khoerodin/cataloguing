@@ -50,12 +50,6 @@ class CreatePartMasterTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->integer('tbl_catalog_status_id')->unsigned();
-            $table->foreign('tbl_catalog_status_id')->references('id')
-                  ->on('tbl_catalog_status')
-                  ->onUpdate('CASCADE')
-                  ->onDelete('NO ACTION');
-
             $table->string('conversion', 30)->default('');
 
             $table->integer('tbl_user_class_id')->unsigned()->nullable();
