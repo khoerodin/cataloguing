@@ -1,0 +1,92 @@
+<div class="container2">
+    <div class="page-header">
+        <h2>ACCOUNTS <small>USER ACCOUNT SETTINGS</small></h2>
+    </div>
+
+    <ul class="nav nav-tabs" id="accountsTab">
+        <li class="active"><a href="#users_tab">USERS</a></li>
+        <li><a href="#roles_tab" id="#">ROLES</a></li>
+    </ul>
+
+  <div class="tab-content">
+    	<div role="tabpanel" class="tab-pane active row" id="users_tab">
+          <div class="col-xs-6">
+              <table id="users" class="table table-striped table-hover" cellspacing="0" width="100%">
+                  <thead>
+                      <tr>
+                          <th width="55%">NAME</th>
+                          <th width="45%">USERNAME</th>
+                      </tr>
+                  </thead>
+              </table>
+          </div>
+          <div class="col-xs-6">
+              <table id="role_user" class="table table-striped table-hover" cellspacing="0" width="100%">
+                  <thead>
+                      <tr>
+                          <th>ROLE</th>
+                      </tr>
+                  </thead>
+              </table>
+          </div>
+
+          <!-- ADD ROLE USER -->
+          <div class="modal" id="add_role_user_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+              <div class="modal-dialog" role="" style="width: 50%;">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="#">ADD ROLE</h4>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                          <input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="CLOSE">
+                          <input type="button" id="save-role-user" class="btn btn-sm btn-primary" value="SAVE">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- END ADD ROLE USER -->
+      </div>
+
+      <div role="tabpanel" class="tab-pane row" id="roles_tab">      
+          <div class="col-xs-6">
+              <table id="roles" class="table table-striped table-hover" cellspacing="0" width="100%">
+                  <thead>
+                      <tr>
+                          <th width="45%">NAME</th>
+                          <th width="55%">DESCRIPTION</th>
+                      </tr>
+                  </thead>
+              </table>
+          </div>
+          <div class="col-xs-6">
+              <table id="permission_role" class="table table-striped table-hover" cellspacing="0" width="100%">
+                  <thead>
+                      <tr>
+                          <th>PERMISSION</th>
+                      </tr>
+                  </thead>
+              </table>
+          </div>
+
+          <!-- ADD USER ROLE -->
+          <div class="modal" id="add_permission_role_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+              <div class="modal-dialog" role="" style="width: 50%;">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          <h4 class="modal-title" id="#">ADD PERMISSION</h4>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                          <input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="CLOSE">
+                          <input type="button" id="save-permission-role" class="btn btn-sm btn-primary" value="SAVE">
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <!-- END ADD USER ROLE -->
+      </div>    
+  </div>
+</div>

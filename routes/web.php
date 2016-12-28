@@ -17,7 +17,7 @@ Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
 
-Route::get('coba/{key}', 'ReportController@coba');
+Route::get('coba/{key}', 'AccountsController@getNotMyRole');
 
 // =======================================================
 // SEARCH ITEMS
@@ -174,6 +174,24 @@ Route::get('tools/import-part-eq-code/{file}', 'ToolsController@importPartEqCode
 // END IMPORT
 // =======================================================
 
+// =======================================================
+// ACCOUNTS
+// =======================================================
+Route::get('accounts', 'AccountsController@index');
+// USER TAB
+Route::get('accounts/users', 'AccountsController@getUsers');
+Route::get('accounts/role-user/{id}', 'AccountsController@getRoleUser');
+Route::get('accounts/not-my-role/{id}', 'AccountsController@getNotMyRole');
+Route::post('accounts/submit-role-user', 'AccountsController@submitRoleUser');
+
+// ROLES TAB
+Route::get('accounts/roles', 'AccountsController@getRoles');
+Route::get('accounts/permission-role/{id}', 'AccountsController@getPermissionRole');
+Route::get('accounts/not-my-permission/{id}', 'AccountsController@getNotMyPermission');
+Route::post('accounts/submit-permission-role', 'AccountsController@submitPermissionRole');
+// =======================================================
+// END ACCOUNTS
+// =======================================================
 
 	// Commodity Information
 	Route::get('home/commodity-information/{catalogNo}', 'HomeController@getCommodityInformation');

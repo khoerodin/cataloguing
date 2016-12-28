@@ -30,6 +30,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role')
+            ->select(array('id as role_id','display_name'));
+    }
+
     public function getUserIdAttribute()
     {
         return Hashids::encode($this->attributes['user_id']);

@@ -68,6 +68,17 @@ $(document).on('click', '#logout_link', function() {
     });
 });
 
+// Go to Accounts page
+$(document).on('click', '#accounts_link', function() {
+    $.ajax({
+        type: 'POST',
+        url: 'accounts',
+        error: function(){
+            window.location = '/accounts';
+        }
+    });
+});
+
 // Waiting when ajax ajaxStart
 $('<div id="waiting"></div>').insertBefore('#loading');
 $(document).ajaxStart(function () {

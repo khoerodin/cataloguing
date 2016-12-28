@@ -131,6 +131,35 @@ elixir.extend('templates', function(message) {
 
         });
     });
+
+    // Accounts
+    new elixir.Task('accounts', function() {
+        gulp.task('accounts', function() {
+
+            var partials = gulp.src(['resources/templates/accounts/*.html'])
+                .pipe(handlebars())
+                .pipe(wrap('Handlebars.registerPartial(<%= processPartialName(file.relative) %>, Handlebars.template(<%= contents %>));', {}, {
+                    imports: {
+                        processPartialName: function(fileName) {
+                          return JSON.stringify(path.basename(fileName, '.js').substr(1));
+                        }
+                    }
+                }));
+
+            var templates = gulp.src('resources/templates/accounts/*.html')
+                .pipe(handlebars())
+                .pipe(wrap('Handlebars.template(<%= contents %>)'))
+                .pipe(declare({
+                    namespace: 'Accounts.templates',
+                    noRedeclare: true
+                }));
+
+            return merge(partials, templates)
+                .pipe(concat('accounts.js'))
+                .pipe(gulp.dest('resources/assets/js/handlebars-templates'));
+
+        });
+    });
 });
 
 elixir(function(mix) {
@@ -244,6 +273,32 @@ elixir(function(mix) {
         './resources/templates/tools/scripts.js',
         'libraries/bootstrap-filestyle.min.js'
     ], 'public/js/tools.js');
+
+    // ACCOUNTS
+    mix.scripts([
+        // libraries
+        'libraries/jquery.min.js',
+        'libraries/bootstrap.min.js',
+        'libraries/jquery.dataTables.min.js',
+        'libraries/dataTables.bootstrap.min.js',
+        'libraries/dataTables.colResize.js',
+        'libraries/jquery.form.js',
+        'libraries/bootstrap-select.min.js',
+        'libraries/fuelux.min.js',
+        'libraries/handlebars.runtime.3.0.3.min.js',
+
+        // hashids
+        './node_modules/hashids/dist/hashids.min.js',
+        
+        // global script for all pages
+        'libraries/global-script.js',
+
+        // handlebars
+        'handlebars-templates/accounts.js',
+
+        // scripts template
+        './resources/templates/accounts/scripts.js',
+    ], 'public/js/accounts.js');
 });
 
 elixir(function(mix) {
@@ -257,6 +312,7 @@ elixir(function(mix) {
         'dataTables.bootstrap.min_old.css',
         'bootstrap-select.css',
         'ajax-bootstrap-select.css',
+        'font-awesome.min.css',
         'awesome-bootstrap-checkbox.css',
     ], 'public/css/styles.css');
 

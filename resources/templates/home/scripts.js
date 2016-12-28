@@ -368,7 +368,7 @@ jQuery(function($) {
             var selected_info = catalog_no + ' : ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
             $("#selected_catalog_info").val(selected_info);
         });
-    }    
+    }
 
     // SHOW SOURCE DESC
     $(document).on('click', '#show_source', function() {

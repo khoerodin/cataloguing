@@ -49,7 +49,7 @@ body {
 .form-tab{
   padding-top: 9px;
 }
-#part_master tbody tr{
+#part_master tbody tr, #users tbody tr, #roles tbody tr{
   cursor: pointer;
 }
 fieldset.scheduler-border {
@@ -222,7 +222,7 @@ table.table-char-value tr:first-child td {
 .characteristic_value_cell.has-error{
   border-bottom: solid 1px #d9534f;
 }
-input:not(.normalcase), textarea:not(.normalcase){
+input:not(.normalcase), textarea:not(.normalcase), td:not(.normalcase){
   text-transform: uppercase;
 }
 .uppercase{
@@ -385,9 +385,6 @@ tr.shown td.details-control:before {
   position: absolute !important;
 }
 */
-table:not(.normalcase){
-  text-transform: uppercase;
-}
 #waiting {
   width: 100%;
   height: 100%;
@@ -889,6 +886,10 @@ table.table-short-settings tr:first-child td {
   text-transform: initial;
 }
 
+table#permission_role>thead>tr>th.cpointer:after,
+table#roles>thead>tr>th.cpointer:after,
+table#role_user>thead>tr>th.cpointer:after,
+table#users>thead>tr>th.cpointer:after,
 table#equipment_code_table>thead>tr>th.cpointer:after,
 table#catalog_status_table>thead>tr>th.cpointer:after,
 table#part_manufacturer_code>thead>tr>th.cpointer:after,
@@ -896,6 +897,22 @@ table#part_colloquial>thead>tr>th.cpointer:after,
 table#part_equipment_code>thead>tr>th.cpointer:after{
   content: "" !important;
 }
+
+table#permission_role thead>tr>th.sorting,
+table#permission_role thead>tr>th.sorting_desc,
+table#permission_role thead>tr>th.sorting_asc,
+
+table#roles thead>tr>th.sorting,
+table#roles thead>tr>th.sorting_desc,
+table#roles thead>tr>th.sorting_asc,
+
+table#role_user thead>tr>th.sorting,
+table#role_user thead>tr>th.sorting_desc,
+table#role_user thead>tr>th.sorting_asc,
+
+table#users thead>tr>th.sorting,
+table#users thead>tr>th.sorting_desc,
+table#users thead>tr>th.sorting_asc,
 
 table#equipment_code_table thead>tr>th.sorting,
 table#equipment_code_table thead>tr>th.sorting_desc,

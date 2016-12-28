@@ -3,22 +3,29 @@
 return [
     'role_structure' => [
         'superadmin' => [
+            'accounts_page' => 'r',
             'users' => 'c,r,u,d',
-            'acl' => 'c,r,u,d',
-            'profile' => 'r,u'
+            'role_user' => 'c,r,u,d',
+            'roles' => 'c,r,u,d',
+            'permission_role' => 'c,r,u,d',
+            'permissions' => 'c,r,u,d',
         ],
         'admin' => [
+            'accounts_page' => 'r',
             'users' => 'c,r,u,d',
-            'profile' => 'r,u'
+            'role_user' => 'c,r,u,d',
+            'roles' => 'c,r,u,d',
+            'permission_role' => 'c,r,u,d',
+            'permissions' => 'r',
         ],
         'seniorcataloguer' => [
-            'profile' => 'r,u'
+            'profile' => 'r,u',
         ],
         'cataloguer' => [
             'profile' => 'r,u'
         ],
         'khoerodin' => [
-            'profile' => 'r'
+            'profile' => 'r',
         ]
     ],
     'permissions_map' => [
