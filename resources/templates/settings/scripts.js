@@ -1389,7 +1389,7 @@ jQuery(function($) {
                 $('#catalog_status_table th:last-child')
                     .addClass('cpointer')
                     .empty()
-                    .append('TYPE <kbd id="add-cs" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                    .append('DESCRIPTION <kbd id="add-cs" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
             }
         });
 
@@ -1656,7 +1656,7 @@ jQuery(function($) {
                 $('#equipment_code_table th:last-child')
                     .addClass('cpointer')
                     .empty()
-                    .append('TYPE <kbd id="add-eq" style="padding:2px 5px 0px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                    .append('TYPE <kbd id="add-eq" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
             }
         });
 
@@ -2031,7 +2031,7 @@ jQuery(function($) {
 
                 $("#select_company_equipment_code_tab_modal > button[title='SELECT COMPANY']").replaceWith('<button type="button" class="btn dropdown-toggle btn-default" data-toggle="dropdown" data-id="company_equipment_code_tab_modal" title="' + data.company + '"><span class="filter-option pull-left">' + data.company + '</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span></button>');
                 $('#select_company_equipment_code_tab_modal > .dropdown-menu.open').replaceWith('<div class="dropdown-menu open" style="min-height: 39px; max-height: 228px; overflow: hidden;"><div class="bs-searchbox"><input type="text" class="form-control input-sm" autocomplete="off" placeholder="Search..."></div><ul class="dropdown-menu inner" role="menu" style="min-height: 0px; max-height: 177px; overflow-y: auto;"><li class="dropdown-header" data-optgroup="1"><span class="text">Currently Selected</span></li><li data-original-index="0" data-optgroup="1" class="selected active"><a tabindex="0" class="opt  " style="" data-tokens="null"><span class="text">' + data.company + '<small class="text-muted">' + data.company_desc + '</small></span><span class="glyphicon glyphicon-ok check-mark"></span></a></li></ul><div class="status" style="">Start typing a search query</div></div>');
-                $('#select_company_equipment_code_tab_modal > #company_equipment_code_tab_modal').replaceWith('<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.companyId + '" selected="selected">' + data.company + '</option></optgroup></select>');
+                $('#select_company_equipment_code_tab_modal > #company_equipment_code_tab_modal').replaceWith('<select id="company_equipment_code_tab_modal" class="company-equipment-code-tab-modal with-ajax" data-live-search="true" data-width="100%" tabindex="-98"><optgroup label="Currently Selected"><option value="' + data.tbl_company_id + '" selected="selected">' + data.company + '</option></optgroup></select>');
 
                 $('.company-equipment-code-tab-modal').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsCompanyEquipmentCodeTabModal);
                 $('.company-equipment-code-tab-modal').trigger('change');
@@ -2106,7 +2106,8 @@ jQuery(function($) {
         var formData = {
             equipment_code: $('#equipment_code_equipment_code_tab_modal').val().trim(),
             equipment_name: $('#equipment_name_equipment_code_tab_modal').val().trim(),
-            tbl_plant_id: $('#plant_equipment_code_tab_modal').val(),
+            tbl_company_id: $('#plant_equipment_code_tab_modal').val(),
+            tbl_plant_id: $('#company_equipment_code_tab_modal').val(),
         }
 
         var state = $('#btn_save_equipment_code_tab_modal').val();

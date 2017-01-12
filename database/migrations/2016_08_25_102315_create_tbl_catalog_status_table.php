@@ -18,6 +18,7 @@ class CreateTblCatalogStatusTable extends Migration
 
             $table->string('status', 20)->unique();
             $table->string('description');
+            $table->tinyInteger('sequence')->default(0);
             
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

@@ -53,7 +53,7 @@ class ToolsController extends Controller
 
     public function index(){
     	\MetaTag::set('title', 'TOOLS &lsaquo; CATALOG Web App');
-       	\MetaTag::set('description', 'Tools page');
+       	\MetaTag::set('description', 'Tools page');       	
 
     	$tables = \DB::select('show tables from '.\Config::get('database.connections.mysql.database').';');
         return view('tools', ['tables' => $tables]);

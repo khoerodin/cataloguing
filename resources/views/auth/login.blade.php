@@ -20,7 +20,7 @@
         <div class="form-box">
             <form method="POST" action="{{ url('/login') }}">
                 {!! csrf_field() !!}
-                <input name="email" type="email" placeholder="Email" class="normalcase" value="{{ old('email') }}">
+                <input id="username" type="text" class="normalcase" name="username" placeholder="Username or Email" value="{{ old('username') }}" required autofocus>
                 <input type="password" name="password" placeholder="Password" class="normalcase">
                 <button class="btn btn-primary btn-block login" type="submit">Login</button>
             </form>

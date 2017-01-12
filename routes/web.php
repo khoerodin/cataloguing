@@ -17,7 +17,7 @@ Route::get('current-user', function(){
 	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
 });
 
-Route::get('coba/{key}', 'AccountsController@getNotMyRole');
+Route::get('coba/{key}', 'HomeController@getClassification');
 
 // =======================================================
 // SEARCH ITEMS
@@ -57,6 +57,8 @@ Route::post('home/search', 'HomeController@search');
 // PartMaster
 Route::get('home/part-master/{key}', 'HomeController@getPartMaster');
 Route::get('home/click-row-part-master/{id}', 'HomeController@clickRowPartMaster');
+Route::get('home/catalog-status/{id}', 'HomeController@getCatalogStatus');
+Route::post('home/change-status', 'HomeController@changeStatus');
 
 // Add Company when empty
 Route::post('home/select-add-company/{partMasterId}', 'HomeController@selectAddCompany');
@@ -98,7 +100,7 @@ Route::delete('home/delete-part-colloquial/{id}', 'HomeController@deletePartColl
 
 // Part Equipment Code
 Route::get('home/part-equipment-code/{part_master_id}/{company_id}', 'HomeController@getPartEquipmentCode');
-Route::post('home/select-equipment-code', 'HomeController@selectEquipmentCode');
+Route::post('home/select-equipment-code/{company_id}', 'HomeController@selectEquipmentCode');
 Route::post('home/add-part-equipment-code', 'HomeController@addPartEquipmentCode');
 Route::get('home/edit-part-equipment-code/{id}', 'HomeController@editPartEquipmentCode');
 Route::put('home/update-part-equipment-code', 'HomeController@updatePartEquipmentCode');
@@ -109,6 +111,9 @@ Route::get('home/part-source-description/{part_master_id}', 'HomeController@getP
 
 // Part Source Part No
 Route::get('home/part-source-part-no/{part_master_id}', 'HomeController@getPartSourcePartNo');
+
+// CLASSIFICATION
+Route::get('home/classification/{part_master_id}', 'HomeController@getClassification');
 
 // =======================================================
 // END HOME

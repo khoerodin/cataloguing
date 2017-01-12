@@ -573,7 +573,7 @@ hr.hr-bawah-part-master{
 
 .form-box input[type="text"]{
     border-radius: 5px 5px 0 0;
-    text-transform: lowercase;
+    /*text-transform: lowercase;*/
 }
 
 .form-box input[type="password"]{
@@ -951,4 +951,11 @@ table#part_equipment_code thead>tr>th.sorting_asc {
   white-space: pre;
   font-size: medium;
   padding: 10px;
+}
+#part_colloquial_wrapper, #part_equipment_code_wrapper {
+  margin-top: -6px;
+}
+.classification-form:hover kbd.kbd-primary.hover {
+    background-color: rgba(3, 179, 178, 1) !important;
+    color: #fff;
 }

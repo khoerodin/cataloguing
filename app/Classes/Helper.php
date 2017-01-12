@@ -164,4 +164,10 @@ class Helper {
                     ])
                 ->get();
     }
+
+    public function okeh()
+    {
+        $a = \Auth::user()->id;
+        return $a;
+    }
 }

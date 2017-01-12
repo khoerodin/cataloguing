@@ -40,6 +40,11 @@ class PartMaster extends Model
         return Hashids::encode($this->attributes['tbl_company_id']);
     }
 
+    public function getTblCatalogStatusIdAttribute()
+    {
+        return Hashids::encode($this->attributes['tbl_catalog_status_id']);
+    }
+
     public function scopeSearchCatalogNo($query, $catalog_no)
     {
       if ($catalog_no != null) $query->where('catalog_no', $catalog_no);

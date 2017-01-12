@@ -421,7 +421,7 @@ class SettingsController extends Controller
             [DB::raw('@rownum  := @rownum  + 1 AS rownum'),'id as tbl_catalog_status_id','status','description','created_at']);
         
         return Datatables::of($tblCatalogStatus)
-            ->editColumn('description', '<span class="description">{{$description}}</span><span class="pull-right"><kbd class="kbd-danger hover cpointer delete-cs" data-id="{{$tbl_catalog_status_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-cs" data-id="{{$tbl_catalog_status_id}}">EDIT</kbd></span>')
+            ->editColumn('description', '<span class="description">{{$description}}</span><span style="right: 13px;position: absolute;"><kbd class="kbd-danger hover cpointer delete-cs" data-id="{{$tbl_catalog_status_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-cs" data-id="{{$tbl_catalog_status_id}}">EDIT</kbd></span>')
             ->setRowId('tbl_catalog_status_id')
             ->make(true);
     }
@@ -476,8 +476,8 @@ class SettingsController extends Controller
             'tbl_equipment_code.id as tbl_equipment_code_id','tbl_equipment_code.equipment_code',
             'tbl_equipment_code.equipment_name','tbl_equipment_code.created_at'])
 
+            ->join('tbl_company', 'tbl_company.id', '=', 'tbl_equipment_code.tbl_company_id')
             ->join('tbl_plant', 'tbl_plant.id', '=', 'tbl_equipment_code.tbl_plant_id')
-            ->join('tbl_company', 'tbl_company.id', '=', 'tbl_plant.tbl_company_id')
             ->join('tbl_holding', 'tbl_holding.id', '=', 'tbl_company.tbl_holding_id')
             
             ->SearchHolding($request->holdingId)
@@ -485,7 +485,7 @@ class SettingsController extends Controller
             ->SearchPlant($request->plantId);
 
         return Datatables::of($tblEquipmentCode)
-            ->editColumn('equipment_name', '<span class="equipment_name">{{$equipment_name}}</span><span class="pull-right"><kbd class="kbd-danger hover cpointer delete-eq" data-id="{{$tbl_equipment_code_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-eq" data-id="{{$tbl_equipment_code_id}}">EDIT</kbd></span>')
+            ->editColumn('equipment_name', '<span class="equipment_name">{{$equipment_name}}</span><span style="right: 13px;position: absolute;"><kbd class="kbd-danger hover cpointer delete-eq" data-id="{{$tbl_equipment_code_id}}">DELETE</kbd> <kbd class="kbd-primary hover cpointer edit-eq" data-id="{{$tbl_equipment_code_id}}">EDIT</kbd></span>')
             ->setRowId('tbl_equipment_code_id')
             ->make(true);
     }
@@ -495,12 +495,14 @@ class SettingsController extends Controller
         $this->validate($request, [            
             'equipment_code' => 'required|max:50|unique:tbl_equipment_code,equipment_code',
             'equipment_name' => 'required|max:255|unique:tbl_equipment_code,equipment_name',
+            'tbl_company_id'   => 'required',
             'tbl_plant_id'   => 'required'
         ]);
 
         $request = [
-            'equipment_code' => trim($request->equipment_code),
-            'equipment_name' => trim($request->equipment_name),
+            'equipment_code' => strtoupper(trim($request->equipment_code)),
+            'equipment_name' => strtoupper(trim($request->equipment_name)),
+            'tbl_company_id' => Hashids::decode($request->tbl_company_id)[0],
             'tbl_plant_id' => Hashids::decode($request->tbl_plant_id)[0],
             'created_by' => Auth::user()->id,
             'last_updated_by' => Auth::user()->id,
@@ -527,16 +529,19 @@ class SettingsController extends Controller
 
     public function updateEquipmentCode(Request $request, $id)
     {
+        $id = Hashids::decode($id)[0];
         $this->validate($request, [
             'equipment_code' => 'required|max:50|unique:tbl_equipment_code,equipment_code,'.$id.',id',
             'equipment_name' => 'required|max:255|unique:tbl_equipment_code,equipment_name,'.$id.',id',
+            'tbl_company_id'   => 'required',
             'tbl_plant_id'   => 'required',
         ]);
 
-        $tblEquipmentCode = TblEquipmentCode::find(Hashids::decode($id)[0]);
+        $tblEquipmentCode = TblEquipmentCode::find($id);
         
         $tblEquipmentCode->equipment_code  = strtoupper($request->equipment_code);
         $tblEquipmentCode->equipment_name  = strtoupper($request->equipment_name);
+        $tblEquipmentCode->tbl_company_id    = Hashids::decode($request->tbl_company_id)[0];
         $tblEquipmentCode->tbl_plant_id    = Hashids::decode($request->tbl_plant_id)[0];
         $tblEquipmentCode->last_updated_by = Auth::user()->id;
 

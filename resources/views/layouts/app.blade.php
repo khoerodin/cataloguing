@@ -22,6 +22,8 @@
     <div id="loading"><div class="spinner"></div></div>
 @endif
     @yield('content')
-@yield('scripts')
+@include('layouts.php_to_js')
+    
+    @yield('scripts')
 </body>
 </html>

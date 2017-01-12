@@ -174,6 +174,7 @@ return [
         Vinkla\Hashids\HashidsServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
         'zgldh\UploadManager\UploadManagerServiceProvider',
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
         //
 
         /*

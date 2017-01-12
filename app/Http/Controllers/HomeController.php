@@ -11,6 +11,9 @@ use Datatables;
 use Response;
 use Vinkla\Hashids\Facades\Hashids;
 
+use App\PermissionRole;
+use App\Models\TblCatalogStatus;
+use App\Models\CompanyCatalog;
 use App\Models\CompanyCharacteristic;
 use App\Models\CompanyCheckShort;
 use App\Models\CompanyShortDescriptionFormat;
@@ -104,6 +107,7 @@ class HomeController extends Controller
                     'unit_issue.unit4',                 
                     'catalog_type',
                     'tbl_catalog_status.status',
+                    'tbl_catalog_status.id as tbl_catalog_status_id',
 
                     'tbl_item_type.type',
                     'tbl_stock_type.type',
@@ -120,7 +124,7 @@ class HomeController extends Controller
                     'company',
                     ]);
         return Datatables::of($partMaster)
-            ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" name="company" value="{{$tbl_company_id}}">')
+            ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" class="company" value="{{$tbl_company_id}}"> <input type="hidden" class="catalog_status_id" value="{{$tbl_catalog_status_id}}">')
             ->setRowId('part_master_id')
             ->make(true);
     }
@@ -985,8 +989,9 @@ class HomeController extends Controller
             ->make(true);
     }
 
-    public function selectEquipmentCode(Request $request){
+    public function selectEquipmentCode(Request $request, $companyId){
         return TblEquipmentCode::select('id as tbl_equipment_code_id','equipment_code','equipment_name')
+        ->where('tbl_company_id', Hashids::decode($companyId)[0])
         ->where('equipment_code', 'like', '%'.$request->q.'%')
         ->orWhere('equipment_name', 'like', '%'.$request->q.'%')
         ->get();
@@ -1269,5 +1274,54 @@ class HomeController extends Controller
         return PartSourcePartNo::select('catalog_no', 'manufacturer_code', 'manufacturer', 'manufacturer_ref', 'ref_type')
             ->join('part_master', 'part_master.id', '=', 'part_source_part_no.part_master_id')
             ->where('part_master_id', Hashids::decode($partMasterId)[0])->get();
+    }
+
+    public function getCatalogStatus($tblCatalogStatusId){
+        $catPermissions = PermissionRole::select('permissions.name')
+            ->join('permissions', 'permissions.id', 'permission_role.permission_id')
+            ->join('role_user', 'role_user.role_id', 'permission_role.role_id')
+            ->join('users', 'users.id', 'role_user.user_id')
+            ->where('users.id',  \Auth::user()->id)->distinct()
+            ->where('permissions.name', 'like', 'cat_status%')
+            ->get()->toArray();
+
+        $catArray = [];
+        foreach ($catPermissions as $value) {
+            $catArray[] .= explode('_', $value['name'])[2];
+        }
+
+        $catStatusId = TblCatalogStatus::select('id as tbl_catalog_status_id', 'status')
+            ->whereIn('status', $catArray)->orderBy('sequence')->get()->toArray();
+
+        $catArray = [];
+        foreach ($catStatusId as $value) {
+            $catArray[] .= $value['tbl_catalog_status_id'];
+        }
+
+        if(in_array($tblCatalogStatusId, $catArray)){
+            return $catStatusId;
+        }else{
+            return [];
+        }
+    }
+
+    public function changeStatus(Request $request){
+        $cc = CompanyCatalog::where('part_master_id', Hashids::decode($request->master_id)[0])
+            ->where('tbl_company_id', Hashids::decode($request->company_id)[0])->first();
+
+        $cc->tbl_catalog_status_id = Hashids::decode($request->status_id)[0];
+        $cc->save();
+        return Response::json('ok');
+    }
+
+    public function getClassification($partMasterId){
+        return PartMaster::select('tbl_item_type.type as item_type', 'tbl_stock_type.type as stock_type', 'unit_issue.unit3 as unit_issue', 'conversion', 'unit_purchase.unit3 as unit_purchase', 'weight_value', 'tbl_weight_unit.unit as weight_unit', 'average_unit_price')
+            ->join('tbl_item_type', 'tbl_item_type.id', 'part_master.tbl_item_type_id')
+            ->join('tbl_stock_type', 'tbl_stock_type.id', 'part_master.tbl_stock_type_id')
+            ->join('tbl_unit_of_measurement as unit_issue', 'unit_issue.id', 'part_master.unit_issue')
+            ->join('tbl_unit_of_measurement as unit_purchase', 'unit_purchase.id', 'part_master.unit_purchase')
+            ->join('tbl_weight_unit', 'tbl_weight_unit.id', 'part_master.tbl_weight_unit_id')
+            ->where('part_master.id', Hashids::decode($partMasterId)[0])
+            ->first();
     }
 }

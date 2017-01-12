@@ -11,6 +11,7 @@ class TblEquipmentCode extends Model
     protected $fillable = array(
     	'equipment_code',
     	'equipment_name',
+        'tbl_company_id',
     	'tbl_plant_id',
     	'created_by',
     	'last_updated_by'
@@ -38,16 +39,16 @@ class TblEquipmentCode extends Model
 
    	public function scopeSearchHolding($query, $holdingId)
     {
-      if ($holdingId) $query->where('tbl_holding_id', Hashids::decode($holdingId)[0]);
+      if ($holdingId) $query->where('tbl_company.tbl_holding_id', Hashids::decode($holdingId)[0]);
     }
 
     public function scopeSearchCompany($query, $companyId)
     {
-      if ($companyId) $query->where('tbl_company_id', Hashids::decode($companyId)[0]);
+      if ($companyId) $query->where('tbl_equipment_code.tbl_company_id', Hashids::decode($companyId)[0]);
     }
 
     public function scopeSearchPlant($query, $plantId)
     {
-      if ($plantId) $query->where('tbl_plant_id', Hashids::decode($plantId)[0]);
+      if ($plantId) $query->where('tbl_equipment_code.tbl_plant_id', Hashids::decode($plantId)[0]);
     }
 }

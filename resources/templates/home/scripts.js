@@ -276,7 +276,6 @@ jQuery(function($) {
                     var weight_unit = firstRow['weight_unit'];
                     var average_unit_price = firstRow['average_unit_price'];
                     var inc_group_class_id = firstRow['link_inc_group_class_id'];
-                    var company_id = firstRow['tbl_company_id'];
                 }
 
                 $("#part_master tbody tr:first-child").addClass('active');
@@ -287,13 +286,15 @@ jQuery(function($) {
                 });
 
                 var part_master_id = $("#part_master tbody tr.active").attr("id");
-                var company_id = $("#part_master tbody tr.active input[name='company']").val();
+                var company_id = $("#part_master tbody tr.active .company").val();
+                // var catalog_status_id = $("#part_master tbody tr.active input.catalog_status_id").val();
                 if(part_master_id && company_id){
-                    // get_company(part_master_id)
                     get_part_manufacturer_code(part_master_id);
                     get_part_colloquial(part_master_id);
                     get_part_equipment_code(part_master_id,company_id);
                     get_part_characteristic_value(inc_group_class_id);
+                    get_classification(part_master_id);
+                    // get_catalog_status(catalog_status_id);
                 }                
 
                 catalog_no = $("table#part_master tr.active td:eq(0)").text();
@@ -340,11 +341,14 @@ jQuery(function($) {
     function clickPartMasterRow(){
         $("#part_master tbody").delegate("tr", "click", function() {
             var part_master_id = $(this).attr('id');
-            var company_id = $(this).find("input[name='company']").val();
-            // get_company(part_master_id)
+            var company_id = $(this).find("input.company").val();
+            // var catalog_status_id = $(this).find("input.catalog_status_id").val();
+
             get_part_manufacturer_code(part_master_id);
             get_part_colloquial(part_master_id);
             get_part_equipment_code(part_master_id,company_id);
+            get_classification(part_master_id);
+            // get_catalog_status(catalog_status_id);
 
             $.ajax({
                 url: 'home/click-row-part-master/' + part_master_id,
@@ -581,7 +585,7 @@ jQuery(function($) {
     function get_short_description_result() {
         part_master_id = $("#part_master tbody tr.active").attr("id");
         // company_id = $("#company").val();
-        company_id = $("#part_master tbody tr.active input[name='company']").val();
+        company_id = $("#part_master tbody tr.active input.company").val();
 
         $.ajax({
             url: 'home/short-description/' + part_master_id + '/' + company_id,
@@ -599,12 +603,12 @@ jQuery(function($) {
 
     // PART CHARACTERISTIC VALUE BOX
     function part_characteristic_value_box() {
-        inc_id = $("#inc").val();
-        part_master_id = $("#part_master tbody tr.active").attr("id");
-        // company_id = $("#company").val();
-        company_id = $("#part_master tbody tr.active input[name='company']").val();
+        var inc_id = $("#inc").val();
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        var company_id = $("#part_master tbody tr.active input.company").val();
+        var catalog_status_id = $("#part_master tbody tr.active input.catalog_status_id").val();
 
-        if(inc_id && part_master_id && company_id){
+        if(inc_id && part_master_id && company_id && catalog_status_id){
 
             $.ajax({
                 url: 'home/characteristic-value/' + inc_id + '/' + part_master_id + '/' + company_id,
@@ -742,7 +746,7 @@ jQuery(function($) {
                     $("#characteristic_value_box").empty()
                     alert("Error while getting Characteristic Value");
                 }
-            });
+            }).done(get_catalog_status(catalog_status_id));
 
         }else{
             emptyMsg = "<td colspan='4' style='padding-top:30px;'><center><i class='fa fa-building' style='font-size:130px;color:#ccc;'></i></center><td colspan='4'><center>NO DATA</center></td></td>";
@@ -946,9 +950,9 @@ jQuery(function($) {
     function change(id) {
         var name = document.getElementById(id);
         if (name.value != name.defaultValue) {
-            $("#" + id).attr("state", "1");
+            $("#" + id).attr("state", '1');
         } else {
-            $("#" + id).attr("state", "0");
+            $("#" + id).attr("state", '0');
         }
 
         state = []; // value state
@@ -963,7 +967,7 @@ jQuery(function($) {
 
         newArray = state.concat(cstate);
 
-        if (jQuery.inArray('1', newArray) == '-1') {
+        if (jQuery.inArray('1', newArray) == -1) {
             $("button#submit_values").prop("disabled", true);
         } else {
             $("button#submit_values").prop("disabled", false);
@@ -977,9 +981,9 @@ jQuery(function($) {
 
         var name = document.getElementById(id);
         if (name.value != name.defaultValue) {
-            $("#" + id).attr("state", "1");
+            $("#" + id).attr("state", '1');
         } else {
-            $("#" + id).attr("state", "0");
+            $("#" + id).attr("state", '0');
         }
 
         state = []; // value state
@@ -995,11 +999,12 @@ jQuery(function($) {
         newArray = state.concat(cstate);
 
         // jika array tidak sama / ada yang berubah
-        if (jQuery.inArray('1', newArray) == '-1') {
+        if (jQuery.inArray('1', newArray) == -1) {
             $("button#submit_values").prop("disabled", true);
         } else {
             $("button#submit_values").prop("disabled", false);
         }
+        console.log(newArray);
     });
     // END FOR INPUT VALUE
 
@@ -1009,9 +1014,9 @@ jQuery(function($) {
 
         var checkbox = document.getElementById(id);
         if (checkbox.checked != checkbox.defaultChecked) {
-            $("#" + id).attr("cstate", "1");
+            $("#" + id).attr("cstate", '1');
         } else {
-            $("#" + id).attr("cstate", "0");
+            $("#" + id).attr("cstate", '0');
         }
 
         state = []; // value state
@@ -1027,7 +1032,7 @@ jQuery(function($) {
         newArray = state.concat(cstate);
 
         // jika array tidak sama / ada yang berubah
-        if (jQuery.inArray('1', newArray) == '-1') {
+        if (jQuery.inArray('1', newArray) == -1) {
             $("button#submit_values").prop("disabled", true);
         } else {
             $("button#submit_values").prop("disabled", false);
@@ -1119,7 +1124,7 @@ jQuery(function($) {
         $.ajax({
             type: 'POST',
             url: 'home/submit-values',
-            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $("#part_master tbody tr.active input[name='company']").val(),
+            data: jQuery.param(combine) + '&inc_id=' + $('select#inc').val() + '&group_class_id=' + $('select#group_class').val() + '&part_master_id=' + $("#part_master tbody tr.active").attr("id") + '&company_id=' + $("#part_master tbody tr.active input.company").val(),
             dataType: 'json',
             beforeSend: function() {},
             success: function(data) {
@@ -1835,9 +1840,10 @@ jQuery(function($) {
     // END DATATABLES
 
     // SELECT EQUIPMENT CODE
+    var company_id = $("#part_master tbody tr.active .company").val();
     var optionsEquipmentCode = {
         ajax: {
-            url: 'home/select-equipment-code',
+            url: 'home/select-equipment-code/' + company_id,
             type: 'POST',
             dataType: 'json',
         },
@@ -1870,6 +1876,37 @@ jQuery(function($) {
     $(document).on('click', '#add-pec', function() {
         $(".error_saving_pmc").hide();
         $(".error_updating_pmc").hide();
+        
+        var company_id = $("#part_master tbody tr.active .company").val();
+        var optionsEquipmentCode = {
+            ajax: {
+                url: 'home/select-equipment-code/' + company_id,
+                type: 'POST',
+                dataType: 'json',
+            },
+            locale: {
+                emptyTitle: 'SELECT EQUIPMENT CODE'
+            },
+            preprocessData: function(data) {
+                var i, l = data.length,
+                    array = [];
+                if (l) {
+                    for (i = 0; i < l; i++) {
+                        array.push($.extend(true, data[i], {
+                            text: data[i].equipment_code,
+                            value: data[i].tbl_equipment_code_id,
+                            data: {
+                                subtext: data[i].equipment_name
+                            }
+                        }));
+                    }
+                }
+                return array;
+            }
+        };
+
+        $('.equipment-code-peq').trigger('change');
+        $('.manufacturer-code-peq').trigger('change');
 
         $('.equipment-code-peq').selectpicker('refresh').filter('.with-ajax').ajaxSelectPicker(optionsEquipmentCode);
         $('button[data-id="equipment_code_peq"]').addClass("btn-sm");
@@ -1931,6 +1968,7 @@ jQuery(function($) {
     // EDIT PART EQUIPMENT CODE
     $(document).on('click', '.edit-pec', function() {
         id = $(this).attr('data-id');
+        var company_id = $("#part_master tbody tr.active .company").val();
 
         $.ajax({
             url: 'home/edit-part-equipment-code/' + id,
@@ -1949,7 +1987,7 @@ jQuery(function($) {
 
                 var optionsEquipmentCodeEdit = {
                     ajax: {
-                        url: "home/select-equipment-code",
+                        url: "home/select-equipment-code/" + company_id,
                         type: 'POST',
                         dataType: 'json',
                     },
@@ -2732,7 +2770,7 @@ jQuery(function($) {
         type = $('#create_report_modal input[name="type"]:checked').val();
         generate = $('#create_report_modal input[name="generate"]:checked').val();
         // company = $('select#company').val();        
-        company_id = $("#part_master tbody tr.active input[name='company']").val();
+        company_id = $("#part_master tbody tr.active input.company").val();
 
         if(from == 1){
             key = hashids.decode($('#part_master tr.active').attr("id"))[0];
@@ -2761,4 +2799,121 @@ jQuery(function($) {
             $('#report_warn').html('Make sure you have checked <strong>FROM</strong>, <strong>TYPE</strong> and <strong>GENERATE PDF</strong> option.</checked> ');
         }
     });
+
+    function get_catalog_status(catalog_status_id){
+        $.ajax({
+            type: 'GET',
+            url: 'home/catalog-status/' + catalog_status_id,
+            dataType: 'json',
+            success: function(data) {
+
+                if (typeof data !== 'undefined' && data.length > 0) {
+                    status = '';
+                    $.each(data, function(i, item) {
+                        if(catalog_status_id == item.tbl_catalog_status_id){
+                            checked = 'checked'
+                        }else{
+                            checked = '';
+                        }
+
+                        if(i == 0){
+                            color = 'danger';
+                        }else if(i == 1){
+                            color = 'warning';
+                        }else if(i == 2){
+                            color = 'success';
+                        }else if(i == 3){
+                            color = 'primary';
+                        }
+
+                        status += '<div class="radio radio-'+color+' radio-inline cat_status_'+item.status.toLowerCase()+'_update">';
+                        status += '<input '+checked+' type="radio" id="catStatusRadio'+item.tbl_catalog_status_id+'" value="'+item.tbl_catalog_status_id+'" name="cat_status">';
+                        status += '<label for="catStatusRadio'+item.tbl_catalog_status_id+'"> '+item.status+' </label>';
+                        status += '</div>';
+                    });
+                    $('#cat_status_area').html(status);
+                    $('#char_box_disabled').remove();
+                    $("#characteristic_value_box > tr > td > input").prop( "disabled", false );
+                    $("#submit_values").prop( "disabled", true );
+                    $('.get-values-list_')
+                        .removeClass('get-values-list_')
+                        .addClass('get-values-list');
+                }
+                else{
+                    $('#cat_status_area').html('');
+
+                    $('.get-values-list')
+                        .removeClass('get-values-list')
+                        .addClass('get-values-list_');
+
+                    $('kbd#add-pmc').remove();
+                    $('kbd.delete-pmc').remove();
+                    $('kbd.edit-pmc').remove();
+
+                    $('kbd#edit_classification').remove();
+
+                    $('kbd#add-pc').remove();
+                    $('kbd.delete-pc').remove();
+                    $('kbd.edit-pc').remove();
+
+                    $('kbd#add-pec').remove();
+                    $('kbd.delete-pec').remove();
+                    $('kbd.edit-pec').remove();
+
+                    $('#char_box').append('<div id="char_box_disabled" style="height:22%;width:100%;z-index:10;position:absolute;"></div>');
+                    $("#characteristic_value_box > tr > td > input").prop( "disabled", true );
+                }
+
+                
+            },
+        });        
+    }
+
+    $(document).ajaxComplete(function(){
+        $('input[type=radio][name=cat_status]').change(function() {
+            var master_id = $("#part_master tbody tr.active").attr("id");
+            var company_id = $("#part_master tbody tr.active .company").val();
+            var status_id_label = $(this).next('label').text();
+            var status_id = $(this).val();
+            var before_changed = $("#cat_status_area").html();
+            var status_column = $("table#part_master tr.active td:eq(8)");
+            var status_input = $("#part_master tbody tr.active .catalog_status_id");
+            $.ajax({
+                type: 'POST',
+                url: 'home/change-status',
+                data: {master_id: master_id, company_id: company_id, status_id: status_id},
+                success: function(){
+                    status_column.text(status_id_label);
+                    status_input.val(status_id);
+                },
+                error: function(){
+                     $("#cat_status_area").html(before_changed);
+                }
+            }).unbind('change');
+        });
+    });
+
+    function get_classification(part_master_id){
+         $.ajax({
+            type: 'GET',
+            url: 'home/classification/' + part_master_id,
+            dataType: 'json',
+            success: function(data) {
+                $('#classif_item_type').val(data.item_type);
+                $('#classif_stock_type').val(data.stock_type);
+                $('#classif_unit_issue').val(data.unit_issue);
+                $('#classif_unit_purchase').val(data.unit_purchase);
+                $('#conversion').val(data.conversion);
+                $('#classif_weight').val(data.weight_value+' '+data.weight_unit);
+                $('#classif_avg_unit_price').val(data.average_unit_price);
+            },
+            error: function(){
+                alert('ERROR');
+            }
+        });
+    }
+    $(document).on('click', '#edit_classification', function() {
+        $('#edit_classification_modal').modal('show');
+    });
 });
+

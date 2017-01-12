@@ -25,10 +25,10 @@ Deadline:
  ✔ show chars from company short desc format @due( 9:23 ) @done (16-09-25 09:46)
  ✔ generate short format @due(9:23) @done (16-09-28 09:29)
  ☐ popup pick value @due(9:24) 
- ☐ global searching @due(9:25) 
+ ✔ global searching @due(9:25) @done (17-01-12 06:57)
  ☐ web-api format @due(9:25)
- ☐ print @due(9:26)
- ☐ upload excel @due(9:27)
+ ✔ print @due(9:26) @done (17-01-12 06:57)
+ ✔ upload excel @due(9:27) @done (17-01-12 06:57)
  ☐ company abbrev and approved status auto copy from link_inc_characteristic_value
  ✔ if company abbrev approved and link_inc_characteristic_value abbrev is empty, then copy  company abbrev approved to empty link_inc_characteristic_value abbrev @done (16-09-25 17:53)
  ✔ remove chars from company short format @due(9:23) @done (16-09-25 10:03)
@@ -38,7 +38,6 @@ Deadline:
  ✔ fix edit value @done (16-09-26 18:47)
  ☐ user role permission login @due(9:28)
  ☐ beautify design
- ☐ search string (holding no, colloquial, part number, source)
  ☐ search by user?
  ☐ clear search criteria/query
  ☐ pencarian: hilangkan koma ketika query, munculkan hasil walopun ada koma
@@ -46,7 +45,7 @@ Deadline:
  ☐ Characteristic Value Tab : Value tampil semua, bukan hanya company tsb
  ☐ change save button to active when inc or and group class changed
  ☐ bedakan salt hash js dan php, untuk keamanan
- ☐ select equipment code otomatis disaring dg company
+ ✔ select equipment code otomatis disaring dg company @done (17-01-12 07:28)
  ☐ catalog status
 
 Others:
