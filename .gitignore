@@ -3,6 +3,7 @@
 /storage/app/uploads
 /vendor
 /laradock
+.gitmodules
 /.idea
 Homestead.json
 Homestead.yaml
