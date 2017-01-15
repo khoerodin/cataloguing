@@ -145,7 +145,9 @@ class ToolsController extends Controller
 		return $reader;
     }    
 
-    public function readSource($filename){		
+    public function readSource($filename){
+    	ini_set('max_execution_time', 300); // 3 minutes
+
     	$reader = $this->readSpreadSheet($filename);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -4012,7 +4014,7 @@ class ToolsController extends Controller
 							$status[] = 1;
 						}else{
 							$status[] = 0;
-						}
+						}						
 					}
 				}				
 			}
@@ -4081,8 +4083,9 @@ class ToolsController extends Controller
 								$table .= "</tr></thead>";
 								$table .= "<tbody>";
 								$first = false;
-								$unit_issue = strtoupper(trim($rows[7]));
-								$unit_purchase = strtoupper(trim($rows[8]));
+
+								$unit_issue = strtoupper(trim($rows[8]));
+								$unit_purchase = strtoupper(trim($rows[9]));
 							}else{
 
 								// CHEK EXIST IN DB DB?
@@ -4517,6 +4520,13 @@ class ToolsController extends Controller
 					 }
 				}
 
+				$raw_status = TblCatalogStatus::select('id')->where('status', 'RAW')->first();
+				if(count($raw_status)<>1){
+					$cek_raw_status = 0;					
+				}else{
+					$cek_raw_status = 1;
+				}
+
 				if(count($data_counter) < 1){
 					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY PART MASTER DATA.</span>';
 				}elseif(
@@ -4536,7 +4546,8 @@ class ToolsController extends Controller
 					in_array(0, $cek_wrong_value) ||
 					// cek apakah value berupa numeric
 					in_array(0, $is_numerical_wv) ||
-					in_array(0, $is_numerical_aup)
+					in_array(0, $is_numerical_aup) ||
+					$cek_raw_status == 0
 				){
 					
 					echo "<span><strong>PLEASE CHECK YOUR PART MASTER SPREADSHEET</strong></span>";
@@ -4702,6 +4713,10 @@ class ToolsController extends Controller
 						}
 						$is_numeric_aup = $validasi;
 					}
+
+					if($cek_raw_status == 0){
+						echo '<br/><span class="text-danger">RAW STATUS NOT DEFINED, PLEASE CONTACT YOUR ADMINISTRATOR</span>';
+					}					
 
 					echo $exist;
 					echo $already;
@@ -5663,6 +5678,7 @@ class ToolsController extends Controller
 
     public function importInc($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5712,6 +5728,7 @@ class ToolsController extends Controller
 
     public function importChar($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5765,6 +5782,7 @@ class ToolsController extends Controller
 
     public function importIncChar($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5810,6 +5828,7 @@ class ToolsController extends Controller
 
     public function importGroup($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5855,6 +5874,7 @@ class ToolsController extends Controller
 
     public function importGroupClass($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5902,6 +5922,7 @@ class ToolsController extends Controller
 
     public function importIncGroupClass($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -5950,6 +5971,7 @@ class ToolsController extends Controller
 
     public function importIncCharValue($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6007,6 +6029,7 @@ class ToolsController extends Controller
 
     public function importManufacturerCode($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6051,6 +6074,7 @@ class ToolsController extends Controller
 
     public function importSourceType($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6092,6 +6116,7 @@ class ToolsController extends Controller
 
     public function importPartManCodeType($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6133,6 +6158,7 @@ class ToolsController extends Controller
 
     public function importEquipmentCode($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6178,6 +6204,7 @@ class ToolsController extends Controller
 
     public function importPartMaster($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;
@@ -6376,6 +6403,7 @@ class ToolsController extends Controller
 
     public function importPartManCode($file){
 
+    	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
 			$i = 1;

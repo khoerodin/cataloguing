@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('styles')
-<link href="css/styles.css" rel="stylesheet">
+<link href="{{ elixir('css/s.css') }}" rel="stylesheet">
 @endsection
 
 @section('scripts')
-<script src="js/accounts.js"></script>
+<script src="{{ elixir('js/a.js') }}"></script>
 @endsection

@@ -194,7 +194,7 @@ elixir(function(mix) {
         './resources/templates/home/scripts.js',
         // global script on footer
         'libraries/global-footer.js',
-    ], 'public/js/home.js');
+    ], 'public/js/h.js');
 
     // DICTIONARY
     mix.scripts([
@@ -222,7 +222,7 @@ elixir(function(mix) {
         './resources/templates/dictionary/scripts.js',
         // global script on footer
         'libraries/global-footer.js',
-    ], 'public/js/dictionary.js');
+    ], 'public/js/d.js');
 
     // SETTINGS
     mix.scripts([
@@ -251,7 +251,7 @@ elixir(function(mix) {
         './resources/templates/settings/scripts.js',
         // global script on footer
         'libraries/global-footer.js',
-    ], 'public/js/settings.js');
+    ], 'public/js/s.js');
 
     // TOOLS
     mix.scripts([
@@ -280,7 +280,7 @@ elixir(function(mix) {
         'libraries/bootstrap-filestyle.min.js',
         // global script on footer
         'libraries/global-footer.js',
-    ], 'public/js/tools.js');
+    ], 'public/js/t.js');
 
     // ACCOUNTS
     mix.scripts([
@@ -308,7 +308,7 @@ elixir(function(mix) {
         './resources/templates/accounts/scripts.js',
         // global script on footer
         'libraries/global-footer.js',
-    ], 'public/js/accounts.js');
+    ], 'public/js/a.js');
 });
 
 elixir(function(mix) {
@@ -324,11 +324,24 @@ elixir(function(mix) {
         'ajax-bootstrap-select.css',
         'font-awesome.min.css',
         'awesome-bootstrap-checkbox.css',
-    ], 'public/css/styles.css');
+    ], 'public/css/s.css');
 
     // LOGIN - REGISTER
     mix.styles([
         'mybootstrap.css',
         'styles.css'
-    ], 'public/css/login.css');
+    ], 'public/css/l.css');
+});
+
+elixir(function(mix) {
+    mix.version([
+        'public/css/s.css',
+        'public/css/l.css',
+
+        'public/js/h.js',
+        'public/js/d.js',
+        'public/js/s.js',
+        'public/js/t.js',
+        'public/js/a.js',
+    ]);
 });

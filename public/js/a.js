@@ -2580,18 +2580,18 @@ $(document).on("hide.bs.modal", function (event) {
     $('.modal-open .navbar-fixed-bottom').removeAttr('style');
 });
 Handlebars.registerPartial("ontent", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\">\n        Bismillah\n      </div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
+    return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>ACCOUNTS <small>USER ACCOUNT SETTINGS</small></h2>\n    </div>\n\n    <ul class=\"nav nav-tabs\" id=\"accountsTab\">\n        <li class=\"active\"><a href=\"#users_tab\">USERS</a></li>\n        <li><a href=\"#roles_tab\" id=\"#\">ROLES</a></li>\n    </ul>\n\n  <div class=\"tab-content\">\n    	<div role=\"tabpanel\" class=\"tab-pane active row\" id=\"users_tab\">\n          <div class=\"col-xs-6\">\n              <table id=\"users\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th width=\"55%\">NAME</th>\n                          <th width=\"45%\">USERNAME</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n          <div class=\"col-xs-6\">\n              <table id=\"role_user\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th>ROLE</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n\n          <!-- ADD ROLE USER -->\n          <div class=\"modal\" id=\"add_role_user_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n              <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                  <div class=\"modal-content\">\n                      <div class=\"modal-header\">\n                          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                          <h4 class=\"modal-title\" id=\"#\">ADD ROLE</h4>\n                      </div>\n                      <div class=\"modal-body\"></div>\n                      <div class=\"modal-footer\">\n                          <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                          <input type=\"button\" id=\"save-role-user\" class=\"btn btn-sm btn-primary\" value=\"SAVE\">\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <!-- END ADD ROLE USER -->\n      </div>\n\n      <div role=\"tabpanel\" class=\"tab-pane row\" id=\"roles_tab\">      \n          <div class=\"col-xs-6\">\n              <table id=\"roles\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th width=\"45%\">NAME</th>\n                          <th width=\"55%\">DESCRIPTION</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n          <div class=\"col-xs-6\">\n              <table id=\"permission_role\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th>PERMISSION</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n\n          <!-- ADD USER ROLE -->\n          <div class=\"modal\" id=\"add_permission_role_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n              <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                  <div class=\"modal-content\">\n                      <div class=\"modal-header\">\n                          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                          <h4 class=\"modal-title\" id=\"#\">ADD PERMISSION</h4>\n                      </div>\n                      <div class=\"modal-body\"></div>\n                      <div class=\"modal-footer\">\n                          <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                          <input type=\"button\" id=\"save-permission-role\" class=\"btn btn-sm btn-primary\" value=\"SAVE\">\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <!-- END ADD USER ROLE -->\n      </div>    \n  </div>\n</div>";
 },"useData":true}));
-this["Tools"] = this["Tools"] || {};
-this["Tools"]["templates"] = this["Tools"]["templates"] || {};
-this["Tools"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\">\n        Bismillah\n      </div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
+this["Accounts"] = this["Accounts"] || {};
+this["Accounts"]["templates"] = this["Accounts"]["templates"] || {};
+this["Accounts"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<div class=\"container2\">\n    <div class=\"page-header\">\n        <h2>ACCOUNTS <small>USER ACCOUNT SETTINGS</small></h2>\n    </div>\n\n    <ul class=\"nav nav-tabs\" id=\"accountsTab\">\n        <li class=\"active\"><a href=\"#users_tab\">USERS</a></li>\n        <li><a href=\"#roles_tab\" id=\"#\">ROLES</a></li>\n    </ul>\n\n  <div class=\"tab-content\">\n    	<div role=\"tabpanel\" class=\"tab-pane active row\" id=\"users_tab\">\n          <div class=\"col-xs-6\">\n              <table id=\"users\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th width=\"55%\">NAME</th>\n                          <th width=\"45%\">USERNAME</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n          <div class=\"col-xs-6\">\n              <table id=\"role_user\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th>ROLE</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n\n          <!-- ADD ROLE USER -->\n          <div class=\"modal\" id=\"add_role_user_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n              <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                  <div class=\"modal-content\">\n                      <div class=\"modal-header\">\n                          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                          <h4 class=\"modal-title\" id=\"#\">ADD ROLE</h4>\n                      </div>\n                      <div class=\"modal-body\"></div>\n                      <div class=\"modal-footer\">\n                          <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                          <input type=\"button\" id=\"save-role-user\" class=\"btn btn-sm btn-primary\" value=\"SAVE\">\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <!-- END ADD ROLE USER -->\n      </div>\n\n      <div role=\"tabpanel\" class=\"tab-pane row\" id=\"roles_tab\">      \n          <div class=\"col-xs-6\">\n              <table id=\"roles\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th width=\"45%\">NAME</th>\n                          <th width=\"55%\">DESCRIPTION</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n          <div class=\"col-xs-6\">\n              <table id=\"permission_role\" class=\"table table-striped table-hover\" cellspacing=\"0\" width=\"100%\">\n                  <thead>\n                      <tr>\n                          <th>PERMISSION</th>\n                      </tr>\n                  </thead>\n              </table>\n          </div>\n\n          <!-- ADD USER ROLE -->\n          <div class=\"modal\" id=\"add_permission_role_modal\" data-backdrop=\"static\" data-keyboard=\"false\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"\">\n              <div class=\"modal-dialog\" role=\"\" style=\"width: 50%;\">\n                  <div class=\"modal-content\">\n                      <div class=\"modal-header\">\n                          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>\n                          <h4 class=\"modal-title\" id=\"#\">ADD PERMISSION</h4>\n                      </div>\n                      <div class=\"modal-body\"></div>\n                      <div class=\"modal-footer\">\n                          <input type=\"button\" class=\"btn btn-sm btn-default\" data-dismiss=\"modal\" value=\"CLOSE\">\n                          <input type=\"button\" id=\"save-permission-role\" class=\"btn btn-sm btn-primary\" value=\"SAVE\">\n                      </div>\n                  </div>\n              </div>\n          </div>\n          <!-- END ADD USER ROLE -->\n      </div>    \n  </div>\n</div>";
 },"useData":true});
 Handlebars.registerPartial("avbar", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown active\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a class=\"user-name pointer uppercase dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"> <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a class=\"uppercase pointer\" id=\"profile_link\">Profile</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"accounts_link\">Accounts</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"logout_link\">Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
+    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a class=\"user-name pointer uppercase dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"> <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a class=\"uppercase pointer\" id=\"profile_link\">Profile</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"logout_link\">Logout</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"accounts_link\">Accounts</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
 },"useData":true}));
-this["Tools"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown active\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a class=\"user-name pointer uppercase dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"> <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a class=\"uppercase pointer\" id=\"profile_link\">Profile</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"accounts_link\">Accounts</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"logout_link\">Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
+this["Accounts"]["templates"]["navbar"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a class=\"user-name pointer uppercase dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"> <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a class=\"uppercase pointer\" id=\"profile_link\">Profile</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"logout_link\">Logout</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"accounts_link\">Accounts</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
 },"useData":true});
 jQuery(function($) {
     // INSERT ELEMENT FOR HANDLEBARS
@@ -2599,452 +2599,395 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Tools.templates.navbar());
-    $('#content').html(Tools.templates.content());
+    $('#navbar').html(Accounts.templates.navbar());
+    $('#content').html(Accounts.templates.content());
     // END HANDLEBARS TEMPLATE
 
-    // toolsTab
-    $("#toolsTab a").click(function(e){
+    // accountsTab
+    $("#accountsTab a").click(function(e){
         e.preventDefault();
         $(this).tab('show');
     });
-    // End toolsTab
+    // END accountsTab
 
-    var bar = $('.progress-bar');
-	var percent = $('.percent');
-	var status = $('#status');	
-	var uploaded_file = '';
-	$('form').ajaxForm({
-	    beforeSend: function() {
-	    	window.onbeforeunload = function() {return '';}
-	        status.empty();
-	        $("#save-btn-area").empty();
-	        var percentVal = '0%';
-	        bar.width(percentVal)
-	        percent.html(percentVal+' UPLOADED');
-	        $("#display_uploaded_table").html("");
-	        $('#status').html('<span class="text-success">UPLOADING SPREADSHEET... <div class="mini-spinner"></div></span>');
-	    	$('input#file_upload').attr('disabled', 'disabled');
-	    },
-	    uploadProgress: function(event, position, total, percentComplete) {
-	        var percentVal = percentComplete + '%';
-	        bar.width(percentVal)
-	        percent.html(percentVal+' UPLOADED');
-	    },
-	    success: function(xhr) {
-	        var percentVal = '100%';
-	        bar.width(percentVal)
-	        percent.html(percentVal+' UPLOADED');
-	        var dest = $('#select_table').val();
-	        $('#status').html('<span class="text-success">SPREADSHEET UPLOADED &#x2714;<br/>READING AND VALIDATING YOUR DATA... <div class="mini-spinner"></div></span>');
-	        $.ajax({
-			    type: 'GET',
-			    url: 'tools/read-source/'+xhr.file,
-			    success: function(data){
-			    	$('#status').html('');     	
-		        	$("#display_uploaded_table").html(data);
-		        	$(".import_to_db").appendTo("#save-btn-area");
-		        	$('input#file_upload').removeAttr('disabled');
+    // LOAD USERS DATATABLES
+    get_users();
+    get_roles();
 
-		        	$('#datatables').dataTable( {
-						dom: "<'row'<'col-sm-6'><'col-sm-6'f>>" +
-								"Z<'row'<'col-sm-12'tr>>" +
-								"<'row'<'col-sm-5'i><'col-sm-7'p>>",
-						oLanguage: {
-			                sInfo: "_START_ TO _END_ OF _TOTAL_ ROWS",
-			                oPaginate: {
-			                    sFirst: "FIRST",
-			                    sLast: "LAST",
-			                    sNext: "NEXT",
-			                    sPrevious: "PREVIOUS"
-			                },
-			                sSearch: "",
-			                sSearchPlaceholder: "SEARCH...",
-			            },
-					});
+    // USERS DATATABLES
+    var datatable_users;
+    function get_users() {
+        datatable_users = $('#users').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'accounts/users',
+            columns: [{
+                data: 'name',
+                name: 'name'
+            }, {
+                data: 'username',
+                name: 'username'
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            pageLength: 12,
+            columnDefs: [ {
+              "targets": 1,
+              "orderable": false
+            } ],
+            drawCallback: function() {
+                $('#users th:last-child')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('USERNAME <kbd id="add-user" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                $('#users td:last-child')
+                	.addClass('normalcase');
 
-		        	$("#message").appendTo("div#datatables_wrapper div.row div.col-sm-6:eq(0)");
-		        	$("#data_counter").appendTo("#counter");
+                $("#users tbody tr:first-child").addClass('active');
+                $("#users tbody tr").on('click', function(event) {
+                    $("#users tbody tr:first-child").removeClass('active');
+                    $("#users tbody tr").removeClass('active');
+                    $(this).addClass('active');
+                });
 
-		        	uploaded_file = xhr.file;
-		        	window.onbeforeunload = function() {}
-			    },
-			    error: function(xhr){
-			    	var errors = xhr.responseJSON;
-			    	$('#status').html('<span class="text-danger">ERROR</span>');
-			    	$('input#file_upload').removeAttr('disabled');
-			    	window.onbeforeunload = function() {}
-			    }
-			});
-	        // $('#div.progress').remove();
-	    },
-		complete: function(xhr) {},
-		error: function(xhr) {
-			var percentVal = '0%';
-	        bar.width(percentVal)
-	        percent.html(percentVal);
+                var id = $("#users tbody tr.active").attr("id");
+                if(id){
+                	get_role_user(id);
+                }                
 
-	        var errors = xhr.responseJSON;
-			$('#status').html('<span class="text-danger">ERROR</span>');
-			$("#display_uploaded_table").html("");
-			$('input#file_upload').removeAttr('disabled');
-			window.onbeforeunload = function() {}
-		}
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 12 ) {
+                    $('#users_info').css('display', 'block');
+                    $('#users_paginate').css('display', 'block');
+                }else{
+                    $('#users_info').css('display', 'none');
+                    $('#users_paginate').css('display', 'none');
+                }
+            }
+        });
+    }
+    // END USERS DATATABLES
+
+    // WHEN CLICK USERS ROW
+    $("#users tbody").delegate("tr", "click", function() {
+	    var id = $(this).attr('id');
+	    get_role_user(id);
 	});
 
-	$('#file_upload').change(function() {
-	  $('form').submit();
-	});
+	// ROLE USER DATATABLES
+    var datatable_role_user;
+    function get_role_user(id) {
+        datatable_role_user = $('#role_user').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'accounts/role-user/' + id,
+            columns: [{
+                data: 'display_name',
+                name: 'display_name'
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            pageLength: 12,
+            ordering: false,
+            drawCallback: function() {
+                $('#role_user th:last-child')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('ROLE <kbd id="add-role-user" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
 
-	$('#file_upload').click(function() {
-	    this.value = null;
-	});
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 12 ) {
+                    $('#role_user_info').css('display', 'block');
+                    $('#role_user_paginate').css('display', 'block');
+                }else{
+                    $('#role_user_info').css('display', 'none');
+                    $('#role_user_paginate').css('display', 'none');
+                }
+            }
+        });
+    }
+    // END USER ROLE DATATABLES
 
-	// IMPORT to DATABASE
-	var uploaded_file = uploaded_file;
-	$(document).on('click', '.import_to_db', function() {
+    // ADD ROLES MODAL
+    $(document).on('click', '#add-role-user', function() {
+        var requestCallback = new MyRequestsCompleted({
+            numRequest: 1,
+            singleCallback: function() {
+                $('#add_role_user_modal').modal('show');
+            }
+        });
 
-		if($(this).hasClass('import_inc')){
-			var url = 'tools/import-inc/'+uploaded_file;
-			var data_name = 'INC';
-			var action = true;
-		}else if($(this).hasClass('import_char')){
-			var url = 'tools/import-char/'+uploaded_file;
-			var data_name = 'CHARACTERISTIC';
-			var action = true;
-		}else if($(this).hasClass('import_inc_char')){
-			var url = 'tools/import-inc-char/'+uploaded_file;
-			var data_name = 'INC CHARACTERISTIC';
-			var action = true;
-		}else if($(this).hasClass('import_group')){
-			var url = 'tools/import-group/'+uploaded_file;
-			var data_name = 'GROUP';
-			var action = true;
-		}else if($(this).hasClass('import_group_class')){
-			var url = 'tools/import-group-class/'+uploaded_file;
-			var data_name = 'GROUP CLASS';
-			var action = true;
-		}else if($(this).hasClass('import_inc_group_class')){
-			var url = 'tools/import-inc-group-class/'+uploaded_file;
-			var data_name = 'INC GROUP CLASS';
-			var action = true;
-		}else if($(this).hasClass('import_inc_char_value')){
-			var url = 'tools/import-inc-char-value/'+uploaded_file;
-			var data_name = 'INC CHARACTERISTIC VALUE';
-			var action = true;
-		}else if($(this).hasClass('import_manufacturer_code')){
-			var url = 'tools/import-manufacturer-code/'+uploaded_file;
-			var data_name = 'MANUFACTURER CODE';
-			var action = true;
-		}else if($(this).hasClass('import_source_type')){
-			var url = 'tools/import-source-type/'+uploaded_file;
-			var data_name = 'SOURCE TYPE';
-			var action = true;
-		}else if($(this).hasClass('import_part_man_code_type')){
-			var url = 'tools/import-part-man-code-type/'+uploaded_file;
-			var data_name = 'PART MANUFACTURER CODE TYPE';
-			var action = true;
-		}else if($(this).hasClass('import_eq_code')){
-			var url = 'tools/import-eq-code/'+uploaded_file;
-			var data_name = 'EQUIPMENT CODE';
-			var action = true;
-		}else if($(this).hasClass('import_part_master')){
-			var url = 'tools/import-part-master/'+uploaded_file;
-			var data_name = 'PART MASTER';
-			var action = true;
-		}else if($(this).hasClass('import_part_man_code')){
-			var url = 'tools/import-part-man-code/'+uploaded_file;
-			var data_name = 'PART MANUFACTURER CODE';
-			var action = true;
-		}else if($(this).hasClass('import_part_eq_code')){
-			var url = 'tools/import-part-eq-code/'+uploaded_file;
-			var data_name = 'PART EQUIPMENT CODE';
-			var action = true;
-		}else{
-			var action = false;
-		}
+        id = $('#users tr.active').attr('id');
+        $.ajax({
+            type: 'GET',
+            url: 'accounts/not-my-role/' + id,
+            dataType: 'json',
+            success: function(data) {
+                if(data.length > 0){
+                    var modalData = '';
+                    $.each(data, function(i, item) {
+                        modalData += '<div class="checkbox checkbox-primary">';
+                        modalData += '<input value="'+item.role_id+'" id="checkbox'+item.role_id+'" class="not_my_role styled" type="checkbox">';
+                        modalData += '<label for="checkbox'+item.role_id+'">'+item.display_name.toUpperCase()+'</label>';
+                        modalData += '</div>';
+                    });
+                    $('.modal-header').removeClass('hidden');
+                    $('#save-role-user').removeClass('hidden');
+                }else{
+                    modalData = 'NO DATA';
+                    $('.modal-header').addClass('hidden');
+                    $('#save-role-user').addClass('hidden');
+                }
+                $('#add_role_user_modal .modal-body').html(modalData);
+                requestCallback.requestComplete(true);
+            },
+        });
+    });
+    // END ADD ROLES MODAL
 
-		if(action == true){
+    // SAVE ADD ROLE TO USER
+    $(document).on('click', '#save-role-user', function() {
+        var id = $('#users tr.active').attr('id');
+        var roles = $('input.not_my_role:checked').map(function() {
+            return {
+                name: 'role_id[]',
+                value: $(this).val()
+            };
+        });
 
-			$.ajax({
-			    type: 'GET',
-			    url: url,
-			    beforeSend: function(){
-			    	window.onbeforeunload = function() {return '';}
-			    	$('input#file_upload').attr('disabled', 'disabled');
-			    	$('.import_inc').attr('disabled', 'disabled');
-			    	$("#message").html("IMPORTING YOUR <strong>"+data_name+"</strong> DATA... <div class='mini-spinner'></div>");
-			    },
-			    success: function(data){
-			    	window.onbeforeunload = function() {}
-			    	$('#status').empty();    	
-			    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
-			    	$('input#file_upload').removeAttr('disabled');
-		        	$("#save-btn-area").empty();
-		        	$("#display_uploaded_table").empty();
-		        	file_name = $("div.bootstrap-filestyle.input-group input").val();
-		        	$("#status").html("<span class='text-success'><strong>"+data+" OF "+data_name+"</strong> DATA HAS BEEN IMPORTED SUCCESSFULLY<br/>UPLOADED FILE NAME: <b>"+file_name+"</b></span>");
-			    	$("div.bootstrap-filestyle.input-group input").val('');
-			    },
-			    error: function(){
-			    	window.onbeforeunload = function() {}
-			    	$("span.group-span-filestyle.input-group-btn > label > span").text('SELECT SPREADSHEET AGAIN');
-			    	$('input#file_upload').removeAttr('disabled');
-			    	$('.import_inc').removeAttr('disabled');
-		        	$("#message").html("<strong style='color:red;'>ERROR</strong> IMPORTING YOUR <strong>"+data_name+"</strong> DATA");
-			    }
-			});
+        $.ajax({
+            type: 'POST',
+            url: 'accounts/submit-role-user',
+            data: 'user_id=' + id + '&' + jQuery.param(roles), 
+            dataType: 'json',
+            success: function() {
+                datatable_role_user.ajax.reload(null, false);
+                $('#add_role_user_modal').modal('hide');
+            },
+            error: function() {
+                alert('ERROR');
+            },
+        });
+    });
+    // END SAVE ADD ROLE TO USER
 
-		}
-		
-	});
+    // ROLES DATATABLES
+    var datatable_roles;
+    function get_roles() {
+        datatable_roles = $('#roles').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'accounts/roles',
+            columns: [{
+                data: 'name',
+                name: 'name'
+            }, {
+                data: 'description',
+                name: 'description'
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            pageLength: 12,
+            columnDefs: [ {
+              "targets": 1,
+              "orderable": false
+            } ],
+            drawCallback: function() {
+                $('#roles th:last-child')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('DESCRIPTION <kbd id="add-role" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+                $('#roles td:last-child')
+                    .addClass('normalcase');
+
+                $("#roles tbody tr:first-child").addClass('active');
+                $("#roles tbody tr").on('click', function(event) {
+                    $("#roles tbody tr:first-child").removeClass('active');
+                    $("#roles tbody tr").removeClass('active');
+                    $(this).addClass('active');
+                });
+
+                var id = $("#roles tbody tr.active").attr("id");
+                if(id){
+                    get_permission_role(id);
+                }                
+
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 12 ) {
+                    $('#roles_info').css('display', 'block');
+                    $('#roles_paginate').css('display', 'block');
+                }else{
+                    $('#roles_info').css('display', 'none');
+                    $('#roles_paginate').css('display', 'none');
+                }
+            }
+        });
+    }
+    // END ROLES DATATABLES
+
+    // WHEN CLICK ROLES ROW
+    $("#roles tbody").delegate("tr", "click", function() {
+        var id = $(this).attr('id');
+        get_permission_role(id);
+    });
+
+    // PERMISSION ROLE DATATABLES
+    var datatable_permission_role;
+    function get_permission_role(id) {
+        datatable_permission_role = $('#permission_role').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'accounts/permission-role/' + id,
+            columns: [{
+                data: 'display_name',
+                name: 'display_name'
+            }],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            pageLength: 12,
+            ordering: false,
+            drawCallback: function() {
+                $('#permission_role th:last-child')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('PERMISSION <kbd id="add-permission-role" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 12 ) {
+                    $('#permission_role_info').css('display', 'block');
+                    $('#permission_role_paginate').css('display', 'block');
+                }else{
+                    $('#permission_role_info').css('display', 'none');
+                    $('#permission_role_paginate').css('display', 'none');
+                }
+            }
+        });
+    }
+    // END PERMISSION ROLE DATATABLES
+
+    // ADD PERMISSION MODAL
+    $(document).on('click', '#add-permission-role', function() {
+        var requestCallback = new MyRequestsCompleted({
+            numRequest: 1,
+            singleCallback: function() {
+                $('#add_permission_role_modal').modal('show');
+            }
+        });
+
+        id = $('#roles tr.active').attr('id');
+        $.ajax({
+            type: 'GET',
+            url: 'accounts/not-my-permission/' + id,
+            dataType: 'json',
+            success: function(data) {
+                if(data.length > 0){
+                    var modalData = '';
+                    $.each(data, function(i, item) {
+                        modalData += '<div class="checkbox checkbox-primary">';
+                        modalData += '<input value="'+item.permission_id+'" id="checkbox'+item.permission_id+'" class="not_my_permission styled" type="checkbox">';
+                        modalData += '<label for="checkbox'+item.permission_id+'">'+item.display_name.toUpperCase()+'</label>';
+                        modalData += '</div>';
+                    });
+                    $('.modal-header').removeClass('hidden');
+                    $('#save-permission-role').removeClass('hidden');
+                }else{
+                    modalData = 'NO DATA';
+                    $('.modal-header').addClass('hidden');
+                    $('#save-permission-role').addClass('hidden');
+                }
+                $('#add_permission_role_modal .modal-body').html(modalData);
+                requestCallback.requestComplete(true);
+            },
+        });
+    });
+    // END ADD PERMISSION MODAL
+
+    // SAVE ADD PERMISSION TO ROLE
+    $(document).on('click', '#save-permission-role', function() {
+        var id = $('#roles tr.active').attr('id');
+        var permission = $('input.not_my_permission:checked').map(function() {
+            return {
+                name: 'permission_id[]',
+                value: $(this).val()
+            };
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: 'accounts/submit-permission-role',
+            data: 'role_id=' + id + '&' + jQuery.param(permission), 
+            dataType: 'json',
+            success: function() {
+                datatable_permission_role.ajax.reload(null, false);
+                $('#add_permission_role_modal').modal('hide');
+            },
+            error: function() {
+                alert('ERROR');
+            },
+        });
+    });
+    // END SAVE ADD PERMISSION TO ROLE
 });
-
-function upload_pmc() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-pmc',
-	    data: $('.part_master_id').serialize()+'&'+$('.tbl_manufacturer_code_id').serialize()+'&'+$('.tbl_source_type_id').serialize()+'&'+$('.manufacturer_ref').serialize()+'&'+$('.tbl_part_manufacturer_code_type_id').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>Part Manufacturer Code</u> data has been saved successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('UPLOAD AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_pec() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-pec',
-	    data: $('.part_master_id').serialize()+'&'+$('.tbl_equipment_code_id').serialize()+'&'+$('.qty_install').serialize()+'&'+$('.tbl_manufacturer_code_id').serialize()+'&'+$('.doc_ref').serialize()+'&'+$('.dwg_ref').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>Part Equipment Code</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_tgc() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-tgc',
-	    data: $('.tbl_group_id').serialize()+'&'+$('.class').serialize()+'&'+$('.name').serialize()+'&'+$('.eng_definition').serialize()+'&'+$('.ind_definition').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>Group Class</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_igc() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-igc',
-	    data: $('.tbl_inc_id').serialize()+'&'+$('.tbl_group_class_id').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>INC Group Class</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_ic() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-ic',
-	    data: $('.tbl_inc_id').serialize()+'&'+$('.tbl_characteristic_id').serialize()+'&'+$('.sequence').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>INC CHARACTERISTIC</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_icv() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-icv',
-	    data: $('.link_inc_characteristic_id').serialize()+'&'+$('.value').serialize()+'&'+$('.abbrev').serialize()+'&'+$('.approved').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>INC CHARACTERISTIC VALUE</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-			  err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-
-function upload_m() {
-	$.ajax({
-	    type: 'POST',
-	    url: 'tools/insert-m',
-	    data: $('.catalog_no').serialize()+'&'+$('.tbl_holding_id').serialize()+'&'+$('.holding_no').serialize()+'&'+$('.reference_no').serialize()+'&'+$('.link_inc_group_class_id').serialize()+'&'+$('.catalog_type').serialize()+'&'+$('.unit_issue').serialize()+'&'+$('.unit_purchase').serialize()+'&'+$('.tbl_catalog_status_id').serialize()+'&'+$('.conversion').serialize()+'&'+$('.tbl_user_class_id').serialize()+'&'+$('.tbl_item_type_id').serialize()+'&'+$('.tbl_harmonized_code_id').serialize()+'&'+$('.tbl_hazard_class_id').serialize()+'&'+$('.weight_value').serialize()+'&'+$('.tbl_weight_unit_id').serialize()+'&'+$('.tbl_stock_type_id').serialize()+'&'+$('.average_unit_price').serialize()+'&'+$('.memo').serialize(),
-	    dataType: 'json',
-	    beforeSend: function(){
-	    },
-	    success: function(data){
-	    	$('#uploaded_area').remove();
-	    	$('#status').empty();
-	        var percentVal = '0%';
-	        $('.progress-bar').width(percentVal)
-	        $('.percent').html(percentVal);
-
-	        $("#file_upload").val('');
-	        $("div.bootstrap-filestyle.input-group input").val('');
-
-	        $('#status').html('<h4 class="text-primary"><u>'+data+'</u> rows of <u>MASTER</u> data has been imported successfully</h4>');
-	    	
-	    	$("span.group-span-filestyle.input-group-btn > label > span").html('IMPORT AGAIN');
-
-	    	$("#save-btn-area").html('');
-	    },
-	    error: function(data){
-	    	var errors = data.responseJSON;
-	    	err = '';
-	    	$.each(errors, function( index, value ) {
-				err = '<p>' + value + '</p>';
-			});
-	    	$('#status').html('<font color="red">'+err+'</font>');
-	    }
-	});
-};
-(function($){var nextId=0;var Filestyle=function(element,options){this.options=options;this.$elementFilestyle=[];this.$element=$(element)};Filestyle.prototype={clear:function(){this.$element.val("");this.$elementFilestyle.find(":text").val("");this.$elementFilestyle.find(".badge").remove()},destroy:function(){this.$element.removeAttr("style").removeData("filestyle");this.$elementFilestyle.remove()},disabled:function(value){if(value===true){if(!this.options.disabled){this.$element.attr("disabled","true");this.$elementFilestyle.find("label").attr("disabled","true");this.options.disabled=true}}else{if(value===false){if(this.options.disabled){this.$element.removeAttr("disabled");this.$elementFilestyle.find("label").removeAttr("disabled");this.options.disabled=false}}else{return this.options.disabled}}},buttonBefore:function(value){if(value===true){if(!this.options.buttonBefore){this.options.buttonBefore=true;if(this.options.input){this.$elementFilestyle.remove();this.constructor();this.pushNameFiles()}}}else{if(value===false){if(this.options.buttonBefore){this.options.buttonBefore=false;if(this.options.input){this.$elementFilestyle.remove();this.constructor();this.pushNameFiles()}}}else{return this.options.buttonBefore}}},icon:function(value){if(value===true){if(!this.options.icon){this.options.icon=true;this.$elementFilestyle.find("label").prepend(this.htmlIcon())}}else{if(value===false){if(this.options.icon){this.options.icon=false;this.$elementFilestyle.find(".icon-span-filestyle").remove()}}else{return this.options.icon}}},input:function(value){if(value===true){if(!this.options.input){this.options.input=true;if(this.options.buttonBefore){this.$elementFilestyle.append(this.htmlInput())}else{this.$elementFilestyle.prepend(this.htmlInput())}this.$elementFilestyle.find(".badge").remove();this.pushNameFiles();this.$elementFilestyle.find(".group-span-filestyle").addClass("input-group-btn")}}else{if(value===false){if(this.options.input){this.options.input=false;this.$elementFilestyle.find(":text").remove();var files=this.pushNameFiles();if(files.length>0&&this.options.badge){this.$elementFilestyle.find("label").append(' <span class="badge">'+files.length+"</span>")}this.$elementFilestyle.find(".group-span-filestyle").removeClass("input-group-btn")}}else{return this.options.input}}},size:function(value){if(value!==undefined){var btn=this.$elementFilestyle.find("label"),input=this.$elementFilestyle.find("input");btn.removeClass("btn-lg btn-sm");input.removeClass("input-lg input-sm");if(value!="nr"){btn.addClass("btn-"+value);input.addClass("input-"+value)}}else{return this.options.size}},placeholder:function(value){if(value!==undefined){this.options.placeholder=value;this.$elementFilestyle.find("input").attr("placeholder",value)}else{return this.options.placeholder}},buttonText:function(value){if(value!==undefined){this.options.buttonText=value;this.$elementFilestyle.find("label .buttonText").html(this.options.buttonText)}else{return this.options.buttonText}},buttonName:function(value){if(value!==undefined){this.options.buttonName=value;this.$elementFilestyle.find("label").attr({"class":"btn "+this.options.buttonName})}else{return this.options.buttonName}},iconName:function(value){if(value!==undefined){this.$elementFilestyle.find(".icon-span-filestyle").attr({"class":"icon-span-filestyle "+this.options.iconName})}else{return this.options.iconName}},htmlIcon:function(){if(this.options.icon){return'<span class="icon-span-filestyle '+this.options.iconName+'"></span> '}else{return""}},htmlInput:function(){if(this.options.input){return'<input type="text" class="form-control '+(this.options.size=="nr"?"":"input-"+this.options.size)+'" placeholder="'+this.options.placeholder+'" disabled> '}else{return""}},pushNameFiles:function(){var content="",files=[];if(this.$element[0].files===undefined){files[0]={name:this.$element[0]&&this.$element[0].value}}else{files=this.$element[0].files}for(var i=0;i<files.length;i++){content+=files[i].name.split("\\").pop()+", "}if(content!==""){this.$elementFilestyle.find(":text").val(content.replace(/\, $/g,""))}else{this.$elementFilestyle.find(":text").val("")}return files},constructor:function(){var _self=this,html="",id=_self.$element.attr("id"),files=[],btn="",$label;if(id===""||!id){id="filestyle-"+nextId;_self.$element.attr({id:id});nextId++}btn='<span class="group-span-filestyle '+(_self.options.input?"input-group-btn":"")+'"><label for="'+id+'" class="btn '+_self.options.buttonName+" "+(_self.options.size=="nr"?"":"btn-"+_self.options.size)+'" '+(_self.options.disabled?'disabled="true"':"")+">"+_self.htmlIcon()+'<span class="buttonText">'+_self.options.buttonText+"</span></label></span>";html=_self.options.buttonBefore?btn+_self.htmlInput():_self.htmlInput()+btn;_self.$elementFilestyle=$('<div class="bootstrap-filestyle input-group">'+html+"</div>");_self.$elementFilestyle.find(".group-span-filestyle").attr("tabindex","0").keypress(function(e){if(e.keyCode===13||e.charCode===32){_self.$elementFilestyle.find("label").click();return false}});_self.$element.css({position:"absolute",clip:"rect(0px 0px 0px 0px)"}).attr("tabindex","-1").after(_self.$elementFilestyle);if(_self.options.disabled){_self.$element.attr("disabled","true")}_self.$element.change(function(){var files=_self.pushNameFiles();if(_self.options.input==false&&_self.options.badge){if(_self.$elementFilestyle.find(".badge").length==0){_self.$elementFilestyle.find("label").append(' <span class="badge">'+files.length+"</span>")}else{if(files.length==0){_self.$elementFilestyle.find(".badge").remove()}else{_self.$elementFilestyle.find(".badge").html(files.length)}}}else{_self.$elementFilestyle.find(".badge").remove()}});if(window.navigator.userAgent.search(/firefox/i)>-1){_self.$elementFilestyle.find("label").click(function(){_self.$element.click();return false})}}};var old=$.fn.filestyle;$.fn.filestyle=function(option,value){var get="",element=this.each(function(){if($(this).attr("type")==="file"){var $this=$(this),data=$this.data("filestyle"),options=$.extend({},$.fn.filestyle.defaults,option,typeof option==="object"&&option);if(!data){$this.data("filestyle",(data=new Filestyle(this,options)));data.constructor()}if(typeof option==="string"){get=data[option](value)}}});if(typeof get!==undefined){return get}else{return element}};$.fn.filestyle.defaults={buttonText:"Choose file",iconName:"glyphicon glyphicon-folder-open",buttonName:"btn-default",size:"nr",input:true,badge:true,icon:true,buttonBefore:false,disabled:false,placeholder:""};$.fn.filestyle.noConflict=function(){$.fn.filestyle=old;return this};$(function(){$(".filestyle").each(function(){var $this=$(this),options={input:$this.attr("data-input")==="false"?false:true,icon:$this.attr("data-icon")==="false"?false:true,buttonBefore:$this.attr("data-buttonBefore")==="true"?true:false,disabled:$this.attr("data-disabled")==="true"?true:false,size:$this.attr("data-size"),buttonText:$this.attr("data-buttonText"),buttonName:$this.attr("data-buttonName"),iconName:$this.attr("data-iconName"),badge:$this.attr("data-badge")==="false"?false:true,placeholder:$this.attr("data-placeholder")};$this.filestyle(options)})})})(window.jQuery);
 // $(document).ajaxComplete(function(){
 // 	if(typeof cat_status_raw_update === 'undefined'){
 // 		$('.cat_status_raw_update').remove();

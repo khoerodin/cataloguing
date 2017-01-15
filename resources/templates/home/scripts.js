@@ -2838,6 +2838,8 @@ jQuery(function($) {
                     $('.get-values-list_')
                         .removeClass('get-values-list_')
                         .addClass('get-values-list');
+
+                    $('#classification_edit_btn').html('<kbd id="edit_classification" style="padding:2px 4px 1px !important; position: absolute; right: 10px; top: 5px; z-index: 1;" class="kbd-primary hover cpointer">EDIT</kbd>');
                 }
                 else{
                     $('#cat_status_area').html('');
@@ -2850,7 +2852,7 @@ jQuery(function($) {
                     $('kbd.delete-pmc').remove();
                     $('kbd.edit-pmc').remove();
 
-                    $('kbd#edit_classification').remove();
+                    $('#classification_edit_btn').empty();
 
                     $('kbd#add-pc').remove();
                     $('kbd.delete-pc').remove();

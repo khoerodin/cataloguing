@@ -14,7 +14,7 @@
     <noscript>
         <style type="text/css">#loading,.container {display:none;}</style>
         <div style="display: table;margin: 0 auto;color:#999;">
-            <h1><strong>You don't have JavaScript :(</strong></h1>
+            <h1><strong>You don't have JavaScript :( :)</strong></h1>
             <h1 style="visibility: hidden;">_____________________________________________________________</h1>
         </div>        
     </noscript>

@@ -1,0 +1,4 @@
+laradock yang perlu diaktifkan
+ ☐ file docker-compose.yml npm
+ ☐ zip docker-compose.yml php-fpm
+ ☐ file nginx.conf ditambah fastcgi_read_timeout 3000;

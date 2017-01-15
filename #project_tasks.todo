@@ -46,7 +46,34 @@ Deadline:
  ☐ change save button to active when inc or and group class changed
  ☐ bedakan salt hash js dan php, untuk keamanan
  ✔ select equipment code otomatis disaring dg company @done (17-01-12 07:28)
- ☐ catalog status
+ ☐ catalog status 
+
+ ☐ ketika import, semua di disable dg wait 000...
+ 
+ upload yang segera dibikin sebelum import PART MASTER:
+ ☐ holding
+ ☐ company
+ ☐ plant
+ ☐ location
+ ☐ shelf
+ ☐ bin
+
+ ☐ USER CLASS
+ ☐ ITEM TYPE
+ ☐ HARMONIZED CODE
+ ☐ HAZARD CLASS
+ ☐ WEIGHT UNIT
+ ☐ STOCK TYPE
+ ☐ TBL UNIT OF MEASUREMENT
+ 
+ ☐ catalog status, udah auto-insert ketika migrasi
+ ☐ po style, udah auto-insert ketika migrasi
+
+ setelah upload atas selesai:
+ ☐ upload tbl part source
+
+ ☐ belum dicoba upload xlsx
+ ✔ part master belum dicoba dg field kosong @done (17-01-15 10:33)
 
 Others:
  ☐ make minded submit values code
@@ -60,13 +87,8 @@ Others:
  ☐ disabled state for <kbd> primary, warning and danger
  ☐ remove chars state
  ☐ animation loading, beforeSend etc
- ☐ saven notif for save chars values
+ ☐ save notif for save chars values
  ☐ check login status when pointer move, if logout show warning and redirect to login page
-
-var index   = 3; // id part_master, terus dicari id tsb index ke berapa (mis: index ke 3)
-var ke      = 1 + index; // 4
-var hal     = Math.ceil(ke / 5);
-console.log(hal);
 
 coba cek home/inc-char-values/ di js dan controller
 
