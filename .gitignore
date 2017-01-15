@@ -2,7 +2,6 @@
 /resources/assets/js/handlebars-templates
 /storage/app/uploads
 /vendor
-/laradock
 .gitmodules
 /.idea
 Homestead.json
