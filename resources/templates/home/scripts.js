@@ -2976,17 +2976,6 @@ jQuery(function($) {
                         selectize.load(function(callback) {
                             callback(selectOptions);
                         });
-
-                        $.ajax({
-                            url: 'home/user-hashtags/'+ part_master_id,
-                            type: 'GET',
-                            dataType: "json",
-                            success: function(user_data){
-                                $.each(user_data, function (index, user_value) {
-                                    selectize.addItem('#'+user_value.tag_name.toLowerCase(), true);
-                                });
-                            }
-                        });
                     }
                 });
                 selectize.on('item_remove', function(value, $item){
