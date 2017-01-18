@@ -290,10 +290,7 @@ jQuery(function($) {
                 // var catalog_status_id = $("#part_master tbody tr.active input.catalog_status_id").val();
                 if(part_master_id && company_id){
                     get_part_manufacturer_code(part_master_id);
-                    get_part_colloquial(part_master_id);
-                    get_part_equipment_code(part_master_id,company_id);
                     get_part_characteristic_value(inc_group_class_id);
-                    get_classification(part_master_id);
                     catalog_tag(part_master_id)
                 }                
 
@@ -336,6 +333,20 @@ jQuery(function($) {
         $('#part_master_info').addClass('col-sm-9');
         clickPartMasterRow();
     }
+
+    // WHEN CLICK CLASSFICATION TAB
+    $(document).one('click', '#class_tab_link', function() {
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        get_classification(part_master_id);
+        get_part_colloquial(part_master_id);
+    });
+
+    // WHEN CLICK EQUIPMENT TAB
+    $(document).one('click', '#eq_tab_link', function() {
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        var company_id = $("#part_master tbody tr.active .company").val();
+        get_part_equipment_code(part_master_id,company_id);
+    });
 
     // WHEN CLICK PART MASTER ROW
     function clickPartMasterRow(){
@@ -2920,6 +2931,84 @@ jQuery(function($) {
         $('#edit_classification_modal').modal('show');
     });
 
+    var $select = $('#hashtags').selectize({
+        delimiter: ',',
+        persist: false,
+        create: function(input) {
+            var output = input.match(/(\#[a-zA-Z0-9\-\_]+)/g);
+            if(jQuery.isEmptyObject(output) == false){
+                var output = output.map(function(x){ return x.toLowerCase() });
+                return {
+                    value: output,
+                    text: output
+                }
+            }else{
+                return false;
+            }
+        },
+    });
+    $('#hashtags-selectized').css('text-transform', 'lowercase');
+    var selectize = $select[0].selectize;
+
+    selectize.on('item_remove', function(value, $item){
+        selectize.addOption({value:value,text:value});
+        $('#hashtags_on_modal span._'+value.replace(/#/g, '')).remove();
+    });
+
+    selectize.on('item_add', function(value, $item){
+        tag_item = '<span class="label label-primary cattags pull-left _'+value.replace(/#/g, '')+'">'+value+'</span>';
+        $('#hashtags_on_modal').append(tag_item);
+
+        // remove duplicate element
+        var seen = {};
+        $('#hashtags_on_modal span.cattags').each(function() {
+            var txt = $(this).text();
+            if (seen[txt])
+                $(this).remove();
+            else
+                seen[txt] = true;
+        });
+    });
+
+    $(document).on('click', '#hashtags_show_up', function() {
+        $('#hashtags_on_modal').empty();
+        $('#hashtags_on_inline').clone().appendTo('#hashtags_on_modal');
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        var oh_request = $.ajax({
+            url: 'home/option-hashtags/'+ part_master_id,
+            type: 'GET',
+            dataType: "json",
+            success: function(option_data){
+                var selectOptions = [];
+                for (var index = 0, length = option_data.length; index < length; index++) {
+                  var item = option_data[index];
+                  selectOptions.push({
+                    text  : '#'+item.tag_name.toLowerCase(),
+                    value : '#'+item.tag_name.toLowerCase()
+                  });
+                }
+
+                selectize.clearOptions();
+                selectize.renderCache = {};
+                selectize.load(function(callback) {
+                    callback(selectOptions);
+                });
+
+                var uh_request = $.ajax({
+                    url: 'home/user-hashtags/'+ part_master_id,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function(user_data){
+                        $.each(user_data, function (index, user_value) {
+                            selectize.addItem('#'+user_value.tag_name.toLowerCase(), true);
+                        });
+                        $('#hashtags_modal').modal('show');
+                    }
+                });
+            }
+        });
+    });
+
     function catalog_tag(part_master_id) {
         // 1. all hashtags untuk current catalog => tampil
         // 2. all hashtags untuk all catalog => dropdown
@@ -2936,85 +3025,6 @@ jQuery(function($) {
                     tags += '</span>';
                 });
                 $('#hashtags_on_inline').html(tags);
-                // $('#hashtags_on_modal').html(tags);
-
-                var $select = $('#hashtags').selectize({
-                    delimiter: ',',
-                    persist: false,
-                    create: function(input) {
-                        var output = input.match(/(\#[a-zA-Z0-9\-\_]+)/g);
-                        if(jQuery.isEmptyObject(output) == false){
-                            var output = output.map(function(x){ return x.toLowerCase() });
-                            return {
-                                value: output,
-                                text: output
-                            }
-                        }else{
-                            return false;
-                        }
-                    },
-                });
-                $('#hashtags-selectized').css('text-transform', 'lowercase');
-                var selectize = $select[0].selectize;
-
-                $.ajax({
-                    url: 'home/option-hashtags/'+ part_master_id,
-                    type: 'GET',
-                    dataType: "json",
-                    success: function(option_data){
-                        var selectOptions = [];
-                        for (var index = 0, length = option_data.length; index < length; index++) {
-                          var item = option_data[index];
-                          selectOptions.push({
-                            text  : '#'+item.tag_name.toLowerCase(),
-                            value : '#'+item.tag_name.toLowerCase()
-                          });
-                        }
-
-                        selectize.clearOptions();
-                        selectize.renderCache = {};
-                        selectize.load(function(callback) {
-                            callback(selectOptions);
-                        });
-                    }
-                });
-                selectize.on('item_remove', function(value, $item){
-                    selectize.addOption({value:value,text:value});
-                    $('#hashtags_on_modal span._'+value.replace(/#/g, '')).remove();
-                });
-
-                selectize.on('item_add', function(value, $item){
-                    tag_item = '<span class="label label-primary cattags pull-left _'+value.replace(/#/g, '')+'">'+value+'</span>';
-                    $('#hashtags_on_modal').append(tag_item);
-
-                    // remove duplicate element
-                    var seen = {};
-                    $('#hashtags_on_modal span.cattags').each(function() {
-                        var txt = $(this).text();
-                        if (seen[txt])
-                            $(this).remove();
-                        else
-                            seen[txt] = true;
-                    });
-                });
-
-                $(document).on('click', '#hashtags_show_up', function() {
-                    $('#hashtags_on_modal').empty();
-                    $('#hashtags_on_inline').clone().appendTo('#hashtags_on_modal');
-                    var part_master_id = $("#part_master tbody tr.active").attr("id");
-                    $.ajax({
-                        url: 'home/user-hashtags/'+ part_master_id,
-                        type: 'GET',
-                        dataType: "json",
-                        success: function(user_data){
-                            selectize.clear(true);
-                            $.each(user_data, function (index, user_value) {
-                                selectize.addItem('#'+user_value.tag_name.toLowerCase(), true);
-                            });
-                            $('#hashtags_modal').modal('show');
-                        }
-                    });
-                });      
             }
         });
     }
