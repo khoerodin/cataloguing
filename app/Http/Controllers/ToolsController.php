@@ -1594,7 +1594,7 @@ class ToolsController extends Controller
 					if(in_array(0, $empty_group)){
 						$validasi = "<br><br><strong class='text-danger'><u>EMPTY GROUP:</u></strong>";
 						$i = 3;
-						foreach ($check_empty_groupc as $value) {
+						foreach ($check_empty_group as $value) {
 							 if(is_null($value) || $value == ''){
 							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
 							 }else{
@@ -1712,6 +1712,250 @@ class ToolsController extends Controller
 				}else{
 					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
 					echo "<input type='button' class='import_to_db import_group btn btn-sm btn-primary' value='IMPORT GROUP DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'HOLDING'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'HOLDING'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF HOLDING</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_holding = [];
+					$check_empty_description = [];
+
+					$check_duplicate_holding = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='15%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='82%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$holding_column = TblHolding::where('holding', $rows[0])
+										->select('holding')
+										->first();
+
+									if(count($holding_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>HOLDING:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>HOLDING</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_holding[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_holding[] .= '';
+								}else{
+									$check_duplicate_holding[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_holding = array();
+				foreach ($check_empty_holding as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_holding[] = 0;
+					 }else{
+					 	$empty_holding[] = 1;
+					 }
+				}
+
+				$empty_decription = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_decription[] = 0;
+					 }else{
+					 	$empty_decription[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$holding_check_duplicate = array_count_values($check_duplicate_holding);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_holding = array();
+				foreach ($holding_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_holding[] = 0;
+					}else{
+						$chek_dupl_holding[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY HOLDING DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_holding) ||
+					in_array(0, $empty_decription) ||
+					in_array(0, $chek_dupl_holding)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR HOLDING SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$holding_empty = '';
+					if(in_array(0, $empty_holding)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY HOLDING:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_holding as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$holding_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_holding_ = '';
+					$dupl_holding = '';
+					if(in_array(0, $chek_dupl_holding)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_holding_again = array_count_values($check_duplicate_holding);
+
+						// remove empty
+						foreach($check_duplicate_holding_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_holding_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_holding_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_holding_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_holding .= "<br><br><strong class='text-danger'><u>DUPLICATE HOLDING:</u> </strong> ";
+							$dupl_holding .= $dupl_holding_;
+						}else{
+							$dupl_holding .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $holding_empty;
+					echo $description_empty;
+					echo $dupl_holding;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_holding btn btn-sm btn-primary' value='IMPORT HOLDING DATA'>";
 					echo $table;
 				}
 				echo "</div>";
@@ -5868,6 +6112,48 @@ class ToolsController extends Controller
             return number_format(count($dataSet));
 		}else{
 			TblGroup::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importHolding($file){
+
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$holding 		= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'holding'			=> $holding,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblHolding::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblHolding::insert($dataSet);
 			return number_format(count($dataSet));
 		}
     }
