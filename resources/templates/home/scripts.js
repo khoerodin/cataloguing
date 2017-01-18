@@ -249,7 +249,7 @@ jQuery(function($) {
                 sSearch: "",
                 sSearchPlaceholder: "SEARCH...",
             },
-            pageLength: 5,
+            pageLength: 4,
             /*dom:  "<'row'<'col-sm-12'tr>>" +
                   "<'row'<'col-sm-5'i><'col-sm-7'p>>",*/
             dom: "Z<'row'<'col-sm-12'tr>>" +
@@ -294,7 +294,7 @@ jQuery(function($) {
                     get_part_equipment_code(part_master_id,company_id);
                     get_part_characteristic_value(inc_group_class_id);
                     get_classification(part_master_id);
-                    // get_catalog_status(catalog_status_id);
+                    catalog_tag(part_master_id)
                 }                
 
                 catalog_no = $("table#part_master tr.active td:eq(0)").text();
@@ -304,7 +304,7 @@ jQuery(function($) {
                 unit_issue = $("table#part_master tr.active td:eq(6)").text();
                 catalog_type = $("table#part_master tr.active td:eq(7)").text();
                 
-                var selected_info = catalog_no + ' : ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
+                var selected_info = catalog_no + '/ ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
                 $('#selected_catalog_info').val(selected_info);
 
                 var info = api.page.info();
@@ -348,7 +348,7 @@ jQuery(function($) {
             get_part_colloquial(part_master_id);
             get_part_equipment_code(part_master_id,company_id);
             get_classification(part_master_id);
-            // get_catalog_status(catalog_status_id);
+            catalog_tag(part_master_id)
 
             $.ajax({
                 url: 'home/click-row-part-master/' + part_master_id,
@@ -369,7 +369,7 @@ jQuery(function($) {
             unit_issue = $("table#part_master tr.active td:eq(6)").text();
             catalog_type = $("table#part_master tr.active td:eq(7)").text();
 
-            var selected_info = catalog_no + ' : ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
+            var selected_info = catalog_no + '/ ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
             $("#selected_catalog_info").val(selected_info);
         });
     }
@@ -1038,7 +1038,7 @@ jQuery(function($) {
             $("button#submit_values").prop("disabled", false);
         }
     });
-    // END FOR CHECKBOX	
+    // END FOR CHECKBOX 
 
     // END DETECT CHANGED VALUE
 
@@ -1241,7 +1241,7 @@ jQuery(function($) {
             },
             dom: "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-5'i><'col-sm-7'p>>",
-            pageLength: 6,
+            pageLength: 8,
             drawCallback: function() {
                 $('#part_manufacturer_code th:last-child')
                     .addClass('cpointer')
@@ -1251,17 +1251,19 @@ jQuery(function($) {
                 var api = this.api();
                 var info = api.page.info();
                 recordsTotal = info.recordsTotal;
-                if ( recordsTotal > 6 ) {
+                if ( recordsTotal > 8 ) {
                     $('#part_manufacturer_code_info').css('display', 'block');
                     $('#part_manufacturer_code_paginate').css('display', 'block');
                 }else{
                     $('#part_manufacturer_code_info').css('display', 'none');
                     $('#part_manufacturer_code_paginate').css('display', 'none');
                 }
+
+                $('#part_manufacturer_code_wrapper').css('margin-top', '-6px');
             }
         });
     }
-    // END DATATABLES	
+    // END DATATABLES   
 
     var optionsManufacturerCode = {
         ajax: {
@@ -1361,7 +1363,7 @@ jQuery(function($) {
             error: function() {}
         });
     });
-    // END SHOW ADD PART MANUFACTURER CODE MODAL	
+    // END SHOW ADD PART MANUFACTURER CODE MODAL    
 
     // SAVE PART MANUFACTURER CODE
     $("#btn_save_pmc").click(function() {
@@ -2917,5 +2919,135 @@ jQuery(function($) {
     $(document).on('click', '#edit_classification', function() {
         $('#edit_classification_modal').modal('show');
     });
-});
 
+    function catalog_tag(part_master_id) {
+        // 1. all hashtags untuk current catalog => tampil
+        // 2. all hashtags untuk all catalog => dropdown
+        // 3. hashtags by user and current catalog => input
+        $.ajax({
+            url: 'home/catalog-hashtags/' + part_master_id,
+            type: 'GET',
+            dataType: "json",
+            success: function(cat_data){
+                tags = ''
+                $.each(cat_data, function (index, cat_value) {
+                    tags += '<span class="label label-primary cattags pull-left _'+cat_value.tag_name.toLowerCase()+'">';
+                    tags += '#'+cat_value.tag_name.toLowerCase();
+                    tags += '</span>';
+                });
+                $('#hashtags_on_inline').html(tags);
+                // $('#hashtags_on_modal').html(tags);
+
+                var $select = $('#hashtags').selectize({
+                    delimiter: ',',
+                    persist: false,
+                    create: function(input) {
+                        var output = input.match(/(\#[a-zA-Z0-9\-\_]+)/g);
+                        if(jQuery.isEmptyObject(output) == false){
+                            var output = output.map(function(x){ return x.toLowerCase() });
+                            return {
+                                value: output,
+                                text: output
+                            }
+                        }else{
+                            return false;
+                        }
+                    },
+                });
+                $('#hashtags-selectized').css('text-transform', 'lowercase');
+                var selectize = $select[0].selectize;
+
+                $.ajax({
+                    url: 'home/option-hashtags/'+ part_master_id,
+                    type: 'GET',
+                    dataType: "json",
+                    success: function(option_data){
+                        var selectOptions = [];
+                        for (var index = 0, length = option_data.length; index < length; index++) {
+                          var item = option_data[index];
+                          selectOptions.push({
+                            text  : '#'+item.tag_name.toLowerCase(),
+                            value : '#'+item.tag_name.toLowerCase()
+                          });
+                        }
+
+                        selectize.clearOptions();
+                        selectize.renderCache = {};
+                        selectize.load(function(callback) {
+                            callback(selectOptions);
+                        });
+
+                        $.ajax({
+                            url: 'home/user-hashtags/'+ part_master_id,
+                            type: 'GET',
+                            dataType: "json",
+                            success: function(user_data){
+                                $.each(user_data, function (index, user_value) {
+                                    selectize.addItem('#'+user_value.tag_name.toLowerCase(), true);
+                                });
+                            }
+                        });
+                    }
+                });
+                selectize.on('item_remove', function(value, $item){
+                    selectize.addOption({value:value,text:value});
+                    $('#hashtags_on_modal span._'+value.replace(/#/g, '')).remove();
+                });
+
+                selectize.on('item_add', function(value, $item){
+                    tag_item = '<span class="label label-primary cattags pull-left _'+value.replace(/#/g, '')+'">'+value+'</span>';
+                    $('#hashtags_on_modal').append(tag_item);
+
+                    // remove duplicate element
+                    var seen = {};
+                    $('#hashtags_on_modal span.cattags').each(function() {
+                        var txt = $(this).text();
+                        if (seen[txt])
+                            $(this).remove();
+                        else
+                            seen[txt] = true;
+                    });
+                });
+
+                $(document).on('click', '#hashtags_show_up', function() {
+                    $('#hashtags_on_modal').empty();
+                    $('#hashtags_on_inline').clone().appendTo('#hashtags_on_modal');
+                    var part_master_id = $("#part_master tbody tr.active").attr("id");
+                    $.ajax({
+                        url: 'home/user-hashtags/'+ part_master_id,
+                        type: 'GET',
+                        dataType: "json",
+                        success: function(user_data){
+                            selectize.clear(true);
+                            $.each(user_data, function (index, user_value) {
+                                selectize.addItem('#'+user_value.tag_name.toLowerCase(), true);
+                            });
+                            $('#hashtags_modal').modal('show');
+                        }
+                    });
+                });      
+            }
+        });
+    }
+
+    $(document).on('click', '#save_hashtags', function() {
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        var tags = $('#hashtags').val();
+        $.ajax({
+            url: 'home/save-hashtags/' + part_master_id,
+            type: 'POST',
+            data: {tags: tags},
+            success: function(cat_data) {
+                tags = ''
+                $.each(cat_data, function (index, cat_value) {
+                    tags += '<span class="label label-primary cattags pull-left _'+cat_value.tag_name.toLowerCase()+'">';
+                    tags += '#'+cat_value.tag_name.toLowerCase();
+                    tags += '</span>';
+                });
+                $('#hashtags_on_inline').html(tags);
+                $('#hashtags_on_modal').html(tags);
+                $('#hashtags_modal').modal('hide');
+            }
+        })
+    });
+});

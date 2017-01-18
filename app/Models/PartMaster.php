@@ -7,6 +7,7 @@ use Vinkla\Hashids\Facades\Hashids;
 
 class PartMaster extends Model
 {
+    use \Conner\Tagging\Taggable;
     protected $table = 'part_master';
     protected $fillable = array(
     	'catalog_no', 'tbl_holding_id', 'holding_no',

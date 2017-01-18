@@ -1,5 +1,5 @@
 <?php
-
+use Vinkla\Hashids\Facades\Hashids;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +14,16 @@
 Auth::routes();
 
 Route::get('current-user', function(){
-	return App\User::select('name', 'username', 'email')->where('id', Auth::user()->id)->first();
+	return App\User::select('name', 'username', 'email')
+		->where('id', Auth::user()->id)
+		->first();
 });
 
-Route::get('coba/{key}', 'HomeController@getClassification');
+Route::get('coba/{id}', function($id){
+	$master = App\Models\PartMaster::where('id', Hashids::decode($id)[0])->first();
+	$master->tag('sholawat');
+	echo 'oke';
+});
 
 // =======================================================
 // SEARCH ITEMS
@@ -105,6 +111,12 @@ Route::post('home/add-part-equipment-code', 'HomeController@addPartEquipmentCode
 Route::get('home/edit-part-equipment-code/{id}', 'HomeController@editPartEquipmentCode');
 Route::put('home/update-part-equipment-code', 'HomeController@updatePartEquipmentCode');
 Route::delete('home/delete-part-equipment-code/{id}', 'HomeController@deletePartEquipmentCode');
+
+// Hashtags
+Route::get('home/option-hashtags/{part_master_id}', 'HomeController@getOptionHashTags');
+Route::get('home/catalog-hashtags/{part_master_id}', 'HomeController@getCatalogHashTags');
+Route::get('home/user-hashtags/{part_master_id}', 'HomeController@getUserHashTags');
+Route::post('home/save-hashtags/{part_master_id}', 'HomeController@saveHashTags');
 
 // Part Source Description
 Route::get('home/part-source-description/{part_master_id}', 'HomeController@getPartSourceDescription');

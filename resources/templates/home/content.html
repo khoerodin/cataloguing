@@ -121,7 +121,7 @@
         </form>
     </span>
     <span id="search_result" style="display:none;">
-        <div style="min-height: 200px;">
+        <div style="min-height: 185px;">
             <table id="part_master" class="table table-striped table-hover table-bordered" cellspacing="0">
                 <thead>
                     <tr>
@@ -281,7 +281,7 @@
                         </div>
                     </div>
                     <div class="col-xs-12" style="margin-top: 5px;">
-                        <table style="margin-top: 0 !important;" class="table table-char-value table-striped" id="characteristisc_value_table">
+                        <table style="margin-top: 0 !important; margin-bottom: 0px;" class="table table-char-value table-striped" id="characteristisc_value_table">
                             <thead>
                                 <tr>
                                     <th>CHARACTERISTIC</th>
@@ -320,19 +320,74 @@
                         <!-- END GET VALUES LIST MODAL -->
                     </div>
                 </div>
-                <div class="col-xs-6">
-                    <input type="text" class="form-control input-sm" readonly>
-                    <input type="text" class="form-control input-sm" style="margin-top:5px;" readonly>
+                <div class="col-xs-6" style="position: relative;min-height: 320px;">
                     <table id="part_manufacturer_code" class="table table-striped table-hover" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th>MAN CODE</th>
+                                <th>MANCODE</th>
                                 <th>SOURCE</th>
-                                <th>MAN REF</th>
+                                <th>MANREF</th>
                                 <th>TYPE</th>
                             </tr>
                         </thead>
                     </table>
+
+                    <div style="position: absolute;bottom: 0;left: 10px;overflow: hidden;height: 27px;">
+                        <div style="width: 625px;" id="hashtags_on_inline">
+                            <span class="label label-primary cattags pull-left">#bolehkah</span>
+                        </div>
+                        <i class="fa fa-chevron-up text-primary cpointer" aria-hidden="true" style="margin-top: 5px; margin-left: 5px;" id="hashtags_show_up"></i>
+                    </div>
+
+                    <!-- PART HASHTAGS MODAL -->
+                    <div class="modal" id="hashtags_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
+                        <div class="modal-dialog" role="" style="width: 50%;">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="#">HASHTAGS</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <form class="form-horizontal" id="#">
+                                        <div class="form-group">
+                                            <div class="col-sm-12">ALL HASHTAGS</div>
+                                            <div class="col-sm-12">
+                                                <hr style="margin-bottom: auto;margin-top: auto;">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12" id="hashtags_on_modal"></div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">ADD OR EDIT YOUR OWN HASHTAGS</div>
+                                            <div class="col-sm-12">
+                                                <hr style="margin-bottom: auto;margin-top: auto;">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-sm-12">
+                                                <input 
+                                                    type="text"
+                                                    class="form-control input-sm" 
+                                                    id="hashtags"
+                                                    name="hashtags"
+                                                >
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="button" class="btn btn-sm btn-default" data-dismiss="modal" value="CLOSE">
+                                    <input type="button" class="btn btn-sm btn-primary" id="save_hashtags" value="SAVE">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END HASHTAGS MODAL -->
+
                     <!-- PART MANUFACTURER CODE MODAL -->
                     <div class="modal" id="part_manufacturer_code_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
                         <div class="modal-dialog" role="" style="width: 50%;">

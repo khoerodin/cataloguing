@@ -179,6 +179,7 @@ elixir(function(mix) {
         'libraries/ajax-bootstrap-select.min.js',
         'libraries/bootbox.min.js',        
         'libraries/dataTables.colResize.js',
+        'libraries/selectize.min.js',
         'libraries/handlebars.runtime.3.0.3.min.js',
 
         // hashids
@@ -324,6 +325,8 @@ elixir(function(mix) {
         'ajax-bootstrap-select.css',
         'font-awesome.min.css',
         'awesome-bootstrap-checkbox.css',
+        'selectize.css',
+        'selectize.bootstrap3.css',
     ], 'public/css/s.css');
 
     // LOGIN - REGISTER

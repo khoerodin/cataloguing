@@ -38,6 +38,7 @@ use App\Models\TblManufacturerCode;
 use App\Models\TblSearch;
 use App\Models\TblSourceType;
 use App\Models\TblPartManufacturerCodeType;
+use App\Models\TblUserTag;
 
 class HomeController extends Controller
 {
@@ -1158,40 +1159,7 @@ class HomeController extends Controller
             ->with('tblUnitMeasurementSohUnit')
             ->where('catalog_no', $catalogNo)->first();
     }
-
-    /*public function getPartColloquial($catalogNo)
-    {
-        return PartColloquial::where('catalog_no', $catalogNo)->get();
-    }
-
-    public function addPartColloquial(Request $request)
-    {
-        $request1 = array_map("strtoupper", $request->except('created_by', 'last_updated_by'));
-        $request2 = $request->only('created_by', 'last_updated_by');
-        $request3 = array_merge($request1,$request2);
-
-        $partColloquial = PartColloquial::create($request3);
-        return Response::json($partColloquial);
-    }
-
-    public function updatePartColloquial(Request $request, $partColloquialId)
-    {
-        $partColloquial = PartColloquial::find($partColloquialId);
-
-        $partColloquial->colloquial        = strtoupper($request->colloquial);
-        $partColloquial->last_updated_by   = $request->last_updated_by;
-
-        $partColloquial->save();
-
-        return Response::json($partColloquial);
-    }
-
-    public function deletePartColloquial($partColloquialId)
-    {
-        $partColloquial = PartColloquial::destroy($partColloquialId);
-        return Response::json($partColloquial);
-    }*/
-
+    
     public function getPartBinLocation($catalogNo)
     {
         return PartBinLocation::where('catalog_no', $catalogNo)->get();
@@ -1323,5 +1291,144 @@ class HomeController extends Controller
             ->join('tbl_weight_unit', 'tbl_weight_unit.id', 'part_master.tbl_weight_unit_id')
             ->where('part_master.id', Hashids::decode($partMasterId)[0])
             ->first();
+    }
+
+    private function getOtherMasterHashTags($partMasterId){
+        return PartMaster::select('tag_name')
+            ->join('tagging_tagged', 'tagging_tagged.taggable_id', 'part_master.id')
+            ->where('tagging_tagged.taggable_type', 'App\Models\PartMaster')
+            ->whereNotIn('tag_name', $this->getCatHashTags($partMasterId)->get()->toArray());
+    }
+
+    private function getCatHashTags($partMasterId){
+        return PartMaster::select('tag_name')
+            ->join('tagging_tagged', 'tagging_tagged.taggable_id', 'part_master.id')
+            ->where('tagging_tagged.taggable_type', 'App\Models\PartMaster')
+            ->where('part_master.id', Hashids::decode($partMasterId)[0]);
+    }
+
+    private function getUsrHashTags($partMasterId){
+        return PartMaster::select('tag_name')
+            ->join('tagging_tagged', 'tagging_tagged.taggable_id', 'part_master.id')
+            ->join('tbl_user_tag', 'tbl_user_tag.tagged_id', 'tagging_tagged.id')
+            ->where('tagging_tagged.taggable_type', 'App\Models\PartMaster')
+            ->where('part_master.id', Hashids::decode($partMasterId)[0])
+            ->where('tbl_user_tag.user_id', \Auth::user()->id);
+    }
+
+    public function getOptionHashTags($partMasterId){
+        // getUserHashTags + getOtherMasterHashTags
+        return $this->getUsrHashTags($partMasterId)
+            ->union($this->getOtherMasterHashTags($partMasterId))
+            ->orderBy('tag_name')
+            ->get();
+    }
+
+    public function getCatalogHashTags($partMasterId){
+        return $this->getCatHashTags($partMasterId)
+            ->orderBy('tag_name')
+            ->get();
+    }
+
+    public function getUserHashTags($partMasterId){
+        return $this->getUsrHashTags($partMasterId)
+            ->orderBy('tag_name')
+            ->get();
+    }
+
+    public function saveHashTags($partMasterId, Request $request){
+        // cari tag yang sama dengan tag dalam table part_master
+        // kenapa tidak pakai retag() ? krn ini akan di ambil id untuk user
+        $tags = explode(',', $request->tags);
+        // current catalog
+        $partMaster = PartMaster::select('id')
+            ->where('id', Hashids::decode($partMasterId)[0])->first();
+        if(empty($request->tags)){
+            $u_tags = $this->getUsrHashTags($partMasterId)->get();
+            $userTag = array();
+            foreach ( $u_tags as $value) {
+                $userTag[] = $value->tag_name;
+            }
+            // hapus tag-nya user
+            $partMaster->untag($userTag);
+            $tagged = \DB::table('tagging_tagged')->select('id')->get();
+            $tagged_arr = array();
+            foreach ($tagged as $value) {
+                $tagged_arr[] = $value->id;
+            }
+            TblUserTag::whereNotIn('tagged_id', $tagged_arr)->delete();
+        }else{
+            // hilangakan hash (#)
+            $clean_tags = array_map('strtolower',array_map(function($value) { return str_replace('#','',$value); }, $tags));
+            // cari yang sama antara tag dari current catalog vs tag yang di submit user
+            $same_tags = PartMaster::select('tag_name')
+                ->join('tagging_tagged', 'tagging_tagged.taggable_id', 'part_master.id')
+                ->where('tagging_tagged.taggable_type', 'App\Models\PartMaster')
+                ->where('part_master.id', Hashids::decode($partMasterId)[0])
+                ->whereIn('tag_name', $clean_tags)
+                ->get()->toArray();
+
+            // tag yang sama dijadikan array dan di strtolower()
+            $tags_to_remove = array();
+            foreach ($same_tags as $value) {
+                $tags_to_remove[] = strtolower($value['tag_name']);
+            }
+
+            // hilangkan yang sama, yaitu
+            // array $clean_tags (yang di submit user) 
+            // dikurangi dg $tags_to_remove (yang sama antara tag dari current catalog vs tag yang di submit user)
+            $tags = array_diff($clean_tags, $tags_to_remove);
+
+            // terus dijadikan array
+            $tags_to_insert = array();
+            foreach ($tags as $value) {
+                $tags_to_insert[] = strtolower($value);
+            }
+
+            // ambil user tag dr current catalog 
+            // yang tidak masuk dalam same_tags
+            // kenapa pke yang tidak masuk dalam same_tags?
+            // karena 
+            $u_tags = $this->getUsrHashTags($partMasterId)
+                ->whereNotIn('tag_name', $same_tags)
+                ->get();
+            $userTag = array();
+            foreach ( $u_tags as $value) {
+                $userTag[] = $value->tag_name;
+            }
+
+            \DB::transaction(function () use ($partMaster,$tags_to_insert,$partMasterId,$userTag){
+                // hapus dulu semua tag-nya user
+                $partMaster->untag($userTag);
+                $tagged = \DB::table('tagging_tagged')->select('id')->get();
+                $tagged_arr = array();
+                foreach ($tagged as $value) {
+                    $tagged_arr[] = $value->id;
+                }
+                TblUserTag::whereNotIn('tagged_id', $tagged_arr)->delete();
+
+                // masukkan kembali tag-nya user, yaitu tag baru
+                $partMaster->tag($tags_to_insert);
+                $data = PartMaster::select('tagging_tagged.id')
+                    ->join('tagging_tagged', 'tagging_tagged.taggable_id', 'part_master.id')
+                    ->where('tagging_tagged.taggable_type', 'App\Models\PartMaster')
+                    ->where('part_master.id', Hashids::decode($partMasterId)[0])
+                    ->whereIn('tag_name', $tags_to_insert)
+                    ->get();
+
+                $dataSet = [];
+                foreach ($data as $value) {
+                    $dataSet[] = [
+                        'user_id'   => \Auth::user()->id,
+                        'tagged_id' => $value->id,
+                        'created_at'=> \Carbon\Carbon::now(),
+                        'updated_at'=> \Carbon\Carbon::now()
+                    ];
+                }
+                TblUserTag::insert($dataSet);
+            });
+        }
+
+        return $this->getCatalogHashTags($partMasterId);
     }
 }

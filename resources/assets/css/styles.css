@@ -147,7 +147,7 @@ when a scrollbar is visible and wider when it is not).
 */
 table.table-char-value>tbody {
   overflow-y: scroll;
-  height: 195px;
+  height: 225px;
 }
 
 /*
@@ -958,4 +958,42 @@ table#part_equipment_code thead>tr>th.sorting_asc {
 .classification-form:hover kbd.kbd-primary.hover {
     background-color: rgba(3, 179, 178, 1) !important;
     color: #fff;
+}
+
+.cattags {
+  background-color: rgb(243, 243, 243);
+  color: rgb(102, 102, 102);
+  font-weight: normal;
+  font-size: 14px;
+  padding: 4px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+  font-size: 14px !important;
+  line-height: 19px !important;
+}
+
+.selectize-input {
+  min-height: 20px !important;
+  border-radius: 0px !important;
+}
+
+.selectize-input.focus {
+  box-shadow: none !important;
+  border-color: rgb(3, 179, 178) !important;
+}
+
+.form-control.selectize-control {
+  height: 30px !important;
+}
+
+.selectize-control.multi .selectize-input > div {
+  color: rgb(102, 102, 102) !important;
+}
+
+.selectize-control.multi .selectize-input > div.active {
+  color: #fff !important;
+  background-color: rgb(3, 179, 178) !important;
 }

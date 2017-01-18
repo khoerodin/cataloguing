@@ -4364,11 +4364,11 @@ class ToolsController extends Controller
 
 								if(
 									is_null($rows[1]) || $rows[1] == '' || 
-									is_null($rows[2]) || $rows[2] == ''
+									is_null($rows[3]) || $rows[3] == ''
 								){
 									$check_duplicate[] .= '';
 								}else{
-									$check_duplicate[] .= 'HOLDING <b>'.strtoupper(trim($rows[1])).'</b> WITH HOLDING NO <b>'.strtoupper(trim($rows[2])).'</b>';
+									$check_duplicate[] .= 'HOLDING <b>'.strtoupper(trim($rows[1])).'</b> WITH HOLDING NO <b>'.strtoupper(trim($rows[3])).'</b>';
 								}
 
 								// CHEK ALREADY IN DB DB?

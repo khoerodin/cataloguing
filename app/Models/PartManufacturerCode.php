@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Vinkla\Hashids\Facades\Hashids;
 
 class PartManufacturerCode extends Model
 {
+    use Auditable;    
     protected $table = 'part_manufacturer_code';
     protected $fillable = array(
     	'part_master_id', 'tbl_manufacturer_code_id', 'tbl_source_type_id',

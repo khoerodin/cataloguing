@@ -175,6 +175,8 @@ return [
         Barryvdh\Snappy\ServiceProvider::class,
         'zgldh\UploadManager\UploadManagerServiceProvider',
         'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+        OwenIt\Auditing\AuditingServiceProvider::class,
+        \Conner\Tagging\Providers\TaggingServiceProvider::class,
         //
 
         /*

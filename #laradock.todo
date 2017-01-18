@@ -1,4 +1,4 @@
 laradock yang perlu diaktifkan
- ☐ file docker-compose.yml npm
- ☐ zip docker-compose.yml php-fpm
+ ☐ file docker-compose.yml: workspace aktifkan INSTALL_NODE
+ ☐ file docker-compose.yml: php-fpm aktifkab INSTALL_ZIP_ARCHIVE
  ☐ file nginx.conf ditambah fastcgi_read_timeout 3000;
