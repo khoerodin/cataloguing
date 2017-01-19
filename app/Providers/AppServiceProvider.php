@@ -25,7 +25,7 @@ class AppServiceProvider extends ServiceProvider
 
                 $perms = [];
                 foreach ($permissions as $key => $value) {
-                    $perms[] .= $value['name'];
+                    $perms[] .= str_replace('.', '_', $value['name']);
                 }
 
                 $perms = array_flip($perms);

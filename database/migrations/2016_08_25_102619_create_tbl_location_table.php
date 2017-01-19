@@ -24,6 +24,8 @@ class CreateTblLocationTable extends Migration
                   ->on('tbl_plant')
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
+                  
+            $table->unique(array('location', 'tbl_plant_id'));
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

@@ -326,7 +326,7 @@ jQuery(function($) {
                 var index   = 3;
                 var ke      = 1 + index; // 4
                 var hal     = Math.ceil(ke / 5);
-                console.log(hal);
+                console.log(hal +' apa hayooo..');
             },
         });
         
@@ -752,6 +752,14 @@ jQuery(function($) {
                         // END PO TEXT
                     }
 
+                    $.get('coba/oaybdpy/emzlwyn/ryjkokz', function(data){
+                        // loop tiap baris
+                        $("input#insert_value0").typeahead({ 
+                            source:data,
+                            minLength:0,
+                            showHintOnFocus: 'all',
+                        });
+                    },'json');
                 },
                 error: function() {
                     $("#characteristic_value_box").empty()
@@ -1015,7 +1023,7 @@ jQuery(function($) {
         } else {
             $("button#submit_values").prop("disabled", false);
         }
-        console.log(newArray);
+        // console.log(newArray);
     });
     // END FOR INPUT VALUE
 
@@ -2819,7 +2827,6 @@ jQuery(function($) {
             url: 'home/catalog-status/' + catalog_status_id,
             dataType: 'json',
             success: function(data) {
-
                 if (typeof data !== 'undefined' && data.length > 0) {
                     status = '';
                     $.each(data, function(i, item) {

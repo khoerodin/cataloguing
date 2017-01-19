@@ -16,10 +16,9 @@ class CreateTblUnitOfMeasurementTable extends Migration
         Schema::create('tbl_unit_of_measurement', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('unit4', 4)->unique();            
+            $table->string('unit2', 2)->unique();
             $table->string('unit3', 3)->unique();
-            $table->string('unit2', 2)->unique(); 
-            $table->string('description');
+            $table->string('unit4', 4)->unique();
             $table->text('eng_definition');
             $table->text('ind_definition');
 

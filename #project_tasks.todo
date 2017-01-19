@@ -51,26 +51,33 @@ Deadline:
  ☐ ketika import, semua di disable dg wait 000...
  
  upload yang segera dibikin sebelum import PART MASTER:
- ☐ holding
- ☐ company
+ ✔ holding @done (17-01-18 17:49)
+ ✔ company @done (17-01-19 08:04)
+ pake pilihan dropdown terlebih dahulu, yaitu pilih holding + company dst...
+ holding + company
  ☐ plant
+ holding + company + plant
  ☐ location
+ holding + company + plant
  ☐ shelf
+ holding + company + shelf
  ☐ bin
 
- ☐ USER CLASS
- ☐ ITEM TYPE
- ☐ HARMONIZED CODE
- ☐ HAZARD CLASS
- ☐ WEIGHT UNIT
- ☐ STOCK TYPE
- ☐ TBL UNIT OF MEASUREMENT
+ ✔ USER CLASS @done (17-01-19 10:42)
+ ✔ ITEM TYPE @done (17-01-19 14:10)
+ ✔ HARMONIZED CODE @done (17-01-19 14:19)
+ ✔ HAZARD CLASS @done (17-01-19 14:24)
+ ✔ WEIGHT UNIT @done (17-01-19 14:33)
+ ✔ STOCK TYPE @done (17-01-19 14:36)
+ ✔ TBL UNIT OF MEASUREMENT @done (17-01-19 15:42)
+ ☐ PART SOURCE DESC
+ ☐ PART SOURCE PART NUMBER
+ ☐ PART SOURCE PART EQUIPMENT CODE
+  
+ ☐ pick value from typeahead
  
- ☐ catalog status, udah auto-insert ketika migrasi
- ☐ po style, udah auto-insert ketika migrasi
-
- setelah upload atas selesai:
- ☐ upload tbl part source
+ ☐ catalog status, udah auto-insert ketika migrasi  > Hanya bagi super admin       
+ ☐ po style, udah auto-insert ketika migrasi        > Hanya bagi super admin
 
  ☐ belum dicoba upload xlsx
  ✔ part master belum dicoba dg field kosong @done (17-01-15 10:33)

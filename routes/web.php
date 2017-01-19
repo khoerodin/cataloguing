@@ -19,10 +19,19 @@ Route::get('current-user', function(){
 		->first();
 });
 
-Route::get('coba/{id}', function($id){
-	$master = App\Models\PartMaster::where('id', Hashids::decode($id)[0])->first();
-	$master->tag('sholawat');
-	echo 'oke';
+Route::get('coba/{id1}/{id2}/{id3}', function($incCharId,$incId,$charId){
+	$data = App\Models\LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
+                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])
+                ->where('tbl_inc_id', Hashids::decode($incId)[0])
+                ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
+                ->select('value')
+                ->get();
+
+    $datanya = array();
+    foreach ($data as $value) {
+    	$datanya[] = $value->value;
+    }
+    return $datanya;
 });
 
 // =======================================================
@@ -188,6 +197,14 @@ Route::get('tools/import-part-master/{file}', 'ToolsController@importPartMaster'
 Route::get('tools/import-part-man-code/{file}', 'ToolsController@importPartManCode');
 Route::get('tools/import-part-eq-code/{file}', 'ToolsController@importPartEqCode');
 Route::get('tools/import-holding/{file}', 'ToolsController@importHolding');
+Route::get('tools/import-company/{file}', 'ToolsController@importCompany');
+Route::get('tools/import-user-class/{file}', 'ToolsController@importUserClass');
+Route::get('tools/import-item-type/{file}', 'ToolsController@importItemType');
+Route::get('tools/import-harmonized-code/{file}', 'ToolsController@importHarmonizedCode');
+Route::get('tools/import-hazard-class/{file}', 'ToolsController@importHazardClass');
+Route::get('tools/import-weight-unit/{file}', 'ToolsController@importWeightUnit');
+Route::get('tools/import-stock-type/{file}', 'ToolsController@importStockType');
+Route::get('tools/import-unit-of-measurement/{file}', 'ToolsController@importUnitOfMeasurement');
 // =======================================================
 // END IMPORT
 // =======================================================

@@ -169,6 +169,58 @@ jQuery(function($) {
 			var url = 'tools/import-holding/'+uploaded_file;
 			var data_name = 'HOLDING';
 			var action = true;
+		}else if($(this).hasClass('import_company')){
+			var url = 'tools/import-company/'+uploaded_file;
+			var data_name = 'COMPANY';
+			var action = true;
+		}else if($(this).hasClass('import_plant')){
+			var url = 'tools/import-plant/'+uploaded_file;
+			var data_name = 'PLANT';
+			var action = true;
+		}else if($(this).hasClass('import_location')){
+			var url = 'tools/import-location/'+uploaded_file;
+			var data_name = 'LOCATION';
+			var action = true;
+		}else if($(this).hasClass('import_shelf')){
+			var url = 'tools/import-shelf/'+uploaded_file;
+			var data_name = 'SHELF';
+			var action = true;
+		}else if($(this).hasClass('import_bin')){
+			var url = 'tools/import-bin/'+uploaded_file;
+			var data_name = 'BIN';
+			var action = true;
+		}else if($(this).hasClass('import_user_class')){
+			var url = 'tools/import-user-class/'+uploaded_file;
+			var data_name = 'USER CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_item_type')){
+			var url = 'tools/import-item-type/'+uploaded_file;
+			var data_name = 'ITEM TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_harmonized_code')){
+			var url = 'tools/import-harmonized-code/'+uploaded_file;
+			var data_name = 'HARMONIZED CODE';
+			var action = true;
+		}else if($(this).hasClass('import_hazard_class')){
+			var url = 'tools/import-hazard-class/'+uploaded_file;
+			var data_name = 'HAZARD CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_weight_unit')){
+			var url = 'tools/import-weight-unit/'+uploaded_file;
+			var data_name = 'WEIGHT UNIT';
+			var action = true;
+		}else if($(this).hasClass('import_bin')){
+			var url = 'tools/import-bin/'+uploaded_file;
+			var data_name = 'BIN';
+			var action = true;
+		}else if($(this).hasClass('import_stock_type')){
+			var url = 'tools/import-stock-type/'+uploaded_file;
+			var data_name = 'STOCK TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_unit_of_measurement')){
+			var url = 'tools/import-unit-of-measurement/'+uploaded_file;
+			var data_name = 'UNIT OF MEASUREMENT';
+			var action = true;
 		}else{
 			var action = false;
 		}

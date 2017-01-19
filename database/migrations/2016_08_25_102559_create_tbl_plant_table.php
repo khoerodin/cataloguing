@@ -25,6 +25,8 @@ class CreateTblPlantTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
             
+            $table->unique(array('plant', 'tbl_company_id'));
+            
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')
                   ->on('users')

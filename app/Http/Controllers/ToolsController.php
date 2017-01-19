@@ -1717,250 +1717,6 @@ class ToolsController extends Controller
 				echo "</div>";
 			}
 
-		}elseif($table_name == 'HOLDING'){
-
-			$status = array();
-			foreach ($reader->getSheetIterator() as $sheet) {
-				$i = 1;
-				foreach ($sheet->getRowIterator() as $rows) {
-					if($i++ == 2){
-						if(strtoupper(trim($rows[0])) == 'HOLDING'){
-							$status[] = 1;
-						}else{
-							$status[] = 0;
-						}
-
-						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
-							$status[] = 1;
-						}else{
-							$status[] = 0;
-						}
-					}
-				}				
-			}
-
-			if (in_array(0, $status)) {
-			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
-			}else{
-				echo "<div id='uploaded_area'>";
-				echo "<hr/>";
-				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF HOLDING</strong> DATA</div>";
-				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
-				foreach ($reader->getSheetIterator() as $sheet) {
-					$i = 1;
-					$first = true;
-					$urut = 3;
-
-					$cek_already_in_db = [];
-					$warn_already_in_db = [];
-
-					$max_str = [];
-					$warn_max_str = [];
-
-					$check_empty_holding = [];
-					$check_empty_description = [];
-
-					$check_duplicate_holding = [];
-
-					$data_counter = [];
-					foreach ($sheet->getRowIterator() as $rows) {
-						if($i++ > 1){
-							if($first){
-								$table .= "<thead><tr>";
-								$table .= "<th width='3%'>#</th>";
-								$table .= "<th width='15%'>".strtoupper(trim($rows[0]))."</th>";
-								$table .= "<th width='82%'>".strtoupper(trim($rows[1]))."</th>";
-								$table .= "</tr></thead>";
-								$table .= "<tbody>";
-								$first = false;
-							}else{
-
-								// VALIDATION
-								// ===============================================
-								
-								// CHEK ALREADY IN DB DB?
-								if($rows[0] <> '' && $rows[0] <> null){
-
-									$holding_column = TblHolding::where('holding', $rows[0])
-										->select('holding')
-										->first();
-
-									if(count($holding_column)>0){
-										$cek_already_in_db[] = 0;
-										$warn_already_in_db[] = '<b>HOLDING:</b> '.strtoupper(trim($rows[0]));
-									}else{
-										$cek_already_in_db[] = 1;
-									}
-
-								}else{
-									$cek_already_in_db[] = 1;
-								}
-
-								// CEK MAX STRING LENGTH
-								if(strlen(trim($rows[0])) > 50){
-									$max_str[] = 0;
-									$warn_max_str[] = '<b>HOLDING</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
-								}else{
-									$max_str[] = 1;
-								}
-
-								$check_empty_holding[] .= $rows[0];
-								$check_empty_description[] .= $rows[1];
-
-								if(is_null($rows[0]) || $rows[0] == ''){
-									$check_duplicate_holding[] .= '';
-								}else{
-									$check_duplicate_holding[] .= $rows[0];
-								}						
-
-								// TABLE
-								// ====================================================
-								$table .= "<tr><td>".$urut++."</td>";
-								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
-								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
-
-								$data_counter[] = 1;								
-							}							
-						}						
-					}					
-					
-				}
-				$table .= "</tbody></table>";
-
-				$empty_holding = array();
-				foreach ($check_empty_holding as $value) {
-					 if(is_null($value) || $value == ''){
-					 	$empty_holding[] = 0;
-					 }else{
-					 	$empty_holding[] = 1;
-					 }
-				}
-
-				$empty_decription = array();
-				foreach ($check_empty_description as $value) {
-					 if(is_null($value) || $value == ''){
-					 	$empty_decription[] = 0;
-					 }else{
-					 	$empty_decription[] = 1;
-					 }
-				}
-
-				// hitung jml
-				$holding_check_duplicate = array_count_values($check_duplicate_holding);
-				// jika lebih dari 1 maka = 0, kalau tidak = 1
-				$chek_dupl_holding = array();
-				foreach ($holding_check_duplicate as $key => $value) {
-					if($value > 1) {
-						$chek_dupl_holding[] = 0;
-					}else{
-						$chek_dupl_holding[] = 1;
-					}
-				}
-
-				if(count($data_counter) < 1){
-					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY HOLDING DATA.</span>';
-				}elseif(
-					in_array(0, $cek_already_in_db) ||
-					in_array(0, $max_str) ||
-					in_array(0, $empty_holding) ||
-					in_array(0, $empty_decription) ||
-					in_array(0, $chek_dupl_holding)
-				){
-					
-					echo "<span><strong>PLEASE CHECK YOUR HOLDING SPREADSHEET</strong></span>";
-					
-					$already = '';
-					if(in_array(0, $cek_already_in_db)){
-						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
-						foreach ($warn_already_in_db as $value) {
-							$validasi .= '<br/>'.$value;
-						}
-						$already = $validasi;
-					}
-
-					$max_length = '';
-					if(in_array(0, $max_str)){
-						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
-						foreach ($warn_max_str as $value) {
-							$validasi .= '<br/>'.$value;
-						}
-						$max_length = $validasi;
-					}
-
-					$holding_empty = '';
-					if(in_array(0, $empty_holding)){
-						$validasi = "<br><br><strong class='text-danger'><u>EMPTY HOLDING:</u></strong>";
-						$i = 3;
-						foreach ($check_empty_holding as $value) {
-							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
-							 }else{
-							 	$i++;
-							 }
-						}
-						$holding_empty = $validasi;
-					}
-
-					$description_empty = '';
-					if(in_array(0, $empty_description)){
-						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
-						$i = 3;
-						foreach ($check_empty_description as $value) {
-							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
-							 }else{
-							 	$i++;
-							 }
-						}
-						$description_empty = $validasi;
-					}
-
-					$dupl_holding_ = '';
-					$dupl_holding = '';
-					if(in_array(0, $chek_dupl_holding)){
-						$validasi = '';
-						// count to get duplicate (> 1)
-						$check_duplicate_holding_again = array_count_values($check_duplicate_holding);
-
-						// remove empty
-						foreach($check_duplicate_holding_again as $key=>$value){
-						    if(is_null($key) || $key == '')
-						        unset($check_duplicate_holding_again[$key]);
-						}
-
-						// get only > 1
-						$ada = array();
-						foreach ($check_duplicate_holding_again as $key => $value) {
-							if($value > 1) {
-								$validasi .= '<br/>'.$key;
-								$ada[] = 1;
-							}else{
-								$ada[] = 0;
-							}
-						}
-						$dupl_holding_ = $validasi;
-
-						if(in_array(1, $ada)){
-							$dupl_holding .= "<br><br><strong class='text-danger'><u>DUPLICATE HOLDING:</u> </strong> ";
-							$dupl_holding .= $dupl_holding_;
-						}else{
-							$dupl_holding .= '';
-						}
-					}
-
-					echo $already;
-					echo $max_length;
-					echo $holding_empty;
-					echo $description_empty;
-					echo $dupl_holding;
-				}else{
-					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
-					echo "<input type='button' class='import_to_db import_holding btn btn-sm btn-primary' value='IMPORT HOLDING DATA'>";
-					echo $table;
-				}
-				echo "</div>";
-			}
-
 		}elseif($table_name == 'GROUP CLASS'){
 
 			$status = array();
@@ -2777,6 +2533,9 @@ class ToolsController extends Controller
 
 					$max_str = [];
 					$warn_max_str = [];
+
+					$cek_wrong_value = [];
+					$warn_wrong_value = [];
 
 					$check_empty_inc = [];
 					$check_empty_characteristic = [];
@@ -5915,6 +5674,2571 @@ class ToolsController extends Controller
 				echo "</div>";
 			}
 
+		}elseif($table_name == 'HOLDING'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'HOLDING'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF HOLDING</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_holding = [];
+					$check_empty_description = [];
+
+					$check_duplicate_holding = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='15%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='82%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$holding_column = TblHolding::where('holding', $rows[0])
+										->select('holding')
+										->first();
+
+									if(count($holding_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>HOLDING:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>HOLDING</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_holding[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_holding[] .= '';
+								}else{
+									$check_duplicate_holding[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_holding = array();
+				foreach ($check_empty_holding as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_holding[] = 0;
+					 }else{
+					 	$empty_holding[] = 1;
+					 }
+				}
+
+				$empty_decription = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_decription[] = 0;
+					 }else{
+					 	$empty_decription[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$holding_check_duplicate = array_count_values($check_duplicate_holding);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_holding = array();
+				foreach ($holding_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_holding[] = 0;
+					}else{
+						$chek_dupl_holding[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY HOLDING DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_holding) ||
+					in_array(0, $empty_decription) ||
+					in_array(0, $chek_dupl_holding)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR HOLDING SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$holding_empty = '';
+					if(in_array(0, $empty_holding)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY HOLDING:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_holding as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$holding_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_holding_ = '';
+					$dupl_holding = '';
+					if(in_array(0, $chek_dupl_holding)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_holding_again = array_count_values($check_duplicate_holding);
+
+						// remove empty
+						foreach($check_duplicate_holding_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_holding_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_holding_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_holding_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_holding .= "<br><br><strong class='text-danger'><u>DUPLICATE HOLDING:</u> </strong> ";
+							$dupl_holding .= $dupl_holding_;
+						}else{
+							$dupl_holding .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $holding_empty;
+					echo $description_empty;
+					echo $dupl_holding;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_holding btn btn-sm btn-primary' value='IMPORT HOLDING DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'COMPANY'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'COMPANY'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[2])) == 'HOLDING'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[3])) == 'UOM TYPE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF COMPANY</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+					$urut2 = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_holding = [];
+					$check_empty_description = [];
+					$check_empty_company = [];
+					$check_empty_uom_type = [];
+
+					$cek_wrong_value = [];
+					$warn_wrong_value = [];
+
+					$check_duplicate_company_holding = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='15%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='30%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='43%'>".strtoupper(trim($rows[2]))."</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[3]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if(
+									$rows[0] <> '' && 
+									$rows[0] <> null &&
+									$rows[2] <> '' && 
+									$rows[2] <> null
+								){
+
+									$company_holding_column = TblCompany::join('tbl_holding', 'tbl_holding.id', 'tbl_company.tbl_holding_id')
+										->where('company', $rows[0])
+										->where('holding', $rows[2])
+										->select('company')
+										->first();
+
+									if(count($company_holding_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>COMPANY:</b> '.strtoupper(trim($rows[0])).' WITH <b>HOLDING</b> '.strtoupper(trim($rows[2]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>COMPANY</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								// CHECK EMPTY
+								$check_empty_company[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+								$check_empty_holding[] .= $rows[2];
+								$check_empty_uom_type[] .= $rows[3];
+
+								// CEK WRONG VALUE
+								$urutan = $urut2++;
+								if(
+									strtoupper(trim($rows[3])) != '2' &&
+									strtoupper(trim($rows[3])) != '3' &&
+									strtoupper(trim($rows[3])) != '4'
+								){
+									$cek_wrong_value[] = 0;
+									$warn_wrong_value[] = '<b>UOM TYPE</b> COLUMN ON LINE <b>#'.$urutan.'</b> MUST BE FILLED WITH "2" OR "3" OR "4"';
+								}else{
+									$cek_wrong_value[] = 1;
+								}
+
+								// CHECK DUPLICATE
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_company_holding[] .= '';
+								}else{
+									$check_duplicate_company_holding[] .= 'COMPANY <b>'.$rows[0].'</b> WITH HOLDING <b>'.$rows[2].'</b>';
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[3]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_company = array();
+				foreach ($check_empty_company as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_company[] = 0;
+					 }else{
+					 	$empty_company[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				$empty_holding = array();
+				foreach ($check_empty_holding as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_holding[] = 0;
+					 }else{
+					 	$empty_holding[] = 1;
+					 }
+				}
+
+				$empty_uom_type = array();
+				foreach ($check_empty_uom_type as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_uom_type[] = 0;
+					 }else{
+					 	$empty_uom_type[] = 1;
+					 }
+				}
+
+				$company_holding_check_duplicate = array_count_values($check_duplicate_company_holding);
+				$chek_dupl_company_holding = array();
+				foreach ($company_holding_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_company_holding[] = 0;
+					}else{
+						$chek_dupl_company_holding[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY COMPANY DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $cek_wrong_value) ||
+					in_array(0, $empty_company) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $empty_holding) ||
+					in_array(0, $empty_uom_type) ||
+					in_array(0, $chek_dupl_company_holding) || 
+					in_array(0, $cek_wrong_value)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR COMPANY SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$company_empty = '';
+					if(in_array(0, $empty_company)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY COMPANY:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_company as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$company_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$holding_empty = '';
+					if(in_array(0, $empty_holding)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY HOLDING:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_holding as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$holding_empty = $validasi;
+					}
+
+					$uom_type_empty = '';
+					if(in_array(0, $empty_uom_type)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UOM TYPE:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_uom_type as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$uom_type_empty = $validasi;
+					}
+
+					$dupl_company_holding_ = '';
+					$dupl_company_holding = '';
+					if(in_array(0, $chek_dupl_company_holding)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_company_holding_again = array_count_values($check_duplicate_company_holding);
+
+						// remove empty
+						foreach($check_duplicate_company_holding_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_company_holding_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_company_holding_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_company_holding_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_company_holding .= "<br><br><strong class='text-danger'><u>DUPLICATE HOLDING:</u> </strong> ";
+							$dupl_company_holding .= $dupl_company_holding_;
+						}else{
+							$dupl_company_holding .= '';
+						}
+					}
+
+					$wrong_value = '';
+					if(in_array(0, $cek_wrong_value)){
+						$validasi = "<br><br><strong class='text-danger'><u>COLUMN HAVE WRONG VALUE:</u> </strong>";
+						foreach ($warn_wrong_value as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$wrong_value = $validasi;
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $company_empty;
+					echo $description_empty;
+					echo $holding_empty;
+					echo $uom_type_empty;
+					echo $dupl_company_holding;
+					echo $wrong_value;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_company btn btn-sm btn-primary' value='IMPORT COMPANY DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'USER CLASS'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'CLASS'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF USER CLASS</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_class = [];
+					$check_empty_description = [];
+
+					$check_duplicate_class = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblUserClass::where('class', trim($rows[0]))
+										->select('class')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>CLASS:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>CLASS</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_class[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_class[] .= '';
+								}else{
+									$check_duplicate_class[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_class = array();
+				foreach ($check_empty_class as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_class[] = 0;
+					 }else{
+					 	$empty_class[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$class_check_duplicate = array_count_values($check_duplicate_class);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_class = array();
+				foreach ($class_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_class[] = 0;
+					}else{
+						$chek_dupl_class[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY USER CLASS DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_class) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_class)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR USER CLASS SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$class_empty = '';
+					if(in_array(0, $empty_class)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY CLASS:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_class as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$class_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_class_ = '';
+					$dupl_class = '';
+					if(in_array(0, $chek_dupl_class)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_class_again = array_count_values($check_duplicate_class);
+
+						// remove empty
+						foreach($check_duplicate_class_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_class_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_class_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_class_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_class .= "<br><br><strong class='text-danger'><u>DUPLICATE CLASS:</u> </strong> ";
+							$dupl_class .= $dupl_class_;
+						}else{
+							$dupl_class .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $class_empty;
+					echo $description_empty;
+					echo $dupl_class;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_user_class btn btn-sm btn-primary' value='IMPORT USER CLASS DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'ITEM TYPE'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'TYPE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF ITEM TYPE</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_type = [];
+					$check_empty_description = [];
+
+					$check_duplicate_type = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblItemType::where('type', trim($rows[0]))
+										->select('type')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>TYPE:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>TYPE</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_type[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_type[] .= '';
+								}else{
+									$check_duplicate_type[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_type = array();
+				foreach ($check_empty_type as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_type[] = 0;
+					 }else{
+					 	$empty_type[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$type_check_duplicate = array_count_values($check_duplicate_type);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_type = array();
+				foreach ($type_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_type[] = 0;
+					}else{
+						$chek_dupl_type[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY ITEM TYPE DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_type) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_type)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR ITEM TYPE SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$type_empty = '';
+					if(in_array(0, $empty_type)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY TYPE:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_type as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$type_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_type_ = '';
+					$dupl_type = '';
+					if(in_array(0, $chek_dupl_type)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_type_again = array_count_values($check_duplicate_type);
+
+						// remove empty
+						foreach($check_duplicate_type_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_type_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_type_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_type_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_type .= "<br><br><strong class='text-danger'><u>DUPLICATE TYPE:</u> </strong> ";
+							$dupl_type .= $dupl_type_;
+						}else{
+							$dupl_type .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $type_empty;
+					echo $description_empty;
+					echo $dupl_type;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_item_type btn btn-sm btn-primary' value='IMPORT ITEM TYPE DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'HARMONIZED CODE'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'CODE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF HARMONIZED CODE</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_code = [];
+					$check_empty_description = [];
+
+					$check_duplicate_code = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblHarmonizedCode::where('code', trim($rows[0]))
+										->select('code')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>CODE:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>CODE</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_code[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_code[] .= '';
+								}else{
+									$check_duplicate_code[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_code = array();
+				foreach ($check_empty_code as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_code[] = 0;
+					 }else{
+					 	$empty_code[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$code_check_duplicate = array_count_values($check_duplicate_code);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_code = array();
+				foreach ($code_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_code[] = 0;
+					}else{
+						$chek_dupl_code[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY HARMONIZED CODE DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_code) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_code)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR ITEM TYPE SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$code_empty = '';
+					if(in_array(0, $empty_code)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY CODE:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_code as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$code_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_code_ = '';
+					$dupl_code = '';
+					if(in_array(0, $chek_dupl_code)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_code_again = array_count_values($check_duplicate_code);
+
+						// remove empty
+						foreach($check_duplicate_code_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_code_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_code_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_code_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_code .= "<br><br><strong class='text-danger'><u>DUPLICATE CODE:</u> </strong> ";
+							$dupl_code .= $dupl_code_;
+						}else{
+							$dupl_code .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $code_empty;
+					echo $description_empty;
+					echo $dupl_code;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_harmonized_code btn btn-sm btn-primary' value='IMPORT HARMONIZED CODE DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'HAZARD CLASS'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'CLASS'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF HAZARD CLASS</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_class = [];
+					$check_empty_description = [];
+
+					$check_duplicate_class = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblHazardClass::where('class', trim($rows[0]))
+										->select('class')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>CLASS:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>CLASS</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_class[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_class[] .= '';
+								}else{
+									$check_duplicate_class[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_class = array();
+				foreach ($check_empty_class as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_class[] = 0;
+					 }else{
+					 	$empty_class[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$class_check_duplicate = array_count_values($check_duplicate_class);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_class = array();
+				foreach ($class_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_class[] = 0;
+					}else{
+						$chek_dupl_class[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY HAZARD CLASS DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_class) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_class)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR HAZARD CLAS SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$class_empty = '';
+					if(in_array(0, $empty_class)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY CLASS:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_class as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$class_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_class_ = '';
+					$dupl_class = '';
+					if(in_array(0, $chek_dupl_class)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_class_again = array_count_values($check_duplicate_class);
+
+						// remove empty
+						foreach($check_duplicate_class_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_class_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_class_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_class_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_class .= "<br><br><strong class='text-danger'><u>DUPLICATE CLASS:</u> </strong> ";
+							$dupl_class .= $dupl_class_;
+						}else{
+							$dupl_class .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $class_empty;
+					echo $description_empty;
+					echo $dupl_class;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_hazard_class btn btn-sm btn-primary' value='IMPORT HAZARD CLASS DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'WEIGHT UNIT'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'UNIT'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF WEIGHT UNIT</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_unit = [];
+					$check_empty_description = [];
+
+					$check_duplicate_unit = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblWeightUnit::where('unit', trim($rows[0]))
+										->select('unit')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>UNIT:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 15){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>UNIT</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 15';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_unit[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_unit[] .= '';
+								}else{
+									$check_duplicate_unit[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_unit = array();
+				foreach ($check_empty_unit as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_unit[] = 0;
+					 }else{
+					 	$empty_unit[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$unit_check_duplicate = array_count_values($check_duplicate_unit);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_unit = array();
+				foreach ($unit_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_unit[] = 0;
+					}else{
+						$chek_dupl_unit[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY WEIGHT UNIT DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_unit) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_unit)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR WEIGHT UNIT SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$unit_empty = '';
+					if(in_array(0, $empty_unit)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_unit as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$unit_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_unit_ = '';
+					$dupl_unit = '';
+					if(in_array(0, $chek_dupl_unit)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_unit_again = array_count_values($check_duplicate_unit);
+
+						// remove empty
+						foreach($check_duplicate_unit_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_unit_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_unit_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_unit_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_unit .= "<br><br><strong class='text-danger'><u>DUPLICATE CLASS:</u> </strong> ";
+							$dupl_unit .= $dupl_unit_;
+						}else{
+							$dupl_unit .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $unit_empty;
+					echo $description_empty;
+					echo $dupl_unit;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_weight_unit btn btn-sm btn-primary' value='IMPORT WEIGHT UNIT DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'STOCK TYPE'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'TYPE'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'DESCRIPTION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF STOCK TYPE</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_type = [];
+					$check_empty_description = [];
+
+					$check_duplicate_type = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='87%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblStockType::where('type', trim($rows[0]))
+										->select('type')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>TYPE:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 50){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>TYPE</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 50';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 255){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>DESCRIPTION</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 255';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_type[] .= $rows[0];
+								$check_empty_description[] .= $rows[1];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_type[] .= '';
+								}else{
+									$check_duplicate_type[] .= $rows[0];
+								}						
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_type = array();
+				foreach ($check_empty_type as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_type[] = 0;
+					 }else{
+					 	$empty_type[] = 1;
+					 }
+				}
+
+				$empty_description = array();
+				foreach ($check_empty_description as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_description[] = 0;
+					 }else{
+					 	$empty_description[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$type_check_duplicate = array_count_values($check_duplicate_type);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_type = array();
+				foreach ($type_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_type[] = 0;
+					}else{
+						$chek_dupl_type[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY STOCK TYPE DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_type) ||
+					in_array(0, $empty_description) ||
+					in_array(0, $chek_dupl_type)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR STOCK TYPE SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$type_empty = '';
+					if(in_array(0, $empty_type)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY TYPE:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_type as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$type_empty = $validasi;
+					}
+
+					$description_empty = '';
+					if(in_array(0, $empty_description)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY DESCRIPTION:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_description as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$description_empty = $validasi;
+					}
+
+					$dupl_type_ = '';
+					$dupl_type = '';
+					if(in_array(0, $chek_dupl_type)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_type_again = array_count_values($check_duplicate_type);
+
+						// remove empty
+						foreach($check_duplicate_type_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_type_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_type_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_type_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_type .= "<br><br><strong class='text-danger'><u>DUPLICATE TYPE:</u> </strong> ";
+							$dupl_type .= $dupl_type_;
+						}else{
+							$dupl_type .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $type_empty;
+					echo $description_empty;
+					echo $dupl_type;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_stock_type btn btn-sm btn-primary' value='IMPORT STOCK TYPE DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
+		}elseif($table_name == 'UNIT OF MEASUREMENT'){
+
+			$status = array();
+			foreach ($reader->getSheetIterator() as $sheet) {
+				$i = 1;
+				foreach ($sheet->getRowIterator() as $rows) {
+					if($i++ == 2){
+						if(strtoupper(trim($rows[0])) == 'UNIT 2'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[1])) == 'UNIT 3'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[2])) == 'UNIT 4'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[3])) == 'ENG DEFINITION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[4])) == 'IND DEFINITION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+					}
+				}				
+			}
+
+			if (in_array(0, $status)) {
+			    echo "<span class='text-danger'>TABLE COLUMN DIDN'T MATCH</span>";
+			}else{
+				echo "<div id='uploaded_area'>";
+				echo "<hr/>";
+				$table = "<div id='message' style='margin-top:10px;'>READY TO IMPORT YOUR <strong><span id='counter'></span> OF UNIT OF MEASUREMENT</strong> DATA</div>";
+				$table .= "<table id='datatables' class='table table-striped table-bordered' width='100%'>";
+				foreach ($reader->getSheetIterator() as $sheet) {
+					$i = 1;
+					$first = true;
+					$urut = 3;
+
+					$cek_already_in_db = [];
+					$warn_already_in_db = [];
+
+					$max_str = [];
+					$warn_max_str = [];
+
+					$check_empty_unit2 = [];
+					$check_empty_unit3 = [];
+					$check_empty_unit4 = [];
+
+					$check_duplicate_unit2 = [];
+					$check_duplicate_unit3 = [];
+					$check_duplicate_unit4 = [];
+
+					$data_counter = [];
+					foreach ($sheet->getRowIterator() as $rows) {
+						if($i++ > 1){
+							if($first){
+								$table .= "<thead><tr>";
+								$table .= "<th width='3%'>#</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[2]))."</th>";
+								$table .= "<th width='33%'>".strtoupper(trim($rows[3]))."</th>";
+								$table .= "<th width='33%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "</tr></thead>";
+								$table .= "<tbody>";
+								$first = false;
+							}else{
+
+								// VALIDATION
+								// ===============================================
+								
+								// CHEK ALREADY IN DB DB?
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblUnitOfMeasurement::where('unit2', trim($rows[0]))
+										->select('unit2')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>UNIT 2:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblUnitOfMeasurement::where('unit3', trim($rows[0]))
+										->select('unit3')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>UNIT 3:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								if($rows[0] <> '' && $rows[0] <> null){
+
+									$class_column = TblUnitOfMeasurement::where('unit4', trim($rows[0]))
+										->select('unit4')
+										->first();
+
+									if(count($class_column)>0){
+										$cek_already_in_db[] = 0;
+										$warn_already_in_db[] = '<b>UNIT 4:</b> '.strtoupper(trim($rows[0]));
+									}else{
+										$cek_already_in_db[] = 1;
+									}
+
+								}else{
+									$cek_already_in_db[] = 1;
+								}
+
+								// CEK MAX STRING LENGTH
+								if(strlen(trim($rows[0])) > 2){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>UNIT 2</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 2';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[1])) > 3){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>UNIT 3</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 3';
+								}else{
+									$max_str[] = 1;
+								}
+
+								if(strlen(trim($rows[2])) > 4){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>UNIT 4</b> "'.strtoupper(trim($rows[2])).'" LENGTH MAY NOT BE GREATER THAN 4';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_unit2[] .= $rows[0];
+								$check_empty_unit3[] .= $rows[1];
+								$check_empty_unit4[] .= $rows[2];
+
+								if(is_null($rows[0]) || $rows[0] == ''){
+									$check_duplicate_unit2[] .= '';
+								}else{
+									$check_duplicate_unit2[] .= $rows[0];
+								}
+
+								if(is_null($rows[1]) || $rows[1] == ''){
+									$check_duplicate_unit3[] .= '';
+								}else{
+									$check_duplicate_unit3[] .= $rows[1];
+								}
+
+								if(is_null($rows[2]) || $rows[2] == ''){
+									$check_duplicate_unit4[] .= '';
+								}else{
+									$check_duplicate_unit4[] .= $rows[2];
+								}				
+
+								// TABLE
+								// ====================================================
+								$table .= "<tr><td>".$urut++."</td>";
+								$table .= "<td>".strtoupper(trim($rows[0]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[3]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[4]))."</td></tr>";
+
+								$data_counter[] = 1;								
+							}							
+						}						
+					}					
+					
+				}
+				$table .= "</tbody></table>";
+
+				$empty_unit2 = array();
+				foreach ($check_empty_unit2 as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_unit2[] = 0;
+					 }else{
+					 	$empty_unit2[] = 1;
+					 }
+				}
+
+				$empty_unit3 = array();
+				foreach ($check_empty_unit3 as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_unit3[] = 0;
+					 }else{
+					 	$empty_unit3[] = 1;
+					 }
+				}
+
+				$empty_unit4 = array();
+				foreach ($check_empty_unit4 as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_unit4[] = 0;
+					 }else{
+					 	$empty_unit4[] = 1;
+					 }
+				}
+
+				// hitung jml
+				$unit2_check_duplicate = array_count_values($check_duplicate_unit2);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_unit2 = array();
+				foreach ($unit2_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_unit2[] = 0;
+					}else{
+						$chek_dupl_unit2[] = 1;
+					}
+				}
+
+				// hitung jml
+				$unit3_check_duplicate = array_count_values($check_duplicate_unit3);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_unit3 = array();
+				foreach ($unit3_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_unit3[] = 0;
+					}else{
+						$chek_dupl_unit3[] = 1;
+					}
+				}
+
+				// hitung jml
+				$unit4_check_duplicate = array_count_values($check_duplicate_unit4);
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$chek_dupl_unit4 = array();
+				foreach ($unit4_check_duplicate as $key => $value) {
+					if($value > 1) {
+						$chek_dupl_unit4[] = 0;
+					}else{
+						$chek_dupl_unit4[] = 1;
+					}
+				}
+
+				if(count($data_counter) < 1){
+					echo '<span class="text-danger">YOU TRY TO UPLOAD SPREADSHEET WITH EMPTY UNIT OF MEASUREMENT DATA.</span>';
+				}elseif(
+					in_array(0, $cek_already_in_db) ||
+					in_array(0, $max_str) ||
+					in_array(0, $empty_unit2) ||
+					in_array(0, $empty_unit3) ||
+					in_array(0, $empty_unit4) ||
+					in_array(0, $chek_dupl_unit2) ||
+					in_array(0, $chek_dupl_unit3) ||
+					in_array(0, $chek_dupl_unit4)
+				){
+					
+					echo "<span><strong>PLEASE CHECK YOUR UNIT OF MEASUREMENT SPREADSHEET</strong></span>";
+					
+					$already = '';
+					if(in_array(0, $cek_already_in_db)){
+						$validasi = "<br><br><strong class='text-danger'><u>ALREADY IN DATABASE:</u></strong>";
+						foreach ($warn_already_in_db as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$already = $validasi;
+					}
+
+					$max_length = '';
+					if(in_array(0, $max_str)){
+						$validasi = "<br><br><strong class='text-danger'><u>CHARACTER LENGTH MORE THAN ALLOWED:</u> </strong>";
+						foreach ($warn_max_str as $value) {
+							$validasi .= '<br/>'.$value;
+						}
+						$max_length = $validasi;
+					}
+
+					$unit2_empty = '';
+					if(in_array(0, $empty_unit2)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT 2:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_unit2 as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$unit2_empty = $validasi;
+					}
+
+					$unit3_empty = '';
+					if(in_array(0, $empty_unit3)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT 3:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_unit3 as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$unit3_empty = $validasi;
+					}
+
+					$unit4_empty = '';
+					if(in_array(0, $empty_unit4)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT 4:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_unit4 as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$unit4_empty = $validasi;
+					}
+
+					$dupl_unit2_ = '';
+					$dupl_unit2 = '';
+					if(in_array(0, $chek_dupl_unit2)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_unit2_again = array_count_values($check_duplicate_unit2);
+
+						// remove empty
+						foreach($check_duplicate_unit2_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_unit2_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_unit2_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_unit2_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_unit2 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 2:</u> </strong> ";
+							$dupl_unit2 .= $dupl_unit2_;
+						}else{
+							$dupl_unit2 .= '';
+						}
+					}
+
+					$dupl_unit3_ = '';
+					$dupl_unit3 = '';
+					if(in_array(0, $chek_dupl_unit3)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_unit3_again = array_count_values($check_duplicate_unit3);
+
+						// remove empty
+						foreach($check_duplicate_unit3_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_unit3_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_unit3_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_unit3_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_unit3 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 3:</u> </strong> ";
+							$dupl_unit3 .= $dupl_unit3_;
+						}else{
+							$dupl_unit3 .= '';
+						}
+					}
+
+					$dupl_unit4_ = '';
+					$dupl_unit4 = '';
+					if(in_array(0, $chek_dupl_unit4)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_unit4_again = array_count_values($check_duplicate_unit4);
+
+						// remove empty
+						foreach($check_duplicate_unit4_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_unit4_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_unit4_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_unit4_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_unit4 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 4:</u> </strong> ";
+							$dupl_unit4 .= $dupl_unit4_;
+						}else{
+							$dupl_unit4 .= '';
+						}
+					}
+
+					echo $already;
+					echo $max_length;
+					echo $unit2_empty;
+					echo $unit3_empty;
+					echo $unit4_empty;
+					echo $dupl_unit2;
+					echo $dupl_unit3;
+					echo $dupl_unit4;
+				}else{
+					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
+					echo "<input type='button' class='import_to_db import_unit_of_measurement btn btn-sm btn-primary' value='IMPORT UNIT OF MEASUREMENT DATA'>";
+					echo $table;
+				}
+				echo "</div>";
+			}
+
 		}else{
 			echo  'WHOOPS, YOU TRY TO UPLOADING WRONG SPREADSHEET :(';
 		}
@@ -6112,48 +8436,6 @@ class ToolsController extends Controller
             return number_format(count($dataSet));
 		}else{
 			TblGroup::insert($dataSet);
-			return number_format(count($dataSet));
-		}
-    }
-
-    public function importHolding($file){
-
-    	ini_set('max_execution_time', 300); // 3 minutes
-    	$reader = $this->readSpreadSheet($file);
-    	foreach ($reader->getSheetIterator() as $sheet) {
-			$i = 1;
-			$dataSet = [];
-			$rows = $sheet->getRowIterator();
-			
-			foreach ($rows as $cel) {
-				$key = $i++;
-				if($key > 2){
-					$holding 		= strtoupper(trim($cel[0]));
-					$description 	= strtoupper(trim($cel[1]));
-					$id 			= \Auth::user()->id;
-					$date 			= \Carbon\Carbon::now();
-
-					$dataSet[] = [
-						'holding'			=> $holding,
-						'description'		=> $description,
-						'created_by' 		=> $id,
-		        		'last_updated_by' 	=> $id,
-		        		'created_at'		=> $date,
-     					'updated_at'		=> $date
-					];					
-				}
-			}
-		}
-
-		if(count($dataSet)>1000){
-			\DB::transaction(function () use ($dataSet){
-				foreach (array_chunk($dataSet,1000) as $data) {
-	               TblHolding::insert($data);
-	            }
-        	});
-            return number_format(count($dataSet));
-		}else{
-			TblHolding::insert($dataSet);
 			return number_format(count($dataSet));
 		}
     }
@@ -6782,6 +9064,386 @@ class ToolsController extends Controller
             return number_format(count($dataSet));
 		}else{
 			PartEquipmentCode::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importHolding($file){
+
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$holding 		= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'holding'			=> $holding,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblHolding::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblHolding::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importCompany($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$company 		= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$tbl_holding_id = TblHolding::where('holding',strtoupper(trim($cel[2])))->select('id')->first()->id;
+					$uom_type 		= trim($cel[3]);
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'company'			=> $company,
+						'description'		=> $description,
+						'tbl_holding_id'	=> $tbl_holding_id,
+						'uom_type'			=> $uom_type,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblCompany::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblCompany::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importUserClass($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$class 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'class'				=> $class,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblUserClass::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblUserClass::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importItemType($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$type 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'type'				=> $type,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblItemType::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblItemType::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importHarmonizedCode($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$code 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'code'				=> $code,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblHarmonizedCode::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblHarmonizedCode::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importHazardClass($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$class 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'class'				=> $class,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblHazardClass::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblHazardClass::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importWeightUnit($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$unit 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'unit'				=> $unit,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblWeightUnit::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblWeightUnit::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importStockType($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$type 			= strtoupper(trim($cel[0]));
+					$description 	= strtoupper(trim($cel[1]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'type'				=> $type,
+						'description'		=> $description,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblStockType::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblStockType::insert($dataSet);
+			return number_format(count($dataSet));
+		}
+    }
+
+    public function importUnitOfMeasurement($file){
+    	ini_set('max_execution_time', 300); // 3 minutes
+    	$reader = $this->readSpreadSheet($file);
+    	foreach ($reader->getSheetIterator() as $sheet) {
+			$i = 1;
+			$dataSet = [];
+			$rows = $sheet->getRowIterator();
+			
+			foreach ($rows as $cel) {
+				$key = $i++;
+				if($key > 2){
+					$unit2 			= strtoupper(trim($cel[0]));
+					$unit3 			= strtoupper(trim($cel[1]));
+					$unit4 			= strtoupper(trim($cel[2]));
+					$eng_definition = strtoupper(trim($cel[3]));
+					$ind_definition = strtoupper(trim($cel[4]));
+					$id 			= \Auth::user()->id;
+					$date 			= \Carbon\Carbon::now();
+
+					$dataSet[] = [
+						'unit2'				=> $unit2,
+						'unit3'				=> $unit3,
+						'unit4'				=> $unit4,
+						'eng_definition'	=> $eng_definition,
+						'ind_definition'	=> $ind_definition,
+						'created_by' 		=> $id,
+		        		'last_updated_by' 	=> $id,
+		        		'created_at'		=> $date,
+     					'updated_at'		=> $date
+					];					
+				}
+			}
+		}
+
+		if(count($dataSet)>1000){
+			\DB::transaction(function () use ($dataSet){
+				foreach (array_chunk($dataSet,1000) as $data) {
+	               TblUnitOfMeasurement::insert($data);
+	            }
+        	});
+            return number_format(count($dataSet));
+		}else{
+			TblUnitOfMeasurement::insert($dataSet);
 			return number_format(count($dataSet));
 		}
     }

@@ -1,5 +1,6 @@
 <?php
-
+// FORMAT CAT STATUS JANGAN DIUBAH:
+// XXX_XXX_XXX, misal: cat_status_raw
 return [
     'role_structure' => [
         'superadmin' => [
@@ -12,7 +13,7 @@ return [
             'cat_status_raw' => 'u',
             'cat_status_cat' => 'u',
             'cat_status_qa' => 'u',
-            'cat_status_lock' => 'u',
+            'cat_status_locked' => 'u',
         ],
         'admin' => [
             'accounts_page' => 'r',
@@ -27,7 +28,7 @@ return [
             'cat_status_raw' => 'u',
             'cat_status_cat' => 'u',
             'cat_status_qa' => 'u',
-            'cat_status_lock' => 'u',
+            'cat_status_locked' => 'u',
         ],
         'cataloguer' => [
             'profile' => 'r,u'

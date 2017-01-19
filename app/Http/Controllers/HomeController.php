@@ -441,7 +441,7 @@ class HomeController extends Controller
     public function getIncCharValues($incCharId,$incId,$charId)
     {
         return LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])                
+                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])
                 ->where('tbl_inc_id', Hashids::decode($incId)[0])
                 ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
                 ->select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','link_inc_characteristic_id','value','abbrev','approved')
@@ -1255,7 +1255,7 @@ class HomeController extends Controller
 
         $catArray = [];
         foreach ($catPermissions as $value) {
-            $catArray[] .= explode('_', $value['name'])[2];
+            $catArray[] .= explode('_', str_replace('.', '_', $value['name']))[2];
         }
 
         $catStatusId = TblCatalogStatus::select('id as tbl_catalog_status_id', 'status')

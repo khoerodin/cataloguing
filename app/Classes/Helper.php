@@ -63,7 +63,7 @@ class Helper {
 
     private function shortLesEqual($data)
     {   
-        $short = '';
+        $short = 'ABCDEFGHIJKLMNOPQRSTUVWXYZHGHJGJH';
         $jml = count($data);
         $i = 1;
         foreach ($data as $key => $value) {
@@ -79,7 +79,7 @@ class Helper {
 
     private function shortMoreThan($data,$len)
     {   
-        $short   = '';
+        $short   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZHGHJGJH';
         $shortAr = [];
         foreach ($data as $key => $value) {
             $short     .= $value->abbrev;

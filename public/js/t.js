@@ -2579,14 +2579,14 @@ $(document).on("hide.bs.modal", function (event) {
     $('.modal-open .navbar-fixed-top').removeAttr('style');
     $('.modal-open .navbar-fixed-bottom').removeAttr('style');
 });
+Handlebars.registerPartial("ontent", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+    return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\">\n        <span class=\"text-danger\"><b>DEFAULT</b> PO TEXT STYLE NOT DEFINED,<br/> PLEASE CONTACT YOUR ADMINISTRATOR</span>\n      </div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
+},"useData":true}));
 this["Tools"] = this["Tools"] || {};
 this["Tools"]["templates"] = this["Tools"]["templates"] || {};
 this["Tools"]["templates"]["content"] = Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\">\n        <span class=\"text-danger\"><b>DEFAULT</b> PO TEXT STYLE NOT DEFINED,<br/> PLEASE CONTACT YOUR ADMINISTRATOR</span>\n      </div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
 },"useData":true});
-Handlebars.registerPartial("ontent", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-    return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\">\n        <span class=\"text-danger\"><b>DEFAULT</b> PO TEXT STYLE NOT DEFINED,<br/> PLEASE CONTACT YOUR ADMINISTRATOR</span>\n      </div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
-},"useData":true}));
 Handlebars.registerPartial("avbar", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<nav class=\"navbar navbar-default navbar-fixed-top\">\n    <div class=\"container-fluid\">\n        <div class=\"navbar-header\">\n            <a class=\"navbar-brand\" href=\"/\"><strong>CATALOG Web App</strong></a>\n        </div>\n        <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n            <ul class=\"nav navbar-nav\">\n                <li class=\"dropdown\">\n                    <a href=\"/dictionary\">DICTIONARY</a>\n                </li>\n                <li class=\"dropdown\">\n                    <a href=\"/settings\">SETTINGS</a>\n                </li>\n                <li class=\"dropdown active\">\n                    <a href=\"/tools\">TOOLS</a>\n                </li>\n            </ul>\n            <ul class=\"nav navbar-nav navbar-right\">\n                <input type=\"hidden\" value=\"5\" id=\"logged_in_user\">\n                <li class=\"dropdown\">\n                    <a class=\"user-name pointer uppercase dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-expanded=\"false\"> <span class=\"caret\"></span></a>\n                    <ul class=\"dropdown-menu\" role=\"menu\">\n                        <li><a class=\"uppercase pointer\" id=\"profile_link\">Profile</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"accounts_link\">Accounts</a></li>\n                        <li><a class=\"uppercase pointer\" id=\"logout_link\">Logout</a></li>\n                    </ul>\n                </li>\n            </ul>\n        </div>\n    </div>\n</nav>";
 },"useData":true}));
@@ -2763,6 +2763,58 @@ jQuery(function($) {
 		}else if($(this).hasClass('import_holding')){
 			var url = 'tools/import-holding/'+uploaded_file;
 			var data_name = 'HOLDING';
+			var action = true;
+		}else if($(this).hasClass('import_company')){
+			var url = 'tools/import-company/'+uploaded_file;
+			var data_name = 'COMPANY';
+			var action = true;
+		}else if($(this).hasClass('import_plant')){
+			var url = 'tools/import-plant/'+uploaded_file;
+			var data_name = 'PLANT';
+			var action = true;
+		}else if($(this).hasClass('import_location')){
+			var url = 'tools/import-location/'+uploaded_file;
+			var data_name = 'LOCATION';
+			var action = true;
+		}else if($(this).hasClass('import_shelf')){
+			var url = 'tools/import-shelf/'+uploaded_file;
+			var data_name = 'SHELF';
+			var action = true;
+		}else if($(this).hasClass('import_bin')){
+			var url = 'tools/import-bin/'+uploaded_file;
+			var data_name = 'BIN';
+			var action = true;
+		}else if($(this).hasClass('import_user_class')){
+			var url = 'tools/import-user-class/'+uploaded_file;
+			var data_name = 'USER CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_item_type')){
+			var url = 'tools/import-item-type/'+uploaded_file;
+			var data_name = 'ITEM TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_harmonized_code')){
+			var url = 'tools/import-harmonized-code/'+uploaded_file;
+			var data_name = 'HARMONIZED CODE';
+			var action = true;
+		}else if($(this).hasClass('import_hazard_class')){
+			var url = 'tools/import-hazard-class/'+uploaded_file;
+			var data_name = 'HAZARD CLASS';
+			var action = true;
+		}else if($(this).hasClass('import_weight_unit')){
+			var url = 'tools/import-weight-unit/'+uploaded_file;
+			var data_name = 'WEIGHT UNIT';
+			var action = true;
+		}else if($(this).hasClass('import_bin')){
+			var url = 'tools/import-bin/'+uploaded_file;
+			var data_name = 'BIN';
+			var action = true;
+		}else if($(this).hasClass('import_stock_type')){
+			var url = 'tools/import-stock-type/'+uploaded_file;
+			var data_name = 'STOCK TYPE';
+			var action = true;
+		}else if($(this).hasClass('import_unit_of_measurement')){
+			var url = 'tools/import-unit-of-measurement/'+uploaded_file;
+			var data_name = 'UNIT OF MEASUREMENT';
 			var action = true;
 		}else{
 			var action = false;

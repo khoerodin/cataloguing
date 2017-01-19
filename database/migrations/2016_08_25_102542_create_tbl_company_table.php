@@ -16,7 +16,7 @@ class CreateTblCompanyTable extends Migration
         Schema::create('tbl_company', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('company', 50)->unique();
+            $table->string('company', 50);
             $table->string('description');
 
             $table->integer('tbl_holding_id')->unsigned();
@@ -25,6 +25,7 @@ class CreateTblCompanyTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
+            $table->unique(array('company', 'tbl_holding_id'));
             $table->enum('uom_type', ['2','3', '4'])->default('3');  
 
             $table->integer('created_by')->unsigned();
