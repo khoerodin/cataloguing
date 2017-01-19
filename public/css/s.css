@@ -7771,7 +7771,7 @@ table#part_equipment_code thead>tr>th.sorting_asc {
 .typeahead.dropdown-menu > .active > a:hover, 
 .typeahead.dropdown-menu > .active > a:focus {
     color: #262626 !important;
-    background-color: #f5f5f5 !important;
+    background-color: rgb(241, 244, 248) !important;
 }
 .typeahead.dropdown-menu > li > a {
     padding-left: 7px !important;
