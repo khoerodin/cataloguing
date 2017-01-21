@@ -74,7 +74,7 @@ Deadline:
  ☐ PART SOURCE PART NUMBER
  ☐ PART SOURCE PART EQUIPMENT CODE
   
- ☐ pick value from typeahead
+ ✔ pick value from typeahead @done (17-01-20 13:51)
  
  ☐ catalog status, udah auto-insert ketika migrasi  > Hanya bagi super admin       
  ☐ po style, udah auto-insert ketika migrasi        > Hanya bagi super admin

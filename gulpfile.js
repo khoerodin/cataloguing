@@ -172,7 +172,7 @@ elixir(function(mix) {
         // libraries
         'libraries/jquery.min.js',
         'libraries/bootstrap.min.js',
-        'libraries/bootstrap3-typeahead.min.js',
+        'libraries/bootstrap3-typeahead_edited.js',
         'libraries/jquery-ui.js',
         'libraries/jquery.dataTables.min.js',
         'libraries/dataTables.bootstrap.min.js',

@@ -26,9 +26,5 @@ class LinkIncCharacteristicValue extends Model
     public function getLinkIncCharacteristicIdAttribute()
     {
         return Hashids::encode($this->attributes['link_inc_characteristic_id']);
-    }    
-
-    public function linkIncCharacteristic() {
-		return $this->belongsTo('App\LinkIncCharacteristic');
-	}
+    }
 }

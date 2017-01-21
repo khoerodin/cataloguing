@@ -42,18 +42,4 @@ class LinkIncCharacteristic extends Model
     {
         return Hashids::encode($this->attributes['char_id']);
     }
-
-    public function linkIncCharacteristicValue() {
-		return $this->hasMany('App\LinkIncCharacteristicValue');
-	}
-
-    public function tblInc()
-    {
-        return $this->belongsTo('App\TblInc');
-    }
-
-    public function tblCharacteristic()
-    {
-        return $this->belongsTo('App\TblCharacteristic');
-    }
 }

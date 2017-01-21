@@ -68,7 +68,7 @@ class HomeController extends Controller
         $search = TblSearch::find($id);
 
         $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
-                ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
+                // ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
                 ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
                 ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
                 ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
@@ -105,7 +105,12 @@ class HomeController extends Controller
                     'item_name',
                     'inc',
                     DB::raw('CONCAT(`group`, tbl_group_class.class) AS group_class'),
-                    'unit_issue.unit4',                 
+                    DB::raw('(CASE 
+                                WHEN uom_type = "2" THEN unit_issue.unit2
+                                WHEN uom_type = "3" THEN unit_issue.unit3
+                                WHEN uom_type = "4" THEN unit_issue.unit4
+                            END
+                            ) as unit_issue'),           
                     'catalog_type',
                     'tbl_catalog_status.status',
                     'tbl_catalog_status.id as tbl_catalog_status_id',
@@ -116,13 +121,14 @@ class HomeController extends Controller
                     'conversion',  
 
                     'weight_value',
-                    'tbl_weight_unit.unit',
+                    'tbl_weight_unit.unit as weight_unit',
                     'average_unit_price',
 
                     'link_inc_group_class.id as link_inc_group_class_id',
                     'tbl_inc_id',
                     'tbl_company_id',
                     'company',
+                    'uom_type',
                     ]);
         return Datatables::of($partMaster)
             ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" class="company" value="{{$tbl_company_id}}"> <input type="hidden" class="catalog_status_id" value="{{$tbl_catalog_status_id}}">')
@@ -268,12 +274,12 @@ class HomeController extends Controller
 
     private function getPartCharVal($companyId, $incId, $partMasterId)
     {
-       return LinkIncCharacteristic::select('link_inc_characteristic.id as link_inc_characteristic_id', 
+       $query = LinkIncCharacteristic::select('link_inc_characteristic.id as link_inc_characteristic_id', 
             'part_master_id', 'tbl_inc_id', 'characteristic', 'link_inc_characteristic_value_id', 
             'part_characteristic_value_id', 
             'link_inc_characteristic.tbl_characteristic_id as char_id',
             DB::raw('IFNULL(value, "") as value'), DB::raw('IFNULL(abbrev, "") as abbrev'), 'approved', 
-            'short', 'type', 'company_characteristic.sequence')
+            'short', 'type', 'company_characteristic.sequence',DB::raw('"values"'))
             ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
             ->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
             ->join('company_characteristic', 'link_inc_characteristic.id', '=', 'company_characteristic.link_inc_characteristic_id')
@@ -301,6 +307,34 @@ class HomeController extends Controller
             ->where('company_characteristic.hidden', '<>', 1)
             ->orderByRaw('(CASE WHEN company_characteristic.sequence = 0 then 1 WHEN company_characteristic.sequence IS NULL then 1 END), company_characteristic.sequence asc')
             ->get();
+
+        // ini seharusnya pake eager loading,
+        // tapi karena bentrok dg Hashids,
+        // maka bikin manual aja
+        $arr = [];
+        foreach ($query as $value) {
+            $values = LinkIncCharacteristicValue::select('value')
+                ->where('link_inc_characteristic_id', Hashids::decode($value->link_inc_characteristic_id)[0])
+                ->get();
+
+            $arr[] = array(
+                'link_inc_characteristic_id' => $value->link_inc_characteristic_id,
+                'part_master_id' => $value->part_master_id,
+                'tbl_inc_id' => $value->tbl_inc_id,
+                'characteristic' => $value->characteristic,
+                'link_inc_characteristic_value_id' => $value->link_inc_characteristic_value_id,
+                'part_characteristic_value_id' => $value->part_characteristic_value_id,
+                'char_id' => $value->char_id,
+                'value' => $value->value,
+                'abbrev' => $value->abbrev,
+                'approved' => $value->approved,
+                'short' => $value->short,
+                'type' => $value->type,
+                'sequence' => $value->sequence,
+                'values' => $values,
+            );
+        }
+        return Response::json($arr);
     }
 
     private function incCharNotInCompany($companyId, $incId)
@@ -438,12 +472,12 @@ class HomeController extends Controller
         return PartMaster::select('link_inc_group_class_id')->where('id', Hashids::decode($id)[0])->first();
     }
 
-    public function getIncCharValues($incCharId,$incId,$charId)
+    public function getIncCharValues($incCharId)
     {
         return LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
                 ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])
-                ->where('tbl_inc_id', Hashids::decode($incId)[0])
-                ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
+                // ->where('tbl_inc_id', Hashids::decode($incId)[0])
+                // ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
                 ->select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','link_inc_characteristic_id','value','abbrev','approved')
                 ->get();
     }
@@ -985,7 +1019,7 @@ class HomeController extends Controller
         ->where('tbl_equipment_code.tbl_company_id', Hashids::decode($companyId)[0]);
 
         return Datatables::of($partPartEquipmentCode)
-            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd></span>')
+            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-success hover cpointer bom-pec">BOM</kbd></span>')
             ->setRowId('part_equipment_code_id')
             ->make(true);
     }

@@ -278,6 +278,10 @@ kbd.kbd-primary {
 kbd.kbd-primary:hover {
     background-color: rgba(2, 129, 128, 1) !important;
 }
+kbd.kbd-success {
+    background-color: #5cb85c !important;    
+    color: fff; 
+}
 kbd.kbd-danger {
     /*belum dikasih warna*/
 }
@@ -294,12 +298,16 @@ tr:hover kbd.kbd-default.hover {
     background-color: #e6e6e6 !important;
     color: #555;
 }
-kbd.kbd-primary.hover {
+kbd.kbd-primary.hover, kbd.kbd-danger.hover, kbd.kbd-success.hover {
     background-color: transparent !important;
     color: transparent;
 }
 tr:hover kbd.kbd-primary.hover {
     background-color: rgba(3, 179, 178, 1) !important;
+    color: #fff;
+}
+tr:hover kbd.kbd-success.hover {
+    background-color: #5cb85c !important;
     color: #fff;
 }
 kbd.kbd-default-grey.hover {
@@ -309,10 +317,6 @@ kbd.kbd-default-grey.hover {
 tr:hover kbd.kbd-default-grey.hover {
     background-color: #c6c6c6 !important;
     color: #777777;
-}
-kbd.kbd-danger.hover {
-    background-color: transparent !important;
-    color: transparent; 
 }
 tr:hover kbd.kbd-danger.hover {
     background-color: rgba(217, 83, 79, 1) !important;
@@ -997,15 +1001,9 @@ table#part_equipment_code thead>tr>th.sorting_asc {
   color: #fff !important;
   background-color: rgb(3, 179, 178) !important;
 }
-.typeahead.dropdown-menu > .active > a, 
-.typeahead.dropdown-menu > .active > a:hover, 
-.typeahead.dropdown-menu > .active > a:focus {
-    color: #262626 !important;
-    background-color: rgb(241, 244, 248) !important;
-}
 .typeahead.dropdown-menu > li > a {
     padding-left: 7px !important;
 }
-.typeahead {
-  max-height: 225px;
+.no-pointer-event {
+    /*pointer-events: none;*/
 }

@@ -19,19 +19,23 @@ Route::get('current-user', function(){
 		->first();
 });
 
-Route::get('coba/{id1}/{id2}/{id3}', function($incCharId,$incId,$charId){
-	$data = App\Models\LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])
-                ->where('tbl_inc_id', Hashids::decode($incId)[0])
-                ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
-                ->select('value')
-                ->get();
-
-    $datanya = array();
-    foreach ($data as $value) {
-    	$datanya[] = $value->value;
-    }
-    return $datanya;
+Route::get('coba', function(){
+	$lic = App\Models\LinkIncCharacteristic::where('id', Hashids::decode('oaybdpy')[0])->select('id')->get();
+	$arr = [];
+	foreach ($lic as $key => $value) {
+		$values = App\Models\LinkIncCharacteristicValue::select('value')
+			->where('link_inc_characteristic_id', $value->id)
+			->get();
+		$arr[] = array(
+	        'id' => $value->id,
+	        'values' => $values,
+	    );
+	}
+	return json_decode(json_encode($arr), FALSE);
+	$obj = json_decode(json_encode($arr), FALSE);
+	foreach ($obj as $val) {
+		echo $val->id;
+	}
 });
 
 // =======================================================
@@ -92,7 +96,7 @@ Route::get('home/short-description/{partMasterId}/{companyId}', 'HomeController@
 
 // Characteristic Value
 Route::get('home/characteristic-value/{incId}/{partMasterId}/{companyId}', 'HomeController@getCharacteristicValue');
-Route::get('home/inc-char-values/{incCharId}/{incId}/{charId}', 'HomeController@getIncCharValues');
+Route::get('home/inc-char-values/{incCharId}', 'HomeController@getIncCharValues');
 // Add new value
 Route::post('home/add-values', 'HomeController@addValues');
 Route::post('home/submit-values', 'HomeController@submitValues');

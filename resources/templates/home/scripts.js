@@ -228,8 +228,8 @@ jQuery(function($) {
                 data: 'group_class',
                 name: 'tbl_group_class.group_class'
             }, {
-                data: 'unit4',
-                name: 'unit_issue.unit4'
+                data: 'unit_issue',
+                name: 'unit_issue'
             }, {
                 data: 'catalog_type',
                 name: 'catalog_type'
@@ -265,7 +265,7 @@ jQuery(function($) {
                     var item_name = firstRow['item_name'];
                     var inc = firstRow['inc'];
                     var group_class = firstRow['group_class'];
-                    var unit_issue = firstRow['unit4'];
+                    var unit_issue = firstRow['unit_issue'];
                     var catalog_type = firstRow['catalog_type'];
                     var status = firstRow['status'];
                     var item_type = firstRow['item_type'];
@@ -287,8 +287,7 @@ jQuery(function($) {
 
                 var part_master_id = $("#part_master tbody tr.active").attr("id");
                 var company_id = $("#part_master tbody tr.active .company").val();
-                // var catalog_status_id = $("#part_master tbody tr.active input.catalog_status_id").val();
-                if(part_master_id && company_id){
+                if(part_master_id && company_id && inc_group_class_id){
                     get_part_manufacturer_code(part_master_id);
                     get_part_characteristic_value(inc_group_class_id);
                     catalog_tag(part_master_id)
@@ -360,6 +359,7 @@ jQuery(function($) {
             get_part_equipment_code(part_master_id,company_id);
             get_classification(part_master_id);
             catalog_tag(part_master_id)
+            get_source();
 
             $.ajax({
                 url: 'home/click-row-part-master/' + part_master_id,
@@ -390,8 +390,11 @@ jQuery(function($) {
         var requestCallback = new MyRequestsCompleted({
             numRequest: 2,
             singleCallback: function() {
+                $('#source_modal').modal({ backdrop: 'static', keyboard: false});
+                $('.modal').css('pointer-events', 'none');
+                $('.modal-backdrop').css('display', 'none');
+                $('.modal-content').css('pointer-events', 'all');
                 $('#source_modal').modal('show');
-                $('.modal-backdrop').remove();
             }
         });
 
@@ -399,7 +402,6 @@ jQuery(function($) {
             type: 'GET',
             url: 'home/part-source-description/' + $("#part_master tbody tr.active").attr("id"),
             dataType: 'json',
-            beforeSend: function() {},
             success: function(data) {
                 $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + data.catalog_no);
                 source_meta = '<table>';
@@ -432,14 +434,18 @@ jQuery(function($) {
 
                 requestCallback.requestComplete(true);
             },
-            error: function() {}
+            error: function(){
+                $('#source_modal #source_modal_title').text('Whoops...');
+                $('#source_modal .modal-body #source_meta').html('No source available<br>');
+                $('#source_modal .modal-body #source_desc').text('Please import source for this catalog');
+                requestCallback.requestComplete(true);
+            }
         });
 
         $.ajax({
             type: 'GET',
             url: 'home/part-source-part-no/' + $("#part_master tbody tr.active").attr("id"),
             dataType: 'json',
-            beforeSend: function() {},
             success: function(data) {
                 if (data.length > 0) {
                     part_source = '<table class="table table-striped">';
@@ -456,10 +462,82 @@ jQuery(function($) {
 
                 requestCallback.requestComplete(true);
             },
-            error: function() {}
+            error: function(){
+                $('#source_modal .modal-body #part_source').empty();
+                requestCallback.requestComplete(true);
+            }
         });
     });
     // END SHOW SOURCE DESC
+
+    // GET SOURCE
+    function get_source(){
+        catalog_no = $("table#part_master tr.active td:eq(0)").text();
+        $.ajax({
+            type: 'GET',
+            url: 'home/part-source-description/' + $("#part_master tbody tr.active").attr("id"),
+            dataType: 'json',
+            success: function(data) {
+                $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + catalog_no);
+                source_meta = '<table>';
+
+                if (data.inc.length > 0) {
+                    source_meta += '<tr><td width="25%">INC</td><td>: ' + data.inc + '</td></tr>';
+                }
+
+                if (data.item_name.length > 0) {
+                    source_meta += '<tr><td width="25%">ITEM NAME</td><td>: ' + data.item_name + '</td></tr>';
+                }
+
+                if (data.group_class.length > 0) {
+                    source_meta += '<tr><td width="25%">GROUP CLASS</td><td>: ' + data.group_class + '</td></tr>';
+                }
+
+                if (data.unit_issue.length > 0) {
+                    source_meta += '<tr><td width="25%">UOM</td><td>: ' + data.unit_issue + '</td></tr>';
+                }
+                source_meta += '</table>';
+
+                if (data.inc.length > 0 || data.item_name.length > 0 || data.group_class.length > 0 || data.unit_issue.length > 0) {
+                    $('#source_modal .modal-body #hr').html("<hr>");
+                } else {
+                    $('#source_modal .modal-body #hr').html("");
+                }
+
+                $('#source_modal .modal-body #source_meta').html(source_meta);
+                $('#source_modal .modal-body #source_desc').text(data.source);
+            },
+            error: function(){
+                $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + catalog_no);
+                $('#source_modal .modal-body #source_meta').html('Whoops, No source available<br>');
+                $('#source_modal .modal-body #source_desc').text('Please import source for this catalog');
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: 'home/part-source-part-no/' + $("#part_master tbody tr.active").attr("id"),
+            dataType: 'json',
+            success: function(data) {
+                if (data.length > 0) {
+                    part_source = '<table class="table table-striped">';
+                    part_source += '<tr><th>MANCODE</th><th>MANUFACTURER</th><th>MANREF</th></tr>';
+                    $.each(data, function(i, item) {
+                        part_source += '<tr><td>' + item.manufacturer_code + '</td><td>' + item.manufacturer + '</td><td>' + item.manufacturer_ref + '</td></tr>';
+                    });
+                    part_source += '<table class="table table-striped">';
+
+                    $('#source_modal .modal-body #part_source').empty().append(part_source);
+                } else {
+                    $('#source_modal .modal-body #part_source').empty();
+                }
+            },
+            error: function(){
+                $('#source_modal .modal-body #part_source').empty();
+            }
+        });
+    }
+    // END GET SOURCE DESC
 
     // MODAL DRAGGABLE - for source description
     $('.modal.draggable>.modal-dialog').draggable({
@@ -469,13 +547,13 @@ jQuery(function($) {
     $('.modal.draggable>.modal-dialog>.modal-content>.modal-header').css('cursor', 'move');
     // END MODAL DRAGGABLE
 
-    // SHOW SOURCE DESC
+    // REPORT MODAL
     $(document).on('click', '#create_report', function() {
         $('#report_modal').modal('show');
         $('#report_warn').empty();
         // $('.modal-backdrop').remove();
     });
-    // END SHOW SOURCE DESC
+    // END REPORT MODAL
 
     // GET PART CHARACTERISTIC VALUE
     function get_part_characteristic_value(inc_group_class_id) {
@@ -686,8 +764,8 @@ jQuery(function($) {
                         charval = '';
                         index = 0;
                         $.each(data, function(i, item) {
-
                             if (item.value != '') {
+                                // UPDATE VALUE
                                 charval += '<tr>';
                                 charval += '<td>' + item.characteristic;
                                 charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
@@ -717,6 +795,7 @@ jQuery(function($) {
                                 // END PO TEXT
 
                             } else {
+                                // INSERT VALUE
                                 charval += '<tr>';
                                 charval += '<td>' + item.characteristic;
 
@@ -745,21 +824,49 @@ jQuery(function($) {
                             index++;
                         });
                         $("#characteristic_value_box").empty().append(charval);
+
+                        // SHORT DESCRIPTION
                         get_short_description_result();
 
                         // PO TEXT
-                         $("#po_text").empty().append(po_charval);
-                        // END PO TEXT
-                    }
-
-                    $.get('coba/oaybdpy/emzlwyn/ryjkokz', function(data){
-                        // loop tiap baris
-                        $("input#insert_value0").typeahead({ 
-                            source:data,
-                            minLength:0,
-                            showHintOnFocus: 'all',
+                        $("#po_text").empty().append(po_charval);
+                        
+                        // TYPEAHEAD
+                        // ini pake typeahead yg udah di edit
+                        // dari https://github.com/bassjobsen/Bootstrap-3-Typeahead/commit/eaa459e2f76bca720b38c46f1c481bf86540d6b0
+                        indexT = 0;
+                        $.each(data, function(i, item) {
+                            if (item.value != '') {
+                                values = [];
+                                $.each(item.values, function(i, item) {
+                                    values.push(item.value);
+                                });
+                                
+                                $('input#update_value' + indexT).typeahead({ 
+                                    source: values,
+                                    minLength: 0,
+                                    showHintOnFocus: 'all',
+                                    fitToElement: true,
+                                    autoSelect: false,
+                                });
+                            }else{
+                                values = [];
+                                $.each(item.values, function(i, item) {
+                                    values.push(item.value);
+                                });
+                                
+                                $('input#insert_value' + indexT).typeahead({ 
+                                    source: values,
+                                    minLength: 0,
+                                    showHintOnFocus: 'all',
+                                    fitToElement: true,
+                                    autoSelect: false,
+                                });
+                            }
+                            indexT++;
                         });
-                    },'json');
+                        // END TYPEAHEAD
+                    }
                 },
                 error: function() {
                     $("#characteristic_value_box").empty()
@@ -909,7 +1016,8 @@ jQuery(function($) {
 
         $.ajax({
             type: 'GET',
-            url: 'home/inc-char-values/' + incCharId + '/' + incId + '/' + charId,
+            // url: 'home/inc-char-values/' + incCharId + '/' + incId + '/' + charId,
+            url: 'home/inc-char-values/' + incCharId,
             dataType: 'json',
             beforeSend: function() {},
             success: function(data) {
@@ -3055,5 +3163,11 @@ jQuery(function($) {
                 $('#hashtags_modal').modal('hide');
             }
         })
+    });
+
+    $(document).ajaxComplete(function() {
+        $('#characteristic_value_box').bind("DOMSubtreeModified",function(){
+            console.log('changed');
+        });
     });
 });
