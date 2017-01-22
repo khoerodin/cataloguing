@@ -14,7 +14,14 @@ class Helper {
             $companyId = Hashids::decode($companyId)[0];
         }
 
+        $itemName = PartMaster::select(\DB::raw('item_name as abbrev, ":" as short_separator'))
+            ->join('link_inc_group_class', 'link_inc_group_class.id', 'part_master.link_inc_group_class_id')
+            ->join('tbl_inc', 'tbl_inc.id', 'link_inc_group_class.tbl_inc_id')
+            ->where('part_master.id', $partMasterId)
+            ->get();
+
         $data = PartCharacteristicValue::select('company_value.abbrev', 'company_short_description_format.short_separator')
+
             ->join('company_check_short', 'company_check_short.part_characteristic_value_id', '=', 'part_characteristic_value.id')
 
             ->join('part_master', 'part_master.id', '=', 'part_characteristic_value.part_master_id')
@@ -39,31 +46,44 @@ class Helper {
             ->where('company_characteristic.tbl_company_id', $companyId)
             ->where('company_characteristic.hidden', 0)
             ->where('company_check_short.short', 1)
-            ->where('company_value.approved', 1)
+            // ->where('company_value.approved', 1)
             ->where('company_short_description_format.hidden', 0)
             
             ->orderBy('company_short_description_format.sequence')
 
             ->get();
-
+        $data_arr = [];
+        foreach ($itemName as $key => $value) {
+            $data_arr[] = [
+                'abbrev' => $value->abbrev,
+                'short_separator' => $value->short_separator,
+            ];
+        }
+        foreach ($data as $key => $value) {
+            $data_arr[] = [
+                'abbrev' => $value->abbrev,
+                'short_separator' => $value->short_separator,
+            ];
+        }
+        $data = json_decode(json_encode($data_arr), false);
         $len = 40;
         $approved = '';
         foreach ($data as $key => $value) {
             $approved .= $value->abbrev . $value->short_separator;
         }
 
-        if(strlen(trim($approved)) <= $len){
+        if(strlen(trim($approved)) <= $len+1){
             return $this->shortLesEqual($data);
         }elseif(strlen(trim($approved)) > $len){
             return $this->shortMoreThan($data,$len);
         }else{
-            return '*';
+            return 'ERROR';
         }
     }
 
     private function shortLesEqual($data)
     {   
-        $short = 'ABCDEFGHIJKLMNOPQRSTUVWXYZHGHJGJH';
+        $short = '';
         $jml = count($data);
         $i = 1;
         foreach ($data as $key => $value) {
@@ -79,7 +99,7 @@ class Helper {
 
     private function shortMoreThan($data,$len)
     {   
-        $short   = 'ABCDEFGHIJKLMNOPQRSTUVWXYZHGHJGJH';
+        $short   = '';
         $shortAr = [];
         foreach ($data as $key => $value) {
             $short     .= $value->abbrev;

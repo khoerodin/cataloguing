@@ -4,8 +4,8 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Accounts.templates.navbar());
-    $('#content').html(Accounts.templates.content());
+    $('#navbar').html(Accounts.templates.accounts_navbar());
+    $('#content').html(Accounts.templates.accounts_content());
     // END HANDLEBARS TEMPLATE
 
     // accountsTab

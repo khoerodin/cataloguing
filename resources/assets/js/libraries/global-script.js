@@ -1,3 +1,28 @@
+// (function () {
+//     var method;
+//     var noop = function noop() { };
+//     var methods = [
+//     'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+//     'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+//     'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+//     'timeStamp', 'trace', 'warn'
+//     ];
+//     var length = methods.length;
+//     var console = (window.console = window.console || {});
+
+//     while (length--) {
+//         method = methods[length];
+//         console[method] = noop;
+//     }
+// }());
+
+// window.console.log = function(){
+//   console.error('Sorry , developers tools are blocked here....');
+//   window.console.log = function() {
+//       return false;
+//   }
+// }
+
 // LOADING
 $(document).ajaxStop(function() {
     $('#loading').hide();

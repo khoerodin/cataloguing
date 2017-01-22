@@ -4,8 +4,8 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Dictionary.templates.navbar());
-    $('#content').html(Dictionary.templates.content());
+    $('#navbar').html(Dictionary.templates.dictionary_navbar());
+    $('#content').html(Dictionary.templates.dictionary_content());
     // END HANDLEBARS TEMPLATE
 
     // disable datatables error prompt

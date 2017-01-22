@@ -46,7 +46,7 @@ Deadline:
  ☐ change save button to active when inc or and group class changed
  ☐ bedakan salt hash js dan php, untuk keamanan
  ✔ select equipment code otomatis disaring dg company @done (17-01-12 07:28)
- ☐ catalog status 
+ ✔ catalog status @done (17-01-21 15:44)
 
  ☐ ketika import, semua di disable dg wait 000...
  
@@ -75,6 +75,7 @@ Deadline:
  ☐ PART SOURCE PART EQUIPMENT CODE
   
  ✔ pick value from typeahead @done (17-01-20 13:51)
+ ☐ short desc more than 40 belum sempurna, masih kadang salah
  
  ☐ catalog status, udah auto-insert ketika migrasi  > Hanya bagi super admin       
  ☐ po style, udah auto-insert ketika migrasi        > Hanya bagi super admin

@@ -305,16 +305,20 @@ class HomeController extends Controller
             ->where('tbl_inc.id', $incId)
             ->where('tbl_company_id', $companyId)
             ->where('company_characteristic.hidden', '<>', 1)
-            ->orderByRaw('(CASE WHEN company_characteristic.sequence = 0 then 1 WHEN company_characteristic.sequence IS NULL then 1 END), company_characteristic.sequence asc')
+            ->orderBy('company_characteristic.sequence')
+            // ->orderByRaw('(CASE WHEN company_characteristic.sequence = 0 then 1 WHEN company_characteristic.sequence IS NULL then 1 END), company_characteristic.sequence asc')
             ->get();
 
         // ini seharusnya pake eager loading,
         // tapi karena bentrok dg Hashids,
-        // maka bikin manual aja
+        // maka saya bikin manual aja
+        // ada ide agar tetep bisa eager loading?
         $arr = [];
         foreach ($query as $value) {
-            $values = LinkIncCharacteristicValue::select('value')
+            $values = LinkIncCharacteristicValue::select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','value','company_value.abbrev','company_value.approved')
+                ->join('company_value', 'company_value.link_inc_characteristic_value_id', 'link_inc_characteristic_value.id')
                 ->where('link_inc_characteristic_id', Hashids::decode($value->link_inc_characteristic_id)[0])
+                ->orderByRaw('company_value.approved desc,value asc')
                 ->get();
 
             $arr[] = array(
@@ -474,11 +478,10 @@ class HomeController extends Controller
 
     public function getIncCharValues($incCharId)
     {
-        return LinkIncCharacteristicValue::join('link_inc_characteristic', 'link_inc_characteristic.id', '=', 'link_inc_characteristic_value.link_inc_characteristic_id')
-                ->where('link_inc_characteristic_id', Hashids::decode($incCharId)[0])
-                // ->where('tbl_inc_id', Hashids::decode($incId)[0])
-                // ->where('tbl_characteristic_id', Hashids::decode($charId)[0])
-                ->select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','link_inc_characteristic_id','value','abbrev','approved')
+        return LinkIncCharacteristicValue::select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','value','company_value.abbrev','company_value.approved')
+                ->join('company_value', 'company_value.link_inc_characteristic_value_id', 'link_inc_characteristic_value.id')
+                ->where('link_inc_characteristic_id', Hashids::decode($value->link_inc_characteristic_id)[0])
+                ->orderByRaw('company_value.approved desc,value asc')
                 ->get();
     }
 

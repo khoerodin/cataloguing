@@ -193,7 +193,7 @@ elixir(function(mix) {
         'handlebars-templates/home.js',        
 
         // scripts template
-        './resources/templates/home/scripts.js',
+        './resources/templates/home/home_scripts.js',
         // global script on footer
         'libraries/global-footer.js',
     ], 'public/js/h.js');
@@ -221,7 +221,7 @@ elixir(function(mix) {
         'handlebars-templates/dictionary.js',
 
         // scripts template
-        './resources/templates/dictionary/scripts.js',
+        './resources/templates/dictionary/dictionary_scripts.js',
         // global script on footer
         'libraries/global-footer.js',
     ], 'public/js/d.js');
@@ -250,7 +250,7 @@ elixir(function(mix) {
         'handlebars-templates/settings.js',
 
         // scripts template
-        './resources/templates/settings/scripts.js',
+        './resources/templates/settings/settings_scripts.js',
         // global script on footer
         'libraries/global-footer.js',
     ], 'public/js/s.js');
@@ -278,7 +278,7 @@ elixir(function(mix) {
         'handlebars-templates/tools.js',
 
         // scripts template
-        './resources/templates/tools/scripts.js',
+        './resources/templates/tools/tools_scripts.js',
         'libraries/bootstrap-filestyle.min.js',
         // global script on footer
         'libraries/global-footer.js',
@@ -307,7 +307,7 @@ elixir(function(mix) {
         'handlebars-templates/accounts.js',
 
         // scripts template
-        './resources/templates/accounts/scripts.js',
+        './resources/templates/accounts/accounts_scripts.js',
         // global script on footer
         'libraries/global-footer.js',
     ], 'public/js/a.js');

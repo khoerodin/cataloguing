@@ -262,7 +262,7 @@
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active row" id="char_tab">
                 <div class="col-xs-6" id="char_box" style="position: relative;">
-                    <div class="col-xs-12" style="margin-bottom:5px;">
+                    <div class="col-xs-12" style="margin-bottom:5px;padding-left: 0px;">
                         <div class="input-group">
                             <input type="text" id="short_desc" class="form-control input-sm" readonly placeholder="SHORT DESCRIPTION">
                             <span class="input-group-btn" style="padding-left:10px;">
@@ -270,17 +270,17 @@
                             </span>                              
                         </div>
                     </div>
-                    <div class="col-xs-6">
+                    <div class="col-xs-6" style="padding-left: 0px;">
                         <div id="select_inc">
                             <select id="inc" data-width="100%" class="inc with-ajax" data-live-search="true"></select>
                         </div>
                     </div>
-                    <div class="col-xs-6" id="select_group_class_box">
+                    <div class="col-xs-6" id="select_group_class_box" style="padding-left: 0px;">
                         <div id="select_group_class">
                             <select id="group_class" data-live-search-placeholder="SELECT GROUP CLASS - NAME" data-width="100%" class="group-class"></select>
                         </div>
                     </div>
-                    <div class="col-xs-12" style="margin-top: 5px;">
+                    <div class="col-xs-12" style="margin-top: 5px; padding-left: 0px;">
                         <table style="margin-top: 0 !important; margin-bottom: 0px;" class="table table-char-value table-striped" id="characteristisc_value_table">
                             <thead>
                                 <tr>
@@ -294,6 +294,11 @@
                             </tbody>
                         </table>
                         <!-- GET VALUES LIST MODAL -->
+
+                        <div id="values_list_modal_content" class="hidden">
+                            
+                        </div>
+
                         <div class="modal draggable" id="get_values_list_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="">
                             <div class="modal-dialog" role="" style="width: 35%;">
                                 <div class="modal-content">
@@ -307,7 +312,7 @@
                                                 <th width="70%">VALUE</th>
                                                 <th width="30%">ABBREV</th>
                                             </thead>
-                                            <tbody id="value-body"></tbody>
+                                            <tbody id="value_body"></tbody>
                                         </table>
                                         <input type="hidden" id="index_get_values_list_modal" class="normalcase">
                                     </div>

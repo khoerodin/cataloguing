@@ -4,8 +4,8 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Settings.templates.navbar());
-    $('#content').html(Settings.templates.content());
+    $('#navbar').html(Settings.templates.settings_navbar());
+    $('#content').html(Settings.templates.settings_content());
     // END HANDLEBARS TEMPLATE
 
     // TAB

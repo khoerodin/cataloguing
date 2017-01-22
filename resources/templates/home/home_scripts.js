@@ -4,8 +4,8 @@ jQuery(function($) {
     // END INSERT ELEMENT FOR HANDLEBARS
 
     // HANDLEBARS TEMPLATE
-    $('#navbar').html(Home.templates.navbar());
-    $('#content').html(Home.templates.content());
+    $('#navbar').html(Home.templates.home_navbar());
+    $('#content').html(Home.templates.home_content());
     // END HANDLEBARS TEMPLATE
 
     // disable datatables error prompt
@@ -681,10 +681,11 @@ jQuery(function($) {
             type: 'GET',
             success: function(data) {
                 $('#short_desc').val(data);
-                // console.log(data.length);
+                $('#short_desc').prop('title', 'CHARACTER COUNT: '+data.length);
             },
             error: function() {
-                // console.log('astaghfirullah');
+               $('#short_desc').val('ERROR');
+               $('#short_desc').prop('title', 'ERROR');
             }
         });
     }
@@ -765,8 +766,13 @@ jQuery(function($) {
                         index = 0;
                         $.each(data, function(i, item) {
                             if (item.value != '') {
+                                if(item.approved != 1) {
+                                    bg = 'rgba(255, 255, 0, 0.5)';
+                                }else{
+                                    bg = '';
+                                }
                                 // UPDATE VALUE
-                                charval += '<tr>';
+                                charval += '<tr id="update_id'+index+'" style="background-color: '+bg+';">';
                                 charval += '<td>' + item.characteristic;
                                 charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
                                 charval += '<input type="hidden" value="' + item.link_inc_characteristic_id + '" class="update_inc_char_id" name="update_inc_char_id[' + index + ']">';
@@ -775,12 +781,12 @@ jQuery(function($) {
                                 charval += '<input class="characteristic_value_cell update_value get-values-list state change-char-value" type="text" id="update_value' + index + '" data-change="update_value' + index + '" name="update_value[' + index + ']" state="0" data-inc-char-id="' + item.link_inc_characteristic_id + '" data-char-id="' + item.char_id + '" data-index="' + index + '" data-action="update" value="' + item.value + '">';
                                 charval += '<input type="hidden" value="' + item.part_characteristic_value_id + '" class="update_part_char_value_id" name="update_part_char_value_id[' + index + ']"></td>';
                                 charval += '</td>';
-                                if(item.approved == 1) {
-                                    abbrev = item.abbrev;
-                                }else{
-                                    abbrev = '';
-                                }
-                                charval += '<td><input type="text" title="' + abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + abbrev + '" disabled></td>';
+                                // if(item.approved == 1) {
+                                //     abbrev = item.abbrev;
+                                // }else{
+                                //     abbrev = '';
+                                // }
+                                charval += '<td><input type="text" title="' + item.abbrev + '" class="characteristic_value_cell" id="update_abbrev' + index + '" value="' + item.abbrev + '" disabled></td>';
 
                                 if (item.short != 1) {
                                     charval += '<td><input type="checkbox" class="pull-right update_short cstate change-char-value" name="update_short[' + index + ']" value="1" cstate="0" id="update_short' + index + '" data-change="update_short' + index + '"></td>';
@@ -796,7 +802,7 @@ jQuery(function($) {
 
                             } else {
                                 // INSERT VALUE
-                                charval += '<tr>';
+                                charval += '<tr id="insert_id'+index+'">';
                                 charval += '<td>' + item.characteristic;
 
                                 charval += '<input type="hidden" value="' + item.characteristic + '" name="char_name' + item.link_inc_characteristic_id + '">';
@@ -866,6 +872,33 @@ jQuery(function($) {
                             indexT++;
                         });
                         // END TYPEAHEAD
+
+                        // VALUE LIST MODAL
+                        ind = 0;
+                        body = '';
+                        $.each(data, function(i, item) {
+                            if (item.value != '') {
+                                action = 'update';
+                            }else{
+                                action = 'insert';
+                            }
+                            valueData = '';
+                            $.each(item.values, function(i_, item_) {
+                                if(item_.approved != 1){
+                                    bg = 'rgba(255, 255, 0, .5);';
+                                }else{
+                                    bg = '';
+                                }
+                                valueData += '<tr style="background-color: '+bg+'" data-bg="'+bg+'" class="pick-value" data-link-inc-char-val-id="' + item_.link_inc_characteristic_value_id + '" data-value="' + item_.value + '" data-abbrev="' + item_.abbrev + '" data-action="'+action+'">';
+                                valueData += '<td>' + item_.value + '</td>';
+                                valueData += '<td>' + item_.abbrev + '</td>';
+                                valueData += '</tr>';
+                            });
+                            body += '<span id="body_'+ind+'"><table><tbody>'+valueData+'</tbody></table></span>';
+                            ind++;
+                        });
+                        $("#values_list_modal_content").html(body);
+                        // END VALUE LIST MODAL
                     }
                 },
                 error: function() {
@@ -1006,36 +1039,18 @@ jQuery(function($) {
 
     // GET VALUES LIST WHEN VALUE COLUMN DOUBLE CLICKED
     $(document).on('dblclick', '.get-values-list', function() {
+        // untuk bikin refresh pake ini:
+        // url: 'home/inc-char-values/' + incCharId,
         incCharId = $(this).attr('data-inc-char-id');
-        charId = $(this).attr('data-char-id');
         index = $(this).attr('data-index');
-        action = $(this).attr('data-action');
-
-        incId = $('select#inc').val();
         charName = $('input[name="char_name' + incCharId + '"]').val();
 
-        $.ajax({
-            type: 'GET',
-            // url: 'home/inc-char-values/' + incCharId + '/' + incId + '/' + charId,
-            url: 'home/inc-char-values/' + incCharId,
-            dataType: 'json',
-            beforeSend: function() {},
-            success: function(data) {
-                valueData = '';
-                $.each(data, function(i, item) {
-                    valueData += '<tr class="pick-value" data-link-inc-char-val-id="' + item.link_inc_characteristic_value_id + '" data-value="' + item.value + '" data-abbrev="' + item.abbrev + '" data-action="' + action + '">';
-                    valueData += '<td><input type="hidden" id="inc_char_val_id_get_values_list_modal" value="' + item.id + '">' + item.value + '</td>';
-                    valueData += '<td>' + item.abbrev + '</td>';
-                    valueData += '</tr>';
-                });
-                $("#value-body").empty().append(valueData);
-
-                $('#get_values_list_modal_title').html(charName + ' <small>VALUE</small>');
-                $('#index_get_values_list_modal').val(index);
-                $('#get_values_list_modal').modal('show');
-            },
-            error: function() {}
-        });
+        value = $('#values_list_modal_content span#body_'+index+' table tbody').html();
+        $('#value_body').html(value);
+        
+        $('#get_values_list_modal_title').html(charName + ' <small>VALUE</small>');
+        $('#index_get_values_list_modal').val(index);
+        $('#get_values_list_modal').modal('show');
     });
     // END GET VALUES LIST WHEN VALUE COLUMN DOUBLE CLICKED
 
@@ -1045,6 +1060,7 @@ jQuery(function($) {
         value = $(this).attr('data-value');
         abbrev = $(this).attr('data-abbrev');
         action = $(this).attr('data-action');
+        bgcolor = $(this).attr('data-bg');
 
         index = $('#index_get_values_list_modal').val();
 
@@ -1054,6 +1070,7 @@ jQuery(function($) {
             $('#insert_value' + index).attr('title', value);
             $('#insert_abbrev' + index).val(abbrev);
             $('#insert_abbrev' + index).attr('title', abbrev);
+            $('tr#insert_id' + index).css('background-color', bgcolor);
 
             change('insert_value' + index);
         } else {
@@ -1062,6 +1079,7 @@ jQuery(function($) {
             $('#update_value' + index).attr('title', value);
             $('#update_abbrev' + index).val(abbrev);
             $('#update_abbrev' + index).attr('title', abbrev);
+            $('tr#update_id' + index).css('background-color', bgcolor);
 
             change('update_value' + index);
         }
@@ -3165,9 +3183,9 @@ jQuery(function($) {
         })
     });
 
-    $(document).ajaxComplete(function() {
-        $('#characteristic_value_box').bind("DOMSubtreeModified",function(){
-            console.log('changed');
-        });
-    });
+    // $(document).ajaxComplete(function() {
+    //     $('#characteristic_value_box').bind("DOMSubtreeModified",function(){
+    //         console.log('changed');
+    //     });
+    // });
 });
