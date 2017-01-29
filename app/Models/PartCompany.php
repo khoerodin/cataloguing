@@ -5,9 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Vinkla\Hashids\Facades\Hashids;
 
-class CompanyCatalog extends Model
+class PartCompany extends Model
 {
-    protected $table = 'company_catalog';
+    protected $table = 'part_company';
     protected $fillable = array(
     	'part_master_id','tbl_company_id','tbl_catalog_status_id',
     	);

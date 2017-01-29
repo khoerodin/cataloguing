@@ -16,6 +16,7 @@ class TblCatalogStatusSeeder extends Seeder
 	        [
 	        	'status' => 'RAW',
 	        	'description' => '',
+	        	'sequence' => '1',
 	        	'created_by' => 2,
 	        	'last_updated_by' => 1,
 	        	'created_at' => $now,
@@ -24,24 +25,27 @@ class TblCatalogStatusSeeder extends Seeder
 	        [
 	          'status' => 'CAT',
 	          'description' => '',
+	          'sequence' => '2',
 	          'created_by' => 2,
-	        	'last_updated_by' => 1,
+	          'last_updated_by' => 1,
 	          'created_at' => $now,
 	          'updated_at' => $now
 	        ],
 	        [
 	          'status' => 'QA',
 	          'description' => '',
+	          'sequence' => '3',
 	          'created_by' => 2,
-	        	'last_updated_by' => 1,
+	          'last_updated_by' => 1,
 	          'created_at' => $now,
 	          'updated_at' => $now
 	        ],
 	        [
-	          'status' => 'PRINTED LOCK',
+	          'status' => 'LOCKED',
 	          'description' => '',
+	          'sequence' => '4',
 	          'created_by' => 2,
-	        	'last_updated_by' => 1,
+	          'last_updated_by' => 1,
 	          'created_at' => $now,
 	          'updated_at' => $now
 	        ],

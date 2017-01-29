@@ -15,7 +15,7 @@ class CreateTblSearchTable extends Migration
     {
         Schema::create('tbl_search', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('catalog_no')->nullable();
+            $table->string('catalog_no', 30)->nullable();
             $table->string('holding_no')->nullable();
             $table->bigInteger('inc_id')->nullable();
             $table->bigInteger('colloquial_id')->nullable();

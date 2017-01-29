@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePartSourcePartNoTable extends Migration
+class CreatePartSourcePartNumberTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreatePartSourcePartNoTable extends Migration
      */
     public function up()
     {
-        Schema::create('part_source_part_no', function (Blueprint $table) {
+        Schema::create('part_source_part_number', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('part_master_id')->unsigned();
@@ -50,6 +50,6 @@ class CreatePartSourcePartNoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('part_source_part_no');
+        Schema::dropIfExists('part_source_part_number');
     }
 }

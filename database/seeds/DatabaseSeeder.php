@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         
         // Seed Code goes here ...
         $this->call(LaratrustSeeder::class);
+        $this->call(TblCatalogStatusSeeder::class);
+        $this->call(TblPoStyleSeeder::class);        
 
         // $this->call(TblHoldingSeeder::class);
         // $this->call(TblCompanySeeder::class);
@@ -34,7 +36,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(TblGroupSeeder::class);
         // $this->call(TblGroupClassSeeder::class);
         // $this->call(TblUnitOfMeasurementSeeder::class);
-        // $this->call(TblCatalogStatusSeeder::class);
         // $this->call(TblUserClassSeeder::class);
 
         // $this->call(TblHarmonizedCodeSeeder::class);
@@ -67,7 +68,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(PartSourceDescriptionSeeder::class);        
         // $this->call(PartSourcePartNoSeeder::class);
             
-        // $this->call(TblPoStyleSeeder::class);        
         // $this->call(CompanyCharacteristicSeeder::class);
         // End Seed Code ...
 

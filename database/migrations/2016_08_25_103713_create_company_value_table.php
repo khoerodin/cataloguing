@@ -31,7 +31,7 @@ class CreateCompanyValueTable extends Migration
             $table->unique(array('tbl_company_id', 'link_inc_characteristic_value_id'),'company_abbrev_tci_licvi_unique');
 
             $table->string('custom_value_name')->default('');
-            $table->string('abbrev', 30)->default('');
+            $table->string('abbrev', 40)->default('');
             $table->boolean('approved');
 
             $table->integer('created_by')->unsigned();

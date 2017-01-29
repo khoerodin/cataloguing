@@ -890,6 +890,7 @@ table.table-short-settings tr:first-child td {
   text-transform: initial;
 }
 
+table#part_attachment>thead>tr>th.cpointer:after,
 table#permission_role>thead>tr>th.cpointer:after,
 table#roles>thead>tr>th.cpointer:after,
 table#role_user>thead>tr>th.cpointer:after,
@@ -901,6 +902,10 @@ table#part_colloquial>thead>tr>th.cpointer:after,
 table#part_equipment_code>thead>tr>th.cpointer:after{
   content: "" !important;
 }
+
+table#part_attachment thead>tr>th.sorting,
+table#part_attachment thead>tr>th.sorting_desc,
+table#part_attachment thead>tr>th.sorting_asc,
 
 table#permission_role thead>tr>th.sorting,
 table#permission_role thead>tr>th.sorting_desc,
@@ -956,7 +961,9 @@ table#part_equipment_code thead>tr>th.sorting_asc {
   font-size: medium;
   padding: 10px;
 }
-#part_colloquial_wrapper, #part_equipment_code_wrapper {
+#part_colloquial_wrapper, 
+#part_equipment_code_wrapper,
+#part_attachment_wrapper {
   margin-top: -6px;
 }
 .classification-form:hover kbd.kbd-primary.hover {

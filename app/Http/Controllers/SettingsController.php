@@ -218,13 +218,11 @@ class SettingsController extends Controller
 
     public function deleteValue($cvid,$licvid)
     {
-        $delete1 = LinkIncCharacteristicValue::where('id',Hashids::decode($licvid)[0])->delete();
-        if($delete1 == 1){
-            $delete2 = CompanyValue::where('id',Hashids::decode($cvid)[0])->delete();
+        $delete1 = CompanyValue::where('id',Hashids::decode($cvid)[0])->delete();
+        if($delete1){
+            $delete2 = LinkIncCharacteristicValue::where('id',Hashids::decode($licvid)[0])->delete();
             return Response::json($delete2);
-        }else{
-            return Response::json('Cannot delete this value.', 500);
-        }        
+        }      
     }
 
     public function addCharValue(Request $request)

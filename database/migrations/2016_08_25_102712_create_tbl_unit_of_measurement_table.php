@@ -16,11 +16,14 @@ class CreateTblUnitOfMeasurementTable extends Migration
         Schema::create('tbl_unit_of_measurement', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('unit2', 2)->unique();
-            $table->string('unit3', 3)->unique();
-            $table->string('unit4', 4)->unique();
-            $table->text('eng_definition');
-            $table->text('ind_definition');
+            $table->string('name')->unique();
+
+            $table->string('unit2')->default('');
+            $table->string('unit3')->default('');
+            $table->string('unit4')->default('');
+            
+            $table->text('eng_definition')->default('');
+            $table->text('ind_definition')->default('');
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

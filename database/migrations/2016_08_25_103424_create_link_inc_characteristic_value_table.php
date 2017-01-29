@@ -22,11 +22,11 @@ class CreateLinkIncCharacteristicValueTable extends Migration
                   ->onUpdate('CASCADE')
                   ->onDelete('NO ACTION');
 
-            $table->string('value', 30);
+            $table->string('value');
 
             $table->unique(array('link_inc_characteristic_id', 'value'), 'link_inc_characteristic_value_lici_v_unique');
 
-            $table->string('abbrev', 30)->default('');
+            $table->string('abbrev', 40)->default('');
             $table->boolean('approved')->default(0);
 
             $table->integer('created_by')->unsigned();

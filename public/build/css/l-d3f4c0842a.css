@@ -5934,7 +5934,7 @@ when a scrollbar is visible and wider when it is not).
 */
 table.table-char-value>tbody {
   overflow-y: scroll;
-  height: 195px;
+  height: 225px;
 }
 
 /*
@@ -6065,6 +6065,10 @@ kbd.kbd-primary {
 kbd.kbd-primary:hover {
     background-color: rgba(2, 129, 128, 1) !important;
 }
+kbd.kbd-success {
+    background-color: #5cb85c !important;    
+    color: fff; 
+}
 kbd.kbd-danger {
     /*belum dikasih warna*/
 }
@@ -6081,12 +6085,16 @@ tr:hover kbd.kbd-default.hover {
     background-color: #e6e6e6 !important;
     color: #555;
 }
-kbd.kbd-primary.hover {
+kbd.kbd-primary.hover, kbd.kbd-danger.hover, kbd.kbd-success.hover {
     background-color: transparent !important;
     color: transparent;
 }
 tr:hover kbd.kbd-primary.hover {
     background-color: rgba(3, 179, 178, 1) !important;
+    color: #fff;
+}
+tr:hover kbd.kbd-success.hover {
+    background-color: #5cb85c !important;
     color: #fff;
 }
 kbd.kbd-default-grey.hover {
@@ -6096,10 +6104,6 @@ kbd.kbd-default-grey.hover {
 tr:hover kbd.kbd-default-grey.hover {
     background-color: #c6c6c6 !important;
     color: #777777;
-}
-kbd.kbd-danger.hover {
-    background-color: transparent !important;
-    color: transparent; 
 }
 tr:hover kbd.kbd-danger.hover {
     background-color: rgba(217, 83, 79, 1) !important;
@@ -6673,6 +6677,7 @@ table.table-short-settings tr:first-child td {
   text-transform: initial;
 }
 
+table#part_attachment>thead>tr>th.cpointer:after,
 table#permission_role>thead>tr>th.cpointer:after,
 table#roles>thead>tr>th.cpointer:after,
 table#role_user>thead>tr>th.cpointer:after,
@@ -6684,6 +6689,10 @@ table#part_colloquial>thead>tr>th.cpointer:after,
 table#part_equipment_code>thead>tr>th.cpointer:after{
   content: "" !important;
 }
+
+table#part_attachment thead>tr>th.sorting,
+table#part_attachment thead>tr>th.sorting_desc,
+table#part_attachment thead>tr>th.sorting_asc,
 
 table#permission_role thead>tr>th.sorting,
 table#permission_role thead>tr>th.sorting_desc,
@@ -6739,10 +6748,56 @@ table#part_equipment_code thead>tr>th.sorting_asc {
   font-size: medium;
   padding: 10px;
 }
-#part_colloquial_wrapper, #part_equipment_code_wrapper {
+#part_colloquial_wrapper, 
+#part_equipment_code_wrapper,
+#part_attachment_wrapper {
   margin-top: -6px;
 }
 .classification-form:hover kbd.kbd-primary.hover {
     background-color: rgba(3, 179, 178, 1) !important;
     color: #fff;
+}
+
+.cattags {
+  background-color: rgb(243, 243, 243);
+  color: rgb(102, 102, 102);
+  font-weight: normal;
+  font-size: 14px;
+  padding: 4px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+  font-size: 14px !important;
+  line-height: 19px !important;
+}
+
+.selectize-input {
+  min-height: 20px !important;
+  border-radius: 0px !important;
+}
+
+.selectize-input.focus {
+  box-shadow: none !important;
+  border-color: rgb(3, 179, 178) !important;
+}
+
+.form-control.selectize-control {
+  height: 30px !important;
+}
+
+.selectize-control.multi .selectize-input > div {
+  color: rgb(102, 102, 102) !important;
+}
+
+.selectize-control.multi .selectize-input > div.active {
+  color: #fff !important;
+  background-color: rgb(3, 179, 178) !important;
+}
+.typeahead.dropdown-menu > li > a {
+    padding-left: 7px !important;
+}
+.no-pointer-event {
+    /*pointer-events: none;*/
 }

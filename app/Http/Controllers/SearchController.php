@@ -181,128 +181,210 @@ class SearchController extends Controller
     {
         return PartMaster::select('catalog_no')
             ->where('catalog_no', 'like', '%'.$request->q.'%')
-            ->distinct()->get();
+            ->limit(7)->distinct()->get();
     }
 
     public function selectSearchHoldingNo(Request $request)
     {
         return PartMaster::select('holding_no')
             ->where('holding_no', 'like', '%'.$request->q.'%')
-            ->distinct()->get();
+            ->limit(7)->distinct()->get();
     }
 
     public function selectSearchIncItemName(Request $request)
     {
-        return TblInc::select('id as tbl_inc_id', 'inc', 'item_name')
-            ->where('inc', 'like', '%'.$request->q.'%')
-            ->orWhere('item_name', 'like', '%'.$request->q.'%')
-            ->limit(5)->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblInc::select('tbl_inc.id as tbl_inc_id', 'inc', 'item_name')
+            ->join('link_inc_group_class', 'link_inc_group_class.tbl_inc_id', 'tbl_inc.id')
+            ->join('part_master', 'part_master.link_inc_group_class_id', 'link_inc_group_class.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('inc', 'like', '%'.$value.'%')
+                    ->orWhere('item_name', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchColloquial(Request $request)
     {
-        return TblColloquial::select('id as tbl_colloquial_id', 'colloquial')
-            ->where('colloquial', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblColloquial::select('tbl_colloquial.id as tbl_colloquial_id', 'colloquial')
+            ->join('part_colloquial', 'part_colloquial.tbl_colloquial_id', 'tbl_colloquial.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('colloquial', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchGroupClass(Request $request)
     {
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
         return TblGroupClass::select('tbl_group_class.id as tbl_group_class_id', DB::raw('CONCAT(`group`, class) AS group_class'), 'tbl_group_class.name')
-            ->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
-            ->where(DB::raw('CONCAT(`group`, class)'), 'like', '%'.$request->q.'%')
-            ->orWhere('tbl_group_class.name', 'like', '%'.$request->q.'%')
-            ->get();
+            ->join('tbl_group', 'tbl_group.id', 'tbl_group_class.tbl_group_id')
+            ->join('link_inc_group_class', 'link_inc_group_class.tbl_group_class_id', 'tbl_group_class.id')
+            ->join('part_master', 'part_master.link_inc_group_class_id', 'link_inc_group_class.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere(DB::raw('CONCAT(`group`, class)'), 'like', '%'.$value.'%')
+                    ->orWhere('tbl_group_class.name', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchCatalogStatus(Request $request)
     {
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
         return TblCatalogStatus::select('tbl_catalog_status.id as tbl_catalog_status_id', 'status')
-            ->join('part_master', 'part_master.tbl_catalog_status_id', '=', 'tbl_catalog_status.id')
+            ->join('part_company', 'part_company.tbl_catalog_status_id', '=', 'tbl_catalog_status.id')
+            ->join('part_master', 'part_master.id', '=', 'part_company.part_master_id')
             ->where('status', 'like', '%'.$request->q.'%')
-            ->distinct()->get();
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('status', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchItemType(Request $request)
     {
-        return TblItemType::select('id as tbl_item_type_id', 'type')
-            ->where('type', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblItemType::select('tbl_item_type.id as tbl_item_type_id', 'type')
+            ->join('part_master', 'part_master.tbl_item_type_id', 'tbl_item_type.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('type', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchManufacturer(Request $request)
     {
-        return TblManufacturerCode::select('id as tbl_manufacturer_code_id', 'manufacturer_code', 'manufacturer_name')
-            ->where('manufacturer_code', 'like', '%'.$request->q.'%')
-            ->orWhere('manufacturer_name', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblManufacturerCode::select('tbl_manufacturer_code.id as tbl_manufacturer_code_id', 'manufacturer_code', 'manufacturer_name')
+            ->join('part_manufacturer_code', 'part_manufacturer_code.tbl_manufacturer_code_id', 'tbl_manufacturer_code.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('manufacturer_code', 'like', '%'.$value.'%')
+                    ->orWhere('manufacturer_name', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
+    }
+
+    private function clean($string) {
+        // source http://stackoverflow.com/questions/14114411/remove-all-special-characters-from-a-string
+        $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+        $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+        $string = preg_replace('/-+/', '-', $string); // Replaces multiple hyphens with single one.
+        $string = str_replace('-', '', $string);
+
+        return $string;
     }
 
     public function selectSearchPartNumber(Request $request)
     {
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
         return PartManufacturerCode::select('manufacturer_ref as part_number')
-            ->where(DB::raw('REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-            	REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-            	REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
-            	REPLACE(REPLACE(REPLACE(manufacturer_ref, \'"\', \'\'),\' \', \'\'),\'.\', \'\'),\'?\', \'\'),\'`\', \'\'),
-            	\'<\', \'\'),\'=\', \'\'),\'{\', \'\'),\'}\', \'\'),\'[\', \'\'),\']\', \'\'),
-            	\'|\', \'\'),'.DB::getPdo()->quote('\'').', \'\'),\':\', \'\'),\';\', \'\'),
-            	\'~\', \'\'),\'!\', \'\'),\'@\', \'\'),\'#\', \'\'),\'$\', \'\'),\'%\', \'\'),
-            	\'^\', \'\'),\'&\', \'\'),\'*\', \'\'),\'_\', \'\'),\'+\', \'\'),\',\', \'\'),
-            	\'/\', \'\'),\'(\', \'\'),\')\', \'\'),\'-\', \'\'),\'>\', \'\')'), 
-                'like', '%'.$request->q.'%')
-            ->orWhere('manufacturer_ref', 'like', '%'.$request->q.'%')
-            ->distinct()->get();
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere(DB::raw('REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                    REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                    REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(
+                    REPLACE(REPLACE(REPLACE(manufacturer_ref, \'"\', \'\'),\' \', \'\'),\'.\', \'\'),\'?\', \'\'),\'`\', \'\'),
+                    \'<\', \'\'),\'=\', \'\'),\'{\', \'\'),\'}\', \'\'),\'[\', \'\'),\']\', \'\'),
+                    \'|\', \'\'),'.DB::getPdo()->quote('\'').', \'\'),\':\', \'\'),\';\', \'\'),
+                    \'~\', \'\'),\'!\', \'\'),\'@\', \'\'),\'#\', \'\'),\'$\', \'\'),\'%\', \'\'),
+                    \'^\', \'\'),\'&\', \'\'),\'*\', \'\'),\'_\', \'\'),\'+\', \'\'),\',\', \'\'),
+                    \'/\', \'\'),\'(\', \'\'),\')\', \'\'),\'-\', \'\'),\'>\', \'\')'), 
+                    'like', '%'.$this->clean($value).'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchEquipment(Request $request)
     {
-        return TblEquipmentCode::select('id as tbl_equipment_code_id', 'equipment_code', 'equipment_name')
-            ->where('equipment_code', 'like', '%'.$request->q.'%')
-            ->orWhere('equipment_name', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblEquipmentCode::select('tbl_equipment_code.id as tbl_equipment_code_id', 'equipment_code', 'equipment_name')
+            ->join('part_equipment_code', 'part_equipment_code.tbl_equipment_code_id', 'tbl_equipment_code.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('equipment_code', 'like', '%'.$value.'%')
+                    ->orWhere('equipment_name', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchHolding(Request $request)
     {
-        return TblHolding::select('id as tbl_holding_id', 'holding')
-            ->where('holding', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblHolding::select('tbl_holding.id as tbl_holding_id', 'holding')
+            ->join('part_master', 'part_master.tbl_holding_id', 'tbl_holding.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('holding', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchCompany(Request $request)
     {
-        return TblCompany::select('id as tbl_company_id', 'company')
-            ->where('company', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblCompany::select('tbl_company.id as tbl_company_id', 'company')
+            ->join('part_company', 'part_company.tbl_company_id', 'tbl_company.id')
+            ->join('part_master', 'part_master.id', 'part_company.part_master_id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('company', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchPlant(Request $request)
     {
-        return TblPlant::select('id as tbl_plant_id', 'plant')
-            ->where('plant', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblPlant::select('tbl_plant.id as tbl_plant_id', 'plant')
+            ->join('part_bin_location', 'part_bin_location.tbl_plant_id', 'tbl_plant.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('plant', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchLocation(Request $request)
     {
-        return TblLocation::select('id as tbl_location_id', 'location')
-            ->where('location', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblLocation::select('tbl_location.id as tbl_location_id', 'location')
+            ->join('part_bin_location', 'part_bin_location.tbl_location_id', 'tbl_location.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('location', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchShelf(Request $request)
     {
-        return TblShelf::select('id as tbl_shelf_id', 'shelf')
-            ->where('shelf', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblShelf::select('tbl_shelf.id as tbl_shelf_id', 'shelf')
+            ->join('part_bin_location', 'part_bin_location.tbl_shelf_id', 'tbl_shelf.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('shelf', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchBin(Request $request)
     {
-        return TblBin::select('id as tbl_bin_id', 'bin')
-            ->where('bin', 'like', '%'.$request->q.'%')
-            ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblBin::select('tbl_bin.id as tbl_bin_id', 'bin')
+            ->join('part_bin_location', 'part_bin_location.tbl_bin_id', 'tbl_bin.id')
+            ->where(function ($q) use ($searchQueries) {
+                foreach ($searchQueries as $value) {
+                    $q->orWhere('bin', 'like', '%'.$value.'%');
+                }
+            })->limit(7)->distinct()->get();
     }
 
     public function selectSearchUser(Request $request)
@@ -312,5 +394,4 @@ class SearchController extends Controller
             ->orWhere('name', 'like', '%'.$request->q.'%')
             ->get();
     }
-
 }

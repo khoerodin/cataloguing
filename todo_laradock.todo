@@ -2,3 +2,15 @@ laradock yang perlu diaktifkan
  ☐ file docker-compose.yml: workspace aktifkan INSTALL_NODE
  ☐ file docker-compose.yml: php-fpm aktifkab INSTALL_ZIP_ARCHIVE
  ☐ file nginx.conf ditambah fastcgi_read_timeout 3000;
+ ☐ masuk ke workspace container : docker run -it laradock_workspace bash           
+   - apt-get -qq update && apt-get install wkhtmltopdf
+   - liat id container : docker ps -a
+   - commit : docker commit <id containernya> laradock_workspace
+   - setelah selesai: exit dan cek dg : dpkg -l wkhtmltopdf
+   - panduan: https://gist.github.com/glamp/74188691c91d52770807
+
+=====================================
+untuk nginx tambahkan dalam http :
+  fastcgi_read_timeout 300; => 504 Gateway Timeout on NGINX Server
+  client_max_body_size 2M; => untuk menghindari Nginx 413 Request Entity Too Large
+  di  /etc/nginx/nginx.conf

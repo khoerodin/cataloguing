@@ -14,7 +14,7 @@ class Helper {
             $companyId = Hashids::decode($companyId)[0];
         }
 
-        $itemName = PartMaster::select(\DB::raw('item_name as abbrev, ":" as short_separator'))
+        $itemName = PartMaster::select(\DB::raw('short_name as abbrev, ":" as short_separator'))
             ->join('link_inc_group_class', 'link_inc_group_class.id', 'part_master.link_inc_group_class_id')
             ->join('tbl_inc', 'tbl_inc.id', 'link_inc_group_class.tbl_inc_id')
             ->where('part_master.id', $partMasterId)
@@ -46,6 +46,7 @@ class Helper {
             ->where('company_characteristic.tbl_company_id', $companyId)
             ->where('company_characteristic.hidden', 0)
             ->where('company_check_short.short', 1)
+            ->where('company_value.abbrev', '!=', '')
             // ->where('company_value.approved', 1)
             ->where('company_short_description_format.hidden', 0)
             

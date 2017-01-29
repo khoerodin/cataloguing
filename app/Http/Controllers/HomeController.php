@@ -13,21 +13,23 @@ use Vinkla\Hashids\Facades\Hashids;
 
 use App\PermissionRole;
 use App\Models\TblCatalogStatus;
-use App\Models\CompanyCatalog;
 use App\Models\CompanyCharacteristic;
 use App\Models\CompanyCheckShort;
 use App\Models\CompanyShortDescriptionFormat;
+use App\Models\CompanyValue;
 use App\Models\LinkIncGroupClass;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
 use App\Models\PartBinLocation;
+use App\Models\PartCompany;
 use App\Models\PartCharacteristicValue;
 use App\Models\PartColloquial;
+use App\Models\PartAttachment;
 use App\Models\PartEquipmentCode;
 use App\Models\PartManufacturerCode;
 use App\Models\PartMaster;
 use App\Models\PartSourceDescription;
-use App\Models\PartSourcePartNo;
+use App\Models\PartSourcePartNumber;
 use App\Models\TblCharacteristic;
 use App\Models\TblCompany;
 use App\Models\TblColloquial;
@@ -67,29 +69,29 @@ class HomeController extends Controller
         $id = Hashids::decode($key)[0];
         $search = TblSearch::find($id);
 
-        $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', '=', 'part_master.tbl_holding_id')
-                // ->join('tbl_unit_of_measurement', 'tbl_unit_of_measurement.id', '=', 'part_master.unit_issue')
-                ->join('link_inc_group_class', 'link_inc_group_class.id', '=', 'part_master.link_inc_group_class_id')
-                ->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
-                ->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
-                ->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
-                ->join('tbl_unit_of_measurement as unit_issue', 'unit_issue.id', '=', 'part_master.unit_issue')
-                ->join('tbl_item_type', 'tbl_item_type.id', '=', 'part_master.tbl_item_type_id')
-                ->join('tbl_stock_type', 'tbl_stock_type.id', '=', 'part_master.tbl_stock_type_id')
-                ->join('tbl_user_class', 'tbl_user_class.id', '=', 'part_master.tbl_user_class_id')
-                ->join('tbl_weight_unit', 'tbl_weight_unit.id', '=', 'part_master.tbl_weight_unit_id')
+        $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
+                ->join('part_company', 'part_company.part_master_id', 'part_master.id')
+                ->join('tbl_company', 'tbl_company.id', 'part_company.tbl_company_id')
+                ->join('tbl_catalog_status', 'tbl_catalog_status.id', 'part_company.tbl_catalog_status_id')
+                ->join('link_inc_group_class', 'link_inc_group_class.id', 'part_master.link_inc_group_class_id')
+                ->join('tbl_inc', 'tbl_inc.id', 'link_inc_group_class.tbl_inc_id')
+                ->join('tbl_group_class', 'tbl_group_class.id', 'link_inc_group_class.tbl_group_class_id')
+                ->join('tbl_group', 'tbl_group.id', 'tbl_group_class.tbl_group_id')
+                ->join('tbl_unit_of_measurement as unit_issue', 'unit_issue.id', 'part_master.unit_issue')
                 
+                // PART MASTER
                 ->SearchCatalogNo($search->catalog_no)
                 ->SearchHoldingNo($search->holding_no)
                 ->SearchIncId($search->inc_id)
-                ->SearchColloquialId($search->colloquial_id)
                 ->SearchGroupClassId($search->group_class_id)
-                ->SearchCatalogStatusId($search->catalog_status_id)
                 ->SearchCatalogType($search->catalog_type)
+                ->SearchCatalogStatusId($search->catalog_status_id)
+                ->SearchColloquialId($search->colloquial_id)
                 ->SearchItemTypeId($search->item_type_id)
                 ->SearchManCodeId($search->man_code_id)
                 ->SearchPartNumber($search->part_number)
                 ->SearchEquipmentCodeId($search->equipment_code_id)
+
                 ->SearchHoldingId($search->holding_id)
                 ->SearchCompanyId($search->company_id)
                 ->SearchPlantId($search->plant_id)
@@ -101,37 +103,30 @@ class HomeController extends Controller
                     'part_master.id as part_master_id',
                     'catalog_no',
                     'holding',
-                    'holding_no',
+                    'company',
+                    DB::raw('(CASE
+                        WHEN holding_no = "" THEN "NOT AVAILABLE"
+                        WHEN holding_no IS NULL THEN "NOT AVAILABLE"
+                        ELSE holding_no
+                    END
+                    ) as holding_no'),
                     'item_name',
                     'inc',
                     DB::raw('CONCAT(`group`, tbl_group_class.class) AS group_class'),
                     DB::raw('(CASE 
-                                WHEN uom_type = "2" THEN unit_issue.unit2
-                                WHEN uom_type = "3" THEN unit_issue.unit3
-                                WHEN uom_type = "4" THEN unit_issue.unit4
-                            END
-                            ) as unit_issue'),           
+                        WHEN uom_type = "2" THEN unit_issue.unit2
+                        WHEN uom_type = "3" THEN unit_issue.unit3
+                        WHEN uom_type = "4" THEN unit_issue.unit4
+                    END
+                    ) as unit_issue'),           
                     'catalog_type',
                     'tbl_catalog_status.status',
-                    'tbl_catalog_status.id as tbl_catalog_status_id',
-
-                    'tbl_item_type.type',
-                    'tbl_stock_type.type',
-                    'tbl_user_class.class',
-                    'conversion',  
-
-                    'weight_value',
-                    'tbl_weight_unit.unit as weight_unit',
-                    'average_unit_price',
-
                     'link_inc_group_class.id as link_inc_group_class_id',
-                    'tbl_inc_id',
+                    'tbl_catalog_status.id as tbl_catalog_status_id',
                     'tbl_company_id',
-                    'company',
-                    'uom_type',
                     ]);
         return Datatables::of($partMaster)
-            ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" class="company" value="{{$tbl_company_id}}"> <input type="hidden" class="catalog_status_id" value="{{$tbl_catalog_status_id}}">')
+            ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" class="company" value="{{$tbl_company_id}}"> <input type="hidden" class="catalog_status_id" value="{{$tbl_catalog_status_id}}"> <input type="hidden" class="inc_group_class_id" value="{{$link_inc_group_class_id}}">')
             ->setRowId('part_master_id')
             ->make(true);
     }
@@ -201,6 +196,8 @@ class HomeController extends Controller
             ->get();
     }
 
+    // insert abbrev & short status (approved or not)
+    // from part characteristic value to company value if not inserted yet 
     private function insertAbbrevAndShort($partMasterId, $companyId)
     {
         $sub_query_part_char_val = PartCharacteristicValue::select('company_value.link_inc_characteristic_value_id')
@@ -214,7 +211,7 @@ class HomeController extends Controller
             ->whereNotIn('link_inc_characteristic_value_id', $sub_query_part_char_val)
             ->first();
 
-        // jika ada link_inc_characteristic_value_id belum masuk company_value
+        // jika ada link_inc_characteristic_value_id (dalam part characteristic value) belum masuk company_value
         // dengan part_master_id dan company_id yang ditentukan
         if(count($check_link_inc_char_val_id_not_in_company_value) > 0){
             $select = PartCharacteristicValue::select(array(DB::raw($companyId.' as tbl_company_id, link_inc_characteristic_value_id, "" as abbrev, 0 as approved, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
@@ -254,6 +251,7 @@ class HomeController extends Controller
 
             DB::insert($insertQuery, $bindings);
         }
+        return true;
     }
 
     private function incCharIdCompany($companyId)
@@ -379,9 +377,9 @@ class HomeController extends Controller
             $insertQuery = 'INSERT into company_short_description_format (company_characteristic_id,short_separator,sequence,created_by,last_updated_by,created_at,updated_at) '
             . $select->toSql();
 
-            return DB::insert($insertQuery, $bindings);
-        
+            DB::insert($insertQuery, $bindings);
         }
+        return true;
     }
 
     private function insertSomeCharsToCompany($companyId,$incId,$partMasterId)
@@ -418,9 +416,42 @@ class HomeController extends Controller
 
     private function getPartCharValBox($companyId, $incId, $partMasterId)
     {
-        $this->insertCompanyCharsToCompanyShortFormat($companyId);
-        $this->insertAbbrevAndShort($partMasterId, $companyId);
-        return $this->getPartCharVal($companyId, $incId, $partMasterId);
+        if(
+            $this->insertCompanyCharsToCompanyShortFormat($companyId) == true &&
+            $this->insertAbbrevAndShort($partMasterId, $companyId) == true
+        ){
+            if($this->insertLinkIncCharValId($companyId, $incId) == true){
+                return $this->getPartCharVal($companyId, $incId, $partMasterId);
+            }
+        }
+    }
+
+    // when fresh install only and applied to new company
+    private function insertLinkIncCharValId($companyId, $incId){
+        $licvFromCompany = CompanyValue::select('link_inc_characteristic_value_id')
+            ->where('tbl_company_id', $companyId)
+            ->get()->toArray();
+
+        $licv = LinkIncCharacteristicValue::select('link_inc_characteristic_value.id')
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', 'link_inc_characteristic_value.link_inc_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->whereNotIn('link_inc_characteristic_value.id', $licvFromCompany)
+            ->get();
+
+        if(count($licv)>0){
+            $select = LinkIncCharacteristicValue::select(array(DB::raw($companyId.' as tbl_company_id, link_inc_characteristic_value.id, abbrev, approved, '. Auth::user()->id .' as created_by, '.Auth::user()->id . ' as last_updated_by, "'. date("Y-m-d H:i:s") .'" as created_at, "'. date("Y-m-d H:i:s") .'" as updated_at')))
+            ->join('link_inc_characteristic', 'link_inc_characteristic.id', 'link_inc_characteristic_value.link_inc_characteristic_id')
+            ->where('tbl_inc_id', $incId)
+            ->whereNotIn('link_inc_characteristic_value.id', $licvFromCompany);
+
+            $bindings = $select->getBindings();
+
+            $insertQuery = 'INSERT into company_value (tbl_company_id,link_inc_characteristic_value_id,abbrev,approved,created_by,last_updated_by,created_at,updated_at) '
+            . $select->toSql();
+
+            DB::insert($insertQuery, $bindings);
+        }
+        return true;
     }
 
     private function doubleCheck($companyId, $incId, $partMasterId)
@@ -1012,10 +1043,10 @@ class HomeController extends Controller
         ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
 
-        ->join('company_catalog', function($q)
+        ->join('part_company', function($q)
             {
-                $q->on('company_catalog.part_master_id', '=', 'part_equipment_code.part_master_id')
-                    ->on('company_catalog.tbl_company_id', '=', 'tbl_equipment_code.tbl_company_id');
+                $q->on('part_company.part_master_id', '=', 'part_equipment_code.part_master_id')
+                    ->on('part_company.tbl_company_id', '=', 'tbl_equipment_code.tbl_company_id');
             })
 
         ->where('part_equipment_code.part_master_id', Hashids::decode($partMasterId)[0])
@@ -1274,10 +1305,10 @@ class HomeController extends Controller
             ->where('part_master_id', Hashids::decode($partMasterId)[0])->first();
     }
 
-    public function getPartSourcePartNo($partMasterId)
+    public function getPartSourcePartNumber($partMasterId)
     {
-        return PartSourcePartNo::select('catalog_no', 'manufacturer_code', 'manufacturer', 'manufacturer_ref', 'ref_type')
-            ->join('part_master', 'part_master.id', '=', 'part_source_part_no.part_master_id')
+        return PartSourcePartNumber::select('catalog_no', 'manufacturer_code', 'manufacturer', 'manufacturer_ref', 'ref_type')
+            ->join('part_master', 'part_master.id', '=', 'part_source_part_number.part_master_id')
             ->where('part_master_id', Hashids::decode($partMasterId)[0])->get();
     }
 
@@ -1311,7 +1342,7 @@ class HomeController extends Controller
     }
 
     public function changeStatus(Request $request){
-        $cc = CompanyCatalog::where('part_master_id', Hashids::decode($request->master_id)[0])
+        $cc = PartCompany::where('part_master_id', Hashids::decode($request->master_id)[0])
             ->where('tbl_company_id', Hashids::decode($request->company_id)[0])->first();
 
         $cc->tbl_catalog_status_id = Hashids::decode($request->status_id)[0];
@@ -1467,5 +1498,45 @@ class HomeController extends Controller
         }
 
         return $this->getCatalogHashTags($partMasterId);
+    }
+
+    public function getPartAttachment($partMasterId){
+        $data = PartAttachment::select(
+            'part_attachment.id as part_attachment_id',
+            'tbl_part_attachment_id',
+            'type', 'title',
+            'url','source'
+            )
+        ->join('tbl_part_attachment', 'tbl_part_attachment.id', 'part_attachment.tbl_part_attachment_id')
+        ->where('part_master_id', Hashids::decode($partMasterId)[0])
+        ->get();
+
+        $arr = [];
+        foreach ($data as $value) {
+            $catalogs = PartAttachment::select('part_master_id', 'catalog_no', 'inc', 'item_name',  DB::raw('CONCAT(`group`, tbl_group_class.class) AS group_class'))
+                ->join('part_master', 'part_master.id', 'part_document.part_master_id')
+                ->join('link_inc_group_class', 'link_inc_group_class.id', 'part_master.link_inc_group_class_id')
+                ->join('tbl_inc', 'tbl_inc.id', 'link_inc_group_class.tbl_inc_id')
+                ->join('tbl_group_class', 'tbl_group_class.id', 'link_inc_group_class.tbl_group_class_id')
+                ->join('tbl_group', 'tbl_group.id', 'tbl_group_class.tbl_group_id')
+                ->where('tbl_part_attachment_id', Hashids::decode($value->tbl_part_attachment_id)[0])
+                ->get();
+
+            $title = $value->title .'<span style="right: 13px;position: absolute;"><kbd data-id="'.$value->part_attachment_id.'" class="kbd-danger hover delete-pdc cpointer">DELETE</kbd> <kbd data-id="'.$value->part_attachment_id.'" class="kbd-primary hover edit-pdc cpointer">EDIT</kbd> <kbd data-id="'.$value->part_attachment_id.'" class="kbd-success hover view-pdc cpointer">VIEW</kbd></span>';
+
+            $arr[] = array(
+                'part_attachment_id' => $value->part_attachment_id,
+                'tbl_part_attachment_id' => $value->tbl_part_attachment_id,
+                'type' => $value->type,
+                'title' => $title,
+                'source' => $value->source,
+                'catalogs' => $catalogs,
+            );
+        }
+
+        $collection = collect($arr);
+        return Datatables::of($collection)
+            ->setRowId('part_attachment_id')
+            ->make(true);
     }
 }

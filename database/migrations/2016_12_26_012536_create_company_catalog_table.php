@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompanyCatalogTable extends Migration
+class CreatePartCompanyTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateCompanyCatalogTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_catalog', function (Blueprint $table) {
+        Schema::create('part_company', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('part_master_id')->unsigned();
@@ -47,6 +47,6 @@ class CreateCompanyCatalogTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('company_catalog');
+        Schema::dropIfExists('part_company');
     }
 }

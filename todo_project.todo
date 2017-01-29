@@ -97,6 +97,7 @@ Others:
  ☐ animation loading, beforeSend etc
  ☐ save notif for save chars values
  ☐ check login status when pointer move, if logout show warning and redirect to login page
+ ☐ ketika cek duplicate, hapus dulu yg kosong, ini baru diterapkan di part master, yg lain masih pada belum
 
 coba cek home/inc-char-values/ di js dan controller
 

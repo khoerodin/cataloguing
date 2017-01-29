@@ -115,7 +115,7 @@
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6">
                     <input type="button" class="btn btn-sm btn-primary pull-right" value="SEARCH" id="btn_search">
-                    <input type="button" class="btn btn-sm btn-default pull-right" value="CLEAR">
+                    <input type="button" class="btn btn-sm btn-default pull-right" value="CLEAR" id="btn_clear">
                 </div>
             </div>
         </form>
@@ -125,12 +125,12 @@
             <table id="part_master" class="table table-striped table-hover table-bordered" cellspacing="0">
                 <thead>
                     <tr>
-                        <th width="8%">CATALOG NO</th>
-                        <th width="20%">COMPANY</th>
-                        <th width="16%">HOLDING NO</th>
-                        <th width="25%">ITEM NAME</th>
+                        <th width="9%">CATALOG NO</th>
+                        <th width="9%">HOLDING NO</th>
+                        <th width="10%">COMPANY</th>
                         <th width="5%">INC</th>
-                        <th width="9%">GROUP CLASS</th>
+                        <th width="40%">ITEM NAME</th>
+                        <th width="10%">GROUP CLASS</th>
                         <th width="5%">UOM</th>
                         <th width="5%">TYPE</th>
                         <th width="7%">STATUS</th>
@@ -254,10 +254,11 @@
             </div>
         </div>
         <ul class="nav nav-tabs" id="mainTab">
-            <li class="active"><a class="pointer" href="#char_tab">DESCRIPTION AND PART NUMBER</a></li>
-            <li><a class="pointer" href="#po_tab">PO TEXT</a></li>
-            <li><a class="pointer" href="#class_tab" id="class_tab_link">CLASSIFICATION</a></li>
-            <li><a class="pointer" href="#eq_tab" id="eq_tab_link">EQUIPMENT</a></li>
+            <li class="active"><a class="pointer" href="#char_tab" data-toggle="home_tab">DESCRIPTION AND PART NUMBER</a></li>
+            <li><a class="pointer" href="#po_tab" data-toggle="home_tab">PO TEXT</a></li>
+            <li><a class="pointer" href="#class_tab" data-toggle="home_tab" id="class_tab_link">CLASSIFICATION</a></li>
+            <li><a class="pointer" href="#eq_tab" data-toggle="home_tab" id="eq_tab_link">EQUIPMENT</a></li>
+            <li><a class="pointer" href="#atc_tab" data-toggle="home_tab" id="atc_tab_link">ATTACHMENT</a></li>
         </ul>
         <div class="tab-content">
             <div role="tabpanel" class="tab-pane active row" id="char_tab">
@@ -702,6 +703,18 @@
                         </div>
                     </div>
                     <!-- END PART EQUIPMENT CODE MODAL -->
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane row" id="atc_tab">
+                <div class="col-xs-12">
+                    <table id="part_attachment" class="table table-striped table-hover" width="100%" cellpadding="0">
+                        <thead>
+                            <tr>
+                                <th style="width:50px;">TYPE</th>
+                                <th>TITLE</th>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
             </div>
         </div>

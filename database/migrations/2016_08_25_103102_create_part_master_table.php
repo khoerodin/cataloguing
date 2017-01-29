@@ -28,7 +28,8 @@ class CreatePartMasterTable extends Migration
             $table->string('reference_no')->nullable(); //funtuk mengecek duplikasi holding_no
 
             $table->unique(array('catalog_no', 'tbl_holding_id'));
-            $table->unique(array('holding_no', 'tbl_holding_id'));
+            // $table->unique(array('holding_no', 'tbl_holding_id')); 
+            // dihapus krn bermasalah ketika holding no masih kosong / belum diisi
 
             $table->integer('link_inc_group_class_id')->unsigned()->nullable();
             $table->foreign('link_inc_group_class_id')->references('id')

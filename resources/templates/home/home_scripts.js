@@ -198,7 +198,239 @@ jQuery(function($) {
             $('.container2').append('<input type="hidden" value="'+key+'" id="key">');
         }
     }
-    
+
+    // CLEAR ALL SELECTION
+    $(document).on('click', '#btn_clear', function() {
+        $('div.bootstrap-select select[id^=search]').val([]);
+        $('div.bootstrap-select select[id^=search]').trigger('change.abs.preserveSelected');
+        $('div.bootstrap-select select[id^=search]').selectpicker('refresh');
+        $('div.bootstrap-select select[id^=search]').trigger("click");
+        $('div.bootstrap-select button').removeAttr('style');
+    });
+    // END CLEAR ALL SELECTION
+
+    // RIGHT CLICK SELECT SEARCH
+    new BootstrapMenu('button[data-id="search_catalog_no"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_catalog_no').val([]);
+                $('#search_catalog_no').trigger('change.abs.preserveSelected');
+                $('#search_catalog_no').selectpicker('refresh');
+                $('#search_catalog_no').trigger("click");
+                $('button[data-id="search_catalog_no"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_holding_no"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_holding_no').val([]);
+                $('#search_holding_no').trigger('change.abs.preserveSelected');
+                $('#search_holding_no').selectpicker('refresh');
+                $('#search_holding_no').trigger("click");
+                $('button[data-id="search_holding_no"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_inc_item_name"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_inc_item_name').val([]);
+                $('#search_inc_item_name').trigger('change.abs.preserveSelected');
+                $('#search_inc_item_name').selectpicker('refresh');
+                $('#search_inc_item_name').trigger("click");
+                $('button[data-id="search_inc_item_name"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_colloquial_id"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_colloquial_id').val([]);
+                $('#search_colloquial_id').trigger('change.abs.preserveSelected');
+                $('#search_colloquial_id').selectpicker('refresh');
+                $('#search_colloquial_id').trigger("click");
+                $('button[data-id="search_colloquial_id"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_group_class"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_group_class').val([]);
+                $('#search_group_class').trigger('change.abs.preserveSelected');
+                $('#search_group_class').selectpicker('refresh');
+                $('#search_group_class').trigger("click");
+                $('button[data-id="search_group_class"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_catalog_status"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_catalog_status').val([]);
+                $('#search_catalog_status').trigger('change.abs.preserveSelected');
+                $('#search_catalog_status').selectpicker('refresh');
+                $('#search_catalog_status').trigger("click");
+                $('button[data-id="search_catalog_status"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_catalog_type"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_catalog_type').val([]);
+                $('#search_catalog_type').trigger('change.abs.preserveSelected');
+                $('#search_catalog_type').selectpicker('refresh');
+                $('#search_catalog_type').trigger("click");
+                $('button[data-id="search_catalog_type"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_item_type"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_item_type').val([]);
+                $('#search_item_type').trigger('change.abs.preserveSelected');
+                $('#search_item_type').selectpicker('refresh');
+                $('#search_item_type').trigger("click");
+                $('button[data-id="search_item_type"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_manufacturer"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_manufacturer').val([]);
+                $('#search_manufacturer').trigger('change.abs.preserveSelected');
+                $('#search_manufacturer').selectpicker('refresh');
+                $('#search_manufacturer').trigger("click");
+                $('button[data-id="search_manufacturer"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_part_number"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_part_number').val([]);
+                $('#search_part_number').trigger('change.abs.preserveSelected');
+                $('#search_part_number').selectpicker('refresh');
+                $('#search_part_number').trigger("click");
+                $('button[data-id="search_part_number"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_equipment"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_equipment').val([]);
+                $('#search_equipment').trigger('change.abs.preserveSelected');
+                $('#search_equipment').selectpicker('refresh');
+                $('#search_equipment').trigger("click");
+                $('button[data-id="search_equipment"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_holding"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_holding').val([]);
+                $('#search_holding').trigger('change.abs.preserveSelected');
+                $('#search_holding').selectpicker('refresh');
+                $('#search_holding').trigger("click");
+                $('button[data-id="search_holding"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_company"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_company').val([]);
+                $('#search_company').trigger('change.abs.preserveSelected');
+                $('#search_company').selectpicker('refresh');
+                $('#search_company').trigger("click");
+                $('button[data-id="search_company"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_plant"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_plant').val([]);
+                $('#search_plant').trigger('change.abs.preserveSelected');
+                $('#search_plant').selectpicker('refresh');
+                $('#search_plant').trigger("click");
+                $('button[data-id="search_plant"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_location"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_location').val([]);
+                $('#search_location').trigger('change.abs.preserveSelected');
+                $('#search_location').selectpicker('refresh');
+                $('#search_location').trigger("click");
+                $('button[data-id="search_location"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_shelf"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_shelf').val([]);
+                $('#search_shelf').trigger('change.abs.preserveSelected');
+                $('#search_shelf').selectpicker('refresh');
+                $('#search_shelf').trigger("click");
+                $('button[data-id="search_shelf"]').removeAttr('style');
+            }
+        }]
+    });
+
+    new BootstrapMenu('button[data-id="search_bin"]', {
+        actions: [{
+            name: 'CLEAR SELECTION',
+            onClick: function() {
+                $('#search_bin').val([]);
+                $('#search_bin').trigger('change.abs.preserveSelected');
+                $('#search_bin').selectpicker('refresh');
+                $('#search_bin').trigger("click");
+                $('button[data-id="search_bin"]').removeAttr('style');
+            }
+        }]
+    });
+    // END RIGHT CLICK SELECT SEARCH
     getCatalog();
     // END GLOBAL SEARCH
 
@@ -213,17 +445,17 @@ jQuery(function($) {
                 data: 'catalog_no',
                 name: 'catalog_no'
             }, {
-                data: 'company',
-                name: 'company'
-            }, {
                 data: 'holding_no',
                 name: 'holding_no'
             }, {
-                data: 'item_name',
-                name: 'tbl_inc.item_name'
+                data: 'company',
+                name: 'company'
             }, {
                 data: 'inc',
                 name: 'tbl_inc.inc'
+            }, {
+                data: 'item_name',
+                name: 'tbl_inc.item_name'
             }, {
                 data: 'group_class',
                 name: 'tbl_group_class.group_class'
@@ -250,34 +482,10 @@ jQuery(function($) {
                 sSearchPlaceholder: "SEARCH...",
             },
             pageLength: 4,
-            /*dom:  "<'row'<'col-sm-12'tr>>" +
-                  "<'row'<'col-sm-5'i><'col-sm-7'p>>",*/
             dom: "Z<'row'<'col-sm-12'tr>>" +
                 "<'row'i<'col-sm-3'p>>",
 
             drawCallback: function() {
-                var api = this.api();
-                var firstRow = api.rows().data()[0];
-                if (typeof firstRow != "undefined") {
-                    var catalog_no = firstRow['catalog_no'];
-                    var holding = firstRow['holding'];
-                    var holding_no = firstRow['holding_no'];
-                    var item_name = firstRow['item_name'];
-                    var inc = firstRow['inc'];
-                    var group_class = firstRow['group_class'];
-                    var unit_issue = firstRow['unit_issue'];
-                    var catalog_type = firstRow['catalog_type'];
-                    var status = firstRow['status'];
-                    var item_type = firstRow['item_type'];
-                    var stock_type = firstRow['stock_type'];
-                    var user_class = firstRow['user_class'];
-                    var conversion = firstRow['conversion'];
-                    var weight_value = firstRow['weight_value'];
-                    var weight_unit = firstRow['weight_unit'];
-                    var average_unit_price = firstRow['average_unit_price'];
-                    var inc_group_class_id = firstRow['link_inc_group_class_id'];
-                }
-
                 $("#part_master tbody tr:first-child").addClass('active');
                 $("#part_master tbody tr").on('click', function(event) {
                     $("#part_master tbody tr:first-child").removeClass('active');
@@ -287,22 +495,15 @@ jQuery(function($) {
 
                 var part_master_id = $("#part_master tbody tr.active").attr("id");
                 var company_id = $("#part_master tbody tr.active .company").val();
+                var inc_group_class_id = $("#part_master tbody tr.active .inc_group_class_id").val();
                 if(part_master_id && company_id && inc_group_class_id){
                     get_part_manufacturer_code(part_master_id);
                     get_part_characteristic_value(inc_group_class_id);
                     catalog_tag(part_master_id)
-                }                
+                    getSelectedInfo();
+                }
 
-                catalog_no = $("table#part_master tr.active td:eq(0)").text();
-                company = $("table#part_master tr.active td:eq(1)").text();
-                inc = $("table#part_master tr.active td:eq(4)").text();
-                item_name = $("table#part_master tr.active td:eq(3)").text();
-                unit_issue = $("table#part_master tr.active td:eq(6)").text();
-                catalog_type = $("table#part_master tr.active td:eq(7)").text();
-                
-                var selected_info = catalog_no + '/ ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
-                $('#selected_catalog_info').val(selected_info);
-
+                var api = this.api();
                 var info = api.page.info();
                 recordsTotal = info.recordsTotal;
 
@@ -319,7 +520,6 @@ jQuery(function($) {
                     $('#search_form').css('display', 'none');
                     menu  = '<li class="dropdown"><a class="pointer" href="/" target="_blank">SEARCH</a></li>';
                     menu += '<li class="dropdown"><a class="pointer" target="_blank">HISTORY</a></li>';
-                    // $('ul.nav.navbar-nav:not(.navbar-right)').append(menu);
                 }
 
                 var index   = 3;
@@ -347,20 +547,39 @@ jQuery(function($) {
         get_part_equipment_code(part_master_id,company_id);
     });
 
-    // WHEN CLICK PART MASTER ROW
+    // WHEN CLICK EQUIPMENT TAB
+    $(document).one('click', '#atc_tab_link', function() {
+        var part_master_id = $("#part_master tbody tr.active").attr("id");
+        var company_id = $("#part_master tbody tr.active .company").val();
+        get_part_attachment(part_master_id);
+    });
+
+    function getSelectedInfo(){
+        catalog_no = $("table#part_master tr.active td:eq(0)").text();
+        company = $("table#part_master tr.active td:eq(2)").text();
+        inc = $("table#part_master tr.active td:eq(3)").text();
+        item_name = $("table#part_master tr.active td:eq(4)").text();
+        unit_issue = $("table#part_master tr.active td:eq(6)").text();
+        catalog_type = $("table#part_master tr.active td:eq(7)").text();
+        
+        var selected_info = catalog_no + '/ ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
+        $('#selected_catalog_info').val(selected_info);
+    }
+
+    // WHEN CLICK ROW PART MASTER
     function clickPartMasterRow(){
         $("#part_master tbody").delegate("tr", "click", function() {
             var part_master_id = $(this).attr('id');
             var company_id = $(this).find("input.company").val();
-            // var catalog_status_id = $(this).find("input.catalog_status_id").val();
 
             get_part_manufacturer_code(part_master_id);
             get_part_colloquial(part_master_id);
             get_part_equipment_code(part_master_id,company_id);
             get_classification(part_master_id);
-            catalog_tag(part_master_id)
+            catalog_tag(part_master_id);
             get_source();
-
+            get_part_attachment(part_master_id);
+            getSelectedInfo();
             $.ajax({
                 url: 'home/click-row-part-master/' + part_master_id,
                 type: 'GET',
@@ -370,18 +589,7 @@ jQuery(function($) {
                     get_part_characteristic_value(data.link_inc_group_class_id);
 
                 },
-                error: function() {}
             });
-
-            catalog_no = $("table#part_master tr.active td:eq(0)").text();
-            company = $("table#part_master tr.active td:eq(1)").text();
-            inc = $("table#part_master tr.active td:eq(4)").text();
-            item_name = $("table#part_master tr.active td:eq(3)").text();
-            unit_issue = $("table#part_master tr.active td:eq(6)").text();
-            catalog_type = $("table#part_master tr.active td:eq(7)").text();
-
-            var selected_info = catalog_no + '/ ' + company + ' /  ' + inc + '  :  ' + item_name + '  /  ' + unit_issue + '  /  ' + catalog_type;
-            $("#selected_catalog_info").val(selected_info);
         });
     }
 
@@ -444,7 +652,7 @@ jQuery(function($) {
 
         $.ajax({
             type: 'GET',
-            url: 'home/part-source-part-no/' + $("#part_master tbody tr.active").attr("id"),
+            url: 'home/part-source-part-number/' + $("#part_master tbody tr.active").attr("id"),
             dataType: 'json',
             success: function(data) {
                 if (data.length > 0) {
@@ -516,7 +724,7 @@ jQuery(function($) {
 
         $.ajax({
             type: 'GET',
-            url: 'home/part-source-part-no/' + $("#part_master tbody tr.active").attr("id"),
+            url: 'home/part-source-part-number/' + $("#part_master tbody tr.active").attr("id"),
             dataType: 'json',
             success: function(data) {
                 if (data.length > 0) {
@@ -1974,7 +2182,7 @@ jQuery(function($) {
                 var api = this.api();
                 var info = api.page.info();
                 recordsTotal = info.recordsTotal;
-                if ( recordsTotal > 9 ) {
+                if ( recordsTotal > 8 ) {
                     $('#part_equipment_code_info').css('display', 'block');
                     $('#part_equipment_code_paginate').css('display', 'block');
                 }else{
@@ -3056,7 +3264,7 @@ jQuery(function($) {
                 $('#classif_avg_unit_price').val(data.average_unit_price);
             },
             error: function(){
-                alert('ERROR');
+                // alert('ERROR');
             }
         });
     }
@@ -3183,6 +3391,56 @@ jQuery(function($) {
         })
     });
 
+    // PART DOCUMENT DATATABLES
+    var datatable_part_attachment;
+    function get_part_attachment(part_master_id) {
+        datatable_part_attachment = $('#part_attachment').DataTable({
+            destroy: true,
+            processing: false,
+            serverSide: true,
+            ajax: 'home/part-attachment/' + part_master_id,
+            columns: [{
+                data: 'type',
+                name: 'type'
+            }, {
+                data: 'title',
+                name: 'title'
+            }, ],
+            oLanguage: {
+                sLengthMenu: "_MENU_",
+                sInfo: "SHOWING _START_ TO _END_ OF _TOTAL_ ENTRIES",
+                oPaginate: {
+                    sFirst: "FIRST",
+                    sLast: "LAST",
+                    sNext: "NEXT",
+                    sPrevious: "PREVIOUS"
+                },
+                sSearch: "",
+                sSearchPlaceholder: "SEARCH...",
+            },
+            dom: "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            pageLength: 8,
+            drawCallback: function() {
+                $('#part_attachment th:last-child')
+                    .addClass('cpointer')
+                    .empty()
+                    .append('TITLE <kbd id="add-pdc" style="padding:2px 4px 1px !important;" class="kbd-primary pull-right cpointer">ADD</kbd>');
+            
+                var api = this.api();
+                var info = api.page.info();
+                recordsTotal = info.recordsTotal;
+                if ( recordsTotal > 8 ) {
+                    $('#part_attachment_info').css('display', 'block');
+                    $('#part_attachment_paginate').css('display', 'block');
+                }else{
+                    $('#part_attachment_info').css('display', 'none');
+                    $('#part_attachment_paginate').css('display', 'none');
+                }
+            }
+        });
+    }
+    // END PART DOCUMENT DATATABLES
     // $(document).ajaxComplete(function() {
     //     $('#characteristic_value_box').bind("DOMSubtreeModified",function(){
     //         console.log('changed');

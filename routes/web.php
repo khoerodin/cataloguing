@@ -19,24 +19,7 @@ Route::get('current-user', function(){
 		->first();
 });
 
-Route::get('coba', function(){
-	$lic = App\Models\LinkIncCharacteristic::where('id', Hashids::decode('oaybdpy')[0])->select('id')->get();
-	$arr = [];
-	foreach ($lic as $key => $value) {
-		$values = App\Models\LinkIncCharacteristicValue::select('value')
-			->where('link_inc_characteristic_id', $value->id)
-			->get();
-		$arr[] = array(
-	        'id' => $value->id,
-	        'values' => $values,
-	    );
-	}
-	return json_decode(json_encode($arr), FALSE);
-	$obj = json_decode(json_encode($arr), FALSE);
-	foreach ($obj as $val) {
-		echo $val->id;
-	}
-});
+Route::get('coba/{part_master_id}', 'HomeController@getPartDocument');
 
 // =======================================================
 // SEARCH ITEMS
@@ -125,6 +108,9 @@ Route::get('home/edit-part-equipment-code/{id}', 'HomeController@editPartEquipme
 Route::put('home/update-part-equipment-code', 'HomeController@updatePartEquipmentCode');
 Route::delete('home/delete-part-equipment-code/{id}', 'HomeController@deletePartEquipmentCode');
 
+// Part Document
+Route::get('home/part-attachment/{part_master_id}', 'HomeController@getPartAttachment');
+
 // Hashtags
 Route::get('home/option-hashtags/{part_master_id}', 'HomeController@getOptionHashTags');
 Route::get('home/catalog-hashtags/{part_master_id}', 'HomeController@getCatalogHashTags');
@@ -135,7 +121,7 @@ Route::post('home/save-hashtags/{part_master_id}', 'HomeController@saveHashTags'
 Route::get('home/part-source-description/{part_master_id}', 'HomeController@getPartSourceDescription');
 
 // Part Source Part No
-Route::get('home/part-source-part-no/{part_master_id}', 'HomeController@getPartSourcePartNo');
+Route::get('home/part-source-part-number/{part_master_id}', 'HomeController@getPartSourcePartNumber');
 
 // CLASSIFICATION
 Route::get('home/classification/{part_master_id}', 'HomeController@getClassification');

@@ -9,12 +9,12 @@ use zgldh\UploadManager\UploadManager;
 use Box\Spout\Reader\ReaderFactory;
 use Box\Spout\Common\Type;
 
-use App\Models\CompanyCatalog;
 use App\Models\LinkIncCharacteristic;
 use App\Models\LinkIncCharacteristicValue;
 use App\Models\LinkIncGroupClass;
 
 use App\Models\PartBinLocation;
+use App\Models\PartCompany;
 use App\Models\PartMaster;
 use App\Models\PartManufacturerCode;
 use App\Models\PartEquipmentCode;
@@ -2550,10 +2550,10 @@ class ToolsController extends Controller
 								$table .= "<thead><tr>";
 								$table .= "<th width='3%'>#</th>";
 								$table .= "<th width='7%'>".strtoupper(trim($rows[0]))."</th>";
-								$table .= "<th width='40%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='30%'>".strtoupper(trim($rows[1]))."</th>";
 								$table .= "<th width='25%'>".strtoupper(trim($rows[2]))."</th>";
 								$table .= "<th width='20%'>".strtoupper(trim($rows[3]))."</th>";
-								$table .= "<th width='5%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "<th width='10%'>".strtoupper(trim($rows[4]))."</th>";
 								$table .= "</tr></thead>";
 								$table .= "<tbody>";
 								$first = false;
@@ -2601,16 +2601,16 @@ class ToolsController extends Controller
 								}
 
 								// CEK MAX STRING LENGTH
-								if(strlen(trim($rows[2])) > 30){
+								if(strlen(trim($rows[2])) > 255){
 									$max_str[] = 0;
-									$warn_max_str[] = '<b>VALUE</b> "'.strtoupper(trim($rows[2])).'" LENGTH MAY NOT BE GREATER THAN 30';
+									$warn_max_str[] = '<b>VALUE</b> "'.strtoupper(trim($rows[2])).'" LENGTH MAY NOT BE GREATER THAN 255';
 								}else{
 									$max_str[] = 1;
 								}
 
-								if(strlen(trim($rows[3])) > 30){
+								if(strlen(trim($rows[3])) > 40){
 									$max_str[] = 0;
-									$warn_max_str[] = '<b>ABBREV</b> "'.strtoupper(trim($rows[3])).'" LENGTH MAY NOT BE GREATER THAN 30';
+									$warn_max_str[] = '<b>ABBREV</b> "'.strtoupper(trim($rows[3])).'" LENGTH MAY NOT BE GREATER THAN 40';
 								}else{
 									$max_str[] = 1;
 								}
@@ -2627,7 +2627,7 @@ class ToolsController extends Controller
 									){
 									$check_duplicate_inc_char_value[] .= '';
 								}else{
-									$check_duplicate_inc_char_value[] .= 'INC <b>'.$rows[0].'</b> AND CHARACTERISTIC <b>'.$rows[1].'</b> WITH VALUE <b>'.$rows[2].'</b>';
+									$check_duplicate_inc_char_value[] .= 'INC <b>'.trim(strtoupper($rows[0])).'</b> AND CHARACTERISTIC <b>'.trim(strtoupper($rows[1])).'</b> WITH VALUE <b>'.trim(strtoupper($rows[2])).'</b>';
 								}
 
 								if(
@@ -3939,21 +3939,13 @@ class ToolsController extends Controller
 							$status[] = 0;
 						}
 
-						if(
-							strtoupper(trim($rows[8])) == 'UNIT ISSUE2' ||
-							strtoupper(trim($rows[8])) == 'UNIT ISSUE3' ||
-							strtoupper(trim($rows[8])) == 'UNIT ISSUE4'
-						){
+						if(strtoupper(trim($rows[8])) == 'UNIT ISSUE'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(
-							strtoupper(trim($rows[9])) == 'UNIT PURCHASE2' ||
-							strtoupper(trim($rows[9])) == 'UNIT PURCHASE3' ||
-							strtoupper(trim($rows[9])) == 'UNIT PURCHASE4'
-						){
+						if(strtoupper(trim($rows[9])) == 'UNIT PURCHASE'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
@@ -4050,6 +4042,7 @@ class ToolsController extends Controller
 					$check_empty_catalog_type = [];
 
 					$check_duplicate = [];
+					$check_duplicate_hol_no = [];
 
 					$cek_wrong_value = [];
 					$warn_wrong_value = [];
@@ -4086,9 +4079,6 @@ class ToolsController extends Controller
 								$table .= "</tr></thead>";
 								$table .= "<tbody>";
 								$first = false;
-
-								$unit_issue = strtoupper(trim($rows[8]));
-								$unit_purchase = strtoupper(trim($rows[9]));
 							}else{
 
 								// CHEK EXIST IN DB DB?
@@ -4160,16 +4150,8 @@ class ToolsController extends Controller
 									$cek_exist_in_db[] = 1;
 								
 								}else{
-									if($unit_issue == 'UNIT ISSUE2'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit2', trim($rows[8]))->first();
-									}elseif($unit_issue == 'UNIT ISSUE3'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit3', trim($rows[8]))->first();
-									}elseif($unit_issue == 'UNIT ISSUE4'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit4', trim($rows[8]))->first();
-									}									
+									$exist_column = TblUnitOfMeasurement::select('id')
+										->where('name', trim($rows[8]))->first();								
 
 									if(count($exist_column)>0){
 										$cek_exist_in_db[] = 1;
@@ -4186,16 +4168,8 @@ class ToolsController extends Controller
 									$cek_exist_in_db[] = 1;
 								
 								}else{
-									if($unit_purchase == 'UNIT PURCHASE2'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit2', trim($rows[9]))->first();
-									}elseif($unit_purchase == 'UNIT PURCHASE3'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit3', trim($rows[9]))->first();
-									}elseif($unit_purchase == 'UNIT PURCHASE4'){
-										$exist_column = TblUnitOfMeasurement::select('id')
-										->where('unit4', trim($rows[9]))->first();
-									}									
+									$exist_column = TblUnitOfMeasurement::select('id')
+										->where('name', trim($rows[9]))->first();									
 
 									if(count($exist_column)>0){
 										$cek_exist_in_db[] = 1;
@@ -4357,21 +4331,21 @@ class ToolsController extends Controller
 
 								// CEK DUPLICATE
 								if(
-									is_null($rows[0]) || $rows[0] == '' || 
-									is_null($rows[1]) || $rows[1] == ''
+									$rows[0] <> '' && $rows[0] <> null && 
+									$rows[1] <> '' && $rows[1] <> null
 								){
-									$check_duplicate[] .= '';
-								}else{
 									$check_duplicate[] .= 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH HOLDING <b>'.strtoupper(trim($rows[1])).'</b>';
+								}else{
+									$check_duplicate[] .= '';
 								}
 
 								if(
-									is_null($rows[1]) || $rows[1] == '' || 
-									is_null($rows[3]) || $rows[3] == ''
+									$rows[1] <> '' && $rows[1] <> null && 
+									$rows[3] <> '' && $rows[3] <> null
 								){
-									$check_duplicate[] .= '';
+									$check_duplicate_hol_no[] .= 'HOLDING <b>'.strtoupper(trim($rows[1])).'</b> WITH HOLDING NO <b>'.strtoupper(trim($rows[3])).'</b>';
 								}else{
-									$check_duplicate[] .= 'HOLDING <b>'.strtoupper(trim($rows[1])).'</b> WITH HOLDING NO <b>'.strtoupper(trim($rows[3])).'</b>';
+									$check_duplicate_hol_no[] .= '';
 								}
 
 								// CHEK ALREADY IN DB DB?
@@ -4486,6 +4460,11 @@ class ToolsController extends Controller
 
 				// hitung jml
 				$check_duplicate_ = array_count_values($check_duplicate);
+				// hapus yg kosong
+				foreach($check_duplicate_ as $key=>$value){
+				    if(is_null($key) || $key == '')
+				        unset($check_duplicate_[$key]);
+				}
 				// jika lebih dari 1 maka = 0, kalau tidak = 1
 				$check_dupl = array();
 				foreach ($check_duplicate_ as $key => $value) {
@@ -4493,6 +4472,24 @@ class ToolsController extends Controller
 						$check_dupl[] = 0;
 					}else{
 						$check_dupl[] = 1;
+					}
+				}
+
+				// hitung jml
+				$check_duplicate_hol_no_ = array_count_values($check_duplicate_hol_no);
+				// hapus yg kosong
+				foreach($check_duplicate_hol_no_ as $key=>$value){
+				    if(is_null($key) || $key == '')
+				        unset($check_duplicate_hol_no_[$key]);
+				}
+
+				// jika lebih dari 1 maka = 0, kalau tidak = 1
+				$check_dupl_hol_no = array();
+				foreach ($check_duplicate_hol_no_ as $key => $value) {
+					if($value > 1) {
+						$check_dupl_hol_no[] = 0;
+					}else{
+						$check_dupl_hol_no[] = 1;
 					}
 				}
 
@@ -4545,6 +4542,7 @@ class ToolsController extends Controller
 					in_array(0, $empty_catalog_type) ||
 					// cek apakah ada duplicate dalam spreadsheet
 					in_array(0, $check_dupl) ||
+					in_array(0, $check_dupl_hol_no) ||
 					// cek apakan kolom mempunyai value yg benar
 					in_array(0, $cek_wrong_value) ||
 					// cek apakah value berupa numeric
@@ -4665,10 +4663,43 @@ class ToolsController extends Controller
 						$dupl_ = $validasi;
 
 						if(in_array(1, $ada)){
-							$dupl .= "<br><br><strong class='text-danger'><u>DUPLICATE DATA:</u> </strong> ";
+							$dupl .= "<br><br><strong class='text-danger'><u>DUPLICATE CATALOG NO WITH HOLDING:</u> </strong> ";
 							$dupl .= $dupl_;
 						}else{
 							$dupl .= '';
+						}
+					}
+
+					$dupl_hol_no_ = '';
+					$dupl_hol_no = '';
+					if(in_array(0, $check_dupl_hol_no)){
+						$validasi = '';
+						// count to get duplicate (> 1)
+						$check_duplicate_hol_no_again = array_count_values($check_duplicate_hol_no);
+
+						// remove empty
+						foreach($check_duplicate_hol_no_again as $key=>$value){
+						    if(is_null($key) || $key == '')
+						        unset($check_duplicate_hol_no_again[$key]);
+						}
+
+						// get only > 1
+						$ada = array();
+						foreach ($check_duplicate_hol_no_again as $key => $value) {
+							if($value > 1) {
+								$validasi .= '<br/>'.$key;
+								$ada[] = 1;
+							}else{
+								$ada[] = 0;
+							}
+						}
+						$dupl_hol_no_ = $validasi;
+
+						if(in_array(1, $ada)){
+							$dupl_hol_no .= "<br><br><strong class='text-danger'><u>DUPLICATE HOLDING WITH HOLDING NO:</u> </strong> ";
+							$dupl_hol_no .= $dupl_hol_no_;
+						}else{
+							$dupl_hol_no .= '';
 						}
 					}
 
@@ -4729,6 +4760,7 @@ class ToolsController extends Controller
 					echo $company_empty;
 					echo $catalog_type_empty;
 					echo $dupl;
+					echo $dupl_hol_no;
 					echo $wrong_value;
 					echo $is_numeric_wv;
 					echo $is_numeric_aup;
@@ -7795,31 +7827,37 @@ class ToolsController extends Controller
 				$i = 1;
 				foreach ($sheet->getRowIterator() as $rows) {
 					if($i++ == 2){
-						if(strtoupper(trim($rows[0])) == 'UNIT 2'){
+						if(strtoupper(trim($rows[0])) == 'NAME'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[1])) == 'UNIT 3'){
+						if(strtoupper(trim($rows[1])) == 'UNIT 2'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[2])) == 'UNIT 4'){
+						if(strtoupper(trim($rows[2])) == 'UNIT 3'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[3])) == 'ENG DEFINITION'){
+						if(strtoupper(trim($rows[3])) == 'UNIT 4'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[4])) == 'IND DEFINITION'){
+						if(strtoupper(trim($rows[4])) == 'ENG DEFINITION'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[5])) == 'IND DEFINITION'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
@@ -7846,13 +7884,12 @@ class ToolsController extends Controller
 					$max_str = [];
 					$warn_max_str = [];
 
+					$check_empty_name = [];
 					$check_empty_unit2 = [];
 					$check_empty_unit3 = [];
 					$check_empty_unit4 = [];
 
-					$check_duplicate_unit2 = [];
-					$check_duplicate_unit3 = [];
-					$check_duplicate_unit4 = [];
+					$check_duplicate_name = [];
 
 					$data_counter = [];
 					foreach ($sheet->getRowIterator() as $rows) {
@@ -7861,10 +7898,11 @@ class ToolsController extends Controller
 								$table .= "<thead><tr>";
 								$table .= "<th width='3%'>#</th>";
 								$table .= "<th width='10%'>".strtoupper(trim($rows[0]))."</th>";
-								$table .= "<th width='10%'>".strtoupper(trim($rows[1]))."</th>";
-								$table .= "<th width='10%'>".strtoupper(trim($rows[2]))."</th>";
-								$table .= "<th width='33%'>".strtoupper(trim($rows[3]))."</th>";
+								$table .= "<th width='7%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='7%'>".strtoupper(trim($rows[2]))."</th>";
+								$table .= "<th width='7%'>".strtoupper(trim($rows[3]))."</th>";
 								$table .= "<th width='33%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "<th width='33%'>".strtoupper(trim($rows[5]))."</th>";
 								$table .= "</tr></thead>";
 								$table .= "<tbody>";
 								$first = false;
@@ -7876,47 +7914,13 @@ class ToolsController extends Controller
 								// CHEK ALREADY IN DB DB?
 								if($rows[0] <> '' && $rows[0] <> null){
 
-									$class_column = TblUnitOfMeasurement::where('unit2', trim($rows[0]))
-										->select('unit2')
+									$class_column = TblUnitOfMeasurement::where('name', trim($rows[0]))
+										->select('name')
 										->first();
 
 									if(count($class_column)>0){
 										$cek_already_in_db[] = 0;
-										$warn_already_in_db[] = '<b>UNIT 2:</b> '.strtoupper(trim($rows[0]));
-									}else{
-										$cek_already_in_db[] = 1;
-									}
-
-								}else{
-									$cek_already_in_db[] = 1;
-								}
-
-								if($rows[0] <> '' && $rows[0] <> null){
-
-									$class_column = TblUnitOfMeasurement::where('unit3', trim($rows[0]))
-										->select('unit3')
-										->first();
-
-									if(count($class_column)>0){
-										$cek_already_in_db[] = 0;
-										$warn_already_in_db[] = '<b>UNIT 3:</b> '.strtoupper(trim($rows[0]));
-									}else{
-										$cek_already_in_db[] = 1;
-									}
-
-								}else{
-									$cek_already_in_db[] = 1;
-								}
-
-								if($rows[0] <> '' && $rows[0] <> null){
-
-									$class_column = TblUnitOfMeasurement::where('unit4', trim($rows[0]))
-										->select('unit4')
-										->first();
-
-									if(count($class_column)>0){
-										$cek_already_in_db[] = 0;
-										$warn_already_in_db[] = '<b>UNIT 4:</b> '.strtoupper(trim($rows[0]));
+										$warn_already_in_db[] = '<b>NAME:</b> '.strtoupper(trim($rows[0]));
 									}else{
 										$cek_already_in_db[] = 1;
 									}
@@ -7926,48 +7930,44 @@ class ToolsController extends Controller
 								}
 
 								// CEK MAX STRING LENGTH
-								if(strlen(trim($rows[0])) > 2){
+								if(strlen(trim($rows[0])) > 255){
 									$max_str[] = 0;
-									$warn_max_str[] = '<b>UNIT 2</b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 2';
+									$warn_max_str[] = '<b>NAME </b> "'.strtoupper(trim($rows[0])).'" LENGTH MAY NOT BE GREATER THAN 255';
 								}else{
 									$max_str[] = 1;
 								}
 
-								if(strlen(trim($rows[1])) > 3){
+								if(strlen(trim($rows[1])) > 2){
 									$max_str[] = 0;
-									$warn_max_str[] = '<b>UNIT 3</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 3';
+									$warn_max_str[] = '<b>UNIT 2</b> "'.strtoupper(trim($rows[1])).'" LENGTH MAY NOT BE GREATER THAN 2';
 								}else{
 									$max_str[] = 1;
 								}
 
-								if(strlen(trim($rows[2])) > 4){
+								if(strlen(trim($rows[2])) > 3){
 									$max_str[] = 0;
-									$warn_max_str[] = '<b>UNIT 4</b> "'.strtoupper(trim($rows[2])).'" LENGTH MAY NOT BE GREATER THAN 4';
+									$warn_max_str[] = '<b>UNIT 3</b> "'.strtoupper(trim($rows[2])).'" LENGTH MAY NOT BE GREATER THAN 3';
 								}else{
 									$max_str[] = 1;
 								}
 
-								$check_empty_unit2[] .= $rows[0];
-								$check_empty_unit3[] .= $rows[1];
-								$check_empty_unit4[] .= $rows[2];
+								if(strlen(trim($rows[3])) > 4){
+									$max_str[] = 0;
+									$warn_max_str[] = '<b>UNIT 4</b> "'.strtoupper(trim($rows[3])).'" LENGTH MAY NOT BE GREATER THAN 4';
+								}else{
+									$max_str[] = 1;
+								}
+
+								$check_empty_name[] .= $rows[0];
+								$check_empty_unit2[] .= $rows[1];
+								$check_empty_unit3[] .= $rows[2];
+								$check_empty_unit4[] .= $rows[3];
 
 								if(is_null($rows[0]) || $rows[0] == ''){
-									$check_duplicate_unit2[] .= '';
+									$check_duplicate_name[] .= '';
 								}else{
-									$check_duplicate_unit2[] .= $rows[0];
-								}
-
-								if(is_null($rows[1]) || $rows[1] == ''){
-									$check_duplicate_unit3[] .= '';
-								}else{
-									$check_duplicate_unit3[] .= $rows[1];
-								}
-
-								if(is_null($rows[2]) || $rows[2] == ''){
-									$check_duplicate_unit4[] .= '';
-								}else{
-									$check_duplicate_unit4[] .= $rows[2];
-								}				
+									$check_duplicate_name[] .= $rows[0];
+								}	
 
 								// TABLE
 								// ====================================================
@@ -7976,7 +7976,8 @@ class ToolsController extends Controller
 								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[3]))."</td>";
-								$table .= "<td>".strtoupper(trim($rows[4]))."</td></tr>";
+								$table .= "<td>".strtoupper(trim($rows[4]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[5]))."</td></tr>";
 
 								$data_counter[] = 1;								
 							}							
@@ -7985,6 +7986,15 @@ class ToolsController extends Controller
 					
 				}
 				$table .= "</tbody></table>";
+
+				$empty_name = array();
+				foreach ($check_empty_name as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_name[] = 0;
+					 }else{
+					 	$empty_name[] = 1;
+					 }
+				}
 
 				$empty_unit2 = array();
 				foreach ($check_empty_unit2 as $value) {
@@ -8014,38 +8024,14 @@ class ToolsController extends Controller
 				}
 
 				// hitung jml
-				$unit2_check_duplicate = array_count_values($check_duplicate_unit2);
+				$name_check_duplicate = array_count_values($check_duplicate_name);
 				// jika lebih dari 1 maka = 0, kalau tidak = 1
-				$chek_dupl_unit2 = array();
-				foreach ($unit2_check_duplicate as $key => $value) {
+				$chek_dupl_name = array();
+				foreach ($name_check_duplicate as $key => $value) {
 					if($value > 1) {
-						$chek_dupl_unit2[] = 0;
+						$chek_dupl_name[] = 0;
 					}else{
-						$chek_dupl_unit2[] = 1;
-					}
-				}
-
-				// hitung jml
-				$unit3_check_duplicate = array_count_values($check_duplicate_unit3);
-				// jika lebih dari 1 maka = 0, kalau tidak = 1
-				$chek_dupl_unit3 = array();
-				foreach ($unit3_check_duplicate as $key => $value) {
-					if($value > 1) {
-						$chek_dupl_unit3[] = 0;
-					}else{
-						$chek_dupl_unit3[] = 1;
-					}
-				}
-
-				// hitung jml
-				$unit4_check_duplicate = array_count_values($check_duplicate_unit4);
-				// jika lebih dari 1 maka = 0, kalau tidak = 1
-				$chek_dupl_unit4 = array();
-				foreach ($unit4_check_duplicate as $key => $value) {
-					if($value > 1) {
-						$chek_dupl_unit4[] = 0;
-					}else{
-						$chek_dupl_unit4[] = 1;
+						$chek_dupl_name[] = 1;
 					}
 				}
 
@@ -8054,12 +8040,11 @@ class ToolsController extends Controller
 				}elseif(
 					in_array(0, $cek_already_in_db) ||
 					in_array(0, $max_str) ||
+					in_array(0, $empty_name) ||
 					in_array(0, $empty_unit2) ||
 					in_array(0, $empty_unit3) ||
-					in_array(0, $empty_unit4) ||
-					in_array(0, $chek_dupl_unit2) ||
-					in_array(0, $chek_dupl_unit3) ||
-					in_array(0, $chek_dupl_unit4)
+					// in_array(0, $empty_unit4) ||
+					in_array(0, $chek_dupl_name)
 				){
 					
 					echo "<span><strong>PLEASE CHECK YOUR UNIT OF MEASUREMENT SPREADSHEET</strong></span>";
@@ -8080,6 +8065,20 @@ class ToolsController extends Controller
 							$validasi .= '<br/>'.$value;
 						}
 						$max_length = $validasi;
+					}
+
+					$name_empty = '';
+					if(in_array(0, $empty_name)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY NAME:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_name as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$name_empty = $validasi;
 					}
 
 					$unit2_empty = '';
@@ -8110,36 +8109,36 @@ class ToolsController extends Controller
 						$unit3_empty = $validasi;
 					}
 
-					$unit4_empty = '';
-					if(in_array(0, $empty_unit4)){
-						$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT 4:</u></strong>";
-						$i = 3;
-						foreach ($check_empty_unit4 as $value) {
-							 if(is_null($value) || $value == ''){
-							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
-							 }else{
-							 	$i++;
-							 }
-						}
-						$unit4_empty = $validasi;
-					}
+					// $unit4_empty = '';
+					// if(in_array(0, $empty_unit4)){
+					// 	$validasi = "<br><br><strong class='text-danger'><u>EMPTY UNIT 4:</u></strong>";
+					// 	$i = 3;
+					// 	foreach ($check_empty_unit4 as $value) {
+					// 		 if(is_null($value) || $value == ''){
+					// 		 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+					// 		 }else{
+					// 		 	$i++;
+					// 		 }
+					// 	}
+					// 	$unit4_empty = $validasi;
+					// }
 
-					$dupl_unit2_ = '';
-					$dupl_unit2 = '';
-					if(in_array(0, $chek_dupl_unit2)){
+					$dupl_name_ = '';
+					$dupl_name = '';
+					if(in_array(0, $chek_dupl_name)){
 						$validasi = '';
 						// count to get duplicate (> 1)
-						$check_duplicate_unit2_again = array_count_values($check_duplicate_unit2);
+						$check_duplicate_name_again = array_count_values($check_duplicate_name);
 
 						// remove empty
-						foreach($check_duplicate_unit2_again as $key=>$value){
+						foreach($check_duplicate_name_again as $key=>$value){
 						    if(is_null($key) || $key == '')
-						        unset($check_duplicate_unit2_again[$key]);
+						        unset($check_duplicate_name_again[$key]);
 						}
 
 						// get only > 1
 						$ada = array();
-						foreach ($check_duplicate_unit2_again as $key => $value) {
+						foreach ($check_duplicate_name_again as $key => $value) {
 							if($value > 1) {
 								$validasi .= '<br/>'.$key;
 								$ada[] = 1;
@@ -8147,90 +8146,23 @@ class ToolsController extends Controller
 								$ada[] = 0;
 							}
 						}
-						$dupl_unit2_ = $validasi;
+						$dupl_name_ = $validasi;
 
 						if(in_array(1, $ada)){
-							$dupl_unit2 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 2:</u> </strong> ";
-							$dupl_unit2 .= $dupl_unit2_;
+							$dupl_name .= "<br><br><strong class='text-danger'><u>DUPLICATE NAME:</u> </strong> ";
+							$dupl_name .= $dupl_name_;
 						}else{
-							$dupl_unit2 .= '';
-						}
-					}
-
-					$dupl_unit3_ = '';
-					$dupl_unit3 = '';
-					if(in_array(0, $chek_dupl_unit3)){
-						$validasi = '';
-						// count to get duplicate (> 1)
-						$check_duplicate_unit3_again = array_count_values($check_duplicate_unit3);
-
-						// remove empty
-						foreach($check_duplicate_unit3_again as $key=>$value){
-						    if(is_null($key) || $key == '')
-						        unset($check_duplicate_unit3_again[$key]);
-						}
-
-						// get only > 1
-						$ada = array();
-						foreach ($check_duplicate_unit3_again as $key => $value) {
-							if($value > 1) {
-								$validasi .= '<br/>'.$key;
-								$ada[] = 1;
-							}else{
-								$ada[] = 0;
-							}
-						}
-						$dupl_unit3_ = $validasi;
-
-						if(in_array(1, $ada)){
-							$dupl_unit3 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 3:</u> </strong> ";
-							$dupl_unit3 .= $dupl_unit3_;
-						}else{
-							$dupl_unit3 .= '';
-						}
-					}
-
-					$dupl_unit4_ = '';
-					$dupl_unit4 = '';
-					if(in_array(0, $chek_dupl_unit4)){
-						$validasi = '';
-						// count to get duplicate (> 1)
-						$check_duplicate_unit4_again = array_count_values($check_duplicate_unit4);
-
-						// remove empty
-						foreach($check_duplicate_unit4_again as $key=>$value){
-						    if(is_null($key) || $key == '')
-						        unset($check_duplicate_unit4_again[$key]);
-						}
-
-						// get only > 1
-						$ada = array();
-						foreach ($check_duplicate_unit4_again as $key => $value) {
-							if($value > 1) {
-								$validasi .= '<br/>'.$key;
-								$ada[] = 1;
-							}else{
-								$ada[] = 0;
-							}
-						}
-						$dupl_unit4_ = $validasi;
-
-						if(in_array(1, $ada)){
-							$dupl_unit4 .= "<br><br><strong class='text-danger'><u>DUPLICATE UNIT 4:</u> </strong> ";
-							$dupl_unit4 .= $dupl_unit4_;
-						}else{
-							$dupl_unit4 .= '';
+							$dupl_name .= '';
 						}
 					}
 
 					echo $already;
 					echo $max_length;
+					echo $name_empty;
 					echo $unit2_empty;
 					echo $unit3_empty;
-					echo $unit4_empty;
-					echo $dupl_unit2;
-					echo $dupl_unit3;
-					echo $dupl_unit4;
+					// echo $unit4_empty;
+					echo $dupl_name;
 				}else{
 					echo "<span id='data_counter'>".number_format(count($data_counter))."</span>";
 					echo "<input type='button' class='import_to_db import_unit_of_measurement btn btn-sm btn-primary' value='IMPORT UNIT OF MEASUREMENT DATA'>";
@@ -8538,7 +8470,6 @@ class ToolsController extends Controller
     }
 
     public function importIncCharValue($file){
-
     	ini_set('max_execution_time', 300); // 3 minutes
     	$reader = $this->readSpreadSheet($file);
     	foreach ($reader->getSheetIterator() as $sheet) {
@@ -8549,7 +8480,7 @@ class ToolsController extends Controller
 			foreach ($rows as $cel) {
 				$key = $i++;
 				if($key > 2){
-					$tbl_inc_characteristic_id = LinkIncCharacteristic::select('link_inc_characteristic.id')
+					$link_inc_characteristic_id = LinkIncCharacteristic::select('link_inc_characteristic.id')
 						->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_characteristic.tbl_inc_id')
 						->join('tbl_characteristic', 'tbl_characteristic.id', '=', 'link_inc_characteristic.tbl_characteristic_id')
 						->where('inc', trim($cel[0]))
@@ -8569,7 +8500,7 @@ class ToolsController extends Controller
 					$date 					= \Carbon\Carbon::now();
 
 					$dataSet[] = [
-						'tbl_inc_characteristic_id' 	=> $tbl_inc_characteristic_id,
+						'link_inc_characteristic_id' 	=> $link_inc_characteristic_id,
 						'value' 						=> $value,
 						'abbrev'						=> $abbrev,
 						'approved'						=> $approved,
@@ -8780,55 +8711,98 @@ class ToolsController extends Controller
 			$rows = $sheet->getRowIterator();
 			foreach ($rows as $cel) {
 				$key = $i++;
-				if($key == 2){
-					$unit_issue = strtoupper(trim($cel[8]));
-					$unit_purchase = strtoupper(trim($cel[9]));
-				}elseif($key > 2){
+				if($key > 2){
 					
 					$catalog_no 	= strtoupper(trim($cel[0]));	
 					$tbl_holding_id = TblHolding::select('id')->where('holding', trim($cel[1]))->first()->id;	
 					$holding_no 	= strtoupper(trim($cel[3]));
 					$reference_no 	= strtoupper(trim($cel[4]));
 
-					$link_inc_group_class_id = LinkIncGroupClass::select('link_inc_group_class.id')
-					->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
-					->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
-					->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
-					->where('inc', trim($cel[5]))
-					->where('group', substr(trim($cel[6]), 0, 2))
-					->where('class', substr(trim($cel[6]), 2, 2))
-					->first()->id;
+					if(
+						trim($cel[5]) <> '' && trim($cel[5]) <> null &&
+						trim($cel[6]) <> '' && trim($cel[6]) <> null
+					){
+						$link_inc_group_class_id = LinkIncGroupClass::select('link_inc_group_class.id')
+							->join('tbl_inc', 'tbl_inc.id', '=', 'link_inc_group_class.tbl_inc_id')
+							->join('tbl_group_class', 'tbl_group_class.id', '=', 'link_inc_group_class.tbl_group_class_id')
+							->join('tbl_group', 'tbl_group.id', '=', 'tbl_group_class.tbl_group_id')
+							->where('inc', trim($cel[5]))
+							->where('group', substr(trim($cel[6]), 0, 2))
+							->where('class', substr(trim($cel[6]), 2, 2))
+							->first()->id;
+					}else{
+						$link_inc_group_class_id = null;
+					}
+					
 
 					$catalog_type 	= strtolower(trim($cel[7]));
 
-					if($unit_issue == 'UNIT ISSUE2'){
-						$unit_issue = TblUnitOfMeasurement::select('id')->where('unit2', trim($cel[8]))->first()->id;
-					}elseif ($unit_issue == 'UNIT ISSUE3') {
-						$unit_issue = TblUnitOfMeasurement::select('id')->where('unit3', trim($cel[8]))->first()->id;
-					}elseif ($unit_issue == 'UNIT ISSUE4') {
-						$unit_issue = TblUnitOfMeasurement::select('id')->where('unit3', trim($cel[8]))->first()->id;
+					if(trim($cel[8]) <> '' && trim($cel[8]) <> null){
+						$unit_issue = TblUnitOfMeasurement::select('id')->where('name', trim($cel[8]))->first()->id;
+					}else{
+						$unit_issue = null;
 					}
 
-					if($unit_purchase == 'UNIT PURCHASE2'){
-						$unit_purchase = TblUnitOfMeasurement::select('id')->where('unit2', trim($cel[9]))->first()->id;
-					}elseif ($unit_purchase == 'UNIT PURCHASE3') {
-						$unit_purchase = TblUnitOfMeasurement::select('id')->where('unit3', trim($cel[9]))->first()->id;
-					}elseif ($unit_purchase == 'UNIT PURCHASE4') {
-						$unit_purchase = TblUnitOfMeasurement::select('id')->where('unit3', trim($cel[9]))->first()->id;
+					if(trim($cel[9]) <> '' && trim($cel[9]) <> null){
+						$unit_purchase = TblUnitOfMeasurement::select('id')->where('name', trim($cel[9]))->first()->id;
+					}else{
+						$unit_purchase = null;
 					}
 
-					$conversion = strtoupper(trim($cel[10]));
-					$tbl_user_class_id = TblUserClass::select('id')->where('class', trim($cel[11]))->first()->id;
-					$tbl_item_type_id = TblItemType::select('id')->where('type', trim($cel[12]))->first()->id;
-					$tbl_harmonized_code_id = TblHarmonizedCode::select('id')->where('code', trim($cel[13]))->first()->id;
-					$tbl_hazard_class_id = TblHazardClass::select('id')->where('class', trim($cel[14]))->first()->id;
+					if(trim($cel[10]) <> '' && trim($cel[10]) <> null){
+						$conversion = strtoupper(trim($cel[10]));
+					}else{
+						$conversion = '';
+					}
 					
-					$weight_value = strtoupper(trim($cel[15]));
+					if(trim($cel[11]) <> '' && trim($cel[11]) <> null){
+						$tbl_user_class_id = TblUserClass::select('id')->where('class', trim($cel[11]))->first()->id;
+					}else{
+						$tbl_user_class_id = null;
+					}
 
-					$tbl_weight_unit_id = TblWeightUnit::select('id')->where('unit', trim($cel[16]))->first()->id;
-					$tbl_stock_type_id = TblStockType::select('id')->where('type', trim($cel[17]))->first()->id;
+					if(trim($cel[12]) <> '' && trim($cel[12]) <> null){
+						$tbl_item_type_id = TblItemType::select('id')->where('type', trim($cel[12]))->first()->id;
+					}else{
+						$tbl_item_type_id = null;
+					}
 
-					$average_unit_price = strtoupper(trim($cel[18]));
+					if(trim($cel[13]) <> '' && trim($cel[13]) <> null){
+						$tbl_harmonized_code_id = TblHarmonizedCode::select('id')->where('code', trim($cel[13]))->first()->id;
+					}else{
+						$tbl_harmonized_code_id = null;
+					}
+
+					if(trim($cel[14]) <> '' && trim($cel[14]) <> null){
+						$tbl_hazard_class_id = TblHazardClass::select('id')->where('class', trim($cel[14]))->first()->id;
+					}else{
+						$tbl_hazard_class_id = null;
+					}					
+					
+					if(trim($cel[15]) <> '' && trim($cel[15]) <> null){
+						$weight_value = strtoupper(trim($cel[15]));
+					}else{
+						$weight_value = 0;
+					}
+
+					if(trim($cel[16]) <> '' && trim($cel[16]) <> null){
+						$tbl_weight_unit_id = TblWeightUnit::select('id')->where('unit', trim($cel[16]))->first()->id;
+					}else{
+						$tbl_weight_unit_id = null;
+					}
+
+					if(trim($cel[17]) <> '' && trim($cel[17]) <> null){
+						$tbl_stock_type_id = TblStockType::select('id')->where('type', trim($cel[17]))->first()->id;
+					}else{
+						$tbl_stock_type_id = null;
+					}
+
+					if(trim($cel[17]) <> '' && trim($cel[17]) <> null){
+						$average_unit_price = strtoupper(trim($cel[18]));
+					}else{
+						$average_unit_price = 0;
+					}
+					
 					$memo = strtoupper(trim($cel[19]));
 
 					$date 			= \Carbon\Carbon::now();
@@ -8870,7 +8844,7 @@ class ToolsController extends Controller
 			\DB::transaction(function () use ($dataSet, $reader){
 				foreach (array_chunk($dataSet,1000) as $data) {
 	               	if(PartMaster::insert($data)){
-
+	               		// auto input PartCompany
 	               		foreach ($reader->getSheetIterator() as $sheet2) {
 							$i = 1;
 							$dataCompany = [];
@@ -8908,10 +8882,10 @@ class ToolsController extends Controller
 
 						if(count($dataCompany)>1000){
 							foreach (array_chunk($dataCompany,1000) as $data) {
-								CompanyCatalog::insert(dataCompany);
+								PartCompany::insert(dataCompany);
 							}
 						}else{
-							CompanyCatalog::insert(dataCompany);
+							PartCompany::insert(dataCompany);
 						}
 	               	}
 	            }
@@ -8958,10 +8932,10 @@ class ToolsController extends Controller
 
 					if(count($dataCompany)>1000){
 						foreach (array_chunk($dataCompany,1000) as $data) {
-							CompanyCatalog::insert($dataCompany);
+							PartCompany::insert($dataCompany);
 						}
 					}else{
-						CompanyCatalog::insert($dataCompany);
+						PartCompany::insert($dataCompany);
 					}
 	           	}
            	});
@@ -9412,15 +9386,17 @@ class ToolsController extends Controller
 			foreach ($rows as $cel) {
 				$key = $i++;
 				if($key > 2){
-					$unit2 			= strtoupper(trim($cel[0]));
-					$unit3 			= strtoupper(trim($cel[1]));
-					$unit4 			= strtoupper(trim($cel[2]));
-					$eng_definition = strtoupper(trim($cel[3]));
-					$ind_definition = strtoupper(trim($cel[4]));
+					$name 			= strtoupper(trim($cel[0]));
+					$unit2 			= strtoupper(trim($cel[1]));
+					$unit3 			= strtoupper(trim($cel[2]));
+					$unit4 			= strtoupper(trim($cel[3]));
+					$eng_definition = strtoupper(trim($cel[4]));
+					$ind_definition = strtoupper(trim($cel[5]));
 					$id 			= \Auth::user()->id;
 					$date 			= \Carbon\Carbon::now();
 
 					$dataSet[] = [
+						'name'				=> $name,
 						'unit2'				=> $unit2,
 						'unit3'				=> $unit3,
 						'unit4'				=> $unit4,
