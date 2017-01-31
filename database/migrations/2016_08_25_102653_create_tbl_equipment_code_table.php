@@ -18,6 +18,7 @@ class CreateTblEquipmentCodeTable extends Migration
 
             $table->string('equipment_code', 50);
             $table->string('equipment_name');
+            $table->string('document_ref');
 
             $table->integer('tbl_company_id')->unsigned();
             $table->foreign('tbl_company_id')->references('id')

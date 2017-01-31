@@ -30,6 +30,8 @@ class CreatePartMasterTable extends Migration
             $table->unique(array('catalog_no', 'tbl_holding_id'));
             // $table->unique(array('holding_no', 'tbl_holding_id')); 
             // dihapus krn bermasalah ketika holding no masih kosong / belum diisi
+            // jadinya pake trigger before insert
+            // contoh ini http://stackoverflow.com/questions/2538786/how-to-abort-insert-operation-in-mysql-trigger
 
             $table->integer('link_inc_group_class_id')->unsigned()->nullable();
             $table->foreign('link_inc_group_class_id')->references('id')

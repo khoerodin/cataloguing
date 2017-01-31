@@ -19079,18 +19079,20 @@ jQuery(function($) {
                     $("#part_master tbody tr").removeClass('active');
                     $(this).addClass('active');
                 });
-
-                var part_master_id = $("#part_master tbody tr.active").attr("id");
-                var company_id = $("#part_master tbody tr.active .company").val();
-                var inc_group_class_id = $("#part_master tbody tr.active .inc_group_class_id").val();
+                var api = this.api();
+                var firstRow = api.rows().data()[0];
+                if (typeof firstRow != "undefined") {
+                    var part_master_id = firstRow['part_master_id'];
+                    var company_id = firstRow['tbl_company_id'];
+                    var inc_group_class_id = firstRow['link_inc_group_class_id'];
+                }
                 if(part_master_id && company_id && inc_group_class_id){
+                    get_part_equipment_code(part_master_id,company_id);
                     get_part_manufacturer_code(part_master_id);
                     get_part_characteristic_value(inc_group_class_id);
                     catalog_tag(part_master_id)
                     getSelectedInfo();
                 }
-
-                var api = this.api();
                 var info = api.page.info();
                 recordsTotal = info.recordsTotal;
 
@@ -19189,6 +19191,8 @@ jQuery(function($) {
                 $('.modal').css('pointer-events', 'none');
                 $('.modal-backdrop').css('display', 'none');
                 $('.modal-content').css('pointer-events', 'all');
+                catalog_no = $("table#part_master tr.active td:eq(0)").text();
+                $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + catalog_no);
                 $('#source_modal').modal('show');
             }
         });
@@ -19198,7 +19202,6 @@ jQuery(function($) {
             url: 'home/part-source-description/' + $("#part_master tbody tr.active").attr("id"),
             dataType: 'json',
             success: function(data) {
-                $('#source_modal #source_modal_title').text("SOURCE FOR CATALOG NO : " + data.catalog_no);
                 source_meta = '<table>';
 
                 if (data.inc.length > 0) {
@@ -19230,8 +19233,7 @@ jQuery(function($) {
                 requestCallback.requestComplete(true);
             },
             error: function(){
-                $('#source_modal #source_modal_title').text('Whoops...');
-                $('#source_modal .modal-body #source_meta').html('No source available<br>');
+                $('#source_modal .modal-body #source_meta').html('Whoops, No source available<br>');
                 $('#source_modal .modal-body #source_desc').text('Please import source for this catalog');
                 requestCallback.requestComplete(true);
             }
@@ -20116,8 +20118,8 @@ jQuery(function($) {
 
                 } else {
 
-                    $("table#part_master tr.active td:eq(3)").text(data.item_name);
-                    $("table#part_master tr.active td:eq(4)").text(data.inc);
+                    $("table#part_master tr.active td:eq(3)").text(data.inc);
+                    $("table#part_master tr.active td:eq(4)").text(data.item_name);
                     $("table#part_master tr.active td:eq(5)").text(data.group_class);
 
                     part_characteristic_value_box();
@@ -20198,8 +20200,6 @@ jQuery(function($) {
                     $('#part_manufacturer_code_info').css('display', 'none');
                     $('#part_manufacturer_code_paginate').css('display', 'none');
                 }
-
-                $('#part_manufacturer_code_wrapper').css('margin-top', '-6px');
             }
         });
     }
@@ -20739,11 +20739,11 @@ jQuery(function($) {
                 data: 'manufacturer_code',
                 name: 'manufacturer_code'
             }, {
-                data: 'doc_ref',
-                name: 'doc_ref'
+                data: 'document_ref',
+                name: 'document_ref'
             }, {
-                data: 'dwg_ref',
-                name: 'dwg_ref'
+                data: 'drawing_ref',
+                name: 'drawing_ref'
             }, ],
             oLanguage: {
                 sLengthMenu: "_MENU_",

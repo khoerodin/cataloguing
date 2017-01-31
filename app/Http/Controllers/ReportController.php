@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\CompanyCatalog;
+use App\Models\PartCompany;
 use App\Models\PartBinLocation;
 use App\Models\PartMaster;
 use App\Models\PartCharacteristicValue;
 use App\Models\PartEquipmentCode;
 use App\Models\PartManufacturerCode;
 use App\Models\PartSourceDescription;
-use App\Models\PartSourceEqCode;
-use App\Models\PartSourcePartNo;
+use App\Models\PartSourceEquipmentCode;
+use App\Models\PartSourcePartNumber;
 use App\Models\TblCompany;
 use Vinkla\Hashids\Facades\Hashids;
 
@@ -32,8 +32,8 @@ class ReportController extends Controller
 		if($current == 1){
 			$partMasterId = $key;
 			$data = PartMaster::select('part_master.id as master_id', 'tbl_company.id as company_id', 'company', 'uom_type')
-				->join('company_catalog', 'company_catalog.part_master_id', 'part_master.id')
-				->join('tbl_company', 'tbl_company.id', 'company_catalog.tbl_company_id')
+				->join('part_company', 'part_company.part_master_id', 'part_master.id')
+				->join('tbl_company', 'tbl_company.id', 'part_company.tbl_company_id')
 				->where('part_master.id', $partMasterId)
 				->where('tbl_company.id', $companyId)
 				->first();
@@ -45,7 +45,7 @@ class ReportController extends Controller
 					));
 		}else{
 			$key = Hashids::encode($key);
-			$data = \Helper::searchMaster($key);
+			$data = \Helper::searchMaster($key)->get();
 		}		
 
 		$jml = count($data);
@@ -107,11 +107,11 @@ class ReportController extends Controller
 				->where('part_master_id', $part_master_id)
 				->first();
 
-			$old_part_number = PartSourcePartNo::select('manufacturer_code', 'manufacturer', 'manufacturer_ref')
+			$old_part_number = PartSourcePartNumber::select('manufacturer_code', 'manufacturer', 'manufacturer_ref')
 				->where('part_master_id', $part_master_id)
 				->get();
 
-			$old_equipment = PartSourceEqCode::select('equipment_code', 'manufacturer_name', 'qty_install')
+			$old_equipment = PartSourceEquipmentCode::select('equipment_code', 'manufacturer_name', 'qty_install')
 				->where('part_master_id', $part_master_id)
 				->get();
 
@@ -149,10 +149,10 @@ class ReportController extends Controller
 			$new_eq_code = PartEquipmentCode::select('equipment_code', 'manufacturer_name', 'qty_install')
 				->join('tbl_equipment_code', 'tbl_equipment_code.id', 'part_equipment_code.tbl_equipment_code_id')
 				->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', 'part_equipment_code.tbl_manufacturer_code_id')
-				->join('company_catalog', function($q)
+				->join('part_company', function($q)
 	            {
-	                $q->on('company_catalog.part_master_id', '=', 'part_equipment_code.part_master_id')
-	                ->on('company_catalog.tbl_company_id', '=', 'tbl_equipment_code.tbl_company_id');
+	                $q->on('part_company.part_master_id', '=', 'part_equipment_code.part_master_id')
+	                ->on('part_company.tbl_company_id', '=', 'tbl_equipment_code.tbl_company_id');
 	            })
 				->where('part_equipment_code.part_master_id', $part_master_id)
 				->where('tbl_equipment_code.tbl_company_id', $tbl_company_id)

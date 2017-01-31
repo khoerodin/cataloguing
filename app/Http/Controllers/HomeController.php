@@ -69,62 +69,7 @@ class HomeController extends Controller
         $id = Hashids::decode($key)[0];
         $search = TblSearch::find($id);
 
-        $partMaster = PartMaster::join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
-                ->join('part_company', 'part_company.part_master_id', 'part_master.id')
-                ->join('tbl_company', 'tbl_company.id', 'part_company.tbl_company_id')
-                ->join('tbl_catalog_status', 'tbl_catalog_status.id', 'part_company.tbl_catalog_status_id')
-                ->join('link_inc_group_class', 'link_inc_group_class.id', 'part_master.link_inc_group_class_id')
-                ->join('tbl_inc', 'tbl_inc.id', 'link_inc_group_class.tbl_inc_id')
-                ->join('tbl_group_class', 'tbl_group_class.id', 'link_inc_group_class.tbl_group_class_id')
-                ->join('tbl_group', 'tbl_group.id', 'tbl_group_class.tbl_group_id')
-                ->join('tbl_unit_of_measurement as unit_issue', 'unit_issue.id', 'part_master.unit_issue')
-                
-                // PART MASTER
-                ->SearchCatalogNo($search->catalog_no)
-                ->SearchHoldingNo($search->holding_no)
-                ->SearchIncId($search->inc_id)
-                ->SearchGroupClassId($search->group_class_id)
-                ->SearchCatalogType($search->catalog_type)
-                ->SearchCatalogStatusId($search->catalog_status_id)
-                ->SearchColloquialId($search->colloquial_id)
-                ->SearchItemTypeId($search->item_type_id)
-                ->SearchManCodeId($search->man_code_id)
-                ->SearchPartNumber($search->part_number)
-                ->SearchEquipmentCodeId($search->equipment_code_id)
-
-                ->SearchHoldingId($search->holding_id)
-                ->SearchCompanyId($search->company_id)
-                ->SearchPlantId($search->plant_id)
-                ->SearchLocationId($search->location_id)
-                ->SearchShelfId($search->shelf_id)
-                ->SearchBinId($search->bin_id)
-
-                ->select([
-                    'part_master.id as part_master_id',
-                    'catalog_no',
-                    'holding',
-                    'company',
-                    DB::raw('(CASE
-                        WHEN holding_no = "" THEN "NOT AVAILABLE"
-                        WHEN holding_no IS NULL THEN "NOT AVAILABLE"
-                        ELSE holding_no
-                    END
-                    ) as holding_no'),
-                    'item_name',
-                    'inc',
-                    DB::raw('CONCAT(`group`, tbl_group_class.class) AS group_class'),
-                    DB::raw('(CASE 
-                        WHEN uom_type = "2" THEN unit_issue.unit2
-                        WHEN uom_type = "3" THEN unit_issue.unit3
-                        WHEN uom_type = "4" THEN unit_issue.unit4
-                    END
-                    ) as unit_issue'),           
-                    'catalog_type',
-                    'tbl_catalog_status.status',
-                    'link_inc_group_class.id as link_inc_group_class_id',
-                    'tbl_catalog_status.id as tbl_catalog_status_id',
-                    'tbl_company_id',
-                    ]);
+        $partMaster = \Helper::searchMaster($key);
         return Datatables::of($partMaster)
             ->editColumn('catalog_no', '{{$catalog_no}} <input type="hidden" class="company" value="{{$tbl_company_id}}"> <input type="hidden" class="catalog_status_id" value="{{$tbl_catalog_status_id}}"> <input type="hidden" class="inc_group_class_id" value="{{$link_inc_group_class_id}}">')
             ->setRowId('part_master_id')
@@ -1039,7 +984,7 @@ class HomeController extends Controller
     }
 
     public function getPartEquipmentCode($partMasterId,$companyId){
-        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_equipment_code.part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','doc_ref','dwg_ref','tbl_manufacturer_code_id','manufacturer_code')
+        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_equipment_code.part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','document_ref','drawing_ref','tbl_manufacturer_code_id','manufacturer_code')
         ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
 
@@ -1053,13 +998,13 @@ class HomeController extends Controller
         ->where('tbl_equipment_code.tbl_company_id', Hashids::decode($companyId)[0]);
 
         return Datatables::of($partPartEquipmentCode)
-            ->editColumn('dwg_ref', '<span class="dwg_ref">{{$dwg_ref}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-success hover cpointer bom-pec">BOM</kbd></span>')
+            ->editColumn('drawing_ref', '<span class="drawing_ref">{{$drawing_ref}}</span> <span style="right: 13px;position: absolute;"><kbd data-id="{{$part_equipment_code_id}}" class="kbd-danger hover cpointer delete-pec">DELETE</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-primary hover cpointer edit-pec">EDIT</kbd> <kbd data-id="{{$part_equipment_code_id}}" class="kbd-success hover cpointer bom-pec">BOM</kbd></span>')
             ->setRowId('part_equipment_code_id')
             ->make(true);
     }
 
     public function selectEquipmentCode(Request $request, $companyId){
-        return TblEquipmentCode::select('id as tbl_equipment_code_id','equipment_code','equipment_name')
+        return TblEquipmentCode::select('id as tbl_equipment_code_id','equipment_code','equipment_name', 'doc_ref')
         ->where('tbl_company_id', Hashids::decode($companyId)[0])
         ->where('equipment_code', 'like', '%'.$request->q.'%')
         ->orWhere('equipment_name', 'like', '%'.$request->q.'%')

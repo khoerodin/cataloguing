@@ -38,8 +38,7 @@ class CreatePartEquipmentCodeTable extends Migration
 
             $table->unique(array('part_master_id','tbl_equipment_code_id', 'tbl_manufacturer_code_id'), 'part_equipment_code_pmi_teci_tmci');
 
-            $table->string('doc_ref');
-            $table->string('dwg_ref');
+            $table->string('drawing_ref');
 
             $table->integer('created_by')->unsigned();
             $table->foreign('created_by')->references('id')

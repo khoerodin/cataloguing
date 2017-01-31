@@ -961,6 +961,7 @@ table#part_equipment_code thead>tr>th.sorting_asc {
   font-size: medium;
   padding: 10px;
 }
+#part_manufacturer_code_wrapper, 
 #part_colloquial_wrapper, 
 #part_equipment_code_wrapper,
 #part_attachment_wrapper {
