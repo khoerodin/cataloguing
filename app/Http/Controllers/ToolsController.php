@@ -4787,31 +4787,37 @@ class ToolsController extends Controller
 				$i = 1;
 				foreach ($sheet->getRowIterator() as $rows) {
 					if($i++ == 2){
-						if(strtoupper(trim($rows[0])) == 'CATALOG NO'){
+						if(strtoupper(trim($rows[0])) == 'HOLDING'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[1])) == 'MANUFACTURER CODE'){
+						if(strtoupper(trim($rows[1])) == 'CATALOG NO'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[2])) == 'SOURCE TYPE'){
+						if(strtoupper(trim($rows[2])) == 'MANUFACTURER CODE'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[3])) == 'MANUFACTURER REF'){
+						if(strtoupper(trim($rows[3])) == 'SOURCE TYPE'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
 						}
 
-						if(strtoupper(trim($rows[4])) == 'TYPE'){
+						if(strtoupper(trim($rows[4])) == 'MANUFACTURER REF'){
+							$status[] = 1;
+						}else{
+							$status[] = 0;
+						}
+
+						if(strtoupper(trim($rows[5])) == 'TYPE'){
 							$status[] = 1;
 						}else{
 							$status[] = 0;
@@ -4841,6 +4847,7 @@ class ToolsController extends Controller
 					$max_str = [];
 					$warn_max_str = [];
 
+					$check_empty_holding = [];
 					$check_empty_catalog_no = [];
 					$check_empty_manufacturer_code = [];
 					$check_empty_source_type = [];
@@ -4855,46 +4862,34 @@ class ToolsController extends Controller
 							if($first){
 								$table .= "<thead><tr>";
 								$table .= "<th width='3%'>#</th>";
-								$table .= "<th width='%'>".strtoupper(trim($rows[0]))."</th>";
-								$table .= "<th width='%'>".strtoupper(trim($rows[1]))."</th>";
-								$table .= "<th width='%'>".strtoupper(trim($rows[2]))."</th>";
-								$table .= "<th width='%'>".strtoupper(trim($rows[3]))."</th>";
-								$table .= "<th width='%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "<th width='7%'>".strtoupper(trim($rows[0]))."</th>";
+								$table .= "<th width='7%'>".strtoupper(trim($rows[1]))."</th>";
+								$table .= "<th width='20%'>".strtoupper(trim($rows[2]))."</th>";
+								$table .= "<th width='8%'>".strtoupper(trim($rows[3]))."</th>";
+								$table .= "<th width='30%'>".strtoupper(trim($rows[4]))."</th>";
+								$table .= "<th width='15%'>".strtoupper(trim($rows[5]))."</th>";
 								$table .= "</tr></thead>";
 								$table .= "<tbody>";
 								$first = false;
 							}else{
 
 								// CHEK EXIST IN DB DB?
-								if($rows[0] == '' || $rows[0] == null){
+								if($rows[0] == '' || $rows[0] == null || $rows[1] == '' || $rows[1] == null){
 
 									$cek_exist_in_db[] = 1;
 								
 								}else{
-									$exist_column = PartMaster::select('id')
-										->where('catalog_no', trim($rows[0]))->first();
+									$exist_column = PartMaster::select('part_master.id')
+										->join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
+										->where('holding', trim($rows[0]))
+										->where('catalog_no', trim($rows[1]))
+										->first();
 
 									if(count($exist_column)>0){
 										$cek_exist_in_db[] = 1;
 									}else{
 										$cek_exist_in_db[] = 0;
-										$warn_exist_in_db[] = 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b>';
-									}
-								}
-
-								if($rows[1] == '' || $rows[1] == null){
-
-									$cek_exist_in_db[] = 1;
-								
-								}else{
-									$exist_column = TblManufacturerCode::select('id')
-										->where('manufacturer_code', trim($rows[1]))->first();
-
-									if(count($exist_column)>0){
-										$cek_exist_in_db[] = 1;
-									}else{
-										$cek_exist_in_db[] = 0;
-										$warn_exist_in_db[] = 'MANUFACTURER CODE <b>'.strtoupper(trim($rows[1])).'</b>';
+										$warn_exist_in_db[] = 'HOLDING <b>'.strtoupper(trim($rows[0])).'</b> WITH CATALOG NO <b>'.strtoupper(trim($rows[1])).'</b>';
 									}
 								}
 
@@ -4903,62 +4898,81 @@ class ToolsController extends Controller
 									$cek_exist_in_db[] = 1;
 								
 								}else{
-									$exist_column = TblSourceType::select('id')
-										->where('type', trim($rows[2]))->first();
+									$exist_column = TblManufacturerCode::select('id')
+										->where('manufacturer_code', trim($rows[2]))->first();
 
 									if(count($exist_column)>0){
 										$cek_exist_in_db[] = 1;
 									}else{
 										$cek_exist_in_db[] = 0;
-										$warn_exist_in_db[] = 'SOURCE TYPE <b>'.strtoupper(trim($rows[2])).'</b>';
+										$warn_exist_in_db[] = 'MANUFACTURER CODE <b>'.strtoupper(trim($rows[2])).'</b>';
 									}
 								}
 
-								if($rows[4] == '' || $rows[4] == null){
+								if($rows[3] == '' || $rows[3] == null){
+
+									$cek_exist_in_db[] = 1;
+								
+								}else{
+									$exist_column = TblSourceType::select('id')
+										->where('type', trim($rows[3]))->first();
+
+									if(count($exist_column)>0){
+										$cek_exist_in_db[] = 1;
+									}else{
+										$cek_exist_in_db[] = 0;
+										$warn_exist_in_db[] = 'SOURCE TYPE <b>'.strtoupper(trim($rows[3])).'</b>';
+									}
+								}
+
+								if($rows[5] == '' || $rows[5] == null){
 
 									$cek_exist_in_db[] = 1;
 								
 								}else{
 									$exist_column = TblPartManufacturerCodeType::select('id')
-										->where('type', trim($rows[4]))->first();
+										->where('type', trim($rows[5]))->first();
 
 									if(count($exist_column)>0){
 										$cek_exist_in_db[] = 1;
 									}else{
 										$cek_exist_in_db[] = 0;
-										$warn_exist_in_db[] = 'TYPE <b>'.strtoupper(trim($rows[4])).'</b>';
+										$warn_exist_in_db[] = 'TYPE <b>'.strtoupper(trim($rows[5])).'</b>';
 									}
 								}
 
 								// CHEK ALREADY IN DB DB?
 								$check_already_in_db = PartManufacturerCode::select('part_manufacturer_code.id')
 									->join('part_master', 'part_master.id', 'part_manufacturer_code.part_master_id')
+									->join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
 									->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', 'part_manufacturer_code.tbl_manufacturer_code_id')
 									->join('tbl_source_type', 'tbl_source_type.id', 'part_manufacturer_code.tbl_source_type_id')
-									->where('catalog_no', trim($rows[0]))
-									->where('manufacturer_code', trim($rows[1]))
-									->where('type', trim($rows[2]))
-									->where('manufacturer_ref', trim($rows[3]))
+									->where('holding', trim($rows[0]))
+									->where('catalog_no', trim($rows[1]))
+									->where('manufacturer_code', trim($rows[2]))
+									->where('type', trim($rows[3]))
+									->where('manufacturer_ref', trim($rows[4]))
 									->first();
 
 								if(count($check_already_in_db)>0){
 									$cek_already_in_db[] = 0;
-									$warn_already_in_db[] = 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH MANUFACTURER CODE <b>'.strtoupper(trim($rows[1])).'</b> AND SOURCE TYPE <b>'.strtoupper(trim($rows[2])).'</b> AND MANUFACTURER REF <b>'.strtoupper(trim($rows[3])).'</b>';
+									$warn_already_in_db[] = 'HOLDING <b>'.strtoupper(trim($rows[0])).'</b> WITH CATALOG NO <b>'.strtoupper(trim($rows[1])).'</b> WITH MANUFACTURER CODE <b>'.strtoupper(trim($rows[2])).'</b> AND SOURCE TYPE <b>'.strtoupper(trim($rows[3])).'</b> AND MANUFACTURER REF <b>'.strtoupper(trim($rows[4])).'</b>';
 								}else{
 									$cek_already_in_db[] = 1;
 								}
 
 								// CEK EMPTY
-								$check_empty_catalog_no[] .= $rows[0];
-								$check_empty_manufacturer_code[] .= $rows[1];
-								$check_empty_source_type[] .= $rows[2];
-								$check_empty_man_ref[] .= $rows[3];
-								$check_empty_type[] .= $rows[4];
+								$check_empty_holding[] .= $rows[0];
+								$check_empty_catalog_no[] .= $rows[1];
+								$check_empty_manufacturer_code[] .= $rows[2];
+								$check_empty_source_type[] .= $rows[3];
+								$check_empty_man_ref[] .= $rows[4];
+								$check_empty_type[] .= $rows[5];
 
 								// MAX STR
-								if(strlen(trim($rows[3])) > 255){
+								if(strlen(trim($rows[4])) > 255){
 									$max_str[] = 0;
-									$warn_max_str[] = 'MANUFACTURER REF <b>"'.strtoupper(trim($rows[3])).'"</b> LENGTH MAY NOT BE GREATER THAN 255';
+									$warn_max_str[] = 'MANUFACTURER REF <b>"'.strtoupper(trim($rows[4])).'"</b> LENGTH MAY NOT BE GREATER THAN 255';
 								}else{
 									$max_str[] = 1;
 								}
@@ -4968,11 +4982,12 @@ class ToolsController extends Controller
 									is_null($rows[0]) || $rows[0] == '' || 
 									is_null($rows[1]) || $rows[1] == '' ||
 									is_null($rows[2]) || $rows[2] == '' ||
-									is_null($rows[3]) || $rows[3] == ''
+									is_null($rows[3]) || $rows[3] == '' ||
+									is_null($rows[4]) || $rows[4] == ''
 								){
 									$check_duplicate[] .= '';
 								}else{
-									$check_duplicate[] .= 'CATALOG NO <b>'.strtoupper(trim($rows[0])).'</b> WITH MANUFACTURER CODE <b>'.strtoupper(trim($rows[1])).'</b> AND SOURCE TYPE <b>'.strtoupper(trim($rows[2])).'</b> AND MANUFACTURER REF <b>'.strtoupper(trim($rows[3])).'</b>';
+									$check_duplicate[] .= 'HOLDING <b>'.strtoupper(trim($rows[0])).'</b> WITH CATALOG NO <b>'.strtoupper(trim($rows[1])).'</b> WITH MANUFACTURER CODE <b>'.strtoupper(trim($rows[2])).'</b> AND SOURCE TYPE <b>'.strtoupper(trim($rows[3])).'</b> AND MANUFACTURER REF <b>'.strtoupper(trim($rows[4])).'</b>';
 								}
 
 								// TABLE
@@ -4982,7 +4997,8 @@ class ToolsController extends Controller
 								$table .= "<td>".strtoupper(trim($rows[1]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[2]))."</td>";
 								$table .= "<td>".strtoupper(trim($rows[3]))."</td>";
-								$table .= "<td>".strtoupper(trim($rows[4]))."</td></tr>";
+								$table .= "<td>".strtoupper(trim($rows[4]))."</td>";
+								$table .= "<td>".strtoupper(trim($rows[5]))."</td></tr>";
 
 								$data_counter[] = 1;								
 							}							
@@ -4991,6 +5007,15 @@ class ToolsController extends Controller
 					
 				}
 				$table .= "</tbody></table>";
+
+				$empty_holding = array();
+				foreach ($check_empty_holding as $value) {
+					 if(is_null($value) || $value == ''){
+					 	$empty_holding[] = 0;
+					 }else{
+					 	$empty_holding[] = 1;
+					 }
+				}
 
 				$empty_catalog_no = array();
 				foreach ($check_empty_catalog_no as $value) {
@@ -5058,6 +5083,7 @@ class ToolsController extends Controller
 					// cek apakah ada item yg ada dlm database
 					in_array(0, $cek_already_in_db) ||
 					// cek apakah terdapat yang kosong
+					in_array(0, $empty_holding) ||
 					in_array(0, $empty_catalog_no) ||
 					in_array(0, $empty_manufacturer_code) ||
 					in_array(0, $empty_man_ref) ||
@@ -5100,6 +5126,20 @@ class ToolsController extends Controller
 					}
 
 					// CEK EMPTY
+					$holding_empty = '';
+					if(in_array(0, $empty_holding)){
+						$validasi = "<br><br><strong class='text-danger'><u>EMPTY HOLDING:</u></strong>";
+						$i = 3;
+						foreach ($check_empty_holding as $value) {
+							 if(is_null($value) || $value == ''){
+							 	$validasi .= '<br/><span>ON LINE <b>#'.$i++.'</b> IN YOUR SPREADSHEET.</span>';
+							 }else{
+							 	$i++;
+							 }
+						}
+						$holding_empty = $validasi;
+					}
+
 					$catalog_no_empty = '';
 					if(in_array(0, $empty_catalog_no)){
 						$validasi = "<br><br><strong class='text-danger'><u>EMPTY CATALOG NO:</u></strong>";
@@ -5207,6 +5247,7 @@ class ToolsController extends Controller
 					echo $already;
 					echo $max_length;
 
+					echo $holding_empty;
 					echo $catalog_no_empty;
 					echo $manufacturer_code_empty;
 					echo $source_type_empty;
@@ -5334,11 +5375,8 @@ class ToolsController extends Controller
 								
 								}else{
 									$exist_column = PartMaster::select('part_master.id')
-										->join('part_company', 'part_company.part_master_id', 'part_master.id')
-										->join('tbl_company', 'tbl_company.id', 'part_company.tbl_company_id')
 										->join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
 										->where('holding', trim($rows[0]))
-										->where('company', trim($rows[1]))
 										->where('catalog_no', trim($rows[2]))
 										->first();
 
@@ -9006,11 +9044,21 @@ class ToolsController extends Controller
 				$key = $i++;
 				if($key > 2){
 
-					$part_master_id = PartMaster::select('id')->where('catalog_no', trim($cel[0]))->first()->id;
-					$tbl_manufacturer_code_id = TblManufacturerCode::select('id')->where('manufacturer_code', trim($cel[1]))->first()->id;
-					$tbl_source_type_id = TblSourceType::select('id')->where('type', trim($cel[2]))->first()->id;
-					$manufacturer_ref = strtoupper(trim($cel[3]));
-					$tbl_part_manufacturer_code_type_id = TblPartManufacturerCodeType::select('id')->where('type', trim($cel[4]))->first()->id;
+					$part_master_id = PartMaster::select('part_master.id')
+						->join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
+						->where('holding', trim($cel[0]))
+						->where('catalog_no', trim($cel[1]))
+						->first()->id;
+					$tbl_manufacturer_code_id = TblManufacturerCode::select('id')
+						->where('manufacturer_code', trim($cel[2]))
+						->first()->id;
+					$tbl_source_type_id = TblSourceType::select('id')
+						->where('type', trim($cel[3]))
+						->first()->id;
+					$manufacturer_ref = strtoupper(trim($cel[4]));
+					$tbl_part_manufacturer_code_type_id = TblPartManufacturerCodeType::select('id')
+						->where('type', trim($cel[5]))
+						->first()->id;
 					$date 			= \Carbon\Carbon::now();
 					$id 			= \Auth::user()->id;
 
@@ -9020,10 +9068,10 @@ class ToolsController extends Controller
 						'tbl_source_type_id' 				=> $tbl_source_type_id,
 						'manufacturer_ref' 					=> $manufacturer_ref,
 						'tbl_part_manufacturer_code_type_id'=> $tbl_part_manufacturer_code_type_id,
-						'created_by' 	=> $id,
-						'last_updated_by'=> $id,
-		        		'created_at'	 => $date,
-     					'updated_at'	 => $date
+						'created_by' 		=> $id,
+						'last_updated_by'	=> $id,
+		        		'created_at'	 	=> $date,
+     					'updated_at'	 	=> $date
 					];					
 				}
 			}
@@ -9056,10 +9104,7 @@ class ToolsController extends Controller
 
 					$part_master_id = PartMaster::select('part_master.id')
 						->join('tbl_holding', 'tbl_holding.id', 'part_master.tbl_holding_id')
-						->join('part_company', 'part_company.part_master_id', 'part_master.id')
-						->join('tbl_company', 'tbl_company.id', 'part_company.tbl_company_id')
 						->where('holding', trim($cel[0]))
-						->where('company', trim($cel[1]))
 						->where('catalog_no', trim($cel[2]))
 						->first()->id;
 

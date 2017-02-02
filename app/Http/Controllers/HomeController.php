@@ -361,11 +361,13 @@ class HomeController extends Controller
 
     private function getPartCharValBox($companyId, $incId, $partMasterId)
     {
+        // Harusnya bikin trigger
+        // biar ngga berat ketika click row part master
         if(
-            $this->insertCompanyCharsToCompanyShortFormat($companyId) == true &&
-            $this->insertAbbrevAndShort($partMasterId, $companyId) == true
+            $this->insertCompanyCharsToCompanyShortFormat($companyId) == true && // Harusnya bikin trigger
+            $this->insertAbbrevAndShort($partMasterId, $companyId) == true // Harusnya bikin trigger
         ){
-            if($this->insertLinkIncCharValId($companyId, $incId) == true){
+            if($this->insertLinkIncCharValId($companyId, $incId) == true){ // Harusnya bikin trigger
                 return $this->getPartCharVal($companyId, $incId, $partMasterId);
             }
         }
@@ -984,8 +986,9 @@ class HomeController extends Controller
     }
 
     public function getPartEquipmentCode($partMasterId,$companyId){
-        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id','part_equipment_code.part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','document_ref','drawing_ref','tbl_manufacturer_code_id','manufacturer_code')
+        $partPartEquipmentCode = PartEquipmentCode::select('part_equipment_code.id as part_equipment_code_id', 'plant', 'part_equipment_code.part_master_id','tbl_equipment_code_id','equipment_code','equipment_name','qty_install','document_ref','drawing_ref','tbl_manufacturer_code_id','manufacturer_code')
         ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
+        ->join('tbl_plant', 'tbl_plant.id', '=', 'tbl_equipment_code.tbl_plant_id')
         ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
 
         ->join('part_company', function($q)
@@ -1004,11 +1007,17 @@ class HomeController extends Controller
     }
 
     public function selectEquipmentCode(Request $request, $companyId){
-        return TblEquipmentCode::select('id as tbl_equipment_code_id','equipment_code','equipment_name', 'doc_ref')
-        ->where('tbl_company_id', Hashids::decode($companyId)[0])
-        ->where('equipment_code', 'like', '%'.$request->q.'%')
-        ->orWhere('equipment_name', 'like', '%'.$request->q.'%')
-        ->get();
+        $searchQueries = preg_split('/\s+/', $request->q, -1, PREG_SPLIT_NO_EMPTY);
+        return TblEquipmentCode::select('tbl_equipment_code.id as tbl_equipment_code_id','equipment_code','equipment_name','document_ref','plant')
+        ->join('tbl_company', 'tbl_company.id', 'tbl_equipment_code.tbl_company_id')
+        ->join('tbl_plant', 'tbl_plant.id', 'tbl_equipment_code.tbl_plant_id')
+        ->where('tbl_equipment_code.tbl_company_id', Hashids::decode($companyId)[0])
+        ->where(function ($q) use ($searchQueries) {
+            foreach ($searchQueries as $value) {
+                $q->orWhere('equipment_code', 'like', '%'.$value.'%')
+                ->orWhere('equipment_name', 'like', '%'.$value.'%');
+            }
+        })->limit(7)->distinct()->get();
     }
 
     public function addPartEquipmentCode(Request $request)
@@ -1018,8 +1027,6 @@ class HomeController extends Controller
             'tbl_equipment_code_id'     => 'required',
             'qty_install'               => 'required|numeric|max:9999',
             'tbl_manufacturer_code_id'  => 'required',
-            'doc_ref'                   => 'required_without:dwg_ref|max:255',
-            'dwg_ref'                   => 'required_without:doc_ref|max:255',
         ]);
 
         $request = [
@@ -1027,8 +1034,7 @@ class HomeController extends Controller
             'tbl_equipment_code_id'     => Hashids::decode($request->tbl_equipment_code_id)[0],
             'qty_install'               => trim($request->qty_install),
             'tbl_manufacturer_code_id'  => Hashids::decode($request->tbl_manufacturer_code_id)[0],
-            'doc_ref'                   => strtoupper(trim($request->doc_ref)),
-            'dwg_ref'                   => strtoupper(trim($request->dwg_ref)),
+            'drawing_ref'               => strtoupper(trim($request->drawing_ref)),
             'created_by'                => Auth::user()->id,
             'last_updated_by'           => Auth::user()->id,
         ];  
@@ -1039,10 +1045,12 @@ class HomeController extends Controller
 
     public function editPartEquipmentCode($id)
     {
-        $partEquipmentCode = PartEquipmentCode::select('tbl_equipment_code_id', 'equipment_code', 'equipment_name', 'qty_install', 'doc_ref', 'dwg_ref', 'tbl_manufacturer_code_id',
-            'manufacturer_code', 'manufacturer_name')
+        $partEquipmentCode = PartEquipmentCode::select('tbl_equipment_code_id', 'equipment_code', 'equipment_name', 'qty_install', 'document_ref', 'drawing_ref', 'tbl_manufacturer_code_id',
+            'manufacturer_code', 'manufacturer_name', 'plant')
             ->join('tbl_equipment_code', 'tbl_equipment_code.id', '=', 'part_equipment_code.tbl_equipment_code_id')
             ->join('tbl_manufacturer_code', 'tbl_manufacturer_code.id', '=', 'part_equipment_code.tbl_manufacturer_code_id')
+            ->join('tbl_plant', 'tbl_plant.id', '=', 'tbl_equipment_code.tbl_plant_id')
+
             ->find(Hashids::decode($id)[0]);
         return Response::json($partEquipmentCode);
     }
@@ -1053,16 +1061,13 @@ class HomeController extends Controller
             'tbl_equipment_code_id'     => 'required',
             'qty_install'               => 'required|numeric|max:9999',
             'tbl_manufacturer_code_id'  => 'required',
-            'doc_ref'                   => 'required_without:dwg_ref|max:255',
-            'dwg_ref'                   => 'required_without:doc_ref|max:255',
         ]);
 
         $partEquipmentCode = PartEquipmentCode::find(Hashids::decode($request->id)[0]);
 
         $partEquipmentCode->tbl_equipment_code_id       = Hashids::decode($request->tbl_equipment_code_id)[0];
         $partEquipmentCode->qty_install                 = trim($request->qty_install);
-        $partEquipmentCode->doc_ref                     = strtoupper(trim($request->doc_ref));
-        $partEquipmentCode->dwg_ref                     = strtoupper(trim($request->dwg_ref));
+        $partEquipmentCode->drawing_ref                 = strtoupper(trim($request->drawing_ref));
         $partEquipmentCode->tbl_manufacturer_code_id    = Hashids::decode($request->tbl_manufacturer_code_id)[0];
         $partEquipmentCode->last_updated_by             = Auth::user()->id;
 

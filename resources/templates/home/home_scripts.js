@@ -2140,6 +2140,9 @@ jQuery(function($) {
             serverSide: true,
             ajax: 'home/part-equipment-code/' + part_master_id + '/' + company_id,
             columns: [{
+                data: 'plant',
+                name: 'plant'
+            }, {
                 data: 'equipment_code',
                 name: 'equipment_code'
             }, {
@@ -2251,7 +2254,7 @@ jQuery(function($) {
                             text: data[i].equipment_code,
                             value: data[i].tbl_equipment_code_id,
                             data: {
-                                subtext: data[i].equipment_name
+                                subtext: '<span class="equipment_name">'+data[i].equipment_name+'</span><span class="hidden plant">'+data[i].plant+'</span><span class="hidden doc_ref">'+data[i].document_ref+'</span>'
                             }
                         }));
                     }
@@ -2295,9 +2298,17 @@ jQuery(function($) {
     $(document).ajaxComplete(function() {
         // CHANGE EQUIPMENT CODE
         $('#equipment_code_peq').on('changed.bs.select', function(e) {
-            var bismillah = $("#select_equipment_code_peq li.selected small").text();
-            $("#equipment_name_peq").val(bismillah);
-            $("#equipment_name_peq").attr("title", bismillah);
+            var equipment_name = $("#select_equipment_code_peq li.selected small span.equipment_name").text();
+            $("#equipment_name_peq").val(equipment_name);
+            $("#equipment_name_peq").attr("title", equipment_name);
+
+            var plant = $("#select_equipment_code_peq li.selected small span.plant").text();
+            $("#plant_peq").val(plant);
+            $("#plant_peq").attr("title", plant);
+
+            var document_ref = $("#select_equipment_code_peq li.selected small span.doc_ref").text();
+            $("#document_ref_peq").val(document_ref);
+            $("#document_ref_peq").attr("title", document_ref);
         });
 
         // CHANGE MANUFACTURER CODE
@@ -2358,7 +2369,7 @@ jQuery(function($) {
                                     text: data[i].equipment_code,
                                     value: data[i].tbl_equipment_code_id,
                                     data: {
-                                        subtext: data[i].equipment_name
+                                        subtext: '<span class="equipment_name">'+data[i].equipment_name+'</span><span class="hidden plant">'+data[i].plant+'</span><span class="hidden doc_ref">'+data[i].document_ref+'</span>'
                                     }
                                 }));
                             }
@@ -2407,8 +2418,9 @@ jQuery(function($) {
 
                 $('.bs-searchbox > input.form-control').addClass("input-sm");
                 $('#manufacturer_name_peq').val(data.manufacturer_name);
-                $('#doc_ref_peq').val(data.doc_ref);
-                $('#dwg_ref_peq').val(data.dwg_ref);
+                $('#document_ref_peq').val(data.document_ref).attr('title', data.document_ref);
+                $('#drawing_ref_peq').val(data.drawing_ref).attr('title', data.drawing_ref);
+                $('#plant_peq').val(data.plant).attr('title', data.plant);
 
                 $('#part_equipment_code_id').val(id);
 
@@ -2428,8 +2440,7 @@ jQuery(function($) {
             tbl_equipment_code_id: $("#equipment_code_peq").val(),
             qty_install: $("#qty_install_peq").val().trim(),
             tbl_manufacturer_code_id: $("#manufacturer_code_peq").val(),
-            doc_ref: $("#doc_ref_peq").val().trim(),
-            dwg_ref: $("#dwg_ref_peq").val().trim(),
+            drawing_ref: $("#drawing_ref_peq").val().trim(),
             created_by: $('#logged_in_user').val(),
             last_updated_by: $('#logged_in_user').val(),
             id: $('#part_equipment_code_id').val(),
@@ -2486,16 +2497,17 @@ jQuery(function($) {
     $(document).on('click', '.delete-pec', function() {
         id = $(this).attr('data-id');
 
-        var equipmentCode = $("#part_equipment_code tbody tr#" + id + " td:eq(0)").text();
-        var equipmentName = $("#part_equipment_code tbody tr#" + id + " td:eq(1)").text();
-        var qtyInstall = $("#part_equipment_code tbody tr#" + id + " td:eq(2)").text();
-        var manufacturerCode = $("#part_equipment_code tbody tr#" + id + " td:eq(3)").text();
-        var documentRef = $("#part_equipment_code tbody tr#" + id + " td:eq(4)").text();
-        var drawingRef = $("#part_equipment_code tbody tr#" + id + " span.dwg_ref").text();
+        var plant = $("#part_equipment_code tbody tr#" + id + " td:eq(0)").text();
+        var equipmentCode = $("#part_equipment_code tbody tr#" + id + " td:eq(1)").text();
+        var equipmentName = $("#part_equipment_code tbody tr#" + id + " td:eq(2)").text();
+        var qtyInstall = $("#part_equipment_code tbody tr#" + id + " td:eq(3)").text();
+        var manufacturerCode = $("#part_equipment_code tbody tr#" + id + " td:eq(4)").text();
+        var documentRef = $("#part_equipment_code tbody tr#" + id + " td:eq(5)").text();
+        var drawingRef = $("#part_equipment_code tbody tr#" + id + " span.drawing_ref").text();
 
         var msg = "<table class=\"table table-striped table-hover\">";
-        msg += "<thead><tr><th>EQUIPMENT CODE</th><th>EQUIPMENT NAME</th><th>QTY</th><th>MANUFACTURER CODE</th><th>DOCUMENT REF</th><th>DRAWING REF</th></thead>";
-        msg += "<tbody><tr><td>" + equipmentCode + "</td><td>" + equipmentName + "</td><td>" + qtyInstall + "</td><td>" + manufacturerCode + "</td><td>" + documentRef + "</td><td>" + drawingRef + "</td></tr></tbody>";
+        msg += "<thead><tr><th>PLANT</th><th>EQUIPMENT CODE</th><th>EQUIPMENT NAME</th><th>QTY</th><th>MANUFACTURER CODE</th><th>DOCUMENT REF</th><th>DRAWING REF</th></thead>";
+        msg += "<tbody><tr><td>" + plant + "</td><td>" + equipmentCode + "</td><td>" + equipmentName + "</td><td>" + qtyInstall + "</td><td>" + manufacturerCode + "</td><td>" + documentRef + "</td><td>" + drawingRef + "</td></tr></tbody>";
         msg += "</table>";
 
         bootbox.dialog({
