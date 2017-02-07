@@ -571,8 +571,9 @@ jQuery(function($) {
     // WHEN CLICK ROW PART MASTER
     function clickPartMasterRow(){
         $("#part_master tbody").delegate("tr", "click", function() {
-            var part_master_id = $(this).attr('id');
-            var company_id = $(this).find("input.company").val();
+            var part_master_id = $(this).attr('id').trim();
+            var company_id = $(this).find("input.company").val().trim();
+            var inc_group_class_id = $(this).find("input.inc_group_class_id").val().trim();
 
             get_part_manufacturer_code(part_master_id);
             get_part_colloquial(part_master_id);
@@ -582,16 +583,7 @@ jQuery(function($) {
             get_source();
             get_part_attachment(part_master_id);
             getSelectedInfo();
-            $.ajax({
-                url: 'home/click-row-part-master/' + part_master_id,
-                type: 'GET',
-                beforeSend: function() {},
-                success: function(data) {
-
-                    get_part_characteristic_value(data.link_inc_group_class_id);
-
-                },
-            });
+            get_part_characteristic_value(inc_group_class_id);
         });
     }
 
@@ -1901,13 +1893,13 @@ jQuery(function($) {
         var type = $("table#part_manufacturer_code tr#" + id + " td:eq(3)").html();
 
         var msg = "<table class=\"table table-striped\">";
-        msg += "<thead><tr><th>CODE</th><th>SOURCE</th><th>MANUFACTURER REF</th><th>TYPE</th></thead>";
+        msg += "<thead><tr><th>MANCODE</th><th>SOURCE</th><th>MANUFACTURER REF</th><th>TYPE</th></thead>";
         msg += "<tbody><tr><td>" + manufacturerCode + "</td><td>" + source + "</td><td>" + manufacturerRef + "</td><td>" + type + "</td></tr></tbody>";
         msg += "</table>";
 
         bootbox.dialog({
             message: msg,
-            title: "Are you sure you want to delete this Manufacturer Code?",
+            title: "ARE YOU SURE YOU WANT TO DELETE THIS <b>MANUFACTURER CODE</b>?",
             buttons: {
                 success: {
                     label: "YES DELETE",
@@ -2042,7 +2034,7 @@ jQuery(function($) {
 
         bootbox.dialog({
             message: msg,
-            title: "Are you sure you want to delete this Colloquial Name?",
+            title: "ARE YOU SURE YOU WANT TO DELETE THIS <b>COLLOQUIAL NAME</b>?",
             buttons: {
                 success: {
                     label: "YES DELETE",
@@ -2512,7 +2504,7 @@ jQuery(function($) {
 
         bootbox.dialog({
             message: msg,
-            title: "Are you sure you want to delete this Equipment Code?",
+            title: "ARE YOU SURE YOU WANT TO DELETE THIS <b>EQUIPMENT CODE</b>?",
             buttons: {
                 success: {
                     label: "YES DELETE",
