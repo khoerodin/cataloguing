@@ -1,0 +1,11 @@
+Trigger yang belum dikerjakan:
+ ☐ setelah menambahkan link_inc_char (char ke inc) => trigger tambahkan ke company_char
+   trigger copy aja, lihat insertCharsToCompany()
+   => ini masalahnya lama jika company udah banyak
+ ☐ ternyata harus bikin trigger juga ketika menambah company baru 
+   => ini masalahnya lama jika char link_inc_char udah banyak 
+ ☐ setelah menambahkan company_char => trigger tambahkan ke company_short_description_format
+ ✘ setelah menambahakn value ke part_char_value => trigger tambahkan link_inc_characteristic_value_id ke company_value @cancelled (17-02-03 07:34)
+ trigger copy aja, lihat insertAbbrevAndShort(), "" as abbrev, 0 as approved
+ ☐ setelah menambahkan link_inc_characteristic_value => trigger tambahkan ke company_value
+ trigger copy aja, lihat insertLinkIncCharValId(), abbrev, approved ngkutin semua
