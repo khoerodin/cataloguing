@@ -7785,6 +7785,10 @@ table#part_equipment_code thead>tr>th.sorting_asc {
 .no-pointer-event {
     /*pointer-events: none;*/
 }
+ul.typeahead.dropdown-menu {
+    max-height: 100px;
+    overflow: auto;
+}
 @charset "UTF-8";
 
 /*!

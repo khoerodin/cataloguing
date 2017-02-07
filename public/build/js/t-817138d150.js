@@ -2604,6 +2604,25 @@ $(document).on("hide.bs.modal", function (event) {
     $('.modal-open .navbar-fixed-top').removeAttr('style');
     $('.modal-open .navbar-fixed-bottom').removeAttr('style');
 });
+
+// auto dropup for dropdown
+// http://stackoverflow.com/questions/21232685/bootstrap-drop-down-menu-auto-dropup-according-to-screen-position
+$(document).on("shown.bs.dropdown", ".dropdown", function () {
+    // calculate the required sizes, spaces
+    var $ul = $(this).children(".dropdown-menu");
+    var $button = $(this).children(".dropdown-toggle");
+    var ulOffset = $ul.offset();
+    // how much space would be left on the top if the dropdown opened that direction
+    var spaceUp = (ulOffset.top - $button.height() - $ul.height()) - $(window).scrollTop();
+    // how much space is left at the bottom
+    var spaceDown = $(window).scrollTop() + $(window).height() - (ulOffset.top + $ul.height());
+    // switch to dropup only if there is no space at the bottom AND there is space at the top, or there isn't either but it would be still better fit
+    if (spaceDown < 0 && (spaceUp >= 0 || spaceUp > spaceDown))
+      $(this).addClass("dropup");
+}).on("hidden.bs.dropdown", ".dropdown", function() {
+    // always reset after close
+    $(this).removeClass("dropup");
+});
 Handlebars.registerPartial("ools_content", Handlebars.template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
     return "<div class=\"container2\">\n  <div class=\"page-header\">\n    <h2>TOOLS <small>IMPORT & EXPORT</small></h2>\n  </div>\n\n  <ul class=\"nav nav-tabs\" id=\"toolsTab\">\n    <li class=\"active\"><a href=\"#import\">IMPORT</a></li>\n    <li><a href=\"#export\" id=\"#\">EXPORT</a></li>\n  </ul>\n\n  <div class=\"tab-content\">\n    <div role=\"tabpanel\" class=\"tab-pane active row\" id=\"import\">\n      <div class=\"col-xs-6\">\n        \n        <form action=\"tools/upload\" class=\"form-horizontal\" method=\"post\" enctype=\"multipart/form-data\">\n          <div class=\"form-group\">\n            <div class=\"col-sm-8\">\n              <input type=\"file\" class=\"filestyle\" data-buttonBefore=\"true\" name=\"document\" data-icon=\"false\" data-buttonText=\"SELECT SPREADSHEET FILE\" data-buttonName=\"btn-primary\" data-size=\"sm\" id=\"file_upload\">\n            </div>\n            <div class=\"col-sm-4\" id=\"save-btn-area\"></div>\n          </div>\n        </form>\n\n      </div>\n\n      <div class=\"col-xs-6\"></div>\n\n      <div class=\"col-xs-12\">\n        <span id=\"status\" style=\"text-transform: uppercase;\"></span>\n        <span id=\"display_uploaded_table\"></span>\n      </div>\n    </div>\n\n    <div role=\"tabpanel\" class=\"tab-pane row\" id=\"export\">      \n      <div class=\"col-xs-3\">\n        <select id=\"#\" class=\"form-control\">\n          <option value=\"\" selected disabled>Select a table before EXPORT</option>\n          <option value=\"1\">Item 1</option>\n          <option value=\"2\">Item 2</option>\n        </select>\n      </div>\n    </div>    \n  </div>\n</div>";
 },"useData":true}));
