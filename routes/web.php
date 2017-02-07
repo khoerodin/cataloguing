@@ -58,7 +58,6 @@ Route::post('home/search', 'HomeController@search');
 
 // PartMaster
 Route::get('home/part-master/{key}', 'HomeController@getPartMaster');
-Route::get('home/click-row-part-master/{id}', 'HomeController@clickRowPartMaster');
 Route::get('home/catalog-status/{id}', 'HomeController@getCatalogStatus');
 Route::post('home/change-status', 'HomeController@changeStatus');
 
