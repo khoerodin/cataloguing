@@ -449,11 +449,6 @@ class HomeController extends Controller
         }
     }
 
-    public function clickRowPartMaster($id)
-    {
-        return PartMaster::select('link_inc_group_class_id')->where('id', Hashids::decode($id)[0])->first();
-    }
-
     public function getIncCharValues($incCharId)
     {
         return LinkIncCharacteristicValue::select('link_inc_characteristic_value.id as link_inc_characteristic_value_id','value','company_value.abbrev','company_value.approved')
